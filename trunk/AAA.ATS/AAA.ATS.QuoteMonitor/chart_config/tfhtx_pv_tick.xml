@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="big5" ?>
+<chart-container>
+  <name>TWFE_TFHTX 台指期近 壓力關卡(Tick)</name>
+  <compression>Min_1</compression>
+  <orientation>Vertical</orientation>
+  <xscale>10</xscale>
+  <y-scale-type>Center</y-scale-type>
+  <price-range>100</price-range>  
+  <date-range>
+    <base-symbol>TWFE_TFHTX</base-symbol>
+    <type>DaysBack</type>
+    <from-date>2010/07/21</from-date>
+    <to-date>-</to-date>
+    <days-back>12</days-back>
+  </date-range>
+  <chart>
+    <position>0</position>
+    <update-freq>60</update-freq>
+    <right-pad>30</right-pad>
+    <indicator>
+      <symbol>TWFE_TFHTX</symbol>
+      <name>PriceVolume</name>
+      <type>PriceVolume</type>
+      <values>1,-,TickVolume</values>
+      <custom-x-min>0</custom-x-min>
+    </indicator>
+  </chart>
+  <chart>
+    <position>1</position>
+    <update-freq>60</update-freq>
+    <right-pad>30</right-pad>
+    <indicator>
+      <symbol>TWFE_TFHTX</symbol>
+      <name>PriceVolume</name>
+      <type>PriceVolume</type>
+      <values>5,-,TickVolume</values>
+      <custom-x-min>0</custom-x-min>
+    </indicator>
+  </chart>
+  <chart>
+    <position>2</position>
+    <update-freq>60</update-freq>
+    <right-pad>30</right-pad>
+    <indicator>
+      <symbol>TWFE_TFHTX</symbol>
+      <name>PriceVolume</name>
+      <type>PriceVolume</type>
+      <values>7,-,TickVolume</values>
+      <custom-x-min>0</custom-x-min>
+    </indicator>
+  </chart>
+</chart-container>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="big5" ?>
+<chart-container>
+  <name>HFHHSI 恆生期貨 LAST-Daily</name>
+  <compression>Min_1</compression>
+  <date-range>
+    <base-symbol>HFHHSI</base-symbol>
+    <type>FromTo</type>
+    <from-date>2010/01/02</from-date>
+    <to-date>2010/06/30</to-date>
+  </date-range>
+  <chart>
+    <position>0</position>
+    <indicator>
+      <symbol>HFHHSI</symbol>
+      <name>CandleStick</name>
+      <type>CandleStick</type>
+      <values>Open,High,Low,Close</values>
+    </indicator>
+  </chart>
+  <chart>
+    <position>1</position>
+    <indicator>
+      <symbol>HFHHSI</symbol>
+      <name>Volume</name>
+      <type>Histogram</type>
+      <values>Volume</values>
+    </indicator>
+  </chart>
+</chart-container>

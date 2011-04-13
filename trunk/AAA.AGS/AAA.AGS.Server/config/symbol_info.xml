@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<config>
+  <host>localhost</host>
+  <database>AAADB</database>
+  <username>AAAUser</username>
+  <password>apc888</password>
+  <dll>AAA.Database.dll</dll>
+  <class-name>AAA.Database.MSSqlDatabase</class-name>
+
+  <info>
+    <info-id>Calendar</info-id>
+    <sql>SELECT ExDate, DayOfWeek, WeekOfMonth, DaySeq, DayOfSettle FROM TWSE_Base_D_Calendar ORDER BY ExDate</sql>
+  </info>
+</config>
