@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<config>
+  <root-path>.</root-path>
+  <database>
+    <sql>SELECT stockno FROM profile WHERE activeflg = 'Y'</sql>
+    <database>d:\apc\ga\data\apcdw.mdb</database>
+    <username>admin</username>
+    <password>clothes</password>
+  </database>
+  <web>
+    <url>http://dj.mybank.com.tw/Z/ZC/ZCA/ZCA_{string:string}.asp.htm</url>    
+    <path>cathaysec\basicrecord\{now:yyyyMMdd}</path>
+    <filename>{string:string}.html</filename>
+    <file-type>asc</file-type>
+  </web>
+
+</config>

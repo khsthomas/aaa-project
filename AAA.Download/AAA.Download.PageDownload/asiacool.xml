@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<config>
+  <root-path>.</root-path>
+  <web>
+    <url>http://asiacool.com/cng/yqz/yule_big_pic/{int:000}.jpg</url>    
+    <path>asiacool\yqz</path>
+    <filename>{Int:000}.jpg</filename>
+    <file-type>bin</file-type>
+  </web>
+
+</config>

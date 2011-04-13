@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<config>
+  <root-path>.</root-path>
+  <web>
+    <url>http://www.badongo.com/t/640/421{int:0000}</url>
+    <path>badongo\640\</path>
+    <filename>{Int:0000}.jpg</filename>
+    <file-type>bin</file-type>
+  </web>
+  
+</config>
