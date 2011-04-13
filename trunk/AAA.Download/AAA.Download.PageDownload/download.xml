@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<config>
+  <root-path>.</root-path>
+<!--  
+  <web>
+    <url>http://www.taifex.com.tw/chinese/2/9_7_1.asp</url>
+    <path>TWFE_TX_Composite_Day\{Date:yyyy}\</path>
+    <filename>TWFE_TX_Composite_Day_{Date:yyyyMMdd}.html</filename>
+    <file-type>asc</file-type>
+  </web>
+  <web>
+    <url>http://www.taifex.com.tw/DailyDownload/Daily_{Date:yyyy_MM_dd}.zip</url>
+    <path>TWFE_TX_Transaction_Day\{Date:yyyy}\</path>
+    <filename>Daily_{Date:yyyy_MM_dd}.zip</filename>
+    <file-type>bin</file-type>
+  </web>
+
+  <web>
+    <url>http://www.twse.com.tw/ch/trading/exchange/MI_MARGN/genpage/Report{Date:yyyyMM}/A11220{Date:yyMMdd}_1.php?select2=&amp;chk_date={DateTW:yy/MM/dd}</url>
+    <path>TWSE_Margin_Day\{Date:yyyy}\</path>
+    <filename>TWSE_Margin_Day_{Date:yyyyMMdd}.html</filename>
+    <file-type>asc</file-type>
+  </web>  
+-->
+  <web>
+    <url>http://www.twse.com.tw/ch/trading/exchange/TWTASU/TWTASU.php?input_date={DateTW:yy/MM/dd}</url>
+    <path>TWSE_Lend_Day\{Date:yyyy}\</path>
+    <filename>TWSE_Lend_Day_{Date:yyyyMMdd}.html</filename>
+    <file-type>asc</file-type>
+  </web>
+
+</config>
