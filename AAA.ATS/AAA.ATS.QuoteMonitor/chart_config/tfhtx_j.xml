@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="big5" ?>
+<chart-container>
+  <name>TWFE_TFHTX 台指期近 J Chart</name>
+  <compression>Min_1</compression>
+  <orientation>Vertical</orientation>
+  <xscale>10</xscale>
+  <y-scale-type>UserDefine</y-scale-type>
+  <y-min>8000</y-min>
+  <y-max>8200</y-max>
+  <date-range>
+    <base-symbol>TWFE_TFHTX</base-symbol>
+    <type>DaysBack</type>
+    <from-date>2010/09/16</from-date>
+    <to-date>-</to-date>
+    <days-back>5</days-back>
+  </date-range>
+  <chart>
+    <position>0</position>
+    <update-freq>60</update-freq>
+    <indicator>
+      <symbol>TWFE_TFHTX</symbol>
+      <name>PriceVolume</name>
+      <type>PriceVolume</type>
+      <values>2010/09/15 00:00:00,2010/08/15 23:59:59,TickVolume</values>
+      <custom-x-min>0</custom-x-min>
+    </indicator>
+  </chart>
+  <chart>
+    <position>1</position>
+    <update-freq>60</update-freq>
+    <indicator>
+      <symbol>TWFE_TFHTX</symbol>
+      <name>PriceVolume</name>
+      <type>PriceVolume</type>
+      <values>2010/09/16 08:45,2010/09/16 09:15,TickVolume</values>
+      <custom-x-min>0</custom-x-min>
+    </indicator>
+  </chart>
+  <chart>
+    <position>2</position>
+    <update-freq>60</update-freq>
+    <indicator>
+      <symbol>TWFE_TFHTX</symbol>
+      <name>PriceVolume</name>
+      <type>PriceVolume</type>
+      <values>2010/09/16 09:15,2010/09/16 11:45,TickVolume</values>
+      <custom-x-min>0</custom-x-min>
+    </indicator>
+  </chart>
+  <chart>
+    <position>7</position>
+    <update-freq>60</update-freq>
+    <indicator>
+      <symbol>TWFE_TFHTX</symbol>
+      <name>PriceVolume</name>
+      <type>PriceVolume</type>
+      <values>2010/09/16 11:45,2010/09/16 13:15,TickVolume</values>
+      <custom-x-min>0</custom-x-min>
+    </indicator>
+  </chart>
+  <chart>
+    <position>10</position>
+    <update-freq>60</update-freq>
+    <indicator>
+      <symbol>TWFE_TFHTX</symbol>
+      <name>PriceVolume</name>
+      <type>PriceVolume</type>
+      <values>2010/09/16 13:15,2010/09/16 13:45,TickVolume</values>
+      <custom-x-min>0</custom-x-min>
+    </indicator>
+  </chart>
+</chart-container>

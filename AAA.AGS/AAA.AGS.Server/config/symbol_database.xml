@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<config>
+  <host>localhost</host>
+  <database>AAADM</database>
+  <username>AAAUser</username>
+  <password>apc888</password>
+  <dll>AAA.Database.dll</dll>
+  <class-name>AAA.Database.MSSqlDatabase</class-name>
+
+  <symbol>
+    <symbol-id>TWFE_TFHTX</symbol-id>
+    <sql>SELECT SymbolId, ExTime, OpenPrice, HighPrice, LowPrice, ClosePrice, DealVol, DealAmt FROM dbo.TWFE_Futures_M_Deal WHERE SymbolId = '{0}' AND ExTime BETWEEN '{1}' AND '{2}'</sql>
+  </symbol>
+  <symbol>
+    <symbol-id>TWFE_TFHTE</symbol-id>
+    <sql>SELECT SymbolId, ExTime, OpenPrice, HighPrice, LowPrice, ClosePrice, DealVol, DealAmt FROM dbo.TWFE_Futures_M_Deal WHERE SymbolId = '{0}' AND ExTime BETWEEN '{1}' AND '{2}'</sql>
+  </symbol>
+  <symbol>
+    <symbol-id>TWFE_TFHTF</symbol-id>
+    <sql>SELECT SymbolId, ExTime, OpenPrice, HighPrice, LowPrice, ClosePrice, DealVol, DealAmt FROM dbo.TWFE_Futures_M_Deal WHERE SymbolId = '{0}' AND ExTime BETWEEN '{1}' AND '{2}'</sql>
+  </symbol>
+</config>

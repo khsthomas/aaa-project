@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="big5" ?>
+<chart-container>
+  <name>TFHTX-TP 台指期近 LAST-Daily</name>
+  <compression>Min_1</compression>
+  <date-range>
+    <base-symbol>TFHTX-TP</base-symbol>
+    <type>FromTo</type>
+    <from-date>2010/01/02</from-date>
+    <to-date>2010/06/30</to-date>
+  </date-range>
+  <chart>
+    <position>0</position>
+    <indicator>
+      <symbol>TFHTX-TP</symbol>
+      <name>Candlestick</name>
+      <values>Open,High,Low,Close</values>
+    </indicator>
+    <indicator>
+      <symbol>TFHTX-TP</symbol>
+      <name>Mov 1 Avg</name>
+      <values>Close,3</values>
+    </indicator>
+  </chart>
+  <chart>
+    <position>2</position>
+    <indicator>
+      <symbol>TFHTX-TP</symbol>
+      <name>Volume</name>
+      <values>Volume</values>
+    </indicator>
+  </chart>
+</chart-container>
