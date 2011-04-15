@@ -6,6 +6,7 @@ using AAA.MQ;
 using AAA.Base.Util.Reader;
 using AAA.Meta.Quote.Data;
 using AAA.Meta.Quote;
+using AAA.Base.Util.SafeCollection;
 
 namespace QuoteClient
 {
@@ -14,7 +15,7 @@ namespace QuoteClient
         private bool _isStart;
         private Dictionary<string, IMQClient> _dicMQClient;
         private Dictionary<string, long> _dicLastTicks;
-        private List<string> _lstSymbolList;
+        private ThreadSafeList<string> _lstAvailableSymbolId;
         private TickDataHandler OnTickReceive;        
 
         public DefaultQuoteClient()
@@ -27,17 +28,18 @@ namespace QuoteClient
                 string strMQServer = iniReader.GetParam("MQServer");
                 _dicLastTicks = new Dictionary<string, long>();
                 _dicMQClient = new Dictionary<string, IMQClient>();
-                _lstSymbolList = new List<string>();
+                _lstAvailableSymbolId = new ThreadSafeList<string>();
 
                 foreach (string strSymbolId in strSymbolIds)
                 {
-                    if (_lstSymbolList.IndexOf(strSymbolId) > -1)
+                    if (_lstAvailableSymbolId.IndexOf(strSymbolId) > -1)
                         continue;
 
                     mqClient = new ActiveMQClient(strMQServer);
                     mqClient.Connect();
                     _dicMQClient.Add(strSymbolId, mqClient);
                     _dicLastTicks.Add(strSymbolId, 0);
+                    _lstAvailableSymbolId.Add(strSymbolId);
                 }
             }
             catch (Exception ex)
@@ -58,6 +60,11 @@ namespace QuoteClient
         {
             _isStart = false;
             return true;
+        }
+
+        public ThreadSafeList<string> GetAvailableSymbolId()
+        {
+            return _lstAvailableSymbolId;
         }
 
         public List<AAA.Meta.Quote.Data.BarData> GetBarData(Dictionary<string, string> queryProperty)
