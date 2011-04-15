@@ -31,6 +31,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AAA.AGS.DataStore, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="AAA.Base.Util, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\AAA.Base.Util.dll</HintPath>
@@ -38,6 +39,7 @@
     <Reference Include="AAA.Database, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86" />
     <Reference Include="AAA.Meta.Chart, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86" />
     <Reference Include="AAA.Meta.Quote, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="AAA.MQ, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="NDde, Version=2.1.563.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\ext-lib\NDde.dll</HintPath>
@@ -59,6 +61,8 @@
     <Compile Include="AbstractHisDataSource.cs" />
     <Compile Include="AbstractPriceVolumeDataSource.cs" />
     <Compile Include="AbstractTransactionInfo.cs" />
+    <Compile Include="ActiveMQReporter.cs" />
+    <Compile Include="DataTableReporter.cs" />
     <Compile Include="DBDataSource.cs" />
     <Compile Include="DBPriceVolumeDataSource.cs" />
     <Compile Include="DBTransactionInfoDataSource.cs" />
@@ -67,6 +71,7 @@
     <Compile Include="FileDataSource.cs" />
     <Compile Include="DDEDataSource.cs" />
     <Compile Include="Events.cs" />
+    <Compile Include="IDataReporter.cs" />
     <Compile Include="IDataSource.cs" />
     <Compile Include="IDataSourceInfo.cs" />
     <Compile Include="IHisDataSource.cs" />
