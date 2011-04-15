@@ -306,6 +306,7 @@ namespace AAA.AGS.Server
 
                 _lstDataReporter = new List<IDataReporter>();
                 _lstDataReporter.Add(new DataTableReporter());
+                _lstDataReporter.Add(new ActiveMQReporter(xmlParser.GetSingleNode("/symbol-list/mq-broker").InnerText));
 
                 _isStartQuote = true;
                 _quoteThread = new Thread(new ThreadStart(Quote));

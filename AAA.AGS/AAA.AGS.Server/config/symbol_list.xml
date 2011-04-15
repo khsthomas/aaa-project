@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="big5" ?>
 <symbol-list>
+  <mq-broker>tcp://192.168.11.6:61616</mq-broker>
   <bar-data-writer>tfh_writer.xml</bar-data-writer>
   <pv-data-writer>tfh_writer.xml</pv-data-writer>
   <tick-data-writer>tfh_writer.xml</tick-data-writer>
