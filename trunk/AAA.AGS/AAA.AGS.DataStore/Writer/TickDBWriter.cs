@@ -27,7 +27,7 @@ namespace AAA.AGS.DataStore.Writer
 
         public TickDBWriter(string strConfigFile, string strSymbolId)
         {
-            _dataProvider = new DefaultDataProvider();
+            _dataProvider = new ActiveMQDataProvider();
             _isStart = true;
             _strSymbolId = strSymbolId;
             _strConfigFile = strConfigFile;
