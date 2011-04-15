@@ -36,6 +36,7 @@
     <Reference Include="AAA.Database, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86" />
     <Reference Include="AAA.Meta.Chart, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86" />
     <Reference Include="AAA.Meta.Quote, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="AAA.QuoteClient, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -53,6 +54,7 @@
     <Compile Include="DataTable.cs" />
     <Compile Include="HistoricalDataTable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Provider\ActiveMQDataProvider.cs" />
     <Compile Include="Provider\DefaultDataProvider.cs" />
     <Compile Include="Provider\IDataProvider.cs" />
     <Compile Include="Writer\TickDBWriter.cs" />
