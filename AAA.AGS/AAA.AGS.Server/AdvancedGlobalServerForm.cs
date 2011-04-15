@@ -25,6 +25,7 @@ namespace AAA.AGS.Server
 
         private readonly string[] SYMBOL_MONITOR_HEADER = { "Symbol", "Status", "Last Update", "D1", "D2", "D3", "D4", "D5", "D6" };
         private List<IDataSource> _lstDataSource;
+        private List<IDataReporter> _lstDataReporter;
         private List<string> _lstSymbol;
         private Dictionary<string, QuoteData> _dicDataSnapshot;
         private ServiceHost _serviceHost;
@@ -86,8 +87,11 @@ namespace AAA.AGS.Server
                 tickInfo.Data = quoteData;
                 tickInfo.Id = quoteData.SymbolId;
                 tickInfo.Ticks = DateTime.Now.Ticks;
-                
-                AAA.AGS.DataStore.DataTable.Instance().SetSymbolSnapshot(tickInfo.Id, tickInfo);
+
+                foreach (IDataReporter dataReport in _lstDataReporter)
+                    dataReport.Report(tickInfo);
+
+                //AAA.AGS.DataStore.DataTable.Instance().SetSymbolSnapshot(tickInfo.Id, tickInfo);
 
                 if (tblSymbolMonitor.InvokeRequired)
                 {
@@ -299,6 +303,9 @@ namespace AAA.AGS.Server
                     }
 //                    dataSource.StartReteive();
                 }
+
+                _lstDataReporter = new List<IDataReporter>();
+                _lstDataReporter.Add(new DataTableReporter());
 
                 _isStartQuote = true;
                 _quoteThread = new Thread(new ThreadStart(Quote));
