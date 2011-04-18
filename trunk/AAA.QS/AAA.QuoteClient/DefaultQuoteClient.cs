@@ -22,7 +22,7 @@ namespace AAA.QuoteClient
         {
             try
             {
-                IniReader iniReader = new IniReader(Environment.CurrentDirectory + @"\QuoteClient.dll", "QuoteClient.cfg.system.ini");
+                IniReader iniReader = new IniReader(Environment.CurrentDirectory + @"\AAA.QuoteClient.dll", "AAA.QuoteClient.cfg.system.ini");
                 IMQClient mqClient;
                 string[] strSymbolIds = iniReader.GetParam("SymbolList").Split(',');
                 string strMQServer = iniReader.GetParam("MQServer");
