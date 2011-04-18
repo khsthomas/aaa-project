@@ -34,6 +34,7 @@ namespace AAA.AGS.DataStore.Provider
             for(int i = 0; i < _qcDataClient.GetAvailableSymbolId().Count; i++)
             {
                 lstTickInfo = GetLastTicks(_qcDataClient.GetAvailableSymbolId()[i]);
+                if (lstTickInfo == null) { continue; }
                 for (int j = 0; j < lstTickInfo.Count; j++)
                     lstReturnTickInfo.Add(lstTickInfo[j]);
 
