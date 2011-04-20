@@ -14,10 +14,15 @@ namespace AAA.AGS.DataSource
 
         public ActiveMQReporter(string strBroker)
         {
-            IMQClient _mqClient = new ActiveMQClient(strBroker);
-            _mqClient.Connect();
-
-            
+            try
+            {
+                _mqClient = new ActiveMQClient(strBroker);
+                _mqClient.Connect();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message + "," + ex.StackTrace);
+            }            
         }
 
         #region IDataReporter Members
@@ -26,6 +31,8 @@ namespace AAA.AGS.DataSource
         {
             try
             {
+                if (_mqClient == null)
+                    return false;
                 IMessage message = new DefaultMessage();
                 message.IdFieldName = "Ticks";
                 message.Id = DateTime.Parse(((QuoteData)tickInfo.Data).LastUpdateTime).Ticks;

@@ -580,7 +580,8 @@ namespace AAA.AGS.Server
             try
             {
                 _isStartQuote = false;
-                _quoteThread.Abort();
+                if(_quoteThread != null)
+                    _quoteThread.Abort();
                 _serviceHost.Abort();
                 _serviceHost.Close();
 
