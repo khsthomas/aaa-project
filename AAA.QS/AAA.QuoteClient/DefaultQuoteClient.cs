@@ -15,7 +15,7 @@ namespace AAA.QuoteClient
         private bool _isStart;
         private Dictionary<string, IMQClient> _dicMQClient;
         private Dictionary<string, long> _dicLastTicks;
-        private ThreadSafeList<string> _lstAvailableSymbolId;
+        private List<string> _lstAvailableSymbolId;
         private TickDataHandler OnTickReceive;        
 
         public DefaultQuoteClient()
@@ -28,7 +28,7 @@ namespace AAA.QuoteClient
                 string strMQServer = iniReader.GetParam("MQServer");
                 _dicLastTicks = new Dictionary<string, long>();
                 _dicMQClient = new Dictionary<string, IMQClient>();
-                _lstAvailableSymbolId = new ThreadSafeList<string>();
+                _lstAvailableSymbolId = new List<string>();
 
                 foreach (string strSymbolId in strSymbolIds)
                 {
@@ -36,6 +36,7 @@ namespace AAA.QuoteClient
                         continue;
 
                     mqClient = new ActiveMQClient(strMQServer);
+                    mqClient.QueueName = strSymbolId;
                     mqClient.Connect();
                     _dicMQClient.Add(strSymbolId, mqClient);
                     _dicLastTicks.Add(strSymbolId, 0);
@@ -62,7 +63,7 @@ namespace AAA.QuoteClient
             return true;
         }
 
-        public ThreadSafeList<string> GetAvailableSymbolId()
+        public List<string> GetAvailableSymbolId()
         {
             return _lstAvailableSymbolId;
         }
@@ -79,10 +80,12 @@ namespace AAA.QuoteClient
 
         public List<AAA.Meta.Quote.Data.TickInfo> GetTodayTick(string strSymbolId)
         {
+            List<TickInfo> lstTickData = null;
             try
             {
+                lstTickData = new List<TickInfo>(); 
                 List<IMessage> lstMessage = _dicMQClient[strSymbolId].Peek("Ticks > " + _dicLastTicks[strSymbolId]);
-                List<TickInfo> lstTickData = new List<TickInfo>();
+                
 
 
                 foreach (IMessage message in lstMessage)
@@ -91,12 +94,11 @@ namespace AAA.QuoteClient
                     lstTickData.Add((TickInfo)message.Message);
                 }
 
-                return lstTickData;
             }
             catch (Exception ex)
             {
             }
-            return null;
+            return lstTickData;
         }
 
         #endregion
