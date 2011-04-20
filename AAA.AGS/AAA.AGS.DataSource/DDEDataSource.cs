@@ -10,6 +10,7 @@ namespace AAA.AGS.DataSource
 {
     public class DDEDataSource : AbstractRTDataSource
     {
+        private const int DDE_TIMEOUT = 600;
         private volatile bool _isStart;
         private DdeClient _ddeClient;
         private Thread _tQuote;
@@ -135,7 +136,7 @@ namespace AAA.AGS.DataSource
                         return;
                     }
 
-                    fIdentifyValue = float.Parse(_ddeClient.Request(_strIdentifyField, 6000));
+                    fIdentifyValue = float.Parse(_ddeClient.Request(_strIdentifyField, DDE_TIMEOUT));
 
                     if (fIdentifyValue == _fPreviousfIdentifyValue)
                         //continue;                    
@@ -149,7 +150,7 @@ namespace AAA.AGS.DataSource
                     for (int i = 0; i < _strItemNames.Length; i++)
                         if (_strItemNames[i].Trim() != "")
                         {
-                            strItems[i + 2] = _ddeClient.Request(_strItemNames[i], 6000).Replace('\r', ' ').Replace('\n', ' ').Replace('\0', ' ').Trim();
+                            strItems[i + 2] = _ddeClient.Request(_strItemNames[i], DDE_TIMEOUT).Replace('\r', ' ').Replace('\n', ' ').Replace('\0', ' ').Trim();
                             if (_strItemsCalculate[i] == "-")
                             {
                                 if (_strPreviousItems != null)
