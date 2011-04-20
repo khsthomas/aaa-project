@@ -12,7 +12,7 @@ namespace AAA.QuoteClient
     {
         bool StartQuote();
         bool StopQuote();
-        ThreadSafeList<string> GetAvailableSymbolId();
+        List<string> GetAvailableSymbolId();
         List<BarData> GetBarData(Dictionary<string, string> queryProperty);
         List<PriceVolumeData> GetPriceVolumeData(Dictionary<string, string> queryProperty);
         List<TickInfo> GetTodayTick(string strSymbolId);        
