@@ -91,6 +91,8 @@ namespace AAA.QuoteClient
                 foreach (IMessage message in lstMessage)
                 {
                     _dicLastTicks[strSymbolId] = message.Id;
+                    if (((TickInfo)message.Message).Id != strSymbolId)
+                        continue;
                     lstTickData.Add((TickInfo)message.Message);
                 }
 
