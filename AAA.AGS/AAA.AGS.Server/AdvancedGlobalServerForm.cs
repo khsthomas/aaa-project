@@ -152,7 +152,7 @@ namespace AAA.AGS.Server
                 dataSource.DataStoreEvent += new DataStoreEvent(OnDataStore);
             }
 
-            tblSymbolMonitor.Rows.Add(new string[] { "TFHTX-TP", realtimeDataSource.Status, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"), "0", "0", "0", "0", "0", "0" });
+            tblSymbolMonitor.Rows.Add(new string[] { "TFHTX-TP", realtimeDataSource.Status, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff"), "0", "0", "0", "0", "0", "0" });
 
             historicalDataSource = new FileDataSource(@"d:\DB\TXF_1m.txt", "TFHTX-TP", "Min_1");
             if (historicalDataSource != null)
@@ -249,7 +249,7 @@ namespace AAA.AGS.Server
                         dataSource.DataStoreEvent += new DataStoreEvent(OnDataStore);
                     }
 
-                    tblSymbolMonitor.Rows.Add(new string[] { strSymbolId, realtimeDataSource.Status, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"), "0", "0", "0", "0", "0", "0" });
+                    tblSymbolMonitor.Rows.Add(new string[] { strSymbolId, realtimeDataSource.Status, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff"), "0", "0", "0", "0", "0", "0" });
 
 
                     dataSourceNode = xmlParser.GetSingleNode(symbolNode, "historical-data");
@@ -362,7 +362,7 @@ namespace AAA.AGS.Server
                     dataSource.DataStoreEvent += new DataStoreEvent(OnDataStore);
                 }
 
-                tblSymbolMonitor.Rows.Add(new string[] { strSection, realtimeDataSource.Status, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"), "0", "0", "0", "0", "0", "0" });
+                tblSymbolMonitor.Rows.Add(new string[] { strSection, realtimeDataSource.Status, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff"), "0", "0", "0", "0", "0", "0" });
 
                 asmb = Assembly.LoadFrom(iniReader.GetParam(strSection, "HisDll"));
                 switch (iniReader.GetParam(strSection, "HisInitType"))
