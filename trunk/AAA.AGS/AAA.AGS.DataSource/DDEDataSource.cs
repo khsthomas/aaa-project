@@ -145,7 +145,7 @@ namespace AAA.AGS.DataSource
                     strItems = new string[_strItemNames.Length + 2];
                     strReturnItems = new string[_strItemNames.Length + 2];
                     strReturnItems[0] = _strSymbol;
-                    strReturnItems[1] = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");                    
+                    strReturnItems[1] = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff");                    
 
                     for (int i = 0; i < _strItemNames.Length; i++)
                         if (_strItemNames[i].Trim() != "")

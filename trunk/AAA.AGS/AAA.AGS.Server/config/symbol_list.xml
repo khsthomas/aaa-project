@@ -18,9 +18,9 @@
       <end-time>13:45</end-time>
       <application>Excel.exe</application>
       <topic>TSDDE</topic>    
-      <items>R2C2,R2C3,R2C4,R2C5,R2C6,R2C6</items>
-      <item-names>Open,High,Low,Close,Volume,Volume</item-names>
-      <items-cal>0,0,0,0,-,0</items-cal>
+      <items>R9C13,R8C15,R2C6,R9C14,R8C14,R2C5</items>
+      <item-names>FBV,FSV,DV,FBP,FSP,DP</item-names>
+      <items-cal>0,0,-,0,0,0</items-cal>
       <identify-field>R2C6</identify-field>
     </real-time>
     <historical-data>
