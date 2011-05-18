@@ -22,6 +22,12 @@ namespace AAA.TradingSystem
         private List<string> _lstFileType;
         private string _strDataFolder;
 
+        private string _strHost;
+        private string _strDatabase;
+        private string _strUsername;
+        private string _strPassword;
+        private string _strSQLStatement;
+
         // Chart Panel
         private TeeChartPanel[] _cpChartPanels;
         private string[] _strDataSourceNames = {"ExcelDataSource", "TextDataSource", "DatabaseDataSource"};
@@ -56,6 +62,12 @@ namespace AAA.TradingSystem
                     cboPeriod.Items.Add(strValues[i]);
                 if (cboPeriod.Items.Count > 0)
                     cboPeriod.SelectedIndex = 0;
+
+                _strHost = iniReader.GetParam("DataSource", "Host");
+                _strDatabase = iniReader.GetParam("DataSource", "Database");
+                _strUsername = iniReader.GetParam("DataSource", "Username");
+                _strPassword = iniReader.GetParam("DataSource", "Password");
+                _strSQLStatement = iniReader.GetParam("DatabaseDataSource", "DS1SQL");                
 
                 _strDataFolder = iniReader.GetParam("DataSource", "FileFolder");
                 if (_strDataFolder.StartsWith("."))
@@ -205,15 +217,16 @@ namespace AAA.TradingSystem
                     case "Text":
                         resultSet = new TextResultSet(GetFilename(txtSymbolId.Text, cboPeriod.Text, _lstFileType[cboFileType.SelectedIndex]), '\t');
                         break;
+
                     case "Excel":
                         resultSet = new ExcelResultSet(GetFilename(txtSymbolId.Text, cboPeriod.Text, _lstFileType[cboFileType.SelectedIndex]), txtSymbolId.Text + _lstSheetName[cboPeriod.SelectedIndex]);
                         break;
-/*
+
                     case "Database":
                         resultSet = new DatabaseResultSet(DatabaseTypeEnum.MSSql, _strHost, _strDatabase, _strUsername, _strPassword);
-                        ((DatabaseResultSet)resultSet).SQLStatement = _strSQLStatement;
+                        ((DatabaseResultSet)resultSet).SQLStatement = string.Format(_strSQLStatement, txtSymbolId.Text);
                         break;
- */ 
+ 
                 }
 
                 if (resultSet == null)

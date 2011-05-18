@@ -117,7 +117,7 @@
             this.txtSymbolId.Name = "txtSymbolId";
             this.txtSymbolId.Size = new System.Drawing.Size(100, 22);
             this.txtSymbolId.TabIndex = 0;
-            this.txtSymbolId.Text = "7799台指近";
+            this.txtSymbolId.Text = "TWFE_TFHTX";
             // 
             // cpExcel
             // 
