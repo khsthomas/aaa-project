@@ -43,5 +43,20 @@ namespace AAA.TradingSystem
                 MessageBox.Show(ex.Message + "," + ex.StackTrace);
             }
         }
+
+        private void menuItemMarketProfile_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ProfileChartForm childForm = new ProfileChartForm();
+                MaxChildForm(childForm);
+                childForm.MdiParent = this;
+                childForm.Show();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "," + ex.StackTrace);
+            }
+        }
     }
 }
