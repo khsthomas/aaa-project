@@ -29,15 +29,15 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.btnDownload = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
-            this.下載 = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.下載);
+            this.groupBox1.Controls.Add(this.btnDownload);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
@@ -47,14 +47,15 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "股票資料收集";
             // 
-            // label1
+            // btnDownload
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(15, 29);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(53, 12);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "股票代碼";
+            this.btnDownload.Location = new System.Drawing.Point(387, 43);
+            this.btnDownload.Name = "btnDownload";
+            this.btnDownload.Size = new System.Drawing.Size(75, 23);
+            this.btnDownload.TabIndex = 2;
+            this.btnDownload.Text = "下載";
+            this.btnDownload.UseVisualStyleBackColor = true;
+            this.btnDownload.Click += new System.EventHandler(this.btnDownload_Click);
             // 
             // label2
             // 
@@ -65,14 +66,14 @@
             this.label2.TabIndex = 1;
             this.label2.Text = "交易資料下載";
             // 
-            // 下載
+            // label1
             // 
-            this.下載.Location = new System.Drawing.Point(387, 43);
-            this.下載.Name = "下載";
-            this.下載.Size = new System.Drawing.Size(75, 23);
-            this.下載.TabIndex = 2;
-            this.下載.Text = "下載";
-            this.下載.UseVisualStyleBackColor = true;
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(15, 29);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(53, 12);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "股票代碼";
             // 
             // DataGetterForm
             // 
@@ -93,6 +94,6 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button 下載;
+        private System.Windows.Forms.Button btnDownload;
     }
 }

@@ -15,5 +15,10 @@ namespace AAA.TradingSystem
         {
             InitializeComponent();
         }
+
+        private void btnDownload_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
