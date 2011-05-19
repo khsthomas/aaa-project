@@ -34,6 +34,8 @@
             this.menuItemMarketProfile = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.dataManagement = new System.Windows.Forms.ToolStripMenuItem();
+            this.dataGetter = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.SuspendLayout();
@@ -41,7 +43,8 @@
             // menuStrip
             // 
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tradingMonitor});
+            this.tradingMonitor,
+            this.dataManagement});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Size = new System.Drawing.Size(632, 24);
@@ -60,14 +63,14 @@
             // menuItemKBar
             // 
             this.menuItemKBar.Name = "menuItemKBar";
-            this.menuItemKBar.Size = new System.Drawing.Size(152, 22);
+            this.menuItemKBar.Size = new System.Drawing.Size(137, 22);
             this.menuItemKBar.Text = "K線圖";
             this.menuItemKBar.Click += new System.EventHandler(this.menuItemKBar_Click);
             // 
             // menuItemMarketProfile
             // 
             this.menuItemMarketProfile.Name = "menuItemMarketProfile";
-            this.menuItemMarketProfile.Size = new System.Drawing.Size(152, 22);
+            this.menuItemMarketProfile.Size = new System.Drawing.Size(137, 22);
             this.menuItemMarketProfile.Text = "Market Profile";
             this.menuItemMarketProfile.Click += new System.EventHandler(this.menuItemMarketProfile_Click);
             // 
@@ -86,6 +89,21 @@
             this.toolStripStatusLabel.Name = "toolStripStatusLabel";
             this.toolStripStatusLabel.Size = new System.Drawing.Size(32, 17);
             this.toolStripStatusLabel.Text = "Status";
+            // 
+            // dataManagement
+            // 
+            this.dataManagement.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.dataGetter});
+            this.dataManagement.Name = "dataManagement";
+            this.dataManagement.Size = new System.Drawing.Size(41, 20);
+            this.dataManagement.Text = "資料";
+            // 
+            // dataGetter
+            // 
+            this.dataGetter.Name = "dataGetter";
+            this.dataGetter.Size = new System.Drawing.Size(152, 22);
+            this.dataGetter.Text = "資料抓取";
+            this.dataGetter.Click += new System.EventHandler(this.dataGetter_Click);
             // 
             // MainForm
             // 
@@ -115,6 +133,8 @@
         private System.Windows.Forms.ToolStripMenuItem tradingMonitor;
         private System.Windows.Forms.ToolStripMenuItem menuItemKBar;
         private System.Windows.Forms.ToolStripMenuItem menuItemMarketProfile;
+        private System.Windows.Forms.ToolStripMenuItem dataManagement;
+        private System.Windows.Forms.ToolStripMenuItem dataGetter;
     }
 }
 

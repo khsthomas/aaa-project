@@ -61,7 +61,7 @@ namespace AAA.TradingSystem
                 for (int i = 0; i < strValues.Length; i++)
                     cboPeriod.Items.Add(strValues[i]);
                 if (cboPeriod.Items.Count > 0)
-                    cboPeriod.SelectedIndex = 0;
+                    cboPeriod.SelectedIndex = 1;
 
                 _strHost = iniReader.GetParam("DataSource", "Host");
                 _strDatabase = iniReader.GetParam("DataSource", "Database");
@@ -92,7 +92,7 @@ namespace AAA.TradingSystem
                 for (int i = 0; i < strValues.Length; i++)
                     cboFileType.Items.Add(strValues[i]);
                 if (cboFileType.Items.Count > 0)
-                    cboFileType.SelectedIndex = 0;
+                    cboFileType.SelectedIndex = 2;
 
                 for (int iDataSource = 0; iDataSource < _strDataSourceNames.Length; iDataSource++)
                 {
