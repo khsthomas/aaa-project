@@ -58,5 +58,20 @@ namespace AAA.TradingSystem
                 MessageBox.Show(ex.Message + "," + ex.StackTrace);
             }
         }
+
+        private void dataGetter_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                DataGetterForm childForm = new DataGetterForm();
+                MaxChildForm(childForm);
+                childForm.MdiParent = this;
+                childForm.Show();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "," + ex.StackTrace);
+            }
+        }
     }
 }
