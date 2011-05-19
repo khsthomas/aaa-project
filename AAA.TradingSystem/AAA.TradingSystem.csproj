@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{392340CD-E5D3-4448-80D4-26F17F440978}</ProjectGuid>
     <OutputType>WinExe</OutputType>
@@ -75,6 +75,12 @@
     <Compile Include="ActivityGrid.Designer.cs">
       <DependentUpon>ActivityGrid.cs</DependentUpon>
     </Compile>
+    <Compile Include="DataGetterForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataGetterForm.Designer.cs">
+      <DependentUpon>DataGetterForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="KBarForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -100,6 +106,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ActivityGrid.resx">
       <DependentUpon>ActivityGrid.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataGetterForm.resx">
+      <DependentUpon>DataGetterForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="KBarForm.resx">
       <DependentUpon>KBarForm.cs</DependentUpon>
