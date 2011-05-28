@@ -20,12 +20,16 @@ namespace AAA.TradingSystem
 
         private void MaxChildForm(Form form)
         {
-            Rectangle mdiClientArea = Rectangle.Empty;
-            foreach (Control c in Controls)
-                if (c is MdiClient)
-                    mdiClientArea = c.ClientRectangle;
 
-            form.Bounds = mdiClientArea;
+            if (form.FormBorderStyle == FormBorderStyle.Sizable)
+            {
+                Rectangle mdiClientArea = Rectangle.Empty;
+                foreach (Control c in Controls)
+                    if (c is MdiClient)
+                        mdiClientArea = c.ClientRectangle;
+
+                form.Bounds = mdiClientArea;
+            }
             form.MdiParent = this;
         }
 
@@ -64,6 +68,21 @@ namespace AAA.TradingSystem
             try
             {
                 DataGetterForm childForm = new DataGetterForm();
+                MaxChildForm(childForm);
+                childForm.MdiParent = this;
+                childForm.Show();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "," + ex.StackTrace);
+            }
+        }
+
+        private void filterStock_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                StockQueryForm childForm = new StockQueryForm();
                 MaxChildForm(childForm);
                 childForm.MdiParent = this;
                 childForm.Show();
