@@ -66,6 +66,7 @@
             this.label3.Size = new System.Drawing.Size(29, 12);
             this.label3.TabIndex = 6;
             this.label3.Text = "來源";
+            this.label3.Visible = false;
             // 
             // cboFileType
             // 
@@ -74,6 +75,7 @@
             this.cboFileType.Name = "cboFileType";
             this.cboFileType.Size = new System.Drawing.Size(96, 20);
             this.cboFileType.TabIndex = 5;
+            this.cboFileType.Visible = false;
             // 
             // cboPeriod
             // 
@@ -82,6 +84,7 @@
             this.cboPeriod.Name = "cboPeriod";
             this.cboPeriod.Size = new System.Drawing.Size(121, 20);
             this.cboPeriod.TabIndex = 4;
+            this.cboPeriod.Visible = false;
             // 
             // label2
             // 
@@ -91,6 +94,7 @@
             this.label2.Size = new System.Drawing.Size(29, 12);
             this.label2.TabIndex = 3;
             this.label2.Text = "時間";
+            this.label2.Visible = false;
             // 
             // btnDisplay
             // 
@@ -117,7 +121,7 @@
             this.txtSymbolId.Name = "txtSymbolId";
             this.txtSymbolId.Size = new System.Drawing.Size(100, 22);
             this.txtSymbolId.TabIndex = 0;
-            this.txtSymbolId.Text = "TWFE_TFHTX";
+            this.txtSymbolId.Text = "1101";
             // 
             // cpExcel
             // 

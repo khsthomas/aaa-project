@@ -35,7 +35,10 @@
     <Reference Include="AAA.AGS.Service, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="AAA.Base.Util, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="AAA.Chart, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="AAA.Database, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86" />
     <Reference Include="AAA.DataLoader, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="AAA.DesignPattern, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="AAA.Finacial, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="AAA.Meta.Chart, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86" />
     <Reference Include="AAA.Meta.Quote, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="AAA.MQ, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
@@ -83,13 +86,23 @@
     <Compile Include="DataGetterForm.Designer.cs">
       <DependentUpon>DataGetterForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MessageSubject.cs" />
+    <Compile Include="StockQueryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StockQueryForm.Designer.cs">
+      <DependentUpon>StockQueryForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Indicator\CalculateIndicator.cs" />
     <Compile Include="KBarForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="KBarForm.Designer.cs">
       <DependentUpon>KBarForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Loader\TWSEIndexDailyLoader.cs" />
     <Compile Include="Loader\SymbolIdLoader.cs" />
+    <Compile Include="Loader\TWSEStockDailyLoader.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -112,6 +125,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DataGetterForm.resx">
       <DependentUpon>DataGetterForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StockQueryForm.resx">
+      <DependentUpon>StockQueryForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="KBarForm.resx">
       <DependentUpon>KBarForm.cs</DependentUpon>

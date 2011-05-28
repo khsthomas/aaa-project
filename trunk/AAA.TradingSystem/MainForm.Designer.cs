@@ -32,10 +32,12 @@
             this.tradingMonitor = new System.Windows.Forms.ToolStripMenuItem();
             this.menuItemKBar = new System.Windows.Forms.ToolStripMenuItem();
             this.menuItemMarketProfile = new System.Windows.Forms.ToolStripMenuItem();
-            this.statusStrip = new System.Windows.Forms.StatusStrip();
-            this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.dataManagement = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGetter = new System.Windows.Forms.ToolStripMenuItem();
+            this.stockCriteria = new System.Windows.Forms.ToolStripMenuItem();
+            this.filterStock = new System.Windows.Forms.ToolStripMenuItem();
+            this.statusStrip = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.SuspendLayout();
@@ -44,7 +46,8 @@
             // 
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tradingMonitor,
-            this.dataManagement});
+            this.dataManagement,
+            this.stockCriteria});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Size = new System.Drawing.Size(632, 24);
@@ -72,7 +75,38 @@
             this.menuItemMarketProfile.Name = "menuItemMarketProfile";
             this.menuItemMarketProfile.Size = new System.Drawing.Size(137, 22);
             this.menuItemMarketProfile.Text = "Market Profile";
+            this.menuItemMarketProfile.Visible = false;
             this.menuItemMarketProfile.Click += new System.EventHandler(this.menuItemMarketProfile_Click);
+            // 
+            // dataManagement
+            // 
+            this.dataManagement.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.dataGetter});
+            this.dataManagement.Name = "dataManagement";
+            this.dataManagement.Size = new System.Drawing.Size(41, 20);
+            this.dataManagement.Text = "資料";
+            // 
+            // dataGetter
+            // 
+            this.dataGetter.Name = "dataGetter";
+            this.dataGetter.Size = new System.Drawing.Size(118, 22);
+            this.dataGetter.Text = "資料抓取";
+            this.dataGetter.Click += new System.EventHandler(this.dataGetter_Click);
+            // 
+            // stockCriteria
+            // 
+            this.stockCriteria.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.filterStock});
+            this.stockCriteria.Name = "stockCriteria";
+            this.stockCriteria.Size = new System.Drawing.Size(41, 20);
+            this.stockCriteria.Text = "選股";
+            // 
+            // filterStock
+            // 
+            this.filterStock.Name = "filterStock";
+            this.filterStock.Size = new System.Drawing.Size(118, 22);
+            this.filterStock.Text = "條件選股";
+            this.filterStock.Click += new System.EventHandler(this.filterStock_Click);
             // 
             // statusStrip
             // 
@@ -89,21 +123,6 @@
             this.toolStripStatusLabel.Name = "toolStripStatusLabel";
             this.toolStripStatusLabel.Size = new System.Drawing.Size(32, 17);
             this.toolStripStatusLabel.Text = "Status";
-            // 
-            // dataManagement
-            // 
-            this.dataManagement.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.dataGetter});
-            this.dataManagement.Name = "dataManagement";
-            this.dataManagement.Size = new System.Drawing.Size(41, 20);
-            this.dataManagement.Text = "資料";
-            // 
-            // dataGetter
-            // 
-            this.dataGetter.Name = "dataGetter";
-            this.dataGetter.Size = new System.Drawing.Size(152, 22);
-            this.dataGetter.Text = "資料抓取";
-            this.dataGetter.Click += new System.EventHandler(this.dataGetter_Click);
             // 
             // MainForm
             // 
@@ -135,6 +154,8 @@
         private System.Windows.Forms.ToolStripMenuItem menuItemMarketProfile;
         private System.Windows.Forms.ToolStripMenuItem dataManagement;
         private System.Windows.Forms.ToolStripMenuItem dataGetter;
+        private System.Windows.Forms.ToolStripMenuItem stockCriteria;
+        private System.Windows.Forms.ToolStripMenuItem filterStock;
     }
 }
 

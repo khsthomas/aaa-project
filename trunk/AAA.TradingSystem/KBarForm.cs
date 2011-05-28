@@ -11,10 +11,11 @@ using AAA.Base.Util.Reader;
 using AAA.Meta.Chart;
 using AAA.TeeChart;
 using System.IO;
+using AAA.DesignPattern.Observer;
 
 namespace AAA.TradingSystem
 {
-    public partial class KBarForm : Form
+    public partial class KBarForm : Form, IObserver
     {
         private Dictionary<string, Dictionary<string, List<string>>> _dicActiveSeries;
         private List<string> _lstSheetName;
@@ -37,7 +38,7 @@ namespace AAA.TradingSystem
         public KBarForm()
         {
             InitializeComponent();
-            Init();
+            Init();            
         }
 
         private void Init()
@@ -48,7 +49,8 @@ namespace AAA.TradingSystem
             string[] strValues;
             string[] strFieldNames;
             string[] strChartNames;
-            string strSeriesName;
+            string[] strChartSizes;
+            string strSeriesName;            
             Color cControlLineColor;
             Dictionary<string, List<string>> dicActiveSeries;
 
@@ -118,6 +120,7 @@ namespace AAA.TradingSystem
                     iniReader = new IniReader(Environment.CurrentDirectory + @"\cfg\" +_strChartConfigs[iDataSource]);
                     lstSection = iniReader.Section;
                     strChartNames = iniReader.GetParam("ChartList").Split(',');
+                    strChartSizes = iniReader.GetParam("ChartSize").Split(',');
 
                     for (int i = 0; i < strChartNames.Length; i++)
                     {
@@ -136,6 +139,7 @@ namespace AAA.TradingSystem
                                                                                                  iniReader.GetParam(strSeriesName, "DataField")),
                                                                    (ChartStyleEnum)Enum.Parse(typeof(ChartStyleEnum),
                                                                                               iniReader.GetParam(strSeriesName, "Style")));
+                            _cpChartPanels[iDataSource].SetChartSize(strChartNames[i], float.Parse(strChartSizes[i]));
                         }
 
                         if (iniReader.GetParam(strChartNames[i], "ControlStyle") != null)
@@ -177,6 +181,7 @@ namespace AAA.TradingSystem
                     }
                     _dicActiveSeries.Add(_strDataSourceNames[iDataSource], dicActiveSeries);
                 }
+                MessageSubject.Instance().Subject.Attach(this);
             }
             catch (Exception ex)
             {
@@ -204,11 +209,13 @@ namespace AAA.TradingSystem
 
         private void btnDisplay_Click(object sender, EventArgs e)
         {
+            Display();
+        }
+
+        private void Display()
+        {
             try
             {
-                //MessageBox.Show(GetFilename(txtSymbolId.Text, cboPeriod.Text));
-
-                //IResultSet excelResultSet = new ExcelResultSet(GetFilename(txtSymbolId.Text, cboPeriod.Text), txtSymbolId.Text + _lstSheetName[cboPeriod.SelectedIndex]);
 
                 IResultSet resultSet = null;
 
@@ -223,7 +230,8 @@ namespace AAA.TradingSystem
                         break;
 
                     case "Database":
-                        resultSet = new DatabaseResultSet(DatabaseTypeEnum.MSSql, _strHost, _strDatabase, _strUsername, _strPassword);
+                        //resultSet = new DatabaseResultSet(DatabaseTypeEnum.MSSql, _strHost, _strDatabase, _strUsername, _strPassword);
+                        resultSet = new DatabaseResultSet(DatabaseTypeEnum.Access, _strHost, _strDatabase, _strUsername, _strPassword);
                         ((DatabaseResultSet)resultSet).SQLStatement = string.Format(_strSQLStatement, txtSymbolId.Text);
                         break;
  
@@ -241,6 +249,14 @@ namespace AAA.TradingSystem
                 {
                     MessageBox.Show(resultSet.ErrorMessage);
                     return;
+                }
+
+                for (int i = 0; i < resultSet.ColumnCount; i++)
+                {
+                    if(resultSet.ColumnNames()[i] == "ExDate")
+                        resultSet.GetColumn(i).Add(DateTime.MinValue.ToString());
+                    else
+                        resultSet.GetColumn(i).Add("");
                 }
 
                 _cpChartPanels[cboFileType.SelectedIndex].DateTimeFormat = _lstDateTimeFormat[cboPeriod.SelectedIndex];
@@ -262,5 +278,28 @@ namespace AAA.TradingSystem
                 MessageBox.Show(ex.Message + "," + ex.StackTrace);
             }
         }
+
+        #region IObserver Members
+
+        public void Update(object oSource, IMessageInfo miMessage)
+        {
+            try
+            {
+                switch (miMessage.MessageSubject)
+                {
+                    case "StockSelected":
+                        txtSymbolId.Text = (string)miMessage.Message;
+                        break;
+                }
+                Display();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "," + ex.StackTrace);
+            }
+
+        }
+
+        #endregion
     }
 }
