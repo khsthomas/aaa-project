@@ -172,7 +172,7 @@ namespace AAA.TradingSystem
 
                 CalculateIndicator calculateIndicator = new CalculateIndicator(strHost, strDatabase, strUsername, strPassword);
                 calculateIndicator.Calculate();
-                MessageBox.Show(
+                MessageBox.Show("資料下載成功!");
             }
             catch (Exception ex)
             {
