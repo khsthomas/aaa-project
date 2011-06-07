@@ -39,6 +39,7 @@
             this.cpExcel = new AAA.TeeChart.TeeChartPanel();
             this.cpText = new AAA.TeeChart.TeeChartPanel();
             this.cpDatabase = new AAA.TeeChart.TeeChartPanel();
+            this.btnConfig = new System.Windows.Forms.Button();
             this.pnlConfig.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -46,6 +47,7 @@
             // 
             this.pnlConfig.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.pnlConfig.Controls.Add(this.btnConfig);
             this.pnlConfig.Controls.Add(this.label3);
             this.pnlConfig.Controls.Add(this.cboFileType);
             this.pnlConfig.Controls.Add(this.cboPeriod);
@@ -165,6 +167,15 @@
             this.cpDatabase.Size = new System.Drawing.Size(694, 451);
             this.cpDatabase.TabIndex = 4;
             // 
+            // btnConfig
+            // 
+            this.btnConfig.Location = new System.Drawing.Point(510, 7);
+            this.btnConfig.Name = "btnConfig";
+            this.btnConfig.Size = new System.Drawing.Size(75, 23);
+            this.btnConfig.TabIndex = 7;
+            this.btnConfig.Text = "指標";
+            this.btnConfig.UseVisualStyleBackColor = true;
+            // 
             // KBarForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -195,6 +206,7 @@
         private System.Windows.Forms.ComboBox cboFileType;
         private AAA.TeeChart.TeeChartPanel cpText;
         private AAA.TeeChart.TeeChartPanel cpDatabase;
+        private System.Windows.Forms.Button btnConfig;
 
     }
 }
