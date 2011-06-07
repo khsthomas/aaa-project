@@ -96,6 +96,8 @@ namespace AAA.TradingSystem
                 if (cboFileType.Items.Count > 0)
                     cboFileType.SelectedIndex = 2;
 
+                txtSymbolId.Text = iniReader.GetParam("DataSource", "DefaultSymbolId");
+
                 for (int iDataSource = 0; iDataSource < _strDataSourceNames.Length; iDataSource++)
                 {
                     _cpChartPanels[iDataSource].PointPerPage = int.Parse(iniReader.GetParam("DataSource", "PointPerPage"));
@@ -230,8 +232,8 @@ namespace AAA.TradingSystem
                         break;
 
                     case "Database":
-                        //resultSet = new DatabaseResultSet(DatabaseTypeEnum.MSSql, _strHost, _strDatabase, _strUsername, _strPassword);
-                        resultSet = new DatabaseResultSet(DatabaseTypeEnum.Access, _strHost, _strDatabase, _strUsername, _strPassword);
+                        resultSet = new DatabaseResultSet(DatabaseTypeEnum.MSSql, _strHost, _strDatabase, _strUsername, _strPassword);
+                        //resultSet = new DatabaseResultSet(DatabaseTypeEnum.Access, _strHost, _strDatabase, _strUsername, _strPassword);
                         ((DatabaseResultSet)resultSet).SQLStatement = string.Format(_strSQLStatement, txtSymbolId.Text);
                         break;
  

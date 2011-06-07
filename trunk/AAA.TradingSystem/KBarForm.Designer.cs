@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.pnlConfig = new System.Windows.Forms.Panel();
+            this.btnConfig = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.cboFileType = new System.Windows.Forms.ComboBox();
             this.cboPeriod = new System.Windows.Forms.ComboBox();
@@ -39,7 +40,6 @@
             this.cpExcel = new AAA.TeeChart.TeeChartPanel();
             this.cpText = new AAA.TeeChart.TeeChartPanel();
             this.cpDatabase = new AAA.TeeChart.TeeChartPanel();
-            this.btnConfig = new System.Windows.Forms.Button();
             this.pnlConfig.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -59,6 +59,15 @@
             this.pnlConfig.Name = "pnlConfig";
             this.pnlConfig.Size = new System.Drawing.Size(694, 42);
             this.pnlConfig.TabIndex = 1;
+            // 
+            // btnConfig
+            // 
+            this.btnConfig.Location = new System.Drawing.Point(510, 7);
+            this.btnConfig.Name = "btnConfig";
+            this.btnConfig.Size = new System.Drawing.Size(75, 23);
+            this.btnConfig.TabIndex = 7;
+            this.btnConfig.Text = "指標";
+            this.btnConfig.UseVisualStyleBackColor = true;
             // 
             // label3
             // 
@@ -86,7 +95,6 @@
             this.cboPeriod.Name = "cboPeriod";
             this.cboPeriod.Size = new System.Drawing.Size(121, 20);
             this.cboPeriod.TabIndex = 4;
-            this.cboPeriod.Visible = false;
             // 
             // label2
             // 
@@ -96,7 +104,6 @@
             this.label2.Size = new System.Drawing.Size(29, 12);
             this.label2.TabIndex = 3;
             this.label2.Text = "時間";
-            this.label2.Visible = false;
             // 
             // btnDisplay
             // 
@@ -166,15 +173,6 @@
             this.cpDatabase.ShowVerticalCursor = false;
             this.cpDatabase.Size = new System.Drawing.Size(694, 451);
             this.cpDatabase.TabIndex = 4;
-            // 
-            // btnConfig
-            // 
-            this.btnConfig.Location = new System.Drawing.Point(510, 7);
-            this.btnConfig.Name = "btnConfig";
-            this.btnConfig.Size = new System.Drawing.Size(75, 23);
-            this.btnConfig.TabIndex = 7;
-            this.btnConfig.Text = "指標";
-            this.btnConfig.UseVisualStyleBackColor = true;
             // 
             // KBarForm
             // 
