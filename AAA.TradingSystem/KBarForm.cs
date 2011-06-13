@@ -12,12 +12,13 @@ using AAA.Meta.Chart;
 using AAA.TeeChart;
 using System.IO;
 using AAA.DesignPattern.Observer;
+using AAA.Meta.Chart.Data;
 
 namespace AAA.TradingSystem
 {
     public partial class KBarForm : Form, IObserver
     {
-        private Dictionary<string, Dictionary<string, List<string>>> _dicActiveSeries;
+        private Dictionary<string, Dictionary<string, List<string>>> _dicActiveSeries;        
         private List<string> _lstSheetName;
         private List<string> _lstDateTimeFormat;
         private List<string> _lstFileType;
@@ -28,6 +29,7 @@ namespace AAA.TradingSystem
         private string _strUsername;
         private string _strPassword;
         private string _strSQLStatement;
+        private int _iSkipLine;
 
         // Chart Panel
         private TeeChartPanel[] _cpChartPanels;
@@ -38,21 +40,22 @@ namespace AAA.TradingSystem
         public KBarForm()
         {
             InitializeComponent();
-            Init();            
+            Init();
         }
 
         private void Init()
         {
             IniReader iniReader = null;
             List<string> lstFieldName;
+            List<string> lstTitleName;
             List<string> lstSection;
             string[] strValues;
             string[] strFieldNames;
+            string[] strTitleNames;
             string[] strChartNames;
             string[] strChartSizes;
             string strSeriesName;            
-            Color cControlLineColor;
-            Dictionary<string, List<string>> dicActiveSeries;
+            Color cControlLineColor;            
 
             _cpChartPanels = new TeeChartPanel[] {cpExcel, cpText, cpDatabase};            
 
@@ -69,7 +72,9 @@ namespace AAA.TradingSystem
                 _strDatabase = iniReader.GetParam("DataSource", "Database");
                 _strUsername = iniReader.GetParam("DataSource", "Username");
                 _strPassword = iniReader.GetParam("DataSource", "Password");
-                _strSQLStatement = iniReader.GetParam("DatabaseDataSource", "DS1SQL");                
+                _strSQLStatement = iniReader.GetParam("DatabaseDataSource", "DS1SQL");
+
+                _iSkipLine = int.Parse(iniReader.GetParam("DataSource", "SkipLine"));
 
                 _strDataFolder = iniReader.GetParam("DataSource", "FileFolder");
                 if (_strDataFolder.StartsWith("."))
@@ -112,6 +117,28 @@ namespace AAA.TradingSystem
                         for (int j = 0; j < strFieldNames.Length; j++)
                             lstFieldName.Add(strFieldNames[j]);
                         _cpChartPanels[iDataSource].AddSeriesField(strValues[i], lstFieldName);
+                    }
+
+                    if (iniReader.GetParam(_strDataSourceNames[iDataSource], "ExtraInfo") != null)
+                    {
+                        strValues = iniReader.GetParam(_strDataSourceNames[iDataSource], "ExtraInfo").Split(',');
+
+                        for (int i = 0; i < strValues.Length; i++)
+                        {
+                            lstFieldName = new List<string>();
+                            strFieldNames = iniReader.GetParam(_strDataSourceNames[iDataSource], strValues[i]).Split(',');
+                            for (int j = 0; j < strFieldNames.Length; j++)
+                                lstFieldName.Add(strFieldNames[j]);
+
+                            lstTitleName = new List<string>();
+                            strTitleNames = iniReader.GetParam(_strDataSourceNames[iDataSource], strValues[i]).Split(',');
+                            for (int j = 0; j < strTitleNames.Length; j++)
+                                lstTitleName.Add(strTitleNames[j]);
+                            _cpChartPanels[iDataSource].AddExtraInfo(strValues[i], lstFieldName, lstTitleName);                                                        
+                            
+                            //_cpChartPanels[iDataSource].AddSeriesField(strValues[i], lstFieldName);
+                            
+                        }
                     }
                 }
 
@@ -162,27 +189,6 @@ namespace AAA.TradingSystem
                         }
                     }
                 }
-
-                // Add Active Series
-                _dicActiveSeries = new Dictionary<string, Dictionary<string, List<string>>>();
-                for (int iDataSource = 0; iDataSource < _strActiveCharts.Length; iDataSource++)
-                {                    
-                    iniReader = new IniReader(Environment.CurrentDirectory + @"\cfg\" + _strActiveCharts[iDataSource]);
-                    dicActiveSeries = new Dictionary<string, List<string>>();
-                    strChartNames = iniReader.GetParam("ChartList").Split(',');
-
-                    for (int i = 0; i < strChartNames.Length; i++)
-                    {
-                        strValues = iniReader.GetParam(strChartNames[i]).Split(',');
-                        dicActiveSeries.Add(strChartNames[i], new List<string>());
-                        for (int j = 0; j < strValues.Length; j++)
-                        {
-                            _cpChartPanels[iDataSource].AddActiveSeries(strChartNames[i], strValues[j]);
-                            dicActiveSeries[strChartNames[i]].Add(strValues[j]);
-                        }
-                    }
-                    _dicActiveSeries.Add(_strDataSourceNames[iDataSource], dicActiveSeries);
-                }
                 MessageSubject.Instance().Subject.Attach(this);
             }
             catch (Exception ex)
@@ -214,17 +220,63 @@ namespace AAA.TradingSystem
             Display();
         }
 
-        private void Display()
+        private void InitActiveChart()
         {
+            IniReader iniReader = null;
+            Dictionary<string, List<string>> dicActiveSeries;
+            string[] strChartNames;
+            string[] strExtraInfo;
+            string[] strValues;
+
             try
             {
+                // Add Active Series && ExtraInfo
+                _dicActiveSeries = new Dictionary<string, Dictionary<string, List<string>>>();
+                for (int iDataSource = 0; iDataSource < _strActiveCharts.Length; iDataSource++)
+                {
+                    iniReader = new IniReader(Environment.CurrentDirectory + @"\cfg\" + _strActiveCharts[iDataSource]);
+                    dicActiveSeries = new Dictionary<string, List<string>>();
+                    strChartNames = iniReader.GetParam("ChartList").Split(',');
 
-                IResultSet resultSet = null;
+                    for (int i = 0; i < strChartNames.Length; i++)
+                    {
+                        strValues = iniReader.GetParam(strChartNames[i]).Split(',');
+                        dicActiveSeries.Add(strChartNames[i], new List<string>());
+                        for (int j = 0; j < strValues.Length; j++)
+                        {
+                            _cpChartPanels[iDataSource].AddActiveSeries(strChartNames[i], strValues[j]);
+                            dicActiveSeries[strChartNames[i]].Add(strValues[j]);
+                        }
+                    }
+                    _dicActiveSeries.Add(_strDataSourceNames[iDataSource], dicActiveSeries);
 
+                    if (iniReader.GetParam("ExtraInfo") != null)
+                    {
+                        strExtraInfo = iniReader.GetParam("ExtraInfo").Split(',');
+                        for(int i = 0; i < strExtraInfo.Length; i++)
+                        {
+                            strValues = strExtraInfo[i].Split('~');
+                            _cpChartPanels[iDataSource].AddActiveExtraInfo(strValues[0], strValues[1]);
+                        }
+                    }
+                }                                
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "," + ex.StackTrace);
+            }
+        }
+
+        private void Display()
+        {
+            IResultSet resultSet = null;
+            InitActiveChart();
+            try
+            {
                 switch (cboFileType.Text)
                 {
                     case "Text":
-                        resultSet = new TextResultSet(GetFilename(txtSymbolId.Text, cboPeriod.Text, _lstFileType[cboFileType.SelectedIndex]), '\t');
+                        resultSet = new TextResultSet(GetFilename(txtSymbolId.Text, cboPeriod.Text, _lstFileType[cboFileType.SelectedIndex]), '\t', false, _iSkipLine);
                         break;
 
                     case "Excel":
@@ -267,8 +319,9 @@ namespace AAA.TradingSystem
                     lstSeriesName = _dicActiveSeries[_strDataSourceNames[cboFileType.SelectedIndex]][strChartName];
 
                     for (int i = 0; i < lstSeriesName.Count; i++)
-                        _cpChartPanels[cboFileType.SelectedIndex].ProcessResultSet(strChartName, lstSeriesName[i], resultSet);
+                        _cpChartPanels[cboFileType.SelectedIndex].ProcessResultSet(strChartName, lstSeriesName[i], resultSet);                    
                 }
+
                 _cpChartPanels[cboFileType.SelectedIndex].Draw();
                 for (int i = 0; i < _cpChartPanels.Length; i++)
                 {
