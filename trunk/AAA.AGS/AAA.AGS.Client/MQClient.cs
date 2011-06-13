@@ -4,12 +4,15 @@ using System.Linq;
 using System.Text;
 using AAA.Base.Util.Reader;
 using AAA.QuoteClient;
+using System.Threading;
+using AAA.Meta.Quote;
+using AAA.Meta.Quote.Data;
+using AAA.Meta.Chart.Data;
 
 namespace AAA.AGS.Client
 {
     public class MQClient
     {	
-        private SendOrPostCallback _tickCallback ;
         private SynchronizationContext _syncContext = null;
 
         private DataHandler _dataHandler;
@@ -62,7 +65,8 @@ namespace AAA.AGS.Client
 
         public List<BarRecord> GetData(Dictionary<string, string> queryProperties)
         {
-            return _qcDataClient.GetBarData(queryProperties);            
+            //return _qcDataClient.GetBarData(queryProperties);            
+            return null;
         }
 
         public Dictionary<string, AAA.Meta.Chart.Data.PriceVolumeData> GetPriceVolume(Dictionary<string, string> queryProperties)
@@ -105,13 +109,11 @@ namespace AAA.AGS.Client
 
             if (_dataHandler != null)
                 _dataHandler(quoteData);
-            else
-                _syncContext.Post(_tickCallback, quoteData.Items);
+//            else
+//                _syncContext.Post(_tickCallback, quoteData.Items);
 
 		}
 		#endregion
-
-    }
 
     }
 }
