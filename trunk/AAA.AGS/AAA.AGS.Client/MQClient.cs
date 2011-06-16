@@ -8,13 +8,18 @@ using System.Threading;
 using AAA.Meta.Quote;
 using AAA.Meta.Quote.Data;
 using AAA.Meta.Chart.Data;
+using System.ServiceModel.Channels;
+using System.ServiceModel;
+using AAA.Base.Util.WCF;
+using AAA.AGS.Service;
 
 namespace AAA.AGS.Client
 {
     public class MQClient
     {	
         private SynchronizationContext _syncContext = null;
-
+        DuplexChannelFactory<IQuoteService> _factory;
+        IQuoteService _proxy;        
         private DataHandler _dataHandler;
 
         private IQuoteClient _qcDataClient;
@@ -33,6 +38,17 @@ namespace AAA.AGS.Client
 
             _qcDataClient = new DefaultQuoteClient();
             _qcDataClient.StartQuote();
+
+            string strUrl = iniReader.GetParam("Host");
+            Uri address = new Uri(strUrl);
+            Binding binding = WCFUtil.CreateBinding(strUrl.Split(':')[0]);
+            _factory = new DuplexChannelFactory<IQuoteService>(
+                 new InstanceContext(this),
+                 binding,
+                 new EndpointAddress(address)
+            );
+
+            _proxy = _factory.CreateChannel();
 		}
 
 		#region Public Method
@@ -59,25 +75,22 @@ namespace AAA.AGS.Client
 
         public void SetWatchingList(string[] strSymbols)
         {
-            //_proxy.SetWatchingSymbolList(strSymbols);        
+            _proxy.SetWatchingSymbolList(strSymbols);        
         }
 
         public List<BarRecord> GetData(Dictionary<string, string> queryProperties)
         {
-            //return _qcDataClient.GetBarData(queryProperties);            
-            return null;
+            return _proxy.GetData(queryProperties);
         }
 
         public Dictionary<string, AAA.Meta.Chart.Data.PriceVolumeData> GetPriceVolume(Dictionary<string, string> queryProperties)
         {
-            //return _qcDataClient.GetPriceVolumeData(queryProperties);
-            return null;
+            return _proxy.GetPriceVolume(queryProperties);
         }
 
         public List<DateInfo> GetTransactionDay()
         {
-            //return _proxy.GetTransactionDay();
-            return null;
+            return _proxy.GetTransactionDay();            
         }
 
         public void StartService()
