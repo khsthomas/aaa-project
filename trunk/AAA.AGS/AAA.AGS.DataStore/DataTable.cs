@@ -110,19 +110,24 @@ namespace AAA.AGS.DataStore
                                 barData.Close = fClose;
                                 barData.Volume = fVolume;
                                 lstMinuteQueue.Add(barData);
+
+                                fOpen = float.NaN;
+                                fHigh = float.Parse(((QuoteData)lstTickQueue[j].Data).Items[5].ToString());
+                                fLow = float.Parse(((QuoteData)lstTickQueue[j].Data).Items[5].ToString());
+                                fClose = float.Parse(((QuoteData)lstTickQueue[j].Data).Items[5].ToString());
                                 break;
                             }
 
-                            priceVolumeData.AddData(float.Parse(((QuoteData)lstTickQueue[j].Data).Items[3].ToString()),
-                                                    float.Parse(((QuoteData)lstTickQueue[j].Data).Items[4].ToString()));
+                            priceVolumeData.AddData(float.Parse(((QuoteData)lstTickQueue[j].Data).Items[5].ToString()),
+                                                    float.Parse(((QuoteData)lstTickQueue[j].Data).Items[2].ToString()));
 
-                            fVolume += float.Parse(((QuoteData)lstTickQueue[j].Data).Items[4].ToString());
-                            if (float.IsNaN(fClose))
-                                fClose = float.Parse(((QuoteData)lstTickQueue[j].Data).Items[3].ToString());
+                            fVolume += float.Parse(((QuoteData)lstTickQueue[j].Data).Items[2].ToString());
+                            if (float.IsNaN(fOpen))
+                                fOpen = float.Parse(((QuoteData)lstTickQueue[j].Data).Items[5].ToString());
             
-                            fOpen = float.Parse(((QuoteData)lstTickQueue[j].Data).Items[3].ToString());
-                            fHigh = Math.Max(fHigh, float.Parse(((QuoteData)lstTickQueue[j].Data).Items[3].ToString()));
-                            fLow = Math.Min(fLow, float.Parse(((QuoteData)lstTickQueue[j].Data).Items[3].ToString()));
+                            fClose = float.Parse(((QuoteData)lstTickQueue[j].Data).Items[5].ToString());
+                            fHigh = Math.Max(fHigh, float.Parse(((QuoteData)lstTickQueue[j].Data).Items[5].ToString()));
+                            fLow = Math.Min(fLow, float.Parse(((QuoteData)lstTickQueue[j].Data).Items[5].ToString()));
                         }
                     }
                     catch(Exception ex)

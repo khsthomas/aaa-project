@@ -16,11 +16,13 @@ using AAA.AGS.Service;
 namespace AAA.AGS.Client
 {
     public class MQClient : IQuoteServiceCallBack
-    {	
+    {
+        private const int SLEEP_INTERVAL = 1000;
+        private bool _isStart;
         private SynchronizationContext _syncContext = null;
-        DuplexChannelFactory<IQuoteService> _factory;
+        private DuplexChannelFactory<IQuoteService> _factory;
         private SendOrPostCallback _tickCallback;
-        IQuoteService _proxy;        
+        private IQuoteService _proxy;        
         private DataHandler _dataHandler;
 
         private IQuoteClient _qcDataClient;
@@ -97,6 +99,7 @@ namespace AAA.AGS.Client
         public void StartService()
         {
             _qcDataClient.StartQuote();
+            _isStart = true;
         }
 
 		public void Disconnect()
@@ -104,14 +107,45 @@ namespace AAA.AGS.Client
 			try
 			{
 				_qcDataClient.StopQuote();
-
+                _isStart = false;
 			}
 			catch (Exception ex)
 			{
-
+                Console.WriteLine(ex.Message + "," + ex.StackTrace);
 			}		
 		}
 		#endregion
+
+        private void MQQuote()
+        {
+            List<TickInfo> lstTickInfo;
+            List<string> lstSymbolId;
+            QuoteData quoteData;
+
+            lstSymbolId = AvailableSymbolList();
+            while (_isStart)
+            {
+                try
+                {
+                    
+                    foreach (string strSymbolId in lstSymbolId)
+                    {
+                        lstTickInfo = _qcDataClient.GetTodayTick(strSymbolId);
+                        foreach (TickInfo tickInfo in lstTickInfo)
+                        {
+                            quoteData = ((QuoteData)tickInfo.Data);
+                            OnDataReceive(quoteData);
+                        }
+
+                    }
+                    Thread.Sleep(SLEEP_INTERVAL);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message + "," + ex.StackTrace);
+                }
+            }
+        }
 
 		#region IQuoteServiceCallBack Members
 
