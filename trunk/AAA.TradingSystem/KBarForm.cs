@@ -49,7 +49,9 @@ namespace AAA.TradingSystem
             List<string> lstFieldName;
             List<string> lstTitleName;
             List<string> lstSection;
+            List<string> lstColor;
             string[] strValues;
+            string[] strRGBs;
             string[] strFieldNames;
             string[] strTitleNames;
             string[] strChartNames;
@@ -131,11 +133,33 @@ namespace AAA.TradingSystem
                                 lstFieldName.Add(strFieldNames[j]);
 
                             lstTitleName = new List<string>();
-                            strTitleNames = iniReader.GetParam(_strDataSourceNames[iDataSource], strValues[i]).Split(',');
+                            if(iniReader.GetParam(_strDataSourceNames[iDataSource], strValues[i] + "Title") != null)
+                                strTitleNames = iniReader.GetParam(_strDataSourceNames[iDataSource], strValues[i] + "Title").Split(',');
+                            else
+                                strTitleNames = iniReader.GetParam(_strDataSourceNames[iDataSource], strValues[i]).Split(',');
+
                             for (int j = 0; j < strTitleNames.Length; j++)
                                 lstTitleName.Add(strTitleNames[j]);
                             _cpChartPanels[iDataSource].AddExtraInfo(strValues[i], lstFieldName, lstTitleName);                                                        
                             
+                            if(iniReader.GetParam(_strDataSourceNames[iDataSource], "DisplayLight") != null)
+                            {                                
+                                signalPane.DisplayKey = iniReader.GetParam(_strDataSourceNames[iDataSource], "DisplayLight");
+                                if(((string)signalPane.DisplayKey) != strValues[i])
+                                    continue;
+                                for (int j = 0; j < lstTitleName.Count; j++)
+                                    signalPane.AddTitle(lstTitleName[j]);
+
+                                if (iniReader.Section.IndexOf("Color") > -1)
+                                {
+                                    lstColor = iniReader.GetKey("Color");
+                                    for (int j = 0; j < lstColor.Count; j++)
+                                    {
+                                        strRGBs = iniReader.GetParam("Color", lstColor[j]).Split(',');                                        
+                                        signalPane.AddColorMapping(lstColor[j], Color.FromArgb(int.Parse(strRGBs[0]), int.Parse(strRGBs[1]), int.Parse(strRGBs[2])));
+                                    }
+                                }
+                            }
                             //_cpChartPanels[iDataSource].AddSeriesField(strValues[i], lstFieldName);
                             
                         }
@@ -321,6 +345,7 @@ namespace AAA.TradingSystem
                     for (int i = 0; i < lstSeriesName.Count; i++)
                         _cpChartPanels[cboFileType.SelectedIndex].ProcessResultSet(strChartName, lstSeriesName[i], resultSet);                    
                 }
+                _cpChartPanels[cboFileType.SelectedIndex].ProcessExtraInfo(resultSet);
 
                 _cpChartPanels[cboFileType.SelectedIndex].Draw();
                 for (int i = 0; i < _cpChartPanels.Length; i++)

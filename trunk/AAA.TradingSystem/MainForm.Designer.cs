@@ -66,15 +66,16 @@
             // menuItemKBar
             // 
             this.menuItemKBar.Name = "menuItemKBar";
-            this.menuItemKBar.Size = new System.Drawing.Size(152, 22);
+            this.menuItemKBar.Size = new System.Drawing.Size(137, 22);
             this.menuItemKBar.Text = "K線圖";
             this.menuItemKBar.Click += new System.EventHandler(this.menuItemKBar_Click);
             // 
             // menuItemMarketProfile
             // 
             this.menuItemMarketProfile.Name = "menuItemMarketProfile";
-            this.menuItemMarketProfile.Size = new System.Drawing.Size(152, 22);
+            this.menuItemMarketProfile.Size = new System.Drawing.Size(137, 22);
             this.menuItemMarketProfile.Text = "Market Profile";
+            this.menuItemMarketProfile.Visible = false;
             this.menuItemMarketProfile.Click += new System.EventHandler(this.menuItemMarketProfile_Click);
             // 
             // dataManagement
@@ -84,6 +85,7 @@
             this.dataManagement.Name = "dataManagement";
             this.dataManagement.Size = new System.Drawing.Size(41, 20);
             this.dataManagement.Text = "資料";
+            this.dataManagement.Visible = false;
             // 
             // dataGetter
             // 
@@ -99,6 +101,7 @@
             this.stockCriteria.Name = "stockCriteria";
             this.stockCriteria.Size = new System.Drawing.Size(41, 20);
             this.stockCriteria.Text = "選股";
+            this.stockCriteria.Visible = false;
             // 
             // filterStock
             // 
