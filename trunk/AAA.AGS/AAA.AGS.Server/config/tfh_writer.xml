@@ -5,7 +5,7 @@
       <symbol-id>TWFE_TFHTX</symbol-id>
       <dll>AAA.Database.dll</dll>
       <class-name>AAA.Database.MSSqlDatabase</class-name>
-      <host>localhost</host>
+      <host>192.168.11.27</host>
       <database>AAADM</database>
       <username>AAAUser</username>
       <password>apc888</password>
@@ -17,7 +17,7 @@
       <symbol-id>TWFE_TFHTX</symbol-id>
       <dll>AAA.Database.dll</dll>
       <class-name>AAA.Database.MSSqlDatabase</class-name>
-      <host>localhost</host>
+      <host>192.168.11.27</host>
       <database>AAADM</database>
       <username>AAAUser</username>
       <password>apc888</password>
@@ -29,7 +29,7 @@
       <symbol-id>TWFE_TFHTX</symbol-id>
       <dll>AAA.Database.dll</dll>
       <class-name>AAA.Database.MSSqlDatabase</class-name>
-      <host>localhost</host>
+      <host>192.168.11.27</host>
       <database>AAADM</database>
       <username>AAAUser</username>
       <password>apc888</password>
@@ -41,7 +41,7 @@
       <symbol-id>TWFE_TFHTF</symbol-id>
       <dll>AAA.Database.dll</dll>
       <class-name>AAA.Database.MSSqlDatabase</class-name>
-      <host>localhost</host>
+      <host>192.168.11.27</host>
       <database>AAADM</database>
       <username>AAAUser</username>
       <password>apc888</password>
@@ -53,7 +53,7 @@
       <symbol-id>TWFE_TFHTF</symbol-id>
       <dll>AAA.Database.dll</dll>
       <class-name>AAA.Database.MSSqlDatabase</class-name>
-      <host>localhost</host>
+      <host>192.168.11.27</host>
       <database>AAADM</database>
       <username>AAAUser</username>
       <password>apc888</password>
@@ -65,7 +65,7 @@
       <symbol-id>TWFE_TFHTF</symbol-id>
       <dll>AAA.Database.dll</dll>
       <class-name>AAA.Database.MSSqlDatabase</class-name>
-      <host>localhost</host>
+      <host>192.168.11.27</host>
       <database>AAADM</database>
       <username>AAAUser</username>
       <password>apc888</password>
@@ -77,7 +77,7 @@
       <symbol-id>TWFE_TFHTE</symbol-id>
       <dll>AAA.Database.dll</dll>
       <class-name>AAA.Database.MSSqlDatabase</class-name>
-      <host>localhost</host>
+      <host>192.168.11.27</host>
       <database>AAADM</database>
       <username>AAAUser</username>
       <password>apc888</password>
@@ -89,7 +89,7 @@
       <symbol-id>TWFE_TFHTE</symbol-id>
       <dll>AAA.Database.dll</dll>
       <class-name>AAA.Database.MSSqlDatabase</class-name>
-      <host>localhost</host>
+      <host>192.168.11.27</host>
       <database>AAADM</database>
       <username>AAAUser</username>
       <password>apc888</password>
@@ -101,7 +101,7 @@
       <symbol-id>TWFE_TFHTE</symbol-id>
       <dll>AAA.Database.dll</dll>
       <class-name>AAA.Database.MSSqlDatabase</class-name>
-      <host>localhost</host>
+      <host>192.168.11.27</host>
       <database>AAADM</database>
       <username>AAAUser</username>
       <password>apc888</password>

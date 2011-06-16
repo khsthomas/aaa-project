@@ -27,6 +27,7 @@ namespace AAA.AGS.Server
         private List<IDataSource> _lstDataSource;
         private List<IDataReporter> _lstDataReporter;
         private List<string> _lstSymbol;
+        private List<IWriter> _lstWriter;
         private Dictionary<string, QuoteData> _dicDataSnapshot;
         private ServiceHost _serviceHost;
         private bool _isStartQuote;
@@ -194,7 +195,7 @@ namespace AAA.AGS.Server
             IPriceVolumeDataSource priceVolumeDataSource = null;
             MinuteDBWriter minuteWriter;
             PriceVolumeDBWriter pvWriter;
-            TickFileWriter tickWriter;
+            TickDBWriter tickWriter;
             XmlNodeList symbolList;
             XmlNode dataSourceNode;
             string strSymbolId;
@@ -202,6 +203,7 @@ namespace AAA.AGS.Server
 
             try
             {
+                _lstWriter = new List<IWriter>();
                 _lstDataSource = new List<IDataSource>();
                 _lstSymbol = new List<string>();
                 _dicDataSnapshot = new Dictionary<string, QuoteData>();
@@ -209,10 +211,12 @@ namespace AAA.AGS.Server
                 minuteWriter = new MinuteDBWriter(Environment.CurrentDirectory + @"\config\" + xmlParser.GetSingleNode("/symbol-list/bar-data-writer").InnerText);
                 minuteWriter.Init();
                 minuteWriter.Start();
+                _lstWriter.Add(minuteWriter);
 
                 pvWriter = new PriceVolumeDBWriter(Environment.CurrentDirectory + @"\config\" + xmlParser.GetSingleNode("/symbol-list/pv-data-writer").InnerText);
                 pvWriter.Init();
                 pvWriter.Start();
+                _lstWriter.Add(pvWriter);
 
                 try
                 {
@@ -232,6 +236,11 @@ namespace AAA.AGS.Server
                     dataSource = new DefaultDataSource();
                     _lstDataSource.Add(dataSource);
                     _lstSymbol.Add(strSymbolId);
+
+                    tickWriter = new TickDBWriter(Environment.CurrentDirectory + @"\config\" + xmlParser.GetSingleNode("/symbol-list/tick-data-writer").InnerText, strSymbolId);
+                    tickWriter.Init();
+                    tickWriter.Start();
+                    _lstWriter.Add(tickWriter);
 
                     switch (xmlParser.GetSingleNode(dataSourceNode, "init-type").InnerText)
                     {
@@ -586,7 +595,16 @@ namespace AAA.AGS.Server
                 _serviceHost.Close();
 
                 foreach (IDataSource dataSource in _lstDataSource)
-                    dataSource.StopReteive();
+                {
+                    dataSource.StopReteive();                    
+                }
+
+                foreach (IWriter writer in _lstWriter)
+                {
+                    writer.Stop();
+                    writer.Close();
+                }
+
                 //Application.Exit();
             }
             catch (Exception ex)

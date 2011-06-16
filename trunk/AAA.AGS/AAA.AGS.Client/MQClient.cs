@@ -54,8 +54,7 @@ namespace AAA.AGS.Client
 
 		public List<string> AvailableSymbolList()
 		{
-            return new List<string>();
-			//return JsonUtil.Deserialize<List<string>>(_proxy.AvailableSymbolList());
+            return _qcDataClient.GetAvailableSymbolId();
 		}
 
         public void SetWatchingList(string[] strSymbols)
