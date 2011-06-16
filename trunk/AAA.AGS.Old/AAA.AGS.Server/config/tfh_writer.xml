@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<config>
+  <bar-data>
+    <symbol>
+      <symbol-id>TWFE_TFHTX</symbol-id>
+      <dll>AAA.Database.dll</dll>
+      <class-name>AAA.Database.MSSqlDatabase</class-name>
+      <host>192.168.11.27</host>
+      <database>AAADM</database>
+      <username>AAAUser</username>
+      <password>apc888</password>
+      <sql>INSERT INTO dbo.TWFE_Futures_M_Deal(ExTime, SymbolId, OpenPrice, HighPrice, LowPrice, ClosePrice, DealVol, DealAmt) VALUES('{0}', '{1}', {2}, {3}, {4}, {5}, {6}, {7})</sql>
+    </symbol>    
+  </bar-data>
+  <tick-data>
+    <symbol>
+      <symbol-id>TWFE_TFHTX</symbol-id>
+      <dll>AAA.Database.dll</dll>
+      <class-name>AAA.Database.MSSqlDatabase</class-name>
+      <host>192.168.11.27</host>
+      <database>AAADM</database>
+      <username>AAAUser</username>
+      <password>apc888</password>
+      <sql>INSERT INTO dbo.TWFE_Futures_Tick(ExTime, SymbolId, ForBuyVol, ForSellVol, DealVol, ForBuyPrice, ForSellPrice, DealPrice) VALUES('{0}', '{1}', {2}, {3}, {4}, {5}, {6}, {7})</sql>
+    </symbol>
+  </tick-data>
+  <pv-data>
+    <symbol>
+      <symbol-id>TWFE_TFHTX</symbol-id>
+      <dll>AAA.Database.dll</dll>
+      <class-name>AAA.Database.MSSqlDatabase</class-name>
+      <host>192.168.11.27</host>
+      <database>AAADM</database>
+      <username>AAAUser</username>
+      <password>apc888</password>
+      <sql>INSERT INTO dbo.TWFE_Futures_M_VolAtPrice(ExTime, SymbolId, Price, DealVol, DealTick) VALUES('{0}', '{1}', {2}, {3}, {4})</sql>
+    </symbol>    
+  </pv-data>
+  <bar-data>
+    <symbol>
+      <symbol-id>TWFE_TFHTF</symbol-id>
+      <dll>AAA.Database.dll</dll>
+      <class-name>AAA.Database.MSSqlDatabase</class-name>
+      <host>192.168.11.27</host>
+      <database>AAADM</database>
+      <username>AAAUser</username>
+      <password>apc888</password>
+      <sql>INSERT INTO dbo.TWFE_Futures_M_Deal(ExTime, SymbolId, OpenPrice, HighPrice, LowPrice, ClosePrice, DealVol, DealAmt) VALUES('{0}', '{1}', {2}, {3}, {4}, {5}, {6}, {7})</sql>
+    </symbol>
+  </bar-data>
+  <tick-data>
+    <symbol>
+      <symbol-id>TWFE_TFHTF</symbol-id>
+      <dll>AAA.Database.dll</dll>
+      <class-name>AAA.Database.MSSqlDatabase</class-name>
+      <host>192.168.11.27</host>
+      <database>AAADM</database>
+      <username>AAAUser</username>
+      <password>apc888</password>
+      <sql>INSERT INTO dbo.TWFE_Futures_Tick(ExTime, SymbolId, ForBuyVol, ForSellVol, DealVol, ForBuyPrice, ForSellPrice, DealPrice) VALUES('{0}', '{1}', {2}, {3}, {4}, {5}, {6}, {7})</sql>
+    </symbol>
+  </tick-data>
+  <pv-data>
+    <symbol>
+      <symbol-id>TWFE_TFHTF</symbol-id>
+      <dll>AAA.Database.dll</dll>
+      <class-name>AAA.Database.MSSqlDatabase</class-name>
+      <host>192.168.11.27</host>
+      <database>AAADM</database>
+      <username>AAAUser</username>
+      <password>apc888</password>
+      <sql>INSERT INTO dbo.TWFE_Futures_M_VolAtPrice(ExTime, SymbolId, Price, DealVol, DealTick) VALUES('{0}', '{1}', {2}, {3}, {4})</sql>
+    </symbol>
+  </pv-data>
+  <bar-data>
+    <symbol>
+      <symbol-id>TWFE_TFHTE</symbol-id>
+      <dll>AAA.Database.dll</dll>
+      <class-name>AAA.Database.MSSqlDatabase</class-name>
+      <host>192.168.11.27</host>
+      <database>AAADM</database>
+      <username>AAAUser</username>
+      <password>apc888</password>
+      <sql>INSERT INTO dbo.TWFE_Futures_M_Deal(ExTime, SymbolId, OpenPrice, HighPrice, LowPrice, ClosePrice, DealVol, DealAmt) VALUES('{0}', '{1}', {2}, {3}, {4}, {5}, {6}, {7})</sql>
+    </symbol>
+  </bar-data>
+  <tick-data>
+    <symbol>
+      <symbol-id>TWFE_TFHTE</symbol-id>
+      <dll>AAA.Database.dll</dll>
+      <class-name>AAA.Database.MSSqlDatabase</class-name>
+      <host>192.168.11.27</host>
+      <database>AAADM</database>
+      <username>AAAUser</username>
+      <password>apc888</password>
+      <sql>INSERT INTO dbo.TWFE_Futures_Tick(ExTime, SymbolId, ForBuyVol, ForSellVol, DealVol, ForBuyPrice, ForSellPrice, DealPrice) VALUES('{0}', '{1}', {2}, {3}, {4}, {5}, {6}, {7})</sql>
+    </symbol>
+  </tick-data>
+  <pv-data>
+    <symbol>
+      <symbol-id>TWFE_TFHTE</symbol-id>
+      <dll>AAA.Database.dll</dll>
+      <class-name>AAA.Database.MSSqlDatabase</class-name>
+      <host>192.168.11.27</host>
+      <database>AAADM</database>
+      <username>AAAUser</username>
+      <password>apc888</password>
+      <sql>INSERT INTO dbo.TWFE_Futures_M_VolAtPrice(ExTime, SymbolId, Price, DealVol, DealTick) VALUES('{0}', '{1}', {2}, {3}, {4})</sql>
+    </symbol>
+  </pv-data>  
+</config>
