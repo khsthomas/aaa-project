@@ -56,8 +56,8 @@
       <end-time>13:45</end-time>
       <application>Excel.exe</application>
       <topic>TSDDE</topic>
-      <items>R3C2,R3C3,R3C4,R3C5,R3C6,R3C6</items>
-      <item-names>Open,High,Low,Close,Volume,Volume</item-names>
+      <items>R9C17,R8C19,R3C6,R9C18,R8C18,R3C5</items>
+      <item-names>FBV,FSV,DV,FBP,FSP,DP</item-names>
       <items-cal>0,0,0,0,-,0</items-cal>
       <identify-field>R3C6</identify-field>
     </real-time>
@@ -88,8 +88,8 @@
       <end-time>13:45</end-time>
       <application>Excel.exe</application>
       <topic>TSDDE</topic>
-      <items>R4C2,R4C3,R4C4,R4C5,R4C6,R4C6</items>
-      <item-names>Open,High,Low,Close,Volume,Volume</item-names>
+      <items>R9C21,R8C23,R4C6,R9C22,R8C22,R4C5</items>
+      <item-names>FBV,FSV,DV,FBP,FSP,DP</item-names>
       <items-cal>0,0,0,0,-,0</items-cal>
       <identify-field>R4C6</identify-field>
     </real-time>

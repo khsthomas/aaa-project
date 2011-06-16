@@ -49,13 +49,13 @@ namespace AAA.AGS.DataStore.Writer
                     if (tickInfo_qd.SymbolId != _strSymbolId)
                         continue;
 
-                    _dicDatabase[tickInfo_qd.SymbolId].ExecuteUpdate(_dicSQL[tickInfo_qd.SymbolId], new object[] {  tickInfo_qd.LastUpdateTime + "," +
-                                                                                                                    tickInfo_qd.SymbolId + "," +
-                                                                                                                    tickInfo_qd.Items[0] + "," +
-                                                                                                                    tickInfo_qd.Items[1] + "," +
-                                                                                                                    tickInfo_qd.Items[2] + "," +
-                                                                                                                    tickInfo_qd.Items[3] + "," +
-                                                                                                                    tickInfo_qd.Items[4] + "," +
+                    _dicDatabase[tickInfo_qd.SymbolId].ExecuteUpdate(_dicSQL[tickInfo_qd.SymbolId], new object[] {  tickInfo_qd.LastUpdateTime,
+                                                                                                                    tickInfo_qd.SymbolId,
+                                                                                                                    tickInfo_qd.Items[0],
+                                                                                                                    tickInfo_qd.Items[1],
+                                                                                                                    tickInfo_qd.Items[2],
+                                                                                                                    tickInfo_qd.Items[3],
+                                                                                                                    tickInfo_qd.Items[4],
                                                                                                                     tickInfo_qd.Items[5]});
 
 
