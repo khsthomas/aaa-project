@@ -37,9 +37,10 @@
             this.btnDisplay = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.txtSymbolId = new System.Windows.Forms.TextBox();
-            this.cpExcel = new AAA.TeeChart.TeeChartPanel();
-            this.cpText = new AAA.TeeChart.TeeChartPanel();
             this.cpDatabase = new AAA.TeeChart.TeeChartPanel();
+            this.cpText = new AAA.TeeChart.TeeChartPanel();
+            this.cpExcel = new AAA.TeeChart.TeeChartPanel();
+            this.signalPane = new AAA.TeeChart.SignalLightPane();
             this.pnlConfig.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -68,6 +69,7 @@
             this.btnConfig.TabIndex = 7;
             this.btnConfig.Text = "指標";
             this.btnConfig.UseVisualStyleBackColor = true;
+            this.btnConfig.Visible = false;
             // 
             // label3
             // 
@@ -77,7 +79,6 @@
             this.label3.Size = new System.Drawing.Size(29, 12);
             this.label3.TabIndex = 6;
             this.label3.Text = "來源";
-            this.label3.Visible = false;
             // 
             // cboFileType
             // 
@@ -86,7 +87,6 @@
             this.cboFileType.Name = "cboFileType";
             this.cboFileType.Size = new System.Drawing.Size(96, 20);
             this.cboFileType.TabIndex = 5;
-            this.cboFileType.Visible = false;
             // 
             // cboPeriod
             // 
@@ -132,19 +132,19 @@
             this.txtSymbolId.TabIndex = 0;
             this.txtSymbolId.Text = "1101";
             // 
-            // cpExcel
+            // cpDatabase
             // 
-            this.cpExcel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.cpDatabase.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.cpExcel.DateTimeFormat = null;
-            this.cpExcel.Location = new System.Drawing.Point(12, 60);
-            this.cpExcel.Name = "cpExcel";
-            this.cpExcel.PointPerPage = 0;
-            this.cpExcel.ShowHorizontalCursor = false;
-            this.cpExcel.ShowVerticalCursor = false;
-            this.cpExcel.Size = new System.Drawing.Size(694, 451);
-            this.cpExcel.TabIndex = 2;
+            this.cpDatabase.DateTimeFormat = null;
+            this.cpDatabase.Location = new System.Drawing.Point(12, 60);
+            this.cpDatabase.Name = "cpDatabase";
+            this.cpDatabase.PointPerPage = 0;
+            this.cpDatabase.ShowHorizontalCursor = false;
+            this.cpDatabase.ShowVerticalCursor = false;
+            this.cpDatabase.Size = new System.Drawing.Size(694, 424);
+            this.cpDatabase.TabIndex = 4;
             // 
             // cpText
             // 
@@ -157,28 +157,45 @@
             this.cpText.PointPerPage = 0;
             this.cpText.ShowHorizontalCursor = false;
             this.cpText.ShowVerticalCursor = false;
-            this.cpText.Size = new System.Drawing.Size(694, 451);
+            this.cpText.Size = new System.Drawing.Size(694, 424);
             this.cpText.TabIndex = 3;
             // 
-            // cpDatabase
+            // cpExcel
             // 
-            this.cpDatabase.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.cpExcel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.cpDatabase.DateTimeFormat = null;
-            this.cpDatabase.Location = new System.Drawing.Point(12, 60);
-            this.cpDatabase.Name = "cpDatabase";
-            this.cpDatabase.PointPerPage = 0;
-            this.cpDatabase.ShowHorizontalCursor = false;
-            this.cpDatabase.ShowVerticalCursor = false;
-            this.cpDatabase.Size = new System.Drawing.Size(694, 451);
-            this.cpDatabase.TabIndex = 4;
+            this.cpExcel.DateTimeFormat = null;
+            this.cpExcel.Location = new System.Drawing.Point(12, 60);
+            this.cpExcel.Name = "cpExcel";
+            this.cpExcel.PointPerPage = 0;
+            this.cpExcel.ShowHorizontalCursor = false;
+            this.cpExcel.ShowVerticalCursor = false;
+            this.cpExcel.Size = new System.Drawing.Size(694, 424);
+            this.cpExcel.TabIndex = 2;
+            // 
+            // signalPane
+            // 
+            this.signalPane.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.signalPane.BorderColor = System.Drawing.Color.Black;
+            this.signalPane.BottomPad = 3;
+            this.signalPane.DisplayKey = null;
+            this.signalPane.LeftPad = 3;
+            this.signalPane.Location = new System.Drawing.Point(12, 490);
+            this.signalPane.Name = "signalPane";
+            this.signalPane.Pad = 3;
+            this.signalPane.RightPad = 3;
+            this.signalPane.Size = new System.Drawing.Size(694, 31);
+            this.signalPane.TabIndex = 5;
+            this.signalPane.TopPad = 3;
             // 
             // KBarForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(718, 523);
+            this.ClientSize = new System.Drawing.Size(718, 533);
+            this.Controls.Add(this.signalPane);
             this.Controls.Add(this.cpDatabase);
             this.Controls.Add(this.cpText);
             this.Controls.Add(this.cpExcel);
@@ -205,6 +222,7 @@
         private AAA.TeeChart.TeeChartPanel cpText;
         private AAA.TeeChart.TeeChartPanel cpDatabase;
         private System.Windows.Forms.Button btnConfig;
+        private AAA.TeeChart.SignalLightPane signalPane;
 
     }
 }
