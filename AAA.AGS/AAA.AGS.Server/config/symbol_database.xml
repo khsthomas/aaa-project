@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <config>
-  <host>localhost</host>
+  <host>192.168.11.27</host>
   <database>AAADM</database>
   <username>AAAUser</username>
   <password>apc888</password>
