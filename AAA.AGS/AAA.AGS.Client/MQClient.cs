@@ -19,6 +19,7 @@ namespace AAA.AGS.Client
     {	
         private SynchronizationContext _syncContext = null;
         DuplexChannelFactory<IQuoteService> _factory;
+        private SendOrPostCallback _tickCallback;
         IQuoteService _proxy;        
         private DataHandler _dataHandler;
 
@@ -47,7 +48,7 @@ namespace AAA.AGS.Client
                  binding,
                  new EndpointAddress(address)
             );
-
+            _tickCallback = delegate(object state) { _dataHandler((QuoteData)state); };
             _proxy = _factory.CreateChannel();
 		}
 
