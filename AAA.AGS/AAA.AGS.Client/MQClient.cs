@@ -15,7 +15,7 @@ using AAA.AGS.Service;
 
 namespace AAA.AGS.Client
 {
-    public class MQClient
+    public class MQClient : IQuoteServiceCallBack
     {	
         private SynchronizationContext _syncContext = null;
         DuplexChannelFactory<IQuoteService> _factory;
