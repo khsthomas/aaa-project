@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.pChartContainer1 = new AAA.Chart.Component.PChartContainer();
             this.gbSetting = new System.Windows.Forms.GroupBox();
+            this.lblUpdateCnt = new System.Windows.Forms.Label();
             this.txtSymbolId = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.btnDemo = new System.Windows.Forms.Button();
@@ -39,8 +39,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.txtStartDate = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.tUpdate = new System.Windows.Forms.Timer(this.components);
-            this.lblUpdateCnt = new System.Windows.Forms.Label();
             this.gbSetting.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -51,6 +49,7 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.pChartContainer1.Location = new System.Drawing.Point(-2, 53);
             this.pChartContainer1.Name = "pChartContainer1";
+            this.pChartContainer1.SelectMode = 0;
             this.pChartContainer1.SetScale = 1F;
             this.pChartContainer1.Size = new System.Drawing.Size(754, 328);
             this.pChartContainer1.TabIndex = 2;
@@ -77,6 +76,15 @@
             this.gbSetting.TabStop = false;
             this.gbSetting.Text = "設定";
             // 
+            // lblUpdateCnt
+            // 
+            this.lblUpdateCnt.AutoSize = true;
+            this.lblUpdateCnt.Location = new System.Drawing.Point(704, 21);
+            this.lblUpdateCnt.Name = "lblUpdateCnt";
+            this.lblUpdateCnt.Size = new System.Drawing.Size(11, 12);
+            this.lblUpdateCnt.TabIndex = 8;
+            this.lblUpdateCnt.Text = "0";
+            // 
             // txtSymbolId
             // 
             this.txtSymbolId.Location = new System.Drawing.Point(70, 16);
@@ -102,6 +110,7 @@
             this.btnDemo.TabIndex = 5;
             this.btnDemo.Text = "功能展示";
             this.btnDemo.UseVisualStyleBackColor = true;
+            this.btnDemo.Visible = false;
             this.btnDemo.Click += new System.EventHandler(this.btnDemo_Click);
             // 
             // btnStartDB
@@ -146,20 +155,6 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "開始時間";
             // 
-            // tUpdate
-            // 
-            this.tUpdate.Interval = 60000;
-            this.tUpdate.Tick += new System.EventHandler(this.tUpdate_Tick);
-            // 
-            // lblUpdateCnt
-            // 
-            this.lblUpdateCnt.AutoSize = true;
-            this.lblUpdateCnt.Location = new System.Drawing.Point(704, 21);
-            this.lblUpdateCnt.Name = "lblUpdateCnt";
-            this.lblUpdateCnt.Size = new System.Drawing.Size(11, 12);
-            this.lblUpdateCnt.TabIndex = 8;
-            this.lblUpdateCnt.Text = "0";
-            // 
             // ProfileChartForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -188,7 +183,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txtSymbolId;
-        private System.Windows.Forms.Timer tUpdate;
         private System.Windows.Forms.Label lblUpdateCnt;
     }
 }

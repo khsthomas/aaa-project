@@ -10,6 +10,8 @@ using AAA.Meta.Chart.Data;
 using AAA.Meta.Quote.Data;
 using System.IO;
 using AAA.AGS.Client;
+using AAA.DesignPattern.Observer;
+using AAA.Meta.Quote;
 
 namespace AAA.TradingSystem
 {
@@ -21,8 +23,9 @@ namespace AAA.TradingSystem
         private SymbolBaseInfo _symInfo = new SymbolBaseInfo();
         private ProfileMgr _ProfileMgr;
         private float _fLastPrice;
-        private Client _client;
+        private MQClient _client;
         private Dictionary<string, string> _queryProperties = new Dictionary<string, string>();
+        private bool _isProcess = false;
 
         public ProfileChartForm()
         {
@@ -36,7 +39,8 @@ namespace AAA.TradingSystem
             {
                 txtEndDate.Text = DateTime.Now.ToString("yyyy/MM/dd");
                 txtStartDate.Text = DateTime.Now.AddDays(-10).ToString("yyyy/MM/dd");
-                _client = new Client(); 
+                _client = new MQClient();
+                _client.DataHandler += new DataHandler(OnDataReceive);
                 _strLastDate = "";
             }
             catch (Exception ex)
@@ -165,17 +169,29 @@ namespace AAA.TradingSystem
             }
         }
 
-        private void tUpdate_Tick(object sender, EventArgs e)
+        private void OnDataReceive(QuoteData quoteData)
         {
-            lblUpdateCnt.Text = DateTime.Now.ToString("yyyy:MM:dd HH:mm:ss");
-            _ProfileMgr = new ProfileMgr(_symInfo);
-            _ProfileMgr.PriceInterval = _fPriceInterval;
-            _ProfileMgr.TimePeriod = _iTimePeriod * 60;
-            GetData();
+            try
+            {
+                _ProfileMgr.AddData(DateTime.Parse(quoteData.LastUpdateTime),
+                                                           float.Parse(quoteData.Items[3]),
+                                                           int.Parse(quoteData.Items[4]));
+                pChartContainer1.AddProfileMgr(_ProfileMgr);
+                pChartContainer1.SetLastPos();
+                pChartContainer1.SetLastDayProfileVT();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "," + ex.StackTrace);
+            }
         }
 
         private void btnStartDB_Click(object sender, EventArgs e)
         {
+            if (_isProcess)
+                return;
+            btnStartDB.Enabled = false;
+            _isProcess = true;
             _symInfo.Start = "08:45" + ":00";
             _symInfo.End = "13:44" + ":59";
             _symInfo.SymbolId = "TWFE_TFHTX";
@@ -184,11 +200,10 @@ namespace AAA.TradingSystem
             _ProfileMgr.TimePeriod = _iTimePeriod * 60;
             QueryHistoryData();
             pChartContainer1.AddProfileMgr(_ProfileMgr);
-            tUpdate.Enabled = true;
-        }
-
-        private void GetData() {
-            QueryHistoryData();
+            pChartContainer1.SetLastDayProfileVT();
+            pChartContainer1.SetLastPos();
+            btnStartDB.Enabled = true;
+            _isProcess = false;
         }
 
         private void QueryHistoryData()
@@ -205,7 +220,7 @@ namespace AAA.TradingSystem
                 dtStartDate = DateTime.Parse(txtStartDate.Text);
                 dtEndDate = DateTime.Parse(txtStartDate.Text);
                 dtQueryEndDate = DateTime.Parse(txtEndDate.Text);
-                while (dtStartDate < dtQueryEndDate)
+                while (dtStartDate <= dtQueryEndDate)
                 {
                     if (_queryProperties.ContainsKey("SymbolId"))
                     {
@@ -222,7 +237,9 @@ namespace AAA.TradingSystem
                         _queryProperties.Add("StartDateTime", dtStartDate.ToString("yyyy/MM/dd"));
                         _queryProperties.Add("EndDateTime", ((dtEndDate.AddDays(5) < dtQueryEndDate) ? dtEndDate.AddDays(5) : dtQueryEndDate).ToString("yyyy/MM/dd"));
                     }
-
+                    //if (_queryProperties["EndDateTime"] == DateTime.Now.ToString("yyyy/MM/dd")) {
+                    //    _queryProperties["EndDateTime"] = DateTime.Now.AddDays(-1).ToString("yyyy/MM/dd");
+                    //}
 
                     dicPriceVolume = _client.GetPriceVolume(_queryProperties);
                     // Group PriceVolume into Profile
@@ -256,7 +273,7 @@ namespace AAA.TradingSystem
 
         private void ProfileChartForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            tUpdate.Enabled = false;
+            _client.Unregister();
             _client.Disconnect();
         }
     }

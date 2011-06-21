@@ -38,6 +38,7 @@
             this.filterStock = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.MenuItemJournal = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.SuspendLayout();
@@ -58,7 +59,8 @@
             // 
             this.tradingMonitor.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuItemKBar,
-            this.menuItemMarketProfile});
+            this.menuItemMarketProfile,
+            this.MenuItemJournal});
             this.tradingMonitor.Name = "tradingMonitor";
             this.tradingMonitor.Size = new System.Drawing.Size(41, 20);
             this.tradingMonitor.Text = "行情";
@@ -90,7 +92,7 @@
             // dataGetter
             // 
             this.dataGetter.Name = "dataGetter";
-            this.dataGetter.Size = new System.Drawing.Size(118, 22);
+            this.dataGetter.Size = new System.Drawing.Size(152, 22);
             this.dataGetter.Text = "資料抓取";
             this.dataGetter.Click += new System.EventHandler(this.dataGetter_Click);
             // 
@@ -106,7 +108,7 @@
             // filterStock
             // 
             this.filterStock.Name = "filterStock";
-            this.filterStock.Size = new System.Drawing.Size(118, 22);
+            this.filterStock.Size = new System.Drawing.Size(152, 22);
             this.filterStock.Text = "條件選股";
             this.filterStock.Click += new System.EventHandler(this.filterStock_Click);
             // 
@@ -125,6 +127,13 @@
             this.toolStripStatusLabel.Name = "toolStripStatusLabel";
             this.toolStripStatusLabel.Size = new System.Drawing.Size(32, 17);
             this.toolStripStatusLabel.Text = "Status";
+            // 
+            // MenuItemJournal
+            // 
+            this.MenuItemJournal.Name = "MenuItemJournal";
+            this.MenuItemJournal.Size = new System.Drawing.Size(152, 22);
+            this.MenuItemJournal.Text = "Trading Journal";
+            this.MenuItemJournal.Click += new System.EventHandler(this.MenuItemJournal_Click);
             // 
             // MainForm
             // 
@@ -158,6 +167,7 @@
         private System.Windows.Forms.ToolStripMenuItem dataGetter;
         private System.Windows.Forms.ToolStripMenuItem stockCriteria;
         private System.Windows.Forms.ToolStripMenuItem filterStock;
+        private System.Windows.Forms.ToolStripMenuItem MenuItemJournal;
     }
 }
 

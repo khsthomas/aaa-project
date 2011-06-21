@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{392340CD-E5D3-4448-80D4-26F17F440978}</ProjectGuid>
     <OutputType>WinExe</OutputType>
@@ -33,6 +33,7 @@
   <ItemGroup>
     <Reference Include="AAA.AGS.Client, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="AAA.AGS.Service, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="AAA.Base.Image, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="AAA.Base.Util, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="AAA.Chart, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="AAA.Database, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86" />
@@ -87,6 +88,12 @@
     <Compile Include="DataGetterForm.Designer.cs">
       <DependentUpon>DataGetterForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="DiaryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DiaryForm.Designer.cs">
+      <DependentUpon>DiaryForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="IndicatorSetup.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -126,24 +133,35 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="ActivityEvent.resx">
       <DependentUpon>ActivityEvent.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="ActivityGrid.resx">
       <DependentUpon>ActivityGrid.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="DataGetterForm.resx">
       <DependentUpon>DataGetterForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DiaryForm.resx">
+      <DependentUpon>DiaryForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="IndicatorSetup.resx">
       <DependentUpon>IndicatorSetup.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="StockQueryForm.resx">
       <DependentUpon>StockQueryForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="KBarForm.resx">
       <DependentUpon>KBarForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="ProfileChartForm.resx">
       <DependentUpon>ProfileChartForm.cs</DependentUpon>
@@ -156,6 +174,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="TradingJournal.resx">
       <DependentUpon>TradingJournal.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
