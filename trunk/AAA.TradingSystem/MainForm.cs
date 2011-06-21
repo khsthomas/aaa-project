@@ -92,5 +92,20 @@ namespace AAA.TradingSystem
                 MessageBox.Show(ex.Message + "," + ex.StackTrace);
             }
         }
+
+        private void MenuItemJournal_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                DiaryForm childForm = new DiaryForm();
+                MaxChildForm(childForm);
+                childForm.MdiParent = this;
+                childForm.Show();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "," + ex.StackTrace);
+            }
+        }
     }
 }
