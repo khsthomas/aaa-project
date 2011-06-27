@@ -87,7 +87,6 @@
             this.dataManagement.Name = "dataManagement";
             this.dataManagement.Size = new System.Drawing.Size(41, 20);
             this.dataManagement.Text = "資料";
-            this.dataManagement.Visible = false;
             // 
             // dataGetter
             // 
