@@ -43,6 +43,12 @@ namespace AAA.AGS.DataStore.Writer
             {
                 lstTick = _dataProvider.GetLastTicks();
 
+                if (lstTick == null)
+                {                    
+                    Thread.Sleep(DEFAULT_INTERVAL);
+                    continue;
+                }
+
                 foreach (TickInfo tickInfo in lstTick)
                 {
                     QuoteData tickInfo_qd = (QuoteData)tickInfo.Data;

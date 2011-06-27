@@ -18,6 +18,7 @@ namespace AAA.AGS.DataStore
         private ThreadSafeDictionary<string, ThreadSafeList<PriceVolumeData>> _dicSymbolPriceVolumeQueue;
         private ThreadSafeList<string> _lstAvailableSymbolId;        
         private Thread _threadTickToMinute;
+        private Thread _threadTickToMinutePV;
         private bool _isStart;
 
         private DataTable()
@@ -29,7 +30,66 @@ namespace AAA.AGS.DataStore
             _lstAvailableSymbolId = new ThreadSafeList<string>();
             _isStart = true;
             _threadTickToMinute = new Thread(new ThreadStart(TickToMinute));
-            _threadTickToMinute.Start();            
+            _threadTickToMinute.Start();
+            _threadTickToMinutePV = new Thread(new ThreadStart(TickToMinutePV));
+            _threadTickToMinutePV.Start();            
+        }
+
+        private void TickToMinutePV()
+        {
+            DateTime dtNow;
+            DateTime dtPrevious = DateTime.MinValue;
+            string strSymbolId;
+            ThreadSafeList<TickInfo> lstTickQueue;
+            PriceVolumeData priceVolumeData;
+            long lStartTicks;
+            long lEndTicks;
+
+            while (_isStart)
+            {
+                dtNow = DateTime.Now;
+                if (dtNow.Minute == dtPrevious.Minute)
+                {
+                    Thread.Sleep(DEFAULT_INTERVAL);
+                    continue;
+                }
+
+                lEndTicks = dtNow.Ticks;
+                lStartTicks = dtNow.AddSeconds(-60).Ticks;
+
+                for (int i = 0; i < _lstAvailableSymbolId.Count; i++)
+                {
+                    try
+                    {
+                        strSymbolId = _lstAvailableSymbolId[i];
+                        lstTickQueue = _dicSymbolQueue[strSymbolId];
+                        priceVolumeData = new PriceVolumeData();
+                        priceVolumeData.SymbolId = strSymbolId;
+                        priceVolumeData.PVDateTime = dtNow;
+                        if (_dicSymbolPriceVolumeQueue.ContainsKey(strSymbolId) == false)
+                        {
+                            _dicSymbolPriceVolumeQueue.Add(strSymbolId, new ThreadSafeList<PriceVolumeData>());
+                        }
+
+                        _dicSymbolPriceVolumeQueue[strSymbolId].Add(priceVolumeData);
+
+                        for (int j = lstTickQueue.Count - 1; j >= 0; j--)
+                        {
+                            if (lstTickQueue[j].Ticks >= lEndTicks)
+                                continue;
+
+                            priceVolumeData.AddData(float.Parse(((QuoteData)lstTickQueue[j].Data).Items[5].ToString()),
+                                                    float.Parse(((QuoteData)lstTickQueue[j].Data).Items[2].ToString()));
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message + "," + ex.StackTrace);
+                    }
+                }
+                dtPrevious = dtNow;
+            }
+
         }
 
         private void TickToMinute()
@@ -50,92 +110,100 @@ namespace AAA.AGS.DataStore
             long lEndTicks;
 
             while (_isStart)
-            {                
-                dtNow = DateTime.Now;
-                if(dtNow.Minute == dtPrevious.Minute)
+            {
+                try
                 {
-                    Thread.Sleep(DEFAULT_INTERVAL);
-                    continue;
-                }
-                
-                lEndTicks = dtNow.Ticks;
-                lStartTicks = dtNow.AddSeconds(-60).Ticks;
-
-                for (int i = 0; i < _lstAvailableSymbolId.Count; i++)
-                {
-                    try
+                    dtNow = DateTime.Now;
+                    if (dtNow.Minute == dtPrevious.Minute)
                     {
-                        strSymbolId = _lstAvailableSymbolId[i];
-                        lstTickQueue = _dicSymbolQueue[strSymbolId];
-                        priceVolumeData = new PriceVolumeData();
-                        priceVolumeData.SymbolId = strSymbolId;
-                        priceVolumeData.PVDateTime = dtNow;
-                        if (_dicSymbolPriceVolumeQueue.ContainsKey(strSymbolId) == false)
-                        {
-                            _dicSymbolPriceVolumeQueue.Add(strSymbolId, new ThreadSafeList<PriceVolumeData>());
-                        }
-                        
-                        _dicSymbolPriceVolumeQueue[strSymbolId].Add(priceVolumeData);
-                        
-                        fVolume = 0;
-                        fOpen = float.NaN;
-                        fClose = float.NaN;
-                        fHigh = -float.MaxValue;
-                        fLow = float.MaxValue;
+                        Thread.Sleep(DEFAULT_INTERVAL);
+                        continue;
+                    }
 
-                        for (int j = lstTickQueue.Count - 1; j >= 0; j--)
-                        {
-                            if (lstTickQueue[j].Ticks >= lEndTicks)
-                                continue;
+                    lEndTicks = dtNow.Ticks;
+                    lStartTicks = dtNow.AddSeconds(-60).Ticks;
 
-                            if (lstTickQueue[j].Ticks < lStartTicks)
+                    for (int i = 0; i < _lstAvailableSymbolId.Count; i++)
+                    {
+                        try
+                        {
+                            strSymbolId = _lstAvailableSymbolId[i];
+                            lstTickQueue = _dicSymbolQueue[strSymbolId];
+                            /*
+                                                    priceVolumeData = new PriceVolumeData();
+                                                    priceVolumeData.SymbolId = strSymbolId;
+                                                    priceVolumeData.PVDateTime = dtNow;
+                                                    if (_dicSymbolPriceVolumeQueue.ContainsKey(strSymbolId) == false)
+                                                    {
+                                                        _dicSymbolPriceVolumeQueue.Add(strSymbolId, new ThreadSafeList<PriceVolumeData>());
+                                                    }
+                        
+                                                    _dicSymbolPriceVolumeQueue[strSymbolId].Add(priceVolumeData);
+                            */
+                            fVolume = 0;
+                            fOpen = float.NaN;
+                            fClose = float.NaN;
+                            fHigh = -float.MaxValue;
+                            fLow = float.MaxValue;
+
+                            for (int j = lstTickQueue.Count - 1; j >= 0; j--)
                             {
-                                if (_dicSymbolMinuteQueue.ContainsKey(strSymbolId) == false)
+                                if (lstTickQueue[j].Ticks > lEndTicks)
+                                    continue;
+
+                                if (lstTickQueue[j].Ticks < lStartTicks)
                                 {
-                                    lstMinuteQueue = new ThreadSafeList<BarData>();
-                                    _dicSymbolMinuteQueue.Add(strSymbolId, lstMinuteQueue);
+                                    if (_dicSymbolMinuteQueue.ContainsKey(strSymbolId) == false)
+                                    {
+                                        lstMinuteQueue = new ThreadSafeList<BarData>();
+                                        _dicSymbolMinuteQueue.Add(strSymbolId, lstMinuteQueue);
+                                    }
+                                    else
+                                    {
+                                        lstMinuteQueue = _dicSymbolMinuteQueue[strSymbolId];
+                                    }
+
+                                    barData = new BarData();
+                                    barData.SymbolId = strSymbolId;
+                                    barData.BarCompression = AAA.Meta.Quote.BarCompressionEnum.Min_1;
+                                    barData.BarDateTime = dtNow;
+                                    barData.Open = fOpen;
+                                    barData.High = fHigh;
+                                    barData.Low = fLow;
+                                    barData.Close = fClose;
+                                    barData.Volume = fVolume;
+                                    lstMinuteQueue.Add(barData);
+
+                                    fOpen = float.NaN;
+                                    fHigh = float.Parse(((QuoteData)lstTickQueue[j].Data).Items[5].ToString());
+                                    fLow = float.Parse(((QuoteData)lstTickQueue[j].Data).Items[5].ToString());
+                                    fClose = float.NaN;
+                                    break;
                                 }
-                                else
-                                {
-                                    lstMinuteQueue = _dicSymbolMinuteQueue[strSymbolId];
-                                }
+                                /*
+                                                            priceVolumeData.AddData(float.Parse(((QuoteData)lstTickQueue[j].Data).Items[5].ToString()),
+                                                                                    float.Parse(((QuoteData)lstTickQueue[j].Data).Items[2].ToString()));
+                                */
+                                fVolume += float.Parse(((QuoteData)lstTickQueue[j].Data).Items[2].ToString());
+                                if (float.IsNaN(fClose))
+                                    fClose = float.Parse(((QuoteData)lstTickQueue[j].Data).Items[5].ToString());
 
-                                barData = new BarData();
-                                barData.SymbolId = strSymbolId;
-                                barData.BarCompression = AAA.Meta.Quote.BarCompressionEnum.Min_1;
-                                barData.BarDateTime = dtNow;
-                                barData.Open = fOpen;
-                                barData.High = fHigh;
-                                barData.Low = fLow;
-                                barData.Close = fClose;
-                                barData.Volume = fVolume;
-                                lstMinuteQueue.Add(barData);
-
-                                fOpen = float.NaN;
-                                fHigh = float.Parse(((QuoteData)lstTickQueue[j].Data).Items[5].ToString());
-                                fLow = float.Parse(((QuoteData)lstTickQueue[j].Data).Items[5].ToString());
-                                fClose = float.Parse(((QuoteData)lstTickQueue[j].Data).Items[5].ToString());
-                                break;
-                            }
-
-                            priceVolumeData.AddData(float.Parse(((QuoteData)lstTickQueue[j].Data).Items[5].ToString()),
-                                                    float.Parse(((QuoteData)lstTickQueue[j].Data).Items[2].ToString()));
-
-                            fVolume += float.Parse(((QuoteData)lstTickQueue[j].Data).Items[2].ToString());
-                            if (float.IsNaN(fOpen))
                                 fOpen = float.Parse(((QuoteData)lstTickQueue[j].Data).Items[5].ToString());
-            
-                            fClose = float.Parse(((QuoteData)lstTickQueue[j].Data).Items[5].ToString());
-                            fHigh = Math.Max(fHigh, float.Parse(((QuoteData)lstTickQueue[j].Data).Items[5].ToString()));
-                            fLow = Math.Min(fLow, float.Parse(((QuoteData)lstTickQueue[j].Data).Items[5].ToString()));
+                                fHigh = Math.Max(fHigh, fClose);
+                                fLow = Math.Min(fLow, fClose);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.Message + "," + ex.StackTrace);
                         }
                     }
-                    catch(Exception ex)
-                    {
-                        Console.WriteLine(ex.Message + "," + ex.StackTrace);
-                    }
+                    dtPrevious = dtNow;
                 }
-                dtPrevious = dtNow;
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message + "," + ex.StackTrace);
+                }
             }
         }
 
