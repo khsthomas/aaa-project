@@ -9,6 +9,29 @@ namespace AAA.TradingSystem.Loader
 {
     public class TWSEStockDailyLoader : AbstractLoader
     {
+        private string ParseDate(string strSource)
+        {
+            //100年06月24日大盤統計資訊            
+            string strDate = "";
+            int iStart;
+            int iEnd;
+            try
+            {
+                iStart = strSource.IndexOf('>') + 1;
+                iEnd = strSource.LastIndexOf('<');
+                strSource = strSource.Substring(iStart, iEnd - iStart);
+                strDate = (1911 + int.Parse(strSource.Substring(0, strSource.IndexOf("年")))).ToString();
+                strDate += "/" + strSource.Substring(strSource.IndexOf("年") + 1, strSource.IndexOf("月") - (strSource.IndexOf("年") + 1));
+                strDate += "/" + strSource.Substring(strSource.IndexOf("月") + 1, strSource.IndexOf("日") - (strSource.IndexOf("月") + 1));
+                strDate += " 00:00:00";
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message + "," + ex.StackTrace);
+            }
+            return strDate;
+        }
+
         public override bool Load(AAA.ResultSet.IResultSet resultSet)
         {
             string strInsertSQL = "INSERT INTO TWSE_Stock_D_Deal(OpenPrice, HighestPrice, LowestPrice, ClosePrice, Vol, Amt, PreClose, ExDate, SymbolId) VALUES({0}, {1}, {2}, {3}, {4}, {5}, {6}, '{7}', '{8}')";
@@ -82,7 +105,14 @@ namespace AAA.TradingSystem.Loader
                         continue;
                     }
 
-                    strValues[7] = GetLoaderParam("ExDate"); //DateTime
+                    if (resultSet.GetAttribute("Date") == null)
+                        strValues[7] = GetLoaderParam("ExDate"); //DateTime
+                    else
+                        strValues[7] = ParseDate(resultSet.GetAttribute("Date"));
+
+                    if (strValues[7] != GetLoaderParam("ExDate"))
+                        break;
+
                     strValues[8] = resultSet.Cells(0).ToString().Trim(); //SymbolId
 
                     if(Database.ExecuteUpdate(strInsertSQL, strValues) != 1)

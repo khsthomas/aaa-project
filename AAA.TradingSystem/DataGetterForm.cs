@@ -24,7 +24,7 @@ namespace AAA.TradingSystem
         }
 
         private void btnDownload_Click(object sender, EventArgs e)
-        {
+        {            
             IniReader iniReader = new IniReader(Environment.CurrentDirectory + @"\cfg\download.ini");
             IResultSet resultSet;
             HtmlPageDownloader pageDownloader = new HtmlPageDownloader();
@@ -32,6 +32,7 @@ namespace AAA.TradingSystem
             string[] strUrls;
             string[] strFilenames;
             string[] strWebs;
+            string[] strWebDescs;
             string strHost;
             string strDatabase;
             string strUsername;
@@ -55,10 +56,13 @@ namespace AAA.TradingSystem
             string strParsedUrl = "";
             List<DateTime> lstDate;
             List<DateTime> lstParameter;
+            string[] strFields;
+            List<string> lstField;
 
             try
             {
-
+                btnDownload.Enabled = false;
+                lstMessage.Items.Clear();
                 calendarDatabase = new AccessDatabase();
                 strHost = iniReader.GetParam("Calendar", "Host");
                 strDatabase = iniReader.GetParam("Calendar", "Database");
@@ -83,11 +87,15 @@ namespace AAA.TradingSystem
                 }
 
                 strWebs = iniReader.GetParam("Web", "WebList").Split(',');
+                strWebDescs = iniReader.GetParam("Web", "WebListDesc").Split(',');                
+
                 pageDownloader.Path = Environment.CurrentDirectory;
                 pageDownloader.FileType = FileTypeEnum.asc;
 
                 for (int i = 0; i < strWebs.Length; i++)
                 {
+                    Application.DoEvents();
+                    lstMessage.Items.Add("開始下載:" + strWebDescs[i]);
                     strUrls = iniReader.GetParam(strWebs[i], "URLList").Split(',');
                     strFilenames = iniReader.GetParam(strWebs[i], "Filename").Split(',');
 
@@ -105,6 +113,13 @@ namespace AAA.TradingSystem
                     isParseTable = (iniReader.GetParam(strWebs[i], "ParseTable") == "true");
                     isGenerateResultSet = (iniReader.GetParam(strWebs[i], "GenerateResultSet") == "true");
                     isHistricalData = (iniReader.GetParam(strWebs[i], "HistoricalData") == "true");
+
+                    if (iniReader.GetParam(strWebs[i], "FieldList") != null)
+                    {
+                        strFields = iniReader.GetParam(strWebs[i], "FieldList").Split(',');
+                        for(int iField = 0; iField < strFields.Length; iField++)
+                            fileParser.AddParseField(strFields[iField], iniReader.GetParam(strWebs[i], strFields[iField] + "XPath"));
+                    }
 
                     lstParameter = new List<DateTime>();
                     if(isHistricalData)
@@ -134,22 +149,32 @@ namespace AAA.TradingSystem
 
                         foreach(DateTime dateTime in lstParameter)
                         {
+                            lstMessage.Items.Add("開始抓取" + dateTime.ToString("yyyy/MM/dd") + "資料");
                             strParsedUrl = strUrl;
                             while (strParsedUrl.IndexOf('{') > -1)
                                 strParsedUrl = pageDownloader.ParseParameter(strParsedUrl, dateTime);
                             pageDownloader.DownloadPage(strParsedUrl, strFilenames[j]);
                             
-                            if(isParseTable)
+                            if (isParseTable)
+                            {
                                 fileParser.ParseTable(Environment.CurrentDirectory + @"\" + strFilenames[j],
                                                       Environment.CurrentDirectory + @"\" + strFilenames[j].Replace("html", "csv"),
                                                       strXPath,
                                                       ",", iSkipRow, iColumnCount);
+                            }
                             if (isGenerateResultSet)
                             {
-                                if(isHistricalData)
-                                    loader.AddLoaderParam("ExDate", dateTime.ToString("yyyy/MM/dd") + " 00:00:00");
+
                                 resultSet = new TextResultSet(Environment.CurrentDirectory + @"\" + strFilenames[j].Replace("html", "csv"), false);
+                                resultSet.IsDoEvents = true;
                                 resultSet.Load();
+
+                                lstField = fileParser.GetFieldList();
+                                foreach(string strFieldName in lstField)
+                                    resultSet.SetAttribute(strFieldName, fileParser.GetFieldValue(strFieldName));
+
+                                if (isHistricalData)
+                                    loader.AddLoaderParam("ExDate", dateTime.ToString("yyyy/MM/dd") + " 00:00:00");
                                 loader.Load(resultSet);
                             }
                             else
@@ -157,6 +182,7 @@ namespace AAA.TradingSystem
                                 loader.AddLoaderParam("File", Environment.CurrentDirectory + @"\" + strFilenames[j]);
                                 loader.Load(null);
                             }
+                            lstMessage.Items.Add(dateTime.ToString("yyyy/MM/dd") + "資料抓取完畢");
                         }
                     }                                       
                     database.Close();
@@ -169,10 +195,11 @@ namespace AAA.TradingSystem
                 strPassword = iniReader.GetParam("Calculate", "Password");
 
                 strDatabase = strDatabase.StartsWith(".") ? Environment.CurrentDirectory + strDatabase.Substring(1) : strDatabase;
-
+                lstMessage.Items.Add("開始更新技術指標");
                 CalculateIndicator calculateIndicator = new CalculateIndicator(strHost, strDatabase, strUsername, strPassword);
                 calculateIndicator.Calculate();
                 MessageBox.Show("資料下載成功!");
+                btnDownload.Enabled = true;
             }
             catch (Exception ex)
             {
