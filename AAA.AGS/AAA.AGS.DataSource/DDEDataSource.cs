@@ -129,7 +129,7 @@ namespace AAA.AGS.DataSource
                         if (Connect() == false)
                             return;
 
-                    if ((DateTime.Now.ToString("HH:mm").CompareTo(_strStartTime)  < 0) || (DateTime.Now.ToString("HH:mm").CompareTo(_strEndTime) > 0))
+                    if ((DateTime.Now.ToString("HH:mm").CompareTo(_strStartTime)  <= 0) || (DateTime.Now.ToString("HH:mm").CompareTo(_strEndTime) > 0))
                     {
 //                        Thread.Sleep(_iRequestInterval);
 //                        continue;
