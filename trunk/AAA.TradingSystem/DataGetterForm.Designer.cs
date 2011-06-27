@@ -32,6 +32,7 @@
             this.btnDownload = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.lstMessage = new System.Windows.Forms.ListBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -75,11 +76,21 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "股票代碼";
             // 
+            // lstMessage
+            // 
+            this.lstMessage.FormattingEnabled = true;
+            this.lstMessage.ItemHeight = 12;
+            this.lstMessage.Location = new System.Drawing.Point(12, 114);
+            this.lstMessage.Name = "lstMessage";
+            this.lstMessage.Size = new System.Drawing.Size(500, 232);
+            this.lstMessage.TabIndex = 1;
+            // 
             // DataGetterForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(524, 365);
+            this.Controls.Add(this.lstMessage);
             this.Controls.Add(this.groupBox1);
             this.Name = "DataGetterForm";
             this.Text = "DataGetterForm";
@@ -95,5 +106,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btnDownload;
+        private System.Windows.Forms.ListBox lstMessage;
     }
 }

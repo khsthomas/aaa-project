@@ -29,6 +29,7 @@ namespace AAA.TradingSystem
         private string _strUsername;
         private string _strPassword;
         private string _strSQLStatement;
+        private string _strDatabaseType;
         private int _iSkipLine;
 
         // Chart Panel
@@ -74,6 +75,7 @@ namespace AAA.TradingSystem
                 _strDatabase = iniReader.GetParam("DataSource", "Database");
                 _strUsername = iniReader.GetParam("DataSource", "Username");
                 _strPassword = iniReader.GetParam("DataSource", "Password");
+                _strDatabaseType = iniReader.GetParam("DataSource", "DatabaseType");
                 _strSQLStatement = iniReader.GetParam("DatabaseDataSource", "DS1SQL");
 
                 _iSkipLine = int.Parse(iniReader.GetParam("DataSource", "SkipLine"));
@@ -308,7 +310,8 @@ namespace AAA.TradingSystem
                         break;
 
                     case "Database":
-                        resultSet = new DatabaseResultSet(DatabaseTypeEnum.MSSql, _strHost, _strDatabase, _strUsername, _strPassword);
+                        resultSet = new DatabaseResultSet((DatabaseTypeEnum)Enum.Parse(typeof(DatabaseTypeEnum), _strDatabaseType), _strHost, _strDatabase, _strUsername, _strPassword);
+                        //resultSet = new DatabaseResultSet(DatabaseTypeEnum.MSSql, _strHost, _strDatabase, _strUsername, _strPassword);
                         //resultSet = new DatabaseResultSet(DatabaseTypeEnum.Access, _strHost, _strDatabase, _strUsername, _strPassword);
                         ((DatabaseResultSet)resultSet).SQLStatement = string.Format(_strSQLStatement, txtSymbolId.Text);
                         break;

@@ -5,6 +5,7 @@ using System.Text;
 using AAA.Database;
 using System.Data.Common;
 using AAA.Finacial.Indicator;
+using System.Windows.Forms;
 
 namespace AAA.TradingSystem.Indicator
 {
@@ -89,6 +90,7 @@ namespace AAA.TradingSystem.Indicator
 
                     while (dataReader.Read())
                     {
+                        Application.DoEvents();
                         lstOpen.Add(float.Parse(dataReader["OpenPrice"].ToString()));
                         lstHigh.Add(float.Parse(dataReader["HighestPrice"].ToString()));
                         lstLow.Add(float.Parse(dataReader["LowestPrice"].ToString()));

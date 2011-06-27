@@ -14,6 +14,19 @@ namespace AAA.TradingSystem
         public ActivityGrid()
         {
             InitializeComponent();
+            InitTable();
+        }
+
+        private void InitTable()
+        {
+            try
+            {
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "," + ex.StackTrace);
+            }
         }
     }
 }

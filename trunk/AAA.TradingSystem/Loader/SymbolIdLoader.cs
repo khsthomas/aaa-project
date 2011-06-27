@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using AAA.DataLoader;
 using AAA.ResultSet;
+using System.Windows.Forms;
 
 namespace AAA.TradingSystem.Loader
 {
@@ -22,7 +23,8 @@ namespace AAA.TradingSystem.Loader
                 strValues = new string[4];
 
                 while(resultSet.Read())
-                {                    
+                {
+                    Application.DoEvents();
                     if((strValues[3] = resultSet.Cells(4).ToString().Trim()) == "")
                         continue; 
                     
