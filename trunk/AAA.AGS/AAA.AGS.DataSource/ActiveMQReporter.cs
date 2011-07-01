@@ -39,6 +39,7 @@ namespace AAA.AGS.DataSource
                 message.Message = tickInfo;
                 _mqClient.QueueName = tickInfo.Id;
                 _mqClient.Send(message);
+                AAA.AGS.DataStore.DataTable.Instance().SetSymbolSnapshot(tickInfo.Id, tickInfo);
                 return true;
             }
             catch (Exception ex)

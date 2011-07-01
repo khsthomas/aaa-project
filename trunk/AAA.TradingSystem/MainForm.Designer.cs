@@ -132,7 +132,7 @@
             this.MenuItemJournal.Name = "MenuItemJournal";
             this.MenuItemJournal.Size = new System.Drawing.Size(152, 22);
             this.MenuItemJournal.Text = "Trading Journal";
-            this.MenuItemJournal.Click += new System.EventHandler(this.MenuItemJournal_Click);
+           
             // 
             // MainForm
             // 
