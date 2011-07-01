@@ -74,6 +74,7 @@ namespace AAA.AGS.Client
 		public List<string> AvailableSymbolList()
 		{
             return _qcDataClient.GetAvailableSymbolId();
+            //return _proxy.AvailableSymbolList();
 		}
 
         public void SetWatchingList(string[] strSymbols)

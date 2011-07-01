@@ -127,7 +127,7 @@ namespace AAA.AGS.DataStore
                     {
                         try
                         {
-                            strSymbolId = _lstAvailableSymbolId[i];
+                             strSymbolId = _lstAvailableSymbolId[i];
                             lstTickQueue = _dicSymbolQueue[strSymbolId];
                             /*
                                                     priceVolumeData = new PriceVolumeData();
