@@ -87,6 +87,12 @@
     <Compile Include="DataGetterForm.Designer.cs">
       <DependentUpon>DataGetterForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="DiaryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DiaryForm.Designer.cs">
+      <DependentUpon>DiaryForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="IndicatorSetup.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -132,6 +138,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DataGetterForm.resx">
       <DependentUpon>DataGetterForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DiaryForm.resx">
+      <DependentUpon>DiaryForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="IndicatorSetup.resx">
       <DependentUpon>IndicatorSetup.cs</DependentUpon>
