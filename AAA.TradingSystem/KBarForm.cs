@@ -111,6 +111,9 @@ namespace AAA.TradingSystem
                 {
                     _cpChartPanels[iDataSource].PointPerPage = int.Parse(iniReader.GetParam("DataSource", "PointPerPage"));
                     _cpChartPanels[iDataSource].ShowVerticalCursor = true;
+                    _cpChartPanels[iDataSource].IsShowInfoTable = false;
+                    _cpChartPanels[iDataSource].IsShowScale = false;
+                    _cpChartPanels[iDataSource].OnPositionChange += new PositionChangeEventHandler(OnPositionChange);
                     // Add Series Field
                     strValues = iniReader.GetParam(_strDataSourceNames[iDataSource], "SymbolList").Split(',');
 
@@ -216,6 +219,23 @@ namespace AAA.TradingSystem
                     }
                 }
                 MessageSubject.Instance().Subject.Attach(this);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "," + ex.StackTrace);
+            }
+        }
+
+        private void OnPositionChange(Dictionary<string, string> dicValue)
+        {
+            try
+            {
+
+                txtOpen.Text = dicValue["開盤價"];
+                txtHigh.Text = dicValue["最高價"];
+                txtLow.Text = dicValue["最低價"];
+                txtClose.Text = dicValue["收盤價"];
+ 
             }
             catch (Exception ex)
             {
@@ -331,6 +351,9 @@ namespace AAA.TradingSystem
                     MessageBox.Show(resultSet.ErrorMessage);
                     return;
                 }
+
+                if(cboFileType.Text == "Database")
+                    txtSymbolName.Text = resultSet.GetColumn("SymbolName")[0].ToString();
 
                 for (int i = 0; i < resultSet.ColumnCount; i++)
                 {

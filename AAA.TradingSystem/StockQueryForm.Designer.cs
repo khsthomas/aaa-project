@@ -191,7 +191,9 @@
             // 
             this.cboVolume.FormattingEnabled = true;
             this.cboVolume.Items.AddRange(new object[] {
-            "量大",
+            "量大於前一天",
+            "量大於前三天",
+            "量大於前五天",
             "量縮"});
             this.cboVolume.Location = new System.Drawing.Point(82, 78);
             this.cboVolume.Name = "cboVolume";

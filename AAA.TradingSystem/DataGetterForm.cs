@@ -150,6 +150,7 @@ namespace AAA.TradingSystem
                         foreach(DateTime dateTime in lstParameter)
                         {
                             lstMessage.Items.Add("開始抓取" + dateTime.ToString("yyyy/MM/dd") + "資料");
+                            lstMessage.Update();
                             strParsedUrl = strUrl;
                             while (strParsedUrl.IndexOf('{') > -1)
                                 strParsedUrl = pageDownloader.ParseParameter(strParsedUrl, dateTime);
@@ -183,6 +184,7 @@ namespace AAA.TradingSystem
                                 loader.Load(null);
                             }
                             lstMessage.Items.Add(dateTime.ToString("yyyy/MM/dd") + "資料抓取完畢");
+                            lstMessage.Update();
                         }
                     }                                       
                     database.Close();
@@ -196,6 +198,7 @@ namespace AAA.TradingSystem
 
                 strDatabase = strDatabase.StartsWith(".") ? Environment.CurrentDirectory + strDatabase.Substring(1) : strDatabase;
                 lstMessage.Items.Add("開始更新技術指標");
+                lstMessage.Update();
                 CalculateIndicator calculateIndicator = new CalculateIndicator(strHost, strDatabase, strUsername, strPassword);
                 calculateIndicator.Calculate();
                 MessageBox.Show("資料下載成功!");
