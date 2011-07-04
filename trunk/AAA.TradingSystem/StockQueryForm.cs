@@ -84,8 +84,14 @@ namespace AAA.TradingSystem
                 {
                     switch (cboVolume.Text)
                     {
-                        case "量大":
-                            strSQL += "   AND a.Vol > b.Index14 AND a.Vol > b.Index15 AND a.Vol > b.Index16 AND a.Vol > b.Index17 ";
+                        case "量大於前一天":
+                            strSQL += "   AND a.Vol > b.Index14 ";
+                            break;
+                        case "量大於前三天":
+                            strSQL += "   AND a.Vol > b.Index15 ";
+                            break;
+                        case "量大於前五天":
+                            strSQL += "   AND a.Vol > b.Index17 ";
                             break;
                         case "量縮":
                             strSQL += "   AND a.Vol < b.Index14 ";
@@ -128,6 +134,9 @@ namespace AAA.TradingSystem
                 {
                     tblStock.Rows.Add(new object[] {dataReader["SymbolId"].ToString(), dataReader["SymbolName"].ToString() });
                 }
+
+                if (tblStock.Rows.Count == 0)
+                    MessageBox.Show("沒有符合條件的股票");
             }
             catch (Exception ex)
             {

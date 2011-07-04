@@ -20,6 +20,7 @@ namespace AAA.QuoteClient
         private Dictionary<string, long> _dicMinuteLastTicks;
         private Dictionary<string, long> _dicPVLastTicks;
         private List<string> _lstAvailableSymbolId;
+        private Dictionary<string, List<BarData>> _dicMinuteData;
         private TickDataHandler OnTickReceive;        
 
         public DefaultQuoteClient()
@@ -67,17 +68,42 @@ namespace AAA.QuoteClient
         {
             string strPreviousMinute = "1900/01/01 00:00";
             string strMinute = "";
+            List<TickInfo> lstTickData;
+            List<IMessage> lstMessage;
+            List<BarData> lstBarData;
+            BarData barData;
+            TickInfo tickInfo;
 
             while (true)
             {
                 try
                 {
-                    // Group Minute Data
-                    if (strPreviousMinute != strMinute)
+                    foreach (string strSymbolId in _lstAvailableSymbolId)
                     {
+                        lstTickData = new List<TickInfo>();
+                        lstMessage = _dicMQClient[strSymbolId].Peek("Ticks > " + (_dicMinuteLastTicks[strSymbolId] - TimeSpan.TicksPerMinute * 2));
+                        lstBarData = _dicMinuteData[strSymbolId];
 
+                        barData = lstBarData[lstBarData.Count - 1];
+
+                        strPreviousMinute = (new DateTime(((TickInfo)lstMessage[0].Message).Ticks)).ToString("yyyy/MM/dd HH:mm");
+                        foreach (IMessage message in lstMessage)
+                        {
+                            tickInfo = (TickInfo)message.Message;
+                            
+
+                            _dicLastTicks[strSymbolId] = message.Id;
+                            if (((TickInfo)message.Message).Id != strSymbolId)
+                                continue;
+                            lstTickData.Add((TickInfo)message.Message);
+                        }
+
+                        // Group Minute Data
+                        if (strPreviousMinute != strMinute)
+                        {
+
+                        }
                     }
-
                     Thread.Sleep(DEFAULT_INTERVAL);
                 }
                 catch (Exception ex)

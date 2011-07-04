@@ -32,13 +32,13 @@
             this.tradingMonitor = new System.Windows.Forms.ToolStripMenuItem();
             this.menuItemKBar = new System.Windows.Forms.ToolStripMenuItem();
             this.menuItemMarketProfile = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuItemJournal = new System.Windows.Forms.ToolStripMenuItem();
             this.dataManagement = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGetter = new System.Windows.Forms.ToolStripMenuItem();
             this.stockCriteria = new System.Windows.Forms.ToolStripMenuItem();
             this.filterStock = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.MenuItemJournal = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.SuspendLayout();
@@ -68,17 +68,24 @@
             // menuItemKBar
             // 
             this.menuItemKBar.Name = "menuItemKBar";
-            this.menuItemKBar.Size = new System.Drawing.Size(137, 22);
+            this.menuItemKBar.Size = new System.Drawing.Size(144, 22);
             this.menuItemKBar.Text = "K線圖";
             this.menuItemKBar.Click += new System.EventHandler(this.menuItemKBar_Click);
             // 
             // menuItemMarketProfile
             // 
             this.menuItemMarketProfile.Name = "menuItemMarketProfile";
-            this.menuItemMarketProfile.Size = new System.Drawing.Size(137, 22);
+            this.menuItemMarketProfile.Size = new System.Drawing.Size(144, 22);
             this.menuItemMarketProfile.Text = "Market Profile";
             this.menuItemMarketProfile.Visible = false;
             this.menuItemMarketProfile.Click += new System.EventHandler(this.menuItemMarketProfile_Click);
+            // 
+            // MenuItemJournal
+            // 
+            this.MenuItemJournal.Name = "MenuItemJournal";
+            this.MenuItemJournal.Size = new System.Drawing.Size(144, 22);
+            this.MenuItemJournal.Text = "Trading Journal";
+            this.MenuItemJournal.Visible = false;
             // 
             // dataManagement
             // 
@@ -91,7 +98,7 @@
             // dataGetter
             // 
             this.dataGetter.Name = "dataGetter";
-            this.dataGetter.Size = new System.Drawing.Size(152, 22);
+            this.dataGetter.Size = new System.Drawing.Size(118, 22);
             this.dataGetter.Text = "資料抓取";
             this.dataGetter.Click += new System.EventHandler(this.dataGetter_Click);
             // 
@@ -102,12 +109,11 @@
             this.stockCriteria.Name = "stockCriteria";
             this.stockCriteria.Size = new System.Drawing.Size(41, 20);
             this.stockCriteria.Text = "選股";
-            this.stockCriteria.Visible = false;
             // 
             // filterStock
             // 
             this.filterStock.Name = "filterStock";
-            this.filterStock.Size = new System.Drawing.Size(152, 22);
+            this.filterStock.Size = new System.Drawing.Size(118, 22);
             this.filterStock.Text = "條件選股";
             this.filterStock.Click += new System.EventHandler(this.filterStock_Click);
             // 
@@ -126,13 +132,6 @@
             this.toolStripStatusLabel.Name = "toolStripStatusLabel";
             this.toolStripStatusLabel.Size = new System.Drawing.Size(32, 17);
             this.toolStripStatusLabel.Text = "Status";
-            // 
-            // MenuItemJournal
-            // 
-            this.MenuItemJournal.Name = "MenuItemJournal";
-            this.MenuItemJournal.Size = new System.Drawing.Size(152, 22);
-            this.MenuItemJournal.Text = "Trading Journal";
-           
             // 
             // MainForm
             // 
