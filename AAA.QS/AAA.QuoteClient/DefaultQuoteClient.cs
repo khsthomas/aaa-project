@@ -95,14 +95,17 @@ namespace AAA.QuoteClient
                             _dicLastTicks[strSymbolId] = message.Id;
                             if (((TickInfo)message.Message).Id != strSymbolId)
                                 continue;
-                            lstTickData.Add((TickInfo)message.Message);
+                            strMinute = (new DateTime(tickInfo.Ticks)).ToString("yyyy/MM/dd HH:mm");
+
+                            // Group Minute Data
+                            if (strPreviousMinute != strMinute)
+                            {
+
+                            }
+                            
+
                         }
 
-                        // Group Minute Data
-                        if (strPreviousMinute != strMinute)
-                        {
-
-                        }
                     }
                     Thread.Sleep(DEFAULT_INTERVAL);
                 }
