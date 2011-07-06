@@ -37,6 +37,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.btnCompare = new System.Windows.Forms.Button();
             this.txtTollence = new System.Windows.Forms.TextBox();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.picGoldenImage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picCompare)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picResult)).BeginInit();
@@ -118,11 +119,22 @@
             this.txtTollence.TabIndex = 8;
             this.txtTollence.Text = "50";
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(503, 388);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 9;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1072, 423);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.txtTollence);
             this.Controls.Add(this.btnCompare);
             this.Controls.Add(this.label2);
@@ -153,6 +165,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btnCompare;
         private System.Windows.Forms.TextBox txtTollence;
+        private System.Windows.Forms.Button button1;
     }
 }
 
