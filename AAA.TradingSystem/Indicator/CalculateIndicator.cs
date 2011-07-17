@@ -23,6 +23,27 @@ namespace AAA.TradingSystem.Indicator
             _databaseUpdate.Open(strDatabase, strUsername, strPassword);
         }
 
+        private string ParseDate(string strSource)
+        {
+            string strDate = "1900/01/01 00:00:00";
+            string[] strValues;
+
+            try
+            {
+                strValues = strSource.Substring(0, strSource.IndexOf(' ')).Split('/');
+                strDate = strValues[0] + "/" +
+                    (strValues[1].Length == 1 ? "0" + strValues[1] : strValues[1]) + "/" +
+                    (strValues[2].Length == 1 ? "0" + strValues[2] : strValues[2]);
+
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message + "," + ex.StackTrace);
+            }
+
+            return strDate;
+        }
+
         public void Calculate()
         {
             DbDataReader dataReader;
@@ -56,8 +77,8 @@ namespace AAA.TradingSystem.Indicator
             float fPreVol2;
             float fPreVol3;
             float fPreVol5;
-            string strInsertSQL = "INSERT INTO TWSE_Stock_D_Index(Index1, Index2, Index3, Index4, Index5, Index6, Index7, Index8, Index9, Index10, Index11, Index12, Index13, Index14, Index15, Index16, Index17, ExDate, SymbolId) VALUES({0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11}, {12},  {13}, {14}, {15}, {16},'{17}', '{18}')";
-            string strUpdateSQL = "UPDATE TWSE_Stock_D_Index SET Index1 = {0}, Index2 = {1}, Index3 = {2}, Index4 = {3}, Index5 = {4}, Index6 = {5}, Index7 = {6}, Index8 = {7}, Index9 = {8}, Index10 = {9}, Index11 = {10}, Index12 = {11}, Index13 = {12}, Index14 = {13}, Index15 = {14}, Index16 = {15}, Index17 = {16}  WHERE ExDate = '{17}' AND SymbolId = '{18}'";
+            string strInsertSQL = "INSERT INTO TWSE_Stock_D_Index(Index1, Index2, Index3, Index4, Index5, Index6, Index7, Index8, Index9, Index10, Index11, Index12, Index13, Index14, Index15, Index16, Index17, ExDate, SymbolId) VALUES({0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11}, {12},  {13}, {14}, {15}, {16}, CDATE('{17}'), '{18}')";
+            string strUpdateSQL = "UPDATE TWSE_Stock_D_Index SET Index1 = {0}, Index2 = {1}, Index3 = {2}, Index4 = {3}, Index5 = {4}, Index6 = {5}, Index7 = {6}, Index8 = {7}, Index9 = {8}, Index10 = {9}, Index11 = {10}, Index12 = {11}, Index13 = {12}, Index14 = {13}, Index15 = {14}, Index16 = {15}, Index17 = {16}  WHERE ExDate = CDATE('{17}') AND SymbolId = '{18}'";
 
             try
             {
@@ -140,7 +161,7 @@ namespace AAA.TradingSystem.Indicator
                                                 fPreVol2,
                                                 fPreVol3,
                                                 fPreVol5,
-                                                dataReader["ExDate"].ToString().Substring(0, 10),
+                                                ParseDate(dataReader["ExDate"].ToString()),
                                                 lstSymbolId[i]};
 
                         hasNull = false;
@@ -156,7 +177,7 @@ namespace AAA.TradingSystem.Indicator
 
                         if (_databaseUpdate.ExecuteUpdate(strInsertSQL, oValues) != 1)
                             if (_databaseUpdate.ExecuteUpdate(strUpdateSQL, oValues) != 1)
-                                ;
+                                MessageBox.Show(_databaseUpdate.ErrorMessage);
 
                     }
                     dataReader.Close();

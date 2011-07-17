@@ -58,8 +58,11 @@ namespace AAA.TradingSystem
             string[] strChartNames;
             string[] strChartSizes;
             string strSeriesName;            
-            Color cControlLineColor;            
+            Color cControlLineColor;
 
+
+            pnlInfo.Visible = true;
+            pnlDataSource.Visible = false;
             _cpChartPanels = new TeeChartPanel[] {cpExcel, cpText, cpDatabase};            
 
             try
@@ -77,6 +80,7 @@ namespace AAA.TradingSystem
                 _strPassword = iniReader.GetParam("DataSource", "Password");
                 _strDatabaseType = iniReader.GetParam("DataSource", "DatabaseType");
                 _strSQLStatement = iniReader.GetParam("DatabaseDataSource", "DS1SQL");
+                cboPeriod.Text = iniReader.GetParam("DataSource", "DefaultPeriod");
 
                 _iSkipLine = int.Parse(iniReader.GetParam("DataSource", "SkipLine"));
 
@@ -114,6 +118,8 @@ namespace AAA.TradingSystem
                     _cpChartPanels[iDataSource].IsShowInfoTable = false;
                     _cpChartPanels[iDataSource].IsShowScale = false;
                     _cpChartPanels[iDataSource].OnPositionChange += new PositionChangeEventHandler(OnPositionChange);
+                    
+                    _cpChartPanels[iDataSource].DateTimeFormat = _lstDateTimeFormat[cboPeriod.Items.IndexOf(cboPeriod.Text)];
                     // Add Series Field
                     strValues = iniReader.GetParam(_strDataSourceNames[iDataSource], "SymbolList").Split(',');
 
@@ -146,7 +152,8 @@ namespace AAA.TradingSystem
                             for (int j = 0; j < strTitleNames.Length; j++)
                                 lstTitleName.Add(strTitleNames[j]);
                             _cpChartPanels[iDataSource].AddExtraInfo(strValues[i], lstFieldName, lstTitleName);                                                        
-                            
+
+/*
                             if(iniReader.GetParam(_strDataSourceNames[iDataSource], "DisplayLight") != null)
                             {                                
                                 signalPane.DisplayKey = iniReader.GetParam(_strDataSourceNames[iDataSource], "DisplayLight");
@@ -165,6 +172,7 @@ namespace AAA.TradingSystem
                                     }
                                 }
                             }
+ */ 
                             //_cpChartPanels[iDataSource].AddSeriesField(strValues[i], lstFieldName);
                             
                         }
@@ -230,16 +238,19 @@ namespace AAA.TradingSystem
         {
             try
             {
-
+                txtDateTime.Text = dicValue["時間"];
                 txtOpen.Text = dicValue["開盤價"];
                 txtHigh.Text = dicValue["最高價"];
                 txtLow.Text = dicValue["最低價"];
                 txtClose.Text = dicValue["收盤價"];
- 
+                txtVolume.Text = dicValue["成交量"];
+                txtDiff.Text = float.Parse(dicValue["漲跌"]).ToString("0.00");
+                txtDiffRatio.Text = float.Parse(dicValue["漲跌%"]).ToString("0.00");
+//                txtClose.Text = dicValue["收盤價"];
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + "," + ex.StackTrace);
+                //MessageBox.Show(ex.Message + "," + ex.StackTrace);
             }
         }
 
@@ -377,6 +388,9 @@ namespace AAA.TradingSystem
                 for (int i = 0; i < _cpChartPanels.Length; i++)
                 {
                     _cpChartPanels[i].Visible = (i == cboFileType.SelectedIndex);
+
+                    if (_cpChartPanels[i].Visible)
+                        _cpChartPanels[i].ScrollToMax(); 
                 }
             }
             catch (Exception ex)
@@ -407,5 +421,7 @@ namespace AAA.TradingSystem
         }
 
         #endregion
+
+
     }
 }

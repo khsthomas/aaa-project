@@ -27,6 +27,7 @@ namespace AAA.TradingSystem
             cboVolume.SelectedIndex = 0;
             cboBCValue.SelectedIndex = 0;
 
+            txtDate.Text = DateTime.Now.ToString("yyyy/MM/dd");
             tblStock.Columns.Add("SymbolId", "股票代碼");
             tblStock.Columns.Add("SymbolName", "股票名稱");            
         }

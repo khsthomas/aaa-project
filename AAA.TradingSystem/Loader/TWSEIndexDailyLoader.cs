@@ -58,7 +58,7 @@ namespace AAA.TradingSystem.Loader
                     }
                     try
                     {
-                        strValues[4] = (float.Parse(resultSet.Cells(2).ToString().Trim()) / 1000.0).ToString(); //Vol
+                        strValues[4] = resultSet.Cells(2).ToString().Trim(); //Vol
                     }
                     catch
                     {
