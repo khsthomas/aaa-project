@@ -26,6 +26,7 @@ namespace AAA.TradingSystem
         private MQClient _client;
         private Dictionary<string, string> _queryProperties = new Dictionary<string, string>();
         private bool _isProcess = false;
+        private bool _FirstRun = true;
 
         public ProfileChartForm()
         {
@@ -191,18 +192,25 @@ namespace AAA.TradingSystem
             if (_isProcess)
                 return;
             btnStartDB.Enabled = false;
+            btnStopUpdate.Enabled = true;
+            timer1.Enabled = false;
             _isProcess = true;
-            _symInfo.Start = "08:45" + ":00";
-            _symInfo.End = "13:44" + ":59";
+            _symInfo.Start = "08:45" + ":01";
+            _symInfo.End = "13:45" + ":00";
             _symInfo.SymbolId = "TWFE_TFHTX";
             _ProfileMgr = new ProfileMgr(_symInfo);
             _ProfileMgr.PriceInterval = _fPriceInterval;
             _ProfileMgr.TimePeriod = _iTimePeriod * 60;
             QueryHistoryData();
             pChartContainer1.AddProfileMgr(_ProfileMgr);
-            pChartContainer1.SetLastDayProfileVT();
+            if ((_FirstRun) || (pChartContainer1.GetVTChartMode() == 0))
+            {
+                pChartContainer1.SetLastDayProfileVT();
+                _FirstRun = false;
+            }
             pChartContainer1.SetLastPos();
-            btnStartDB.Enabled = true;
+            timer1.Enabled = true;
+            //btnStartDB.Enabled = true;
             _isProcess = false;
         }
 
@@ -275,6 +283,20 @@ namespace AAA.TradingSystem
         {
             _client.Unregister();
             _client.Disconnect();
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            btnStartDB_Click(sender, e);
+            lblUpdateCnt.Text = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss").ToString();
+        }
+
+        private void btnStopUpdate_Click(object sender, EventArgs e)
+        {
+            timer1.Enabled = false;
+            btnStartDB.Enabled = true;
+            btnStopUpdate.Enabled = false;
+            lblUpdateCnt.Text = "Stop";
         }
     }
 }
