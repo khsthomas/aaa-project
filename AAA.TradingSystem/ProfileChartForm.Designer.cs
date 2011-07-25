@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.pChartContainer1 = new AAA.Chart.Component.PChartContainer();
+            this.components = new System.ComponentModel.Container();
             this.gbSetting = new System.Windows.Forms.GroupBox();
             this.lblUpdateCnt = new System.Windows.Forms.Label();
             this.txtSymbolId = new System.Windows.Forms.TextBox();
@@ -39,27 +39,17 @@
             this.label2 = new System.Windows.Forms.Label();
             this.txtStartDate = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.pChartContainer1 = new AAA.Chart.Component.PChartContainer();
+            this.btnStopUpdate = new System.Windows.Forms.Button();
             this.gbSetting.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // pChartContainer1
-            // 
-            this.pChartContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.pChartContainer1.Location = new System.Drawing.Point(-2, 53);
-            this.pChartContainer1.Name = "pChartContainer1";
-            this.pChartContainer1.SelectMode = 0;
-            this.pChartContainer1.SetScale = 1F;
-            this.pChartContainer1.Size = new System.Drawing.Size(754, 328);
-            this.pChartContainer1.TabIndex = 2;
-            this.pChartContainer1.XStartIndex = 0;
-            this.pChartContainer1.YStartIndex = 0;
             // 
             // gbSetting
             // 
             this.gbSetting.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbSetting.Controls.Add(this.btnStopUpdate);
             this.gbSetting.Controls.Add(this.lblUpdateCnt);
             this.gbSetting.Controls.Add(this.txtSymbolId);
             this.gbSetting.Controls.Add(this.label3);
@@ -104,7 +94,7 @@
             // 
             // btnDemo
             // 
-            this.btnDemo.Location = new System.Drawing.Point(620, 16);
+            this.btnDemo.Location = new System.Drawing.Point(690, 16);
             this.btnDemo.Name = "btnDemo";
             this.btnDemo.Size = new System.Drawing.Size(78, 22);
             this.btnDemo.TabIndex = 5;
@@ -155,6 +145,36 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "開始時間";
             // 
+            // timer1
+            // 
+            this.timer1.Interval = 60000;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // pChartContainer1
+            // 
+            this.pChartContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.pChartContainer1.Location = new System.Drawing.Point(-2, 53);
+            this.pChartContainer1.Name = "pChartContainer1";
+            this.pChartContainer1.SelectMode = 0;
+            this.pChartContainer1.SetScale = 1F;
+            this.pChartContainer1.Size = new System.Drawing.Size(754, 328);
+            this.pChartContainer1.TabIndex = 2;
+            this.pChartContainer1.XStartIndex = 0;
+            this.pChartContainer1.YStartIndex = 0;
+            // 
+            // btnStopUpdate
+            // 
+            this.btnStopUpdate.Enabled = false;
+            this.btnStopUpdate.Location = new System.Drawing.Point(619, 16);
+            this.btnStopUpdate.Name = "btnStopUpdate";
+            this.btnStopUpdate.Size = new System.Drawing.Size(78, 22);
+            this.btnStopUpdate.TabIndex = 9;
+            this.btnStopUpdate.Text = "停止更新";
+            this.btnStopUpdate.UseVisualStyleBackColor = true;
+            this.btnStopUpdate.Click += new System.EventHandler(this.btnStopUpdate_Click);
+            // 
             // ProfileChartForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -184,5 +204,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txtSymbolId;
         private System.Windows.Forms.Label lblUpdateCnt;
+        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Button btnStopUpdate;
     }
 }
