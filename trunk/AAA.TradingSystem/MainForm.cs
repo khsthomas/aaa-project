@@ -98,6 +98,21 @@ namespace AAA.TradingSystem
             try
             {
                 DiaryForm childForm = new DiaryForm();
+                //MaxChildForm(childForm);
+                childForm.MdiParent = this;
+                childForm.Show();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "," + ex.StackTrace);
+            }
+        }
+
+        private void userDefineSymbol_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                UserDefineSymbolForm childForm = new UserDefineSymbolForm();
                 MaxChildForm(childForm);
                 childForm.MdiParent = this;
                 childForm.Show();
@@ -107,5 +122,7 @@ namespace AAA.TradingSystem
                 MessageBox.Show(ex.Message + "," + ex.StackTrace);
             }
         }
+
+
     }
 }
