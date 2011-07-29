@@ -166,6 +166,9 @@
     <EmbeddedResource Include="TradingJournal.resx">
       <DependentUpon>TradingJournal.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UserDefineSymbolForm.resx">
+      <DependentUpon>UserDefineSymbolForm.cs</DependentUpon>
+    </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
@@ -277,6 +280,12 @@
     </Compile>
     <Compile Include="TradingJournal.Designer.cs">
       <DependentUpon>TradingJournal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserDefineSymbolForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserDefineSymbolForm.Designer.cs">
+      <DependentUpon>UserDefineSymbolForm.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

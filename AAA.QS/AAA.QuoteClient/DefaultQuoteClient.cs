@@ -14,6 +14,7 @@ namespace AAA.QuoteClient
     public class DefaultQuoteClient : IQuoteClient
     {
         private const int DEFAULT_INTERVAL = 1000;
+        private const int TICKS_SCALE = 1000;
         private bool _isStart;
         private Dictionary<string, IMQClient> _dicMQClient;
         private Dictionary<string, long> _dicLastTicks;
@@ -22,7 +23,9 @@ namespace AAA.QuoteClient
         private List<string> _lstAvailableSymbolId;
         private Dictionary<string, List<BarData>> _dicMinuteData;
         private Dictionary<string, Dictionary<string, PriceVolumeData>> _dicPVData;
-        private TickDataHandler OnTickReceive;        
+        private TickDataHandler OnTickReceive;
+        private Thread _threadPVQuote;
+        private Thread _threadMinuteQuote;
 
         public DefaultQuoteClient()
         {
@@ -32,6 +35,7 @@ namespace AAA.QuoteClient
                 IMQClient mqClient;
                 string[] strSymbolIds = iniReader.GetParam("SymbolList").Split(',');
                 string strMQServer = iniReader.GetParam("MQServer");
+                long lDayStartTicks = DateTime.Parse(DateTime.Now.ToString("yyyy/MM/dd") + " 08:47:00").Ticks / TICKS_SCALE;
                 _dicLastTicks = new Dictionary<string, long>();
                 _dicMinuteLastTicks = new Dictionary<string, long>();
                 _dicPVLastTicks = new Dictionary<string, long>();
@@ -49,11 +53,18 @@ namespace AAA.QuoteClient
                     mqClient.QueueName = strSymbolId;
                     mqClient.Connect();
                     _dicMQClient.Add(strSymbolId, mqClient);
-                    _dicLastTicks.Add(strSymbolId, 0);
-                    _dicMinuteLastTicks.Add(strSymbolId, 0);
-                    _dicPVLastTicks.Add(strSymbolId, 0);
+                    _dicLastTicks.Add(strSymbolId, lDayStartTicks);
+                    _dicMinuteLastTicks.Add(strSymbolId, lDayStartTicks);
+                    _dicPVLastTicks.Add(strSymbolId, lDayStartTicks);
                     _lstAvailableSymbolId.Add(strSymbolId);
+                    _dicMinuteData.Add(strSymbolId, new List<BarData>());
                 }
+
+
+                _threadPVQuote = new Thread(GeneratePriceVolumeData);
+                _threadPVQuote.Start();
+                _threadMinuteQuote = new Thread(GenerateMinuteData);
+                _threadMinuteQuote.Start();
             }
             catch (Exception ex)
             {
@@ -64,7 +75,7 @@ namespace AAA.QuoteClient
         public void DeleteHistoryQueueData()
         {
             foreach(string strSymbolId in _lstAvailableSymbolId)
-                _dicMQClient[strSymbolId].Receive("Ticks < " + DateTime.Now.Ticks);
+                _dicMQClient[strSymbolId].Receive("Ticks < " + DateTime.Now.Ticks / TICKS_SCALE);
         }
 
         private void GeneratePriceVolumeData()
@@ -85,14 +96,18 @@ namespace AAA.QuoteClient
                     foreach (string strSymbolId in _lstAvailableSymbolId)
                     {
                         lstTickData = new List<TickInfo>();
-                        lstMessage = _dicMQClient[strSymbolId].Peek("Ticks > " + (_dicMinuteLastTicks[strSymbolId] - TimeSpan.TicksPerMinute * 2));
+                        lstMessage = _dicMQClient[strSymbolId].Peek("Ticks > " + (_dicPVLastTicks[strSymbolId] - TimeSpan.TicksPerMinute * 2 / TICKS_SCALE));
+
+                        if (_dicPVData.ContainsKey(strSymbolId) == false)
+                            _dicPVData.Add(strSymbolId, new Dictionary<string, PriceVolumeData>());
 
                         foreach (IMessage message in lstMessage)
                         {
                             tickInfo = (TickInfo)message.Message;
                             quoteData = (QuoteData)tickInfo.Data;
+                            
+                            _dicPVLastTicks[strSymbolId] = message.Id;
 
-                            _dicLastTicks[strSymbolId] = message.Id;
                             if (((TickInfo)message.Message).Id != strSymbolId)
                                 continue;
                             strMinute = (new DateTime(tickInfo.Ticks)).ToString("yyyy/MM/dd HH:mm");
@@ -100,14 +115,16 @@ namespace AAA.QuoteClient
 
                             if(dicPVData.ContainsKey(strMinute))
                             {
-                                dicPVData[strMinute].AddData(float.Parse(quoteData.Items[5]), float.Parse(quoteData.Items[2]));
+                                pvData = dicPVData[strMinute];
+                                //dicPVData[strMinute].AddData(float.Parse(quoteData.Items[5]), float.Parse(quoteData.Items[2]));
                             }
                             else
                             {
                                 pvData = new PriceVolumeData();
                                 dicPVData.Add(strMinute, pvData);
-                                pvData.AddData(float.Parse(quoteData.Items[5]), float.Parse(quoteData.Items[2]));
+                                
                             }
+                            pvData.AddData(float.Parse(quoteData.Items[5]), float.Parse(quoteData.Items[2]));
                         }
                     }
                     Thread.Sleep(DEFAULT_INTERVAL);
@@ -140,8 +157,15 @@ namespace AAA.QuoteClient
                     foreach (string strSymbolId in _lstAvailableSymbolId)
                     {
                         lstTickData = new List<TickInfo>();
-                        lstMessage = _dicMQClient[strSymbolId].Peek("Ticks > " + (_dicMinuteLastTicks[strSymbolId] - TimeSpan.TicksPerMinute * 2));
-                        lstBarData = _dicMinuteData[strSymbolId];
+                        lstMessage = _dicMQClient[strSymbolId].Peek("Ticks > " + (_dicMinuteLastTicks[strSymbolId] - TimeSpan.TicksPerMinute * 2 / TICKS_SCALE));
+
+                        if (lstMessage.Count == 0)
+                        {
+                            Thread.Sleep(DEFAULT_INTERVAL);
+                            continue;
+                        }
+
+                        lstBarData = _dicMinuteData[strSymbolId];                        
                         strPreviousMinute = (new DateTime(((TickInfo)lstMessage[0].Message).Ticks)).ToString("yyyy/MM/dd HH:mm");
 
                         for (int i = lstBarData.Count - 1; i >= 0; i--)
@@ -157,16 +181,18 @@ namespace AAA.QuoteClient
 
 
                         lstQueueBarData = new List<BarData>();
+                        barData = new BarData();
+
                         foreach (IMessage message in lstMessage)
                         {
                             tickInfo = (TickInfo)message.Message;
                             quoteData = (QuoteData)tickInfo.Data;
 
-                            _dicLastTicks[strSymbolId] = message.Id;
+                            _dicMinuteLastTicks[strSymbolId] = message.Id;
                             if (((TickInfo)message.Message).Id != strSymbolId)
                                 continue;
                             strMinute = (new DateTime(tickInfo.Ticks)).ToString("yyyy/MM/dd HH:mm");
-
+                            barData.BarDateTime = DateTime.Parse(strMinute);
                             // Group Minute Data
                             if (strPreviousMinute != strMinute)
                             {
@@ -178,7 +204,7 @@ namespace AAA.QuoteClient
                                 barData.Volume = 0;
                                 lstQueueBarData.Add(barData);                                
                             }
-
+                            
                             barData.High = Math.Max(barData.High, float.Parse(quoteData.Items[5]));
                             barData.Low = Math.Min(barData.Low, float.Parse(quoteData.Items[5]));
                             barData.Close = float.Parse(quoteData.Items[5]);

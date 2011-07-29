@@ -1,4 +1,4 @@
-﻿namespace AAA.QuoteClien.QuoteTest
+﻿namespace AAA.AGS.ClientTest
 {
     partial class Form1
     {
@@ -28,12 +28,34 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.btnQuote = new System.Windows.Forms.Button();
+            this.SuspendLayout();
+            // 
+            // btnQuote
+            // 
+            this.btnQuote.Location = new System.Drawing.Point(95, 231);
+            this.btnQuote.Name = "btnQuote";
+            this.btnQuote.Size = new System.Drawing.Size(75, 23);
+            this.btnQuote.TabIndex = 0;
+            this.btnQuote.Text = "Quote";
+            this.btnQuote.UseVisualStyleBackColor = true;
+            this.btnQuote.Click += new System.EventHandler(this.btnQuote_Click);
+            // 
+            // Form1
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(292, 266);
+            this.Controls.Add(this.btnQuote);
+            this.Name = "Form1";
             this.Text = "Form1";
+            this.ResumeLayout(false);
+
         }
 
         #endregion
+
+        private System.Windows.Forms.Button btnQuote;
     }
 }
 

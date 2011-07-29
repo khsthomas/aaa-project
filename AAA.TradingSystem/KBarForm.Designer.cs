@@ -29,16 +29,6 @@
         private void InitializeComponent()
         {
             this.pnlConfig = new System.Windows.Forms.Panel();
-            this.btnConfig = new System.Windows.Forms.Button();
-            this.txtSymbolName = new System.Windows.Forms.TextBox();
-            this.btnDisplay = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.txtSymbolId = new System.Windows.Forms.TextBox();
-            this.pnlDataSource = new System.Windows.Forms.Panel();
-            this.label3 = new System.Windows.Forms.Label();
-            this.cboFileType = new System.Windows.Forms.ComboBox();
-            this.cboPeriod = new System.Windows.Forms.ComboBox();
-            this.label2 = new System.Windows.Forms.Label();
             this.pnlInfo = new System.Windows.Forms.Panel();
             this.txtDateTime = new System.Windows.Forms.TextBox();
             this.txtDiffRatio = new System.Windows.Forms.TextBox();
@@ -54,12 +44,22 @@
             this.txtHigh = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.txtOpen = new System.Windows.Forms.TextBox();
+            this.pnlDataSource = new System.Windows.Forms.Panel();
+            this.label3 = new System.Windows.Forms.Label();
+            this.cboFileType = new System.Windows.Forms.ComboBox();
+            this.cboPeriod = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.btnConfig = new System.Windows.Forms.Button();
+            this.txtSymbolName = new System.Windows.Forms.TextBox();
+            this.btnDisplay = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.txtSymbolId = new System.Windows.Forms.TextBox();
             this.cpDatabase = new AAA.TeeChart.TeeChartPanel();
             this.cpText = new AAA.TeeChart.TeeChartPanel();
             this.cpExcel = new AAA.TeeChart.TeeChartPanel();
             this.pnlConfig.SuspendLayout();
-            this.pnlDataSource.SuspendLayout();
             this.pnlInfo.SuspendLayout();
+            this.pnlDataSource.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlConfig
@@ -77,96 +77,6 @@
             this.pnlConfig.Name = "pnlConfig";
             this.pnlConfig.Size = new System.Drawing.Size(992, 42);
             this.pnlConfig.TabIndex = 1;
-            // 
-            // btnConfig
-            // 
-            this.btnConfig.Location = new System.Drawing.Point(820, 9);
-            this.btnConfig.Name = "btnConfig";
-            this.btnConfig.Size = new System.Drawing.Size(75, 23);
-            this.btnConfig.TabIndex = 7;
-            this.btnConfig.Text = "指標";
-            this.btnConfig.UseVisualStyleBackColor = true;
-            this.btnConfig.Visible = false;
-            // 
-            // txtSymbolName
-            // 
-            this.txtSymbolName.Location = new System.Drawing.Point(146, 9);
-            this.txtSymbolName.Name = "txtSymbolName";
-            this.txtSymbolName.ReadOnly = true;
-            this.txtSymbolName.Size = new System.Drawing.Size(82, 22);
-            this.txtSymbolName.TabIndex = 16;
-            // 
-            // btnDisplay
-            // 
-            this.btnDisplay.Location = new System.Drawing.Point(901, 9);
-            this.btnDisplay.Name = "btnDisplay";
-            this.btnDisplay.Size = new System.Drawing.Size(75, 23);
-            this.btnDisplay.TabIndex = 2;
-            this.btnDisplay.Text = "顯示";
-            this.btnDisplay.UseVisualStyleBackColor = true;
-            this.btnDisplay.Click += new System.EventHandler(this.btnDisplay_Click);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 12);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(53, 12);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "商品代碼";
-            // 
-            // txtSymbolId
-            // 
-            this.txtSymbolId.Location = new System.Drawing.Point(62, 9);
-            this.txtSymbolId.Name = "txtSymbolId";
-            this.txtSymbolId.Size = new System.Drawing.Size(78, 22);
-            this.txtSymbolId.TabIndex = 0;
-            this.txtSymbolId.Text = "1101";
-            // 
-            // pnlDataSource
-            // 
-            this.pnlDataSource.Controls.Add(this.label3);
-            this.pnlDataSource.Controls.Add(this.cboFileType);
-            this.pnlDataSource.Controls.Add(this.cboPeriod);
-            this.pnlDataSource.Controls.Add(this.label2);
-            this.pnlDataSource.Location = new System.Drawing.Point(236, 6);
-            this.pnlDataSource.Name = "pnlDataSource";
-            this.pnlDataSource.Size = new System.Drawing.Size(314, 30);
-            this.pnlDataSource.TabIndex = 24;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(171, 9);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(29, 12);
-            this.label3.TabIndex = 10;
-            this.label3.Text = "來源";
-            // 
-            // cboFileType
-            // 
-            this.cboFileType.FormattingEnabled = true;
-            this.cboFileType.Location = new System.Drawing.Point(206, 5);
-            this.cboFileType.Name = "cboFileType";
-            this.cboFileType.Size = new System.Drawing.Size(96, 20);
-            this.cboFileType.TabIndex = 9;
-            // 
-            // cboPeriod
-            // 
-            this.cboPeriod.FormattingEnabled = true;
-            this.cboPeriod.Location = new System.Drawing.Point(41, 5);
-            this.cboPeriod.Name = "cboPeriod";
-            this.cboPeriod.Size = new System.Drawing.Size(121, 20);
-            this.cboPeriod.TabIndex = 8;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 6);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(29, 12);
-            this.label2.TabIndex = 7;
-            this.label2.Text = "時間";
             // 
             // pnlInfo
             // 
@@ -307,6 +217,97 @@
             this.txtOpen.Size = new System.Drawing.Size(35, 22);
             this.txtOpen.TabIndex = 16;
             // 
+            // pnlDataSource
+            // 
+            this.pnlDataSource.Controls.Add(this.label3);
+            this.pnlDataSource.Controls.Add(this.cboFileType);
+            this.pnlDataSource.Controls.Add(this.cboPeriod);
+            this.pnlDataSource.Controls.Add(this.label2);
+            this.pnlDataSource.Location = new System.Drawing.Point(236, 6);
+            this.pnlDataSource.Name = "pnlDataSource";
+            this.pnlDataSource.Size = new System.Drawing.Size(314, 30);
+            this.pnlDataSource.TabIndex = 24;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(171, 9);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(29, 12);
+            this.label3.TabIndex = 10;
+            this.label3.Text = "來源";
+            // 
+            // cboFileType
+            // 
+            this.cboFileType.FormattingEnabled = true;
+            this.cboFileType.Location = new System.Drawing.Point(206, 5);
+            this.cboFileType.Name = "cboFileType";
+            this.cboFileType.Size = new System.Drawing.Size(96, 20);
+            this.cboFileType.TabIndex = 9;
+            // 
+            // cboPeriod
+            // 
+            this.cboPeriod.FormattingEnabled = true;
+            this.cboPeriod.Location = new System.Drawing.Point(41, 5);
+            this.cboPeriod.Name = "cboPeriod";
+            this.cboPeriod.Size = new System.Drawing.Size(121, 20);
+            this.cboPeriod.TabIndex = 8;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(6, 6);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(29, 12);
+            this.label2.TabIndex = 7;
+            this.label2.Text = "時間";
+            // 
+            // btnConfig
+            // 
+            this.btnConfig.Location = new System.Drawing.Point(820, 9);
+            this.btnConfig.Name = "btnConfig";
+            this.btnConfig.Size = new System.Drawing.Size(75, 23);
+            this.btnConfig.TabIndex = 7;
+            this.btnConfig.Text = "指標";
+            this.btnConfig.UseVisualStyleBackColor = true;
+            this.btnConfig.Visible = false;
+            // 
+            // txtSymbolName
+            // 
+            this.txtSymbolName.Location = new System.Drawing.Point(146, 9);
+            this.txtSymbolName.Name = "txtSymbolName";
+            this.txtSymbolName.ReadOnly = true;
+            this.txtSymbolName.Size = new System.Drawing.Size(82, 22);
+            this.txtSymbolName.TabIndex = 16;
+            // 
+            // btnDisplay
+            // 
+            this.btnDisplay.Location = new System.Drawing.Point(901, 9);
+            this.btnDisplay.Name = "btnDisplay";
+            this.btnDisplay.Size = new System.Drawing.Size(75, 23);
+            this.btnDisplay.TabIndex = 2;
+            this.btnDisplay.Text = "顯示";
+            this.btnDisplay.UseVisualStyleBackColor = true;
+            this.btnDisplay.Click += new System.EventHandler(this.btnDisplay_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(3, 12);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(53, 12);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "商品代碼";
+            // 
+            // txtSymbolId
+            // 
+            this.txtSymbolId.Location = new System.Drawing.Point(62, 9);
+            this.txtSymbolId.Name = "txtSymbolId";
+            this.txtSymbolId.Size = new System.Drawing.Size(78, 22);
+            this.txtSymbolId.TabIndex = 0;
+            this.txtSymbolId.Text = "1101";
+            this.txtSymbolId.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtSymbolId_KeyUp);
+            // 
             // cpDatabase
             // 
             this.cpDatabase.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
@@ -368,10 +369,10 @@
             this.Text = "走勢圖";
             this.pnlConfig.ResumeLayout(false);
             this.pnlConfig.PerformLayout();
-            this.pnlDataSource.ResumeLayout(false);
-            this.pnlDataSource.PerformLayout();
             this.pnlInfo.ResumeLayout(false);
             this.pnlInfo.PerformLayout();
+            this.pnlDataSource.ResumeLayout(false);
+            this.pnlDataSource.PerformLayout();
             this.ResumeLayout(false);
 
         }

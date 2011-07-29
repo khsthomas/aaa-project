@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace AAA.QuoteClien.QuoteTest
+namespace AAA.AGS.ClientTest
 {
     static class Program
     {
@@ -15,7 +15,7 @@ namespace AAA.QuoteClien.QuoteTest
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());
+            Application.Run(new Form1());
         }
     }
 }

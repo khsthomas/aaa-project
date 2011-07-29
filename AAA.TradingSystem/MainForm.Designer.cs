@@ -37,8 +37,10 @@
             this.dataGetter = new System.Windows.Forms.ToolStripMenuItem();
             this.stockCriteria = new System.Windows.Forms.ToolStripMenuItem();
             this.filterStock = new System.Windows.Forms.ToolStripMenuItem();
+            this.userDefine = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.userDefineSymbol = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.SuspendLayout();
@@ -48,7 +50,8 @@
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tradingMonitor,
             this.dataManagement,
-            this.stockCriteria});
+            this.stockCriteria,
+            this.userDefine});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Size = new System.Drawing.Size(632, 24);
@@ -117,6 +120,14 @@
             this.filterStock.Text = "條件選股";
             this.filterStock.Click += new System.EventHandler(this.filterStock_Click);
             // 
+            // userDefine
+            // 
+            this.userDefine.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.userDefineSymbol});
+            this.userDefine.Name = "userDefine";
+            this.userDefine.Size = new System.Drawing.Size(41, 20);
+            this.userDefine.Text = "設定";
+            // 
             // statusStrip
             // 
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -132,6 +143,13 @@
             this.toolStripStatusLabel.Name = "toolStripStatusLabel";
             this.toolStripStatusLabel.Size = new System.Drawing.Size(32, 17);
             this.toolStripStatusLabel.Text = "Status";
+            // 
+            // userDefineSymbol
+            // 
+            this.userDefineSymbol.Name = "userDefineSymbol";
+            this.userDefineSymbol.Size = new System.Drawing.Size(152, 22);
+            this.userDefineSymbol.Text = "自選股設定";
+            this.userDefineSymbol.Click += new System.EventHandler(this.userDefineSymbol_Click);
             // 
             // MainForm
             // 
@@ -166,6 +184,8 @@
         private System.Windows.Forms.ToolStripMenuItem stockCriteria;
         private System.Windows.Forms.ToolStripMenuItem filterStock;
         private System.Windows.Forms.ToolStripMenuItem MenuItemJournal;
+        private System.Windows.Forms.ToolStripMenuItem userDefine;
+        private System.Windows.Forms.ToolStripMenuItem userDefineSymbol;
     }
 }
 

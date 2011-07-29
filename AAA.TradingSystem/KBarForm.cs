@@ -13,6 +13,8 @@ using AAA.TeeChart;
 using System.IO;
 using AAA.DesignPattern.Observer;
 using AAA.Meta.Chart.Data;
+using AAA.Database;
+using System.Data.Common;
 
 namespace AAA.TradingSystem
 {
@@ -37,6 +39,9 @@ namespace AAA.TradingSystem
         private string[] _strDataSourceNames = {"ExcelDataSource", "TextDataSource", "DatabaseDataSource"};
         private string[] _strChartConfigs = { "excel_chart.ini", "text_chart.ini", "database_chart.ini" };
         private string[] _strActiveCharts = { "excel_active_series.ini", "text_active_series.ini", "database_active_series.ini" };
+
+        private int _iCurrentSymbolIndex = 0;
+        private List<string> _lstSymbolId;
 
         public KBarForm()
         {
@@ -110,6 +115,21 @@ namespace AAA.TradingSystem
                     cboFileType.SelectedIndex = 2;
 
                 txtSymbolId.Text = iniReader.GetParam("DataSource", "DefaultSymbolId");
+
+                if (iniReader.GetParam("DataSource", "InitSymbolIdSQL") != null)
+                {
+                    _iCurrentSymbolIndex = 0;
+                    _lstSymbolId = new List<string>();
+
+                    IDatabase database = new AccessDatabase();
+                    database.Open(Environment.CurrentDirectory + @"\stocks.mdb", _strUsername, _strPassword);
+                    string strSQL = iniReader.GetParam("DataSource", "InitSymbolIdSQL");
+                    DbDataReader dataReader = database.ExecuteQuery(strSQL);
+                    
+
+                    while (dataReader.Read())
+                        _lstSymbolId.Add(dataReader[0].ToString());
+                }
 
                 for (int iDataSource = 0; iDataSource < _strDataSourceNames.Length; iDataSource++)
                 {
@@ -191,8 +211,13 @@ namespace AAA.TradingSystem
                     for (int i = 0; i < strChartNames.Length; i++)
                     {
                         _cpChartPanels[iDataSource].AddChart(strChartNames[i]);
-
+                        
                         strValues = iniReader.GetParam(strChartNames[i]).Split(',');
+
+                        if (iniReader.GetParam(strChartNames[i], "YAxisFormat") != null)
+                            _cpChartPanels[iDataSource].SetYAxisFormat(strChartNames[i], iniReader.GetParam(strChartNames[i], "YAxisFormat"));
+                        else
+                            _cpChartPanels[iDataSource].SetYAxisFormat(strChartNames[i], "0.00");
 
                         for (int j = 0; j < strValues.Length; j++)
                         {
@@ -226,6 +251,7 @@ namespace AAA.TradingSystem
                         }
                     }
                 }
+
                 MessageSubject.Instance().Subject.Attach(this);
             }
             catch (Exception ex)
@@ -274,6 +300,9 @@ namespace AAA.TradingSystem
 
         private void btnDisplay_Click(object sender, EventArgs e)
         {
+            if(_lstSymbolId != null)
+                _iCurrentSymbolIndex = _lstSymbolId.IndexOf(txtSymbolId.Text);
+
             Display();
         }
 
@@ -421,6 +450,28 @@ namespace AAA.TradingSystem
         }
 
         #endregion
+
+        private void txtSymbolId_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (_lstSymbolId == null)
+                return;
+
+            switch (e.KeyCode)
+            {
+                case Keys.Up:
+                    if (_iCurrentSymbolIndex > 0)
+                        _iCurrentSymbolIndex--;
+
+                    break;
+                case Keys.Down:
+                    if (_iCurrentSymbolIndex < _lstSymbolId.Count - 1)
+                        _iCurrentSymbolIndex++;
+                    break;
+            }
+
+            txtSymbolId.Text = _lstSymbolId[_iCurrentSymbolIndex];
+            Display();
+        }
 
 
     }

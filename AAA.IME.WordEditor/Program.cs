@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace AAA.QuoteClien.QuoteTest
+namespace AAA.IME.WordEditor
 {
     static class Program
     {

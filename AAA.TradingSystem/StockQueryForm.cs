@@ -42,13 +42,20 @@ namespace AAA.TradingSystem
             string strPassword;
             string strSQL;
             DbDataReader dataReader;
-
+            string[] strValues;
 
 
             try
             {
                 while (tblStock.Rows.Count > 0)
                     tblStock.Rows.RemoveAt(0);
+
+                strValues = txtDate.Text.Split('/');
+                if (strValues.Length != 3)
+                {
+                    MessageBox.Show("請輸入查詢日期, 日期格式為yyyy/mm/dd!");
+                    return;
+                }
 
                 strHost = iniReader.GetParam("DataSource", "Host");
                 strDatabase = iniReader.GetParam("DataSource", "Database");
