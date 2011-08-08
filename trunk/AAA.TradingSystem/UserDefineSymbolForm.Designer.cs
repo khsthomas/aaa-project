@@ -94,6 +94,7 @@
             this.tblSource.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.tblSource.Size = new System.Drawing.Size(181, 185);
             this.tblSource.TabIndex = 4;
+            this.tblSource.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.tblSource_CellDoubleClick);
             // 
             // tblTarget
             // 

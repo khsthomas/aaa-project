@@ -269,14 +269,36 @@ namespace AAA.TradingSystem
                 txtHigh.Text = dicValue["最高價"];
                 txtLow.Text = dicValue["最低價"];
                 txtClose.Text = dicValue["收盤價"];
-                txtVolume.Text = dicValue["成交量"];
-                txtDiff.Text = float.Parse(dicValue["漲跌"]).ToString("0.00");
-                txtDiffRatio.Text = float.Parse(dicValue["漲跌%"]).ToString("0.00");
+                try
+                {
+                    txtVolume.Text = float.Parse(dicValue["成交量"]).ToString("0");
+                }
+                catch
+                {
+                    txtVolume.Text = "";
+                }
+                try
+                {
+                    txtDiff.Text = float.Parse(dicValue["漲跌"]).ToString("0.00");
+                }
+                catch
+                {
+                    txtDiff.Text = "";
+                }
+
+                try
+                {
+                    txtDiffRatio.Text = float.Parse(dicValue["漲跌%"]).ToString("0.00");
+                }
+                catch 
+                {
+                    txtDiffRatio.Text = "";
+                }
 //                txtClose.Text = dicValue["收盤價"];
             }
             catch (Exception ex)
             {
-                //MessageBox.Show(ex.Message + "," + ex.StackTrace);
+                MessageBox.Show(ex.Message + "," + ex.StackTrace);
             }
         }
 
@@ -461,16 +483,22 @@ namespace AAA.TradingSystem
                 case Keys.Up:
                     if (_iCurrentSymbolIndex > 0)
                         _iCurrentSymbolIndex--;
-
+                    txtSymbolId.Text = _lstSymbolId[_iCurrentSymbolIndex];
+                    Display();
                     break;
                 case Keys.Down:
                     if (_iCurrentSymbolIndex < _lstSymbolId.Count - 1)
                         _iCurrentSymbolIndex++;
+                    txtSymbolId.Text = _lstSymbolId[_iCurrentSymbolIndex];
+                    Display();
                     break;
+/*
+                case Keys.Return:
+                    txtSymbolId.Text = _lstSymbolId[_iCurrentSymbolIndex];
+                    Display();
+                    break;
+ */ 
             }
-
-            txtSymbolId.Text = _lstSymbolId[_iCurrentSymbolIndex];
-            Display();
         }
 
 
