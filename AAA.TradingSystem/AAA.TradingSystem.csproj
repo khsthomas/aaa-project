@@ -99,6 +99,7 @@
     <Compile Include="IndicatorSetup.Designer.cs">
       <DependentUpon>IndicatorSetup.cs</DependentUpon>
     </Compile>
+    <Compile Include="Loader\OTCStockDailyLoader.cs" />
     <Compile Include="MessageSubject.cs" />
     <Compile Include="StockQueryForm.cs">
       <SubType>Form</SubType>

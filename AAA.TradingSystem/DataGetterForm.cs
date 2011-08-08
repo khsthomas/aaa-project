@@ -86,6 +86,9 @@ namespace AAA.TradingSystem
                     dtStartTime = dtStartTime.AddDays(1);
                 }
 
+                if (lstDate.Count == 0)
+                    lstDate.Add(dtStartTime.AddDays(-2));
+
                 strWebs = iniReader.GetParam("Web", "WebList").Split(',');
                 strWebDescs = iniReader.GetParam("Web", "WebListDesc").Split(',');                
 
@@ -207,6 +210,48 @@ namespace AAA.TradingSystem
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message + "," + ex.StackTrace);
+            }
+        }
+
+        private void btnRecalculateIndex_Click(object sender, EventArgs e)
+        {
+            string strHost;
+            string strDatabase;
+            string strUsername;
+            string strPassword;
+            IniReader iniReader = new IniReader(Environment.CurrentDirectory + @"\cfg\download.ini");
+            IDatabase database = new AccessDatabase();
+            string strSQL;
+            try
+            {
+                btnRecalculateIndex.Enabled = false;
+                strHost = iniReader.GetParam("Calculate", "Host");
+                strDatabase = iniReader.GetParam("Calculate", "Database");
+                strUsername = iniReader.GetParam("Calculate", "Username");
+                strPassword = iniReader.GetParam("Calculate", "Password");
+
+                strDatabase = strDatabase.StartsWith(".") ? Environment.CurrentDirectory + strDatabase.Substring(1) : strDatabase;
+
+                database.Open(strDatabase, strUsername, strPassword);
+                strSQL = "DELETE FROM TWSE_Stock_D_Index";
+                database.ExecuteUpdate(strSQL);
+                database.Commit();
+                database.Close();
+
+                lstMessage.Items.Add("開始重新計算技術指標");
+                lstMessage.Update();
+                CalculateIndicator calculateIndicator = new CalculateIndicator(strHost, strDatabase, strUsername, strPassword);
+                calculateIndicator.Calculate();
+                lstMessage.Items.Add("計算技術指標計算完畢");
+                lstMessage.Update();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "," + ex.StackTrace);
+            }
+            finally
+            {                
+                btnRecalculateIndex.Enabled = true;
             }
         }
     }

@@ -24,6 +24,7 @@ namespace AAA.AGS.Client
         private SendOrPostCallback _tickCallback;
         private IQuoteService _proxy;        
         private DataHandler _dataHandler;
+        private Thread _tQuote;
 
         private IQuoteClient _qcDataClient;
 
@@ -51,7 +52,7 @@ namespace AAA.AGS.Client
                  new EndpointAddress(address)
             );
             _tickCallback = delegate(object state) { _dataHandler((QuoteData)state); };
-            _proxy = _factory.CreateChannel();
+            _proxy = _factory.CreateChannel();            
 		}
 
 		#region Public Method
@@ -101,6 +102,8 @@ namespace AAA.AGS.Client
         {
             _qcDataClient.StartQuote();
             _isStart = true;
+            _tQuote = new Thread(MQQuote);
+            _tQuote.Start();
         }
 
 		public void Disconnect()
@@ -109,6 +112,7 @@ namespace AAA.AGS.Client
 			{
 				_qcDataClient.StopQuote();
                 _isStart = false;
+                _tQuote.Abort();
 			}
 			catch (Exception ex)
 			{

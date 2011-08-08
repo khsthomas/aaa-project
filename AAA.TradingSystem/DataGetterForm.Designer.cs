@@ -33,7 +33,10 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.lstMessage = new System.Windows.Forms.ListBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.btnRecalculateIndex = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -80,22 +83,44 @@
             // 
             this.lstMessage.FormattingEnabled = true;
             this.lstMessage.ItemHeight = 12;
-            this.lstMessage.Location = new System.Drawing.Point(12, 114);
+            this.lstMessage.Location = new System.Drawing.Point(12, 162);
             this.lstMessage.Name = "lstMessage";
-            this.lstMessage.Size = new System.Drawing.Size(500, 232);
+            this.lstMessage.Size = new System.Drawing.Size(500, 184);
             this.lstMessage.TabIndex = 1;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.btnRecalculateIndex);
+            this.groupBox2.Location = new System.Drawing.Point(12, 96);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(500, 53);
+            this.groupBox2.TabIndex = 2;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "指標計算";
+            // 
+            // btnRecalculateIndex
+            // 
+            this.btnRecalculateIndex.Location = new System.Drawing.Point(17, 21);
+            this.btnRecalculateIndex.Name = "btnRecalculateIndex";
+            this.btnRecalculateIndex.Size = new System.Drawing.Size(114, 23);
+            this.btnRecalculateIndex.TabIndex = 2;
+            this.btnRecalculateIndex.Text = "重新計算所有指標";
+            this.btnRecalculateIndex.UseVisualStyleBackColor = true;
+            this.btnRecalculateIndex.Click += new System.EventHandler(this.btnRecalculateIndex_Click);
             // 
             // DataGetterForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(524, 365);
+            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.lstMessage);
             this.Controls.Add(this.groupBox1);
             this.Name = "DataGetterForm";
             this.Text = "DataGetterForm";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -107,5 +132,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btnDownload;
         private System.Windows.Forms.ListBox lstMessage;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Button btnRecalculateIndex;
     }
 }

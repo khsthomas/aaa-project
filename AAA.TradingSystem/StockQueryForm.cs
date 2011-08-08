@@ -115,7 +115,7 @@ namespace AAA.TradingSystem
                             strSQL += "   AND a.ClosePrice < b.Index10 AND a.ClosePrice < b.Index11 ";
                             break;
                         case "BC值低":
-                            strSQL += "   AND a.ClosePrice < b.Index10 AND a.ClosePrice < b.Index11 ";
+                            strSQL += "   AND a.ClosePrice > b.Index10 AND a.ClosePrice > b.Index11 ";
                             break;
                     }
                 }

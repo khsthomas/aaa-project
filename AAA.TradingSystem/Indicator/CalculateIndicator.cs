@@ -136,8 +136,17 @@ namespace AAA.TradingSystem.Indicator
                         fA = (lstB.Count > 1) ? lstB[lstB.Count - 2] : float.NaN;
                         lstA.Add(fA);
 
-                        fRed = lstClose[lstClose.Count - 1] - lstLow[lstLow.Count - 1];
-                        fBlack = lstClose[lstClose.Count - 1] - lstHigh[lstHigh.Count - 1];
+                        fRed = (lstClose.Count == 1) 
+                                    ?  0
+                                    :  (lstClose[lstClose.Count - 1] > lstClose[lstClose.Count - 2])
+                                        ? lstClose[lstClose.Count - 1] - lstLow[lstLow.Count - 1]
+                                        : 0;
+
+                        fBlack = (lstClose.Count == 1)
+                                    ? 0
+                                    : (lstClose[lstClose.Count - 1] < lstClose[lstClose.Count - 2])
+                                        ? lstClose[lstClose.Count - 1] - lstHigh[lstHigh.Count - 1]
+                                        : 0;                        
 
                         fPreVol1 = (lstVolume.Count > 1) ? lstVolume[lstVolume.Count - 2] : float.NaN;
                         fPreVol2 = (lstVolume.Count > 2) ? lstVolume[lstVolume.Count - 3] : float.NaN;

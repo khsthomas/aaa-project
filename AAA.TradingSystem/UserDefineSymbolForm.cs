@@ -10,6 +10,7 @@ using AAA.Database;
 using AAA.Base.Util.Reader;
 using System.Data.Common;
 using AAA.DesignPattern.Observer;
+using System.IO;
 
 namespace AAA.TradingSystem
 {
@@ -22,8 +23,49 @@ namespace AAA.TradingSystem
 
         private void UserDefineSymbolForm_Load(object sender, EventArgs e)
         {
+            CreateTable();
             InitGroupId();
             InitSymbolId();
+        }
+
+        private void CreateTable()
+        {
+            if (File.Exists(Environment.CurrentDirectory + @"\create_table.ini") == false)
+                return;
+
+            IDatabase database = new AccessDatabase();
+            IniReader iniReader = new IniReader(Environment.CurrentDirectory + @"\cfg\system.ini");
+            string strUsername;
+            string strPassword;
+            string strSQL;
+            StreamReader sr = null;
+
+            try
+            {
+                strUsername = iniReader.GetParam("DataSource", "Username");
+                strPassword = iniReader.GetParam("DataSource", "Password");
+                database.Open(Environment.CurrentDirectory + @"\stocks.mdb", strUsername, strPassword);
+
+                sr = new StreamReader(Environment.CurrentDirectory + @"\create_table.ini");
+
+                while ((strSQL = sr.ReadLine()) != null)
+                {
+                    database.ExecuteUpdate(strSQL);
+                }
+
+                database.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "," + ex.StackTrace);
+            }
+            finally
+            {
+                if (sr != null)
+                    sr.Close();
+                File.Delete(Environment.CurrentDirectory + @"\create_table.ini");
+            }
+
         }
 
         private void InitGroupId()
@@ -180,8 +222,7 @@ namespace AAA.TradingSystem
                 {
                     database.ExecuteUpdate(strInsertSQL, new string[] { cboGroupId.Text, i.ToString(), tblTarget.Rows[i].Cells["SymbolId"].Value.ToString() });
                 }
-
-
+                
             }
             catch (Exception ex)
             {
@@ -277,6 +318,22 @@ namespace AAA.TradingSystem
                 miMessage.MessageTicks = DateTime.Now.Ticks;
                 miMessage.MessageSubject = "StockSelected";
                 miMessage.Message = tblTarget.Rows[e.RowIndex].Cells[0].Value.ToString();
+                MessageSubject.Instance().Subject.Notify(miMessage);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "," + ex.StackTrace);
+            }
+        }
+
+        private void tblSource_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                IMessageInfo miMessage = new MessageInfo();
+                miMessage.MessageTicks = DateTime.Now.Ticks;
+                miMessage.MessageSubject = "StockSelected";
+                miMessage.Message = tblSource.Rows[e.RowIndex].Cells[0].Value.ToString();
                 MessageSubject.Instance().Subject.Notify(miMessage);
             }
             catch (Exception ex)
