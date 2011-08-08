@@ -25,7 +25,7 @@ namespace AAA.QuoteClient
         private Dictionary<string, Dictionary<string, PriceVolumeData>> _dicPVData;
         private TickDataHandler OnTickReceive;
         private Thread _threadPVQuote;
-        private Thread _threadMinuteQuote;
+        private Thread _threadMinuteQuote;        
 
         public DefaultQuoteClient()
         {
@@ -59,12 +59,6 @@ namespace AAA.QuoteClient
                     _lstAvailableSymbolId.Add(strSymbolId);
                     _dicMinuteData.Add(strSymbolId, new List<BarData>());
                 }
-
-
-                _threadPVQuote = new Thread(GeneratePriceVolumeData);
-                _threadPVQuote.Start();
-                _threadMinuteQuote = new Thread(GenerateMinuteData);
-                _threadMinuteQuote.Start();
             }
             catch (Exception ex)
             {
@@ -239,13 +233,19 @@ namespace AAA.QuoteClient
 
         public bool StartQuote()
         {
-            _isStart = true;            
+            _isStart = true;
+            _threadPVQuote = new Thread(GeneratePriceVolumeData);
+            _threadPVQuote.Start();
+            _threadMinuteQuote = new Thread(GenerateMinuteData);
+            _threadMinuteQuote.Start();
             return true;
         }
 
         public bool StopQuote()
         {
-            _isStart = false;
+            _isStart = false;            
+            _threadPVQuote.Abort();            
+            _threadMinuteQuote.Abort();
             return true;
         }
 

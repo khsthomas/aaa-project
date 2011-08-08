@@ -112,7 +112,14 @@ namespace AAA.AGS.Client
 			{
 				_qcDataClient.StopQuote();
                 _isStart = false;
-                _tQuote.Abort();
+                try
+                {
+                    _tQuote.Abort();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message + "," + ex.StackTrace);
+                }
 			}
 			catch (Exception ex)
 			{
