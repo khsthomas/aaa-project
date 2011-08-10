@@ -17,13 +17,14 @@ namespace AAA.QuoteClien.QuoteTest
         public MainForm()
         {
             InitializeComponent();
-            _defaultQuoteClient = new DefaultQuoteClient();
+            _defaultQuoteClient = new DefaultQuoteClient();            
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             try
             {
+                
                 Dictionary<string, string> dicProperty = new Dictionary<string, string>();
                 dicProperty.Add("SymbolId", "TWFE_TFHTX");
                 dicProperty.Add("StartDateTime", "2011/07/20");
@@ -50,6 +51,16 @@ namespace AAA.QuoteClien.QuoteTest
             catch (Exception ex)
             {
             }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            _defaultQuoteClient.StartQuote();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            _defaultQuoteClient.StopQuote();
         }
     }
 }

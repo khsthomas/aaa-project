@@ -29,11 +29,12 @@
         private void InitializeComponent()
         {
             this.btnQuote = new System.Windows.Forms.Button();
+            this.btnStop = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnQuote
             // 
-            this.btnQuote.Location = new System.Drawing.Point(95, 231);
+            this.btnQuote.Location = new System.Drawing.Point(45, 231);
             this.btnQuote.Name = "btnQuote";
             this.btnQuote.Size = new System.Drawing.Size(75, 23);
             this.btnQuote.TabIndex = 0;
@@ -41,11 +42,22 @@
             this.btnQuote.UseVisualStyleBackColor = true;
             this.btnQuote.Click += new System.EventHandler(this.btnQuote_Click);
             // 
+            // btnStop
+            // 
+            this.btnStop.Location = new System.Drawing.Point(143, 231);
+            this.btnStop.Name = "btnStop";
+            this.btnStop.Size = new System.Drawing.Size(75, 23);
+            this.btnStop.TabIndex = 1;
+            this.btnStop.Text = "Stop";
+            this.btnStop.UseVisualStyleBackColor = true;
+            this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(292, 266);
+            this.Controls.Add(this.btnStop);
             this.Controls.Add(this.btnQuote);
             this.Name = "Form1";
             this.Text = "Form1";
@@ -56,6 +68,7 @@
         #endregion
 
         private System.Windows.Forms.Button btnQuote;
+        private System.Windows.Forms.Button btnStop;
     }
 }
 
