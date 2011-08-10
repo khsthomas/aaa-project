@@ -83,7 +83,7 @@ namespace AAA.QuoteClient
             TickInfo tickInfo;
             QuoteData quoteData;
 
-            while (true)
+            while (_isStart)
             {
                 try
                 {
@@ -144,7 +144,7 @@ namespace AAA.QuoteClient
             int iOffset = 0;
             int iStartIndex = 0;
 
-            while (true)
+            while (_isStart)
             {
                 try
                 {
