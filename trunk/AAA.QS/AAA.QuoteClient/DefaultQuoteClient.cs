@@ -162,7 +162,7 @@ namespace AAA.QuoteClient
                         lstBarData = _dicMinuteData[strSymbolId];                        
                         strPreviousMinute = (new DateTime(((TickInfo)lstMessage[0].Message).Ticks)).ToString("yyyy/MM/dd HH:mm");
 
-                        for (int i = lstBarData.Count - 1; i >= 0; i--)
+                        for ( int i = lstBarData.Count - 1; i >= 0; i--)
                         {
                             barData = lstBarData[lstBarData.Count - i];
                             if (barData.BarDateTime.ToString("yyyy/MM/dd HH:mm") == strPreviousMinute)
@@ -233,19 +233,33 @@ namespace AAA.QuoteClient
 
         public bool StartQuote()
         {
-            _isStart = true;
-            _threadPVQuote = new Thread(GeneratePriceVolumeData);
-            _threadPVQuote.Start();
-            _threadMinuteQuote = new Thread(GenerateMinuteData);
-            _threadMinuteQuote.Start();
+            try
+            {
+                _isStart = true;
+                _threadPVQuote = new Thread(GeneratePriceVolumeData);
+                _threadPVQuote.Start();
+                _threadMinuteQuote = new Thread(GenerateMinuteData);
+                _threadMinuteQuote.Start();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message + "," + ex.StackTrace);
+            }
             return true;
         }
 
         public bool StopQuote()
         {
-            _isStart = false;            
-            _threadPVQuote.Abort();            
-            _threadMinuteQuote.Abort();
+            try
+            {
+                _isStart = false;
+                _threadPVQuote.Abort();
+                _threadMinuteQuote.Abort();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message + "," + ex.StackTrace);
+            }
             return true;
         }
 
@@ -305,6 +319,7 @@ namespace AAA.QuoteClient
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message + "," + ex.StackTrace);
             }
             return lstTickData;
         }

@@ -50,5 +50,17 @@ namespace AAA.AGS.ClientTest
 
             }
         }
+
+        private void btnStop_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                _mqClient.Disconnect();
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
     }
 }

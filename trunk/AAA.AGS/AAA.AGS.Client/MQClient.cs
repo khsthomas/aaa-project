@@ -41,7 +41,7 @@ namespace AAA.AGS.Client
             IniReader iniReader = new IniReader("AAA.AGS.Client.dll", "AAA.AGS.Client.config.system.ini");
 
             _qcDataClient = new DefaultQuoteClient();
-            _qcDataClient.StartQuote();
+//            _qcDataClient.StartQuote();
 
             string strUrl = iniReader.GetParam("Host");
             Uri address = new Uri(strUrl);
