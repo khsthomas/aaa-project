@@ -17,8 +17,8 @@ namespace AAA.TradingSystem.Loader
             int iEnd;
             try
             {
-                iStart = strSource.IndexOf('>') + 1;
-                iEnd = strSource.LastIndexOf('<');
+                iStart = 0;
+                iEnd = strSource.LastIndexOf('&');
                 strSource = strSource.Substring(iStart, iEnd - iStart);
                 strDate = (1911 + int.Parse(strSource.Substring(0, strSource.IndexOf("年")))).ToString();
                 strDate += "/" + strSource.Substring(strSource.IndexOf("年") + 1, strSource.IndexOf("月") - (strSource.IndexOf("年") + 1));
@@ -34,9 +34,6 @@ namespace AAA.TradingSystem.Loader
 
         public override bool Load(AAA.ResultSet.IResultSet resultSet)
         {
-            if (true)
-                return true;
-
             string strInsertSQL = "INSERT INTO TWSE_Stock_D_Deal(OpenPrice, HighestPrice, LowestPrice, ClosePrice, Vol, Amt, PreClose, ExDate, SymbolId) VALUES({0}, {1}, {2}, {3}, {4}, {5}, {6}, '{7}', '{8}')";
             string strUpdateSQL = "UPDATE TWSE_Stock_D_Deal SET OpenPrice = {0}, HighestPrice = {1}, LowestPrice = {2}, ClosePrice = {3}, Vol = {4}, Amt = {5}, PreClose = {6} WHERE ExDate = '{7}' AND SymbolId = '{8}'";
 
