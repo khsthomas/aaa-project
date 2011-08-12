@@ -14,7 +14,8 @@ namespace AAA.QuoteClient
     public class DefaultQuoteClient : IQuoteClient
     {
         private const int DEFAULT_INTERVAL = 1000;
-        private const int TICKS_SCALE = 1000;
+        private const int TICKS_SCALE = 10000;
+        private const int MINUTE_PER_ROUND = 2;
         private bool _isStart;
         private Dictionary<string, IMQClient> _dicMQClient;
         private Dictionary<string, long> _dicLastTicks;
@@ -35,7 +36,7 @@ namespace AAA.QuoteClient
                 IMQClient mqClient;
                 string[] strSymbolIds = iniReader.GetParam("SymbolList").Split(',');
                 string strMQServer = iniReader.GetParam("MQServer");
-                long lDayStartTicks = DateTime.Parse(DateTime.Now.ToString("yyyy/MM/dd") + " 08:47:00").Ticks / TICKS_SCALE;
+                long lDayStartTicks = DateTime.Parse(DateTime.Now.ToString("yyyy/MM/dd") + " 08:47:00").Ticks;
                 _dicLastTicks = new Dictionary<string, long>();
                 _dicMinuteLastTicks = new Dictionary<string, long>();
                 _dicPVLastTicks = new Dictionary<string, long>();
@@ -53,7 +54,8 @@ namespace AAA.QuoteClient
                     mqClient.QueueName = strSymbolId;
                     mqClient.Connect();
                     _dicMQClient.Add(strSymbolId, mqClient);
-                    _dicLastTicks.Add(strSymbolId, lDayStartTicks);
+                    //_dicLastTicks.Add(strSymbolId, DateTime.Parse(DateTime.Now.ToString("yyyy/MM/dd") + " 08:45:00").Ticks);
+                    _dicLastTicks.Add(strSymbolId, DateTime.Parse("2011/08/10 08:45:00").Ticks);
                     _dicMinuteLastTicks.Add(strSymbolId, lDayStartTicks);
                     _dicPVLastTicks.Add(strSymbolId, lDayStartTicks);
                     _lstAvailableSymbolId.Add(strSymbolId);
@@ -69,7 +71,7 @@ namespace AAA.QuoteClient
         public void DeleteHistoryQueueData()
         {
             foreach(string strSymbolId in _lstAvailableSymbolId)
-                _dicMQClient[strSymbolId].Receive("Ticks < " + DateTime.Now.Ticks / TICKS_SCALE);
+                _dicMQClient[strSymbolId].Receive("Ticks < " + DateTime.Now.Ticks);
         }
 
         private void GeneratePriceVolumeData()
@@ -90,7 +92,7 @@ namespace AAA.QuoteClient
                     foreach (string strSymbolId in _lstAvailableSymbolId)
                     {
                         lstTickData = new List<TickInfo>();
-                        lstMessage = _dicMQClient[strSymbolId].Peek("Ticks > " + (_dicPVLastTicks[strSymbolId] - TimeSpan.TicksPerMinute * 2 / TICKS_SCALE));
+                        lstMessage = _dicMQClient[strSymbolId].Peek("Ticks > " + (_dicPVLastTicks[strSymbolId] - TimeSpan.TicksPerMinute * 2));
 
                         if (_dicPVData.ContainsKey(strSymbolId) == false)
                             _dicPVData.Add(strSymbolId, new Dictionary<string, PriceVolumeData>());
@@ -151,7 +153,7 @@ namespace AAA.QuoteClient
                     foreach (string strSymbolId in _lstAvailableSymbolId)
                     {
                         lstTickData = new List<TickInfo>();
-                        lstMessage = _dicMQClient[strSymbolId].Peek("Ticks > " + (_dicMinuteLastTicks[strSymbolId] - TimeSpan.TicksPerMinute * 2 / TICKS_SCALE));
+                        lstMessage = _dicMQClient[strSymbolId].Peek("Ticks > " + (_dicMinuteLastTicks[strSymbolId] - TimeSpan.TicksPerMinute * 2));
 
                         if (lstMessage.Count == 0)
                         {
@@ -305,9 +307,9 @@ namespace AAA.QuoteClient
             List<TickInfo> lstTickData = null;
             try
             {
-                lstTickData = new List<TickInfo>(); 
-                List<IMessage> lstMessage = _dicMQClient[strSymbolId].Peek("Ticks > " + _dicLastTicks[strSymbolId]);                
-
+                lstTickData = new List<TickInfo>();
+                List<IMessage> lstMessage = _dicMQClient[strSymbolId].Peek("Ticks >= " + _dicLastTicks[strSymbolId] + " and Ticks < " + (_dicLastTicks[strSymbolId] + TimeSpan.TicksPerMinute * MINUTE_PER_ROUND));                
+                
                 foreach (IMessage message in lstMessage)
                 {
                     _dicLastTicks[strSymbolId] = message.Id;

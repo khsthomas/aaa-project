@@ -28,7 +28,7 @@ namespace AAA.QuoteClien.QuoteTest
                 Dictionary<string, string> dicProperty = new Dictionary<string, string>();
                 dicProperty.Add("SymbolId", "TWFE_TFHTX");
                 dicProperty.Add("StartDateTime", "2011/07/20");
-                dicProperty.Add("EndDateTime", "2011/07/20");
+                dicProperty.Add("EndDateTime", "2011/08/11");
 
 //                List<TickInfo> lstTicks = _defaultQuoteClient.GetTodayTick("TWFE_TFHTX");
 

@@ -38,9 +38,9 @@
             this.stockCriteria = new System.Windows.Forms.ToolStripMenuItem();
             this.filterStock = new System.Windows.Forms.ToolStripMenuItem();
             this.userDefine = new System.Windows.Forms.ToolStripMenuItem();
+            this.userDefineSymbol = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.userDefineSymbol = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.SuspendLayout();
@@ -80,7 +80,6 @@
             this.menuItemMarketProfile.Name = "menuItemMarketProfile";
             this.menuItemMarketProfile.Size = new System.Drawing.Size(144, 22);
             this.menuItemMarketProfile.Text = "Market Profile";
-            this.menuItemMarketProfile.Visible = false;
             this.menuItemMarketProfile.Click += new System.EventHandler(this.menuItemMarketProfile_Click);
             // 
             // MenuItemJournal
@@ -128,6 +127,13 @@
             this.userDefine.Size = new System.Drawing.Size(41, 20);
             this.userDefine.Text = "設定";
             // 
+            // userDefineSymbol
+            // 
+            this.userDefineSymbol.Name = "userDefineSymbol";
+            this.userDefineSymbol.Size = new System.Drawing.Size(130, 22);
+            this.userDefineSymbol.Text = "自選股設定";
+            this.userDefineSymbol.Click += new System.EventHandler(this.userDefineSymbol_Click);
+            // 
             // statusStrip
             // 
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -143,13 +149,6 @@
             this.toolStripStatusLabel.Name = "toolStripStatusLabel";
             this.toolStripStatusLabel.Size = new System.Drawing.Size(32, 17);
             this.toolStripStatusLabel.Text = "Status";
-            // 
-            // userDefineSymbol
-            // 
-            this.userDefineSymbol.Name = "userDefineSymbol";
-            this.userDefineSymbol.Size = new System.Drawing.Size(152, 22);
-            this.userDefineSymbol.Text = "自選股設定";
-            this.userDefineSymbol.Click += new System.EventHandler(this.userDefineSymbol_Click);
             // 
             // MainForm
             // 
