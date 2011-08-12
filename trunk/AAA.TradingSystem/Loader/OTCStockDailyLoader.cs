@@ -6,9 +6,10 @@ using AAA.DataLoader;
 using System.IO;
 
 namespace AAA.TradingSystem.Loader
-{
+{ 
     public class OTCStockDailyLoader : AbstractLoader
     {
+        //代碼 名稱 收盤 漲跌 開盤 最高 最低 均價 成交股數 成交金額 成交筆數 最後買價 最後賣價 發行股數 次日參考價 次日漲停價 次日跌停價
         private string ParseDate(string strSource)
         {
             //100年06月24日大盤統計資訊            
@@ -38,6 +39,7 @@ namespace AAA.TradingSystem.Loader
             string strUpdateSQL = "UPDATE TWSE_Stock_D_Deal SET OpenPrice = {0}, HighestPrice = {1}, LowestPrice = {2}, ClosePrice = {3}, Vol = {4}, Amt = {5}, PreClose = {6} WHERE ExDate = '{7}' AND SymbolId = '{8}'";
 
             string[] strValues;
+            string strDiff;
 
             try
             {
@@ -47,7 +49,7 @@ namespace AAA.TradingSystem.Loader
                 {
                     try
                     {
-                        strValues[0] = resultSet.Cells(5).ToString().Trim(); //Open
+                        strValues[0] = resultSet.Cells(4).ToString().Trim().Replace("⊕", "").Replace("⊙", ""); //Open
                     }
                     catch
                     {
@@ -55,7 +57,7 @@ namespace AAA.TradingSystem.Loader
                     }
                     try
                     {
-                        strValues[1] = resultSet.Cells(6).ToString().Trim(); //High
+                        strValues[1] = resultSet.Cells(5).ToString().Trim().Replace("⊕", "").Replace("⊙", ""); //High
                     }
                     catch
                     {
@@ -63,7 +65,7 @@ namespace AAA.TradingSystem.Loader
                     }
                     try
                     {
-                        strValues[2] = resultSet.Cells(7).ToString().Trim(); //Low
+                        strValues[2] = resultSet.Cells(6).ToString().Trim().Replace("⊕", "").Replace("⊙", ""); //Low
                     }
                     catch
                     {
@@ -71,7 +73,7 @@ namespace AAA.TradingSystem.Loader
                     }
                     try
                     {
-                        strValues[3] = resultSet.Cells(8).ToString().Trim(); //Close
+                        strValues[3] = resultSet.Cells(2).ToString().Trim().Replace("⊕", "").Replace("⊙", ""); //Close
                     }
                     catch
                     {
@@ -79,7 +81,7 @@ namespace AAA.TradingSystem.Loader
                     }
                     try
                     {
-                        strValues[4] = resultSet.Cells(2).ToString().Trim(); //Vol
+                        strValues[4] = resultSet.Cells(8).ToString().Trim(); //Vol
                     }
                     catch
                     {
@@ -87,7 +89,7 @@ namespace AAA.TradingSystem.Loader
                     }
                     try
                     {
-                        strValues[5] = resultSet.Cells(4).ToString().Trim(); //Amt
+                        strValues[5] = resultSet.Cells(9).ToString().Trim(); //Amt
                     }
                     catch
                     {
@@ -95,10 +97,12 @@ namespace AAA.TradingSystem.Loader
                     }
                     try
                     {
-                        if (resultSet.Cells(9).ToString().Trim() == "")
+                        strDiff = resultSet.Cells(3).ToString().Trim();
+
+                        if (resultSet.Cells(9).ToString().Trim().Replace("⊕", "").Replace("⊙", "") == "")
                             strValues[6] = strValues[3];
                         else
-                            strValues[6] = (float.Parse(resultSet.Cells(8).ToString().Trim()) - (resultSet.Cells(9).ToString().Trim() == "－" ? -1.0 : 1.0) * float.Parse(resultSet.Cells(10).ToString().Trim())).ToString(); //PreClose
+                            strValues[6] = (float.Parse(strValues[3]) - (strDiff.IndexOf("-") > -1 ? -1.0 : 1.0) * float.Parse(strDiff.Replace("+", "").Replace("-", ""))).ToString(); //PreClose
                     }
                     catch
                     {

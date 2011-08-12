@@ -31,7 +31,7 @@ namespace AAA.AGS.ClientTest
         {
             try
             {
-                Console.WriteLine(quoteData.SymbolId);
+                Console.WriteLine(quoteData.SymbolId + "," + quoteData.LastUpdateTime);
             }
             catch (Exception ex)
             {
