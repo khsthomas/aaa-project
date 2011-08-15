@@ -31,7 +31,8 @@ namespace AAA.AGS.ClientTest
         {
             try
             {
-                Console.WriteLine("OnDataReceive : " + quoteData.SymbolId + "," + quoteData.LastUpdateTime);
+                if(quoteData.SymbolId == "TWFE_TFHTX")
+                    Console.WriteLine("OnDataReceive : " + quoteData.SymbolId + "," + quoteData.LastUpdateTime);
             }
             catch (Exception ex)
             {
@@ -43,6 +44,7 @@ namespace AAA.AGS.ClientTest
         {
             try
             {
+                _mqClient.SetStartDateTime(DateTime.Parse("2011/08/15 10:44:00"));
                 _mqClient.StartService();
             }
             catch (Exception ex)
