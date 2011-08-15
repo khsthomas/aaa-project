@@ -15,7 +15,7 @@ namespace AAA.QuoteClient
     {
         private const int DEFAULT_INTERVAL = 1000;
         private const int TICKS_SCALE = 10000;
-        private const int MINUTE_PER_ROUND = 2;
+        private const int SECOND_PER_ROUND = 30;
         private bool _isStart;
         private Dictionary<string, IMQClient> _dicMQClient;
         private Dictionary<string, long> _dicLastTicks;
@@ -314,7 +314,7 @@ namespace AAA.QuoteClient
                 Console.WriteLine(strSymbolId + ":" + (new DateTime(_dicLastTicks[strSymbolId])).ToString("yyyy/MM/dd HH:mm:ss"));
 
                 lstTickData = new List<TickInfo>();
-                List<IMessage> lstMessage = _dicMQClient[strSymbolId].Peek("Ticks >= " + _dicLastTicks[strSymbolId] + " and Ticks < " + (_dicLastTicks[strSymbolId] + TimeSpan.TicksPerMinute * MINUTE_PER_ROUND));
+                List<IMessage> lstMessage = _dicMQClient[strSymbolId].Peek("Ticks >= " + _dicLastTicks[strSymbolId] + " and Ticks < " + (_dicLastTicks[strSymbolId] + TimeSpan.TicksPerSecond * SECOND_PER_ROUND));
                 //lStartTick = _dicLastTicks[strSymbolId];
     
                 foreach (IMessage message in lstMessage)
@@ -324,7 +324,7 @@ namespace AAA.QuoteClient
                         continue;
                     lstTickData.Add((TickInfo)message.Message);
                 }
-                _dicLastTicks[strSymbolId] = (_dicLastTicks[strSymbolId] + TimeSpan.TicksPerMinute * MINUTE_PER_ROUND);
+                _dicLastTicks[strSymbolId] = Math.Min((_dicLastTicks[strSymbolId] + TimeSpan.TicksPerSecond * SECOND_PER_ROUND), DateTime.Now.Ticks);
 
             }
             catch (Exception ex)
