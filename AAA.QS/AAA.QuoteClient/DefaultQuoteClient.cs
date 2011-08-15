@@ -54,8 +54,8 @@ namespace AAA.QuoteClient
                     mqClient.QueueName = strSymbolId;
                     mqClient.Connect();
                     _dicMQClient.Add(strSymbolId, mqClient);
-                    //_dicLastTicks.Add(strSymbolId, DateTime.Parse(DateTime.Now.ToString("yyyy/MM/dd") + " 08:45:00").Ticks);
-                    _dicLastTicks.Add(strSymbolId, DateTime.Parse("2011/08/10 08:45:00").Ticks);
+                    _dicLastTicks.Add(strSymbolId, DateTime.Parse(DateTime.Now.ToString("yyyy/MM/dd") + " 08:45:00").Ticks);
+                    //_dicLastTicks.Add(strSymbolId, DateTime.Parse("2011/08/10 08:45:00").Ticks);
                     _dicMinuteLastTicks.Add(strSymbolId, lDayStartTicks);
                     _dicPVLastTicks.Add(strSymbolId, lDayStartTicks);
                     _lstAvailableSymbolId.Add(strSymbolId);
@@ -311,6 +311,8 @@ namespace AAA.QuoteClient
 
             try
             {
+                Console.WriteLine(strSymbolId + ":" + (new DateTime(_dicLastTicks[strSymbolId])).ToString("yyyy/MM/dd HH:mm:ss"));
+
                 lstTickData = new List<TickInfo>();
                 List<IMessage> lstMessage = _dicMQClient[strSymbolId].Peek("Ticks >= " + _dicLastTicks[strSymbolId] + " and Ticks < " + (_dicLastTicks[strSymbolId] + TimeSpan.TicksPerMinute * MINUTE_PER_ROUND));
                 //lStartTick = _dicLastTicks[strSymbolId];
