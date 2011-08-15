@@ -84,6 +84,7 @@ namespace AAA.QuoteClient
             PriceVolumeData pvData = null;
             TickInfo tickInfo;
             QuoteData quoteData;
+            long lLastTick;
 
             while (_isStart)
             {
@@ -93,6 +94,7 @@ namespace AAA.QuoteClient
                     {
                         lstTickData = new List<TickInfo>();
                         lstMessage = _dicMQClient[strSymbolId].Peek("Ticks > " + (_dicPVLastTicks[strSymbolId] - TimeSpan.TicksPerMinute * 2));
+                        
 
                         if (_dicPVData.ContainsKey(strSymbolId) == false)
                             _dicPVData.Add(strSymbolId, new Dictionary<string, PriceVolumeData>());
@@ -305,18 +307,22 @@ namespace AAA.QuoteClient
         public List<AAA.Meta.Quote.Data.TickInfo> GetTodayTick(string strSymbolId)
         {
             List<TickInfo> lstTickData = null;
+            long lStartTick;
+
             try
             {
                 lstTickData = new List<TickInfo>();
-                List<IMessage> lstMessage = _dicMQClient[strSymbolId].Peek("Ticks >= " + _dicLastTicks[strSymbolId] + " and Ticks < " + (_dicLastTicks[strSymbolId] + TimeSpan.TicksPerMinute * MINUTE_PER_ROUND));                
-                
+                List<IMessage> lstMessage = _dicMQClient[strSymbolId].Peek("Ticks >= " + _dicLastTicks[strSymbolId] + " and Ticks < " + (_dicLastTicks[strSymbolId] + TimeSpan.TicksPerMinute * MINUTE_PER_ROUND));
+                //lStartTick = _dicLastTicks[strSymbolId];
+    
                 foreach (IMessage message in lstMessage)
                 {
-                    _dicLastTicks[strSymbolId] = message.Id;
+                    //_dicLastTicks[strSymbolId] = message.Id;
                     if (((TickInfo)message.Message).Id != strSymbolId)
                         continue;
                     lstTickData.Add((TickInfo)message.Message);
                 }
+                _dicLastTicks[strSymbolId] = (_dicLastTicks[strSymbolId] + TimeSpan.TicksPerMinute * MINUTE_PER_ROUND);
 
             }
             catch (Exception ex)
