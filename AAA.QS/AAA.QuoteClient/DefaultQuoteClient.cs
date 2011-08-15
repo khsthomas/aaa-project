@@ -50,8 +50,7 @@ namespace AAA.QuoteClient
                     if (_lstAvailableSymbolId.IndexOf(strSymbolId) > -1)
                         continue;
 
-                    mqClient = new ActiveMQClient(strMQServer);
-                    mqClient.QueueName = strSymbolId;
+                    mqClient = new ActiveMQClient(strMQServer, strSymbolId);
                     mqClient.Connect();
                     _dicMQClient.Add(strSymbolId, mqClient);
                     _dicLastTicks.Add(strSymbolId, DateTime.Parse(DateTime.Now.ToString("yyyy/MM/dd") + " 08:45:00").Ticks);
@@ -239,11 +238,13 @@ namespace AAA.QuoteClient
         {
             try
             {
+/*
                 _isStart = true;
                 _threadPVQuote = new Thread(GeneratePriceVolumeData);
                 _threadPVQuote.Start();
                 _threadMinuteQuote = new Thread(GenerateMinuteData);
                 _threadMinuteQuote.Start();
+ */ 
             }
             catch (Exception ex)
             {
