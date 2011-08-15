@@ -55,7 +55,23 @@ namespace AAA.AGS.Client
             _proxy = _factory.CreateChannel();            
 		}
 
-		#region Public Method
+        public void SetStartDateTime(DateTime dtStartTime)
+        {
+            List<string> lstSymbolId;
+            try
+            {
+                lstSymbolId = AvailableSymbolList();
+
+                foreach (string strSymbolId in lstSymbolId)
+                    _qcDataClient.SetStartDateTime(strSymbolId, dtStartTime);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message + "," + ex.StackTrace);
+            }
+        }
+
+		#region Public Method        
 
         public SynchronizationContext SynchronizationContext
         {

@@ -55,6 +55,7 @@ namespace AAA.QuoteClien.QuoteTest
 
         private void button2_Click(object sender, EventArgs e)
         {
+            _defaultQuoteClient.SetStartDateTime("TWFE_TFHTX", DateTime.Parse("2011/08/15 10:44:00"));
             _defaultQuoteClient.StartQuote();
         }
 

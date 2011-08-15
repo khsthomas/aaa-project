@@ -66,7 +66,7 @@ namespace AAA.QuoteClient
             {
                 Console.WriteLine(ex.Message + "," + ex.StackTrace);
             }
-        }
+        }        
 
         public void DeleteHistoryQueueData()
         {
@@ -316,7 +316,10 @@ namespace AAA.QuoteClient
                 lstTickData = new List<TickInfo>();
                 List<IMessage> lstMessage = _dicMQClient[strSymbolId].Peek("Ticks >= " + _dicLastTicks[strSymbolId] + " and Ticks < " + (_dicLastTicks[strSymbolId] + TimeSpan.TicksPerSecond * SECOND_PER_ROUND));
                 //lStartTick = _dicLastTicks[strSymbolId];
-    
+
+                if (lstMessage == null)
+                    return lstTickData;
+
                 foreach (IMessage message in lstMessage)
                 {
                     //_dicLastTicks[strSymbolId] = message.Id;
@@ -332,6 +335,32 @@ namespace AAA.QuoteClient
                 Console.WriteLine(ex.Message + "," + ex.StackTrace);
             }
             return lstTickData;
+        }
+
+        public void SetStartDateTime(string strSymbolId, DateTime dtStartTime)
+        {
+            try
+            {
+                if (_dicLastTicks.ContainsKey(strSymbolId))
+                    _dicLastTicks[strSymbolId] = dtStartTime.Ticks;
+                else
+                    _dicLastTicks.Add(strSymbolId, dtStartTime.Ticks);
+
+                if (_dicMinuteLastTicks.ContainsKey(strSymbolId))
+                    _dicMinuteLastTicks[strSymbolId] = dtStartTime.Ticks;
+                else
+                    _dicMinuteLastTicks.Add(strSymbolId, dtStartTime.Ticks);
+
+                if (_dicPVLastTicks.ContainsKey(strSymbolId))
+                    _dicPVLastTicks[strSymbolId] = dtStartTime.Ticks;
+                else
+                    _dicPVLastTicks.Add(strSymbolId, dtStartTime.Ticks);
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message + "," + ex.StackTrace);
+            }
         }
 
         #endregion

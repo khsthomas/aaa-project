@@ -12,6 +12,7 @@ namespace AAA.QuoteClient
     {
         bool StartQuote();
         bool StopQuote();
+        void SetStartDateTime(string strSymbolId, DateTime dtStartTime);
         List<string> GetAvailableSymbolId();
         List<BarData> GetBarData(Dictionary<string, string> queryProperty);
         List<PriceVolumeData> GetPriceVolumeData(Dictionary<string, string> queryProperty);
