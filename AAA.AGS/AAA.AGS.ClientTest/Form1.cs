@@ -31,11 +31,11 @@ namespace AAA.AGS.ClientTest
         {
             try
             {
-                Console.WriteLine(quoteData.SymbolId + "," + quoteData.LastUpdateTime);
+                Console.WriteLine("OnDataReceive : " + quoteData.SymbolId + "," + quoteData.LastUpdateTime);
             }
             catch (Exception ex)
             {
-
+                Console.WriteLine(ex.Message + "," + ex.StackTrace);
             }
         }
 
