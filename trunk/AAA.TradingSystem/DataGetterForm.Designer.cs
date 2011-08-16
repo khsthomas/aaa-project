@@ -34,6 +34,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.lstMessage = new System.Windows.Forms.ListBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.btnUpdateIndexMapping = new System.Windows.Forms.Button();
             this.btnRecalculateIndex = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -46,7 +47,7 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(500, 78);
+            this.groupBox1.Size = new System.Drawing.Size(500, 76);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "股票資料收集";
@@ -90,13 +91,24 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.btnUpdateIndexMapping);
             this.groupBox2.Controls.Add(this.btnRecalculateIndex);
-            this.groupBox2.Location = new System.Drawing.Point(12, 96);
+            this.groupBox2.Location = new System.Drawing.Point(12, 99);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(500, 53);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "指標計算";
+            this.groupBox2.Text = "參數更新";
+            // 
+            // btnUpdateIndexMapping
+            // 
+            this.btnUpdateIndexMapping.Location = new System.Drawing.Point(137, 21);
+            this.btnUpdateIndexMapping.Name = "btnUpdateIndexMapping";
+            this.btnUpdateIndexMapping.Size = new System.Drawing.Size(114, 23);
+            this.btnUpdateIndexMapping.TabIndex = 3;
+            this.btnUpdateIndexMapping.Text = "更新指數對照表";
+            this.btnUpdateIndexMapping.UseVisualStyleBackColor = true;
+            this.btnUpdateIndexMapping.Click += new System.EventHandler(this.btnUpdateIndexMapping_Click);
             // 
             // btnRecalculateIndex
             // 
@@ -117,7 +129,7 @@
             this.Controls.Add(this.lstMessage);
             this.Controls.Add(this.groupBox1);
             this.Name = "DataGetterForm";
-            this.Text = "DataGetterForm";
+            this.Text = "資料下載";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
@@ -134,5 +146,6 @@
         private System.Windows.Forms.ListBox lstMessage;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button btnRecalculateIndex;
+        private System.Windows.Forms.Button btnUpdateIndexMapping;
     }
 }
