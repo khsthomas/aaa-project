@@ -17,6 +17,8 @@ namespace AAA.TradingSystem
 {
     public partial class ProfileChartForm : Form
     {
+        private const int QUERY_DAYS = 1;
+        private const int UPDATE_TICKS = 10;
         private int _iTimePeriod = 30;
         private float _fPriceInterval = 5;
         private string _strLastDate;
@@ -27,6 +29,8 @@ namespace AAA.TradingSystem
         private Dictionary<string, string> _queryProperties = new Dictionary<string, string>();
         private bool _isProcess = false;
         private bool _FirstRun = true;
+        private DateTime LastHistoryTime = DateTime.Now;
+        private int iTickCount = 0;
 
         public ProfileChartForm()
         {
@@ -174,16 +178,44 @@ namespace AAA.TradingSystem
         {
             try
             {
-                _ProfileMgr.AddData(DateTime.Parse(quoteData.LastUpdateTime),
-                                                           float.Parse(quoteData.Items[3]),
-                                                           int.Parse(quoteData.Items[4]));
-                pChartContainer1.AddProfileMgr(_ProfileMgr);
-                pChartContainer1.SetLastPos();
-                pChartContainer1.SetLastDayProfileVT();
+               // Console.WriteLine("OnDataReceive:" + quoteData.LastUpdateTime.ToString() + "_" + quoteData.SymbolId.ToString());
+                if (lblUpdateCnt.InvokeRequired)
+                {
+                    lblUpdateCnt.Invoke((MethodInvoker)delegate()
+                    {
+                        UpdateTickData(quoteData);
+                    });
+                }
+                else
+                {
+                    UpdateTickData(quoteData);
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + "," + ex.StackTrace);
+                Console.WriteLine(ex.Message + "," + ex.StackTrace);
+            }
+        }
+
+        private void UpdateTickData(QuoteData quoteData)
+        {
+            if (quoteData.SymbolId == txtSymbolId.Text) {
+                if (DateTime.Parse(quoteData.LastUpdateTime) > LastHistoryTime)
+                {
+                    _ProfileMgr.AddData(DateTime.Parse(quoteData.LastUpdateTime),
+                                                               float.Parse(quoteData.Items[5]),
+                                                               int.Parse(quoteData.Items[2]));
+                    iTickCount++;
+                    if (iTickCount == UPDATE_TICKS)
+                    {
+                        pChartContainer1.AddProfileMgr(_ProfileMgr);
+                        pChartContainer1.SetLastPos();
+                        pChartContainer1.SetLastDayProfileVT();
+                        iTickCount = 0;
+                    }
+                    //lblUpdateCnt.Text = quoteData.LastUpdateTime.ToString();
+                }
+                lblUpdateCnt.Text = quoteData.LastUpdateTime.ToString() + "(" + quoteData.Items[2] + ")";
             }
         }
 
@@ -209,8 +241,10 @@ namespace AAA.TradingSystem
                 _FirstRun = false;
             }
             pChartContainer1.SetLastPos();
-            timer1.Enabled = true;
-            //btnStartDB.Enabled = true;
+//            //btnStartDB.Enabled = true;
+            lblUpdateCnt.Text = LastHistoryTime.ToString();
+            _client.SetStartDateTime(LastHistoryTime);
+            _client.StartService();
             _isProcess = false;
         }
 
@@ -233,7 +267,7 @@ namespace AAA.TradingSystem
                     if (_queryProperties.ContainsKey("SymbolId"))
                     {
                         _queryProperties["StartDateTime"] = dtStartDate.ToString("yyyy/MM/dd");
-                        _queryProperties["EndDateTime"] = ((dtEndDate.AddDays(5) < dtQueryEndDate) ? dtEndDate.AddDays(5) : dtQueryEndDate).ToString("yyyy/MM/dd");
+                        _queryProperties["EndDateTime"] = ((dtEndDate.AddDays(QUERY_DAYS) < dtQueryEndDate) ? dtEndDate.AddDays(QUERY_DAYS) : dtQueryEndDate).ToString("yyyy/MM/dd");
                     }
                     else
                     {
@@ -243,7 +277,7 @@ namespace AAA.TradingSystem
                         }
                         _queryProperties.Add("SymbolId", txtSymbolId.Text.Trim());
                         _queryProperties.Add("StartDateTime", dtStartDate.ToString("yyyy/MM/dd"));
-                        _queryProperties.Add("EndDateTime", ((dtEndDate.AddDays(5) < dtQueryEndDate) ? dtEndDate.AddDays(5) : dtQueryEndDate).ToString("yyyy/MM/dd"));
+                        _queryProperties.Add("EndDateTime", ((dtEndDate.AddDays(QUERY_DAYS) < dtQueryEndDate) ? dtEndDate.AddDays(QUERY_DAYS) : dtQueryEndDate).ToString("yyyy/MM/dd"));
                     }
                     //if (_queryProperties["EndDateTime"] == DateTime.Now.ToString("yyyy/MM/dd")) {
                     //    _queryProperties["EndDateTime"] = DateTime.Now.AddDays(-1).ToString("yyyy/MM/dd");
@@ -266,11 +300,13 @@ namespace AAA.TradingSystem
 
                     lstBarRecord = _client.GetData(_queryProperties);
                     _ProfileMgr.UpdateOpenClosePrice(lstBarRecord);
-
+                    if (lstBarRecord.Count > 0) {
+                        LastHistoryTime = lstBarRecord[lstBarRecord.Count - 1].BarDateTime;
+                    }
                     _fLastPrice = _ProfileMgr.GetLastPrice();
 
-                    dtStartDate = dtEndDate.AddDays(6);
-                    dtEndDate = dtStartDate.AddDays(5);
+                    dtStartDate = dtEndDate.AddDays(QUERY_DAYS + 1);
+                    dtEndDate = dtStartDate.AddDays(QUERY_DAYS);
                 }
             }
             catch (Exception ex)
@@ -297,6 +333,7 @@ namespace AAA.TradingSystem
             btnStartDB.Enabled = true;
             btnStopUpdate.Enabled = false;
             lblUpdateCnt.Text = "Stop";
+            _client.Disconnect();
         }
     }
 }
