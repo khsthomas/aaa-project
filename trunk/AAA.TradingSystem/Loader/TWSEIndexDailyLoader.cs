@@ -6,6 +6,7 @@ using AAA.DataLoader;
 using System.IO;
 using System.Windows.Forms;
 using AAA.ResultSet;
+using AAA.Database;
 
 namespace AAA.TradingSystem.Loader
 {
@@ -16,7 +17,7 @@ namespace AAA.TradingSystem.Loader
         private List<string> _lstSymbolId;
 
         public TWSEIndexDailyLoader()
-        {
+        {                        
             IResultSet resultSet = new TextResultSet(Environment.CurrentDirectory + @"\cfg\index_mapping.ini", false);
             try
             {
@@ -25,9 +26,7 @@ namespace AAA.TradingSystem.Loader
                 {
                     if ((resultSet.Cells(2) == "上市") &&
                        (resultSet.Cells(2) == "指數"))
-                    {
-
-                    }
+                        _lstSymbolId.Add(resultSet.Cells(0).ToString());
 
                 }
             }
