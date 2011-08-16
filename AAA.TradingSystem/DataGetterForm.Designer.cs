@@ -36,25 +36,29 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btnUpdateIndexMapping = new System.Windows.Forms.Button();
             this.btnRecalculateIndex = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.txtStartDate = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.txtStartDate);
+            this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.btnDownload);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(500, 76);
+            this.groupBox1.Size = new System.Drawing.Size(500, 121);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "股票資料收集";
             // 
             // btnDownload
             // 
-            this.btnDownload.Location = new System.Drawing.Point(387, 43);
+            this.btnDownload.Location = new System.Drawing.Point(384, 92);
             this.btnDownload.Name = "btnDownload";
             this.btnDownload.Size = new System.Drawing.Size(75, 23);
             this.btnDownload.TabIndex = 2;
@@ -65,7 +69,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(15, 54);
+            this.label2.Location = new System.Drawing.Point(15, 75);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(77, 12);
             this.label2.TabIndex = 1;
@@ -74,7 +78,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(15, 29);
+            this.label1.Location = new System.Drawing.Point(15, 50);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(53, 12);
             this.label1.TabIndex = 0;
@@ -84,16 +88,16 @@
             // 
             this.lstMessage.FormattingEnabled = true;
             this.lstMessage.ItemHeight = 12;
-            this.lstMessage.Location = new System.Drawing.Point(12, 162);
+            this.lstMessage.Location = new System.Drawing.Point(12, 198);
             this.lstMessage.Name = "lstMessage";
-            this.lstMessage.Size = new System.Drawing.Size(500, 184);
+            this.lstMessage.Size = new System.Drawing.Size(500, 148);
             this.lstMessage.TabIndex = 1;
             // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.btnUpdateIndexMapping);
             this.groupBox2.Controls.Add(this.btnRecalculateIndex);
-            this.groupBox2.Location = new System.Drawing.Point(12, 99);
+            this.groupBox2.Location = new System.Drawing.Point(12, 139);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(500, 53);
             this.groupBox2.TabIndex = 2;
@@ -119,6 +123,22 @@
             this.btnRecalculateIndex.Text = "重新計算所有指標";
             this.btnRecalculateIndex.UseVisualStyleBackColor = true;
             this.btnRecalculateIndex.Click += new System.EventHandler(this.btnRecalculateIndex_Click);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(15, 27);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(53, 12);
+            this.label3.TabIndex = 3;
+            this.label3.Text = "開始日期";
+            // 
+            // txtStartDate
+            // 
+            this.txtStartDate.Location = new System.Drawing.Point(74, 21);
+            this.txtStartDate.Name = "txtStartDate";
+            this.txtStartDate.Size = new System.Drawing.Size(145, 22);
+            this.txtStartDate.TabIndex = 4;
             // 
             // DataGetterForm
             // 
@@ -147,5 +167,7 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button btnRecalculateIndex;
         private System.Windows.Forms.Button btnUpdateIndexMapping;
+        private System.Windows.Forms.TextBox txtStartDate;
+        private System.Windows.Forms.Label label3;
     }
 }
