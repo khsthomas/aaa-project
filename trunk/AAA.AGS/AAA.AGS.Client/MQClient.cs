@@ -165,6 +165,8 @@ namespace AAA.AGS.Client
                             OnDataReceive(quoteData);
                         }
 
+
+
                     }
                     Thread.Sleep(SLEEP_INTERVAL);
                 }
