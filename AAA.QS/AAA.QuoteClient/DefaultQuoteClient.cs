@@ -311,13 +311,11 @@ namespace AAA.QuoteClient
             long lStartTick;
 
             try
-            {
-                Console.WriteLine("GetTodayTick : " + strSymbolId + ":" + (new DateTime(_dicLastTicks[strSymbolId])).ToString("yyyy/MM/dd HH:mm:ss"));
-
+            {                
                 lstTickData = new List<TickInfo>();
                 List<IMessage> lstMessage = _dicMQClient[strSymbolId].Peek("Ticks >= " + _dicLastTicks[strSymbolId] + " and Ticks < " + (_dicLastTicks[strSymbolId] + TimeSpan.TicksPerSecond * SECOND_PER_ROUND));
                 //lStartTick = _dicLastTicks[strSymbolId];
-
+                Console.WriteLine("GetTodayTick(Now : " + DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss") + ") : " + strSymbolId + ":" + (new DateTime(_dicLastTicks[strSymbolId])).ToString("yyyy/MM/dd HH:mm:ss") + "," + lstMessage);
                 if (lstMessage == null)
                     return lstTickData;
 
