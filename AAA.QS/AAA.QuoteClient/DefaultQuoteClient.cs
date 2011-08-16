@@ -305,15 +305,22 @@ namespace AAA.QuoteClient
             throw new NotImplementedException();
         }
 
+        private List<IMessage> GetMessage(string strSymbolId, long lStartTicks)
+        {
+            return _dicMQClient[strSymbolId].Peek("Ticks >= " + lStartTicks + " and Ticks < " + (lStartTicks + TimeSpan.TicksPerSecond * SECOND_PER_ROUND));
+        }
+
         public List<AAA.Meta.Quote.Data.TickInfo> GetTodayTick(string strSymbolId)
         {
             List<TickInfo> lstTickData = null;
-            long lStartTick;
+            long lStartTick = 0;
+            long lLastTicks = 0;
 
             try
             {                
                 lstTickData = new List<TickInfo>();
-                List<IMessage> lstMessage = _dicMQClient[strSymbolId].Peek("Ticks >= " + _dicLastTicks[strSymbolId] + " and Ticks < " + (_dicLastTicks[strSymbolId] + TimeSpan.TicksPerSecond * SECOND_PER_ROUND));
+                //List<IMessage> lstMessage = _dicMQClient[strSymbolId].Peek("Ticks >= " + _dicLastTicks[strSymbolId] + " and Ticks < " + (_dicLastTicks[strSymbolId] + TimeSpan.TicksPerSecond * SECOND_PER_ROUND));
+                List<IMessage> lstMessage = GetMessage(strSymbolId, _dicLastTicks[strSymbolId]);//_dicMQClient[strSymbolId].Peek("Ticks >= " + _dicLastTicks[strSymbolId] + " and Ticks < " + (_dicLastTicks[strSymbolId] + TimeSpan.TicksPerSecond * SECOND_PER_ROUND));
                 //lStartTick = _dicLastTicks[strSymbolId];
                 Console.WriteLine("GetTodayTick(Now : " + DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss") + ") : " + strSymbolId + ":" + (new DateTime(_dicLastTicks[strSymbolId])).ToString("yyyy/MM/dd HH:mm:ss") + "," + lstMessage);
                 if (lstMessage == null)
@@ -321,12 +328,28 @@ namespace AAA.QuoteClient
 
                 foreach (IMessage message in lstMessage)
                 {
-                    //_dicLastTicks[strSymbolId] = message.Id;
+                    lLastTicks = message.Id;
                     if (((TickInfo)message.Message).Id != strSymbolId)
                         continue;
                     lstTickData.Add((TickInfo)message.Message);
                 }
-                _dicLastTicks[strSymbolId] = Math.Min((_dicLastTicks[strSymbolId] + TimeSpan.TicksPerSecond * SECOND_PER_ROUND), DateTime.Now.Ticks);
+
+                lStartTick = Math.Min((_dicLastTicks[strSymbolId] + TimeSpan.TicksPerSecond * SECOND_PER_ROUND), DateTime.Now.Ticks);
+
+                if (lStartTick > lLastTicks)
+                {
+                    lstMessage = GetMessage(strSymbolId, Math.Min(lStartTick, lLastTicks));
+                    if(lstMessage != null)
+                        foreach (IMessage message in lstMessage)
+                        {
+                            if (((TickInfo)message.Message).Id != strSymbolId)
+                                continue;
+                            lstTickData.Add((TickInfo)message.Message);
+                        }
+                    lLastTicks += TimeSpan.TicksPerSecond * SECOND_PER_ROUND;
+                }
+
+                _dicLastTicks[strSymbolId] = lStartTick;
 
             }
             catch (Exception ex)
