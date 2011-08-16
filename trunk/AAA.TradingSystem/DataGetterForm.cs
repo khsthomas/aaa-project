@@ -77,6 +77,11 @@ namespace AAA.TradingSystem
                 while(dataReader.Read())
                     strStartTime = dataReader[0].ToString();
 
+                if (txtStartDate.Text.Trim() != "")
+                {
+                    strStartTime = txtStartDate.Text + " 00:00:00";
+                }
+
                 dtNow = DateTime.Now;
                 dtStartTime = (strStartTime == "" ? dtNow.AddYears(-2) : DateTime.Parse(strStartTime));
                 lstDate = new List<DateTime>();

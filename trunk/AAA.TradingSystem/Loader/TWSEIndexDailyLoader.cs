@@ -21,18 +21,18 @@ namespace AAA.TradingSystem.Loader
             IResultSet resultSet = new TextResultSet(Environment.CurrentDirectory + @"\cfg\index_mapping.ini", false);
             try
             {
+                resultSet.Load();
                 _lstSymbolId = new List<string>();
                 while (resultSet.Read())
                 {
                     if ((resultSet.Cells(2) == "上市") &&
                        (resultSet.Cells(2) == "指數"))
                         _lstSymbolId.Add(resultSet.Cells(0).ToString());
-
                 }
             }
             catch (Exception ex)
             {
-
+                Console.WriteLine(ex.Message + "," + ex.StackTrace);
             }
         }
 
@@ -91,14 +91,13 @@ namespace AAA.TradingSystem.Loader
 
             try
             {
+                ParseHead(resultSet.GetAttribute("Date"));
                 strValues = new string[9];
                 fOpen = new float[_lstField.Count - 1];
                 fHigh = new float[_lstField.Count - 1];
                 fLow = new float[_lstField.Count - 1];
                 fClose = new float[_lstField.Count - 1];
-
-                ParseHead(resultSet.GetAttribute("Date"));
-
+               
                 resultSet.Reset();
 
                 for (int i = 0; i < fOpen.Length; i++)
@@ -125,75 +124,21 @@ namespace AAA.TradingSystem.Loader
                         fClose[i] = float.Parse(resultSet.Cells(i).ToString());
                         fHigh[i] = Math.Max(float.Parse(resultSet.Cells(i).ToString()), fHigh[i]);
                         fLow[i] = Math.Min(float.Parse(resultSet.Cells(i).ToString()), fLow[i]);
-                    }
+                    }                    
                 }
-
-                while(true)
+                
+                for (int i = 0; i < fOpen.Length; i++)
                 {
-                    try
-                    {
-                        strValues[0] = resultSet.Cells(5).ToString().Trim(); //Open
-                    }
-                    catch 
-                    {
-                        strValues[0] = "0";
-                    }
-                    try
-                    {
-                        strValues[1] = resultSet.Cells(6).ToString().Trim(); //High
-                    }
-                    catch
-                    {
-                        strValues[1] = "0";
-                    }
-                    try
-                    {
-                        strValues[2] = resultSet.Cells(7).ToString().Trim(); //Low
-                    }
-                    catch
-                    {
-                        strValues[2] = "0";
-                    }
-                    try
-                    {
-                        strValues[3] = resultSet.Cells(8).ToString().Trim(); //Close
-                    }
-                    catch
-                    {
-                        strValues[3] = "0";
-                    }
-                    try
-                    {
-                        strValues[4] = resultSet.Cells(2).ToString().Trim(); //Vol
-                    }
-                    catch
-                    {
-                        strValues[4] = "0";
-                    }
-                    try
-                    {
-                        strValues[5] = resultSet.Cells(4).ToString().Trim(); //Amt
-                    }
-                    catch
-                    {
-                        strValues[5] = "0";
-                    }
-                    try
-                    {
-                        if (resultSet.Cells(9).ToString().Trim() == "")
-                            strValues[6] = strValues[3];
-                        else
-                            strValues[6] = (float.Parse(resultSet.Cells(8).ToString().Trim()) - (resultSet.Cells(9).ToString().Trim() == "－" ? -1.0 : 1.0) * float.Parse(resultSet.Cells(10).ToString().Trim())).ToString(); //PreClose
-                    }
-                    catch
-                    {
-                        continue;
-                    }
-
+                    strValues[0] = fOpen[i].ToString();
+                    strValues[1] = fHigh[i].ToString();
+                    strValues[2] = fLow[i].ToString();
+                    strValues[3] = fClose[i].ToString();
+                    strValues[4] = "0";
+                    strValues[5] = "0";
+                    strValues[6] = "0";
                     strValues[7] = GetLoaderParam("ExDate"); //DateTime
-                    strValues[8] = resultSet.Cells(0).ToString().Trim(); //SymbolId
-
-                    if(Database.ExecuteUpdate(strInsertSQL, strValues) != 1)
+                    strValues[8] = _lstSymbolId[i].Trim(); //SymbolId
+                    if (Database.ExecuteUpdate(strInsertSQL, strValues) != 1)
                         if (Database.ExecuteUpdate(strUpdateSQL, strValues) != 1)
                         {
                             ErrorMessage = Database.ErrorMessage;
