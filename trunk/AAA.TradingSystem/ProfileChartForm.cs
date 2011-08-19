@@ -18,7 +18,8 @@ namespace AAA.TradingSystem
     public partial class ProfileChartForm : Form
     {
         private const int QUERY_DAYS = 1;
-        private const int UPDATE_TICKS = 10;
+        private int UPDATE_TICKS = 100;
+        private int UPDATE_MAX_TIME = 5; //second
         private int _iTimePeriod = 30;
         private float _fPriceInterval = 5;
         private string _strLastDate;
@@ -31,6 +32,8 @@ namespace AAA.TradingSystem
         private bool _FirstRun = true;
         private DateTime LastHistoryTime = DateTime.Now;
         private int iTickCount = 0;
+        private int iVolCount = 0;
+        private DateTime LastTickUpdateTime = DateTime.Now;
 
         public ProfileChartForm()
         {
@@ -47,6 +50,8 @@ namespace AAA.TradingSystem
                 _client = new MQClient();
                 _client.DataHandler += new DataHandler(OnDataReceive);
                 _strLastDate = "";
+                cbxUpdateSeconds.SelectedIndex = 2;
+                cbxUpdateTicks.SelectedIndex = 2;
             }
             catch (Exception ex)
             {
@@ -200,22 +205,26 @@ namespace AAA.TradingSystem
         private void UpdateTickData(QuoteData quoteData)
         {
             if (quoteData.SymbolId == txtSymbolId.Text) {
-                if (DateTime.Parse(quoteData.LastUpdateTime) > LastHistoryTime)
+                if (DateTime.Parse(quoteData.LastUpdateTime) > LastHistoryTime) 
                 {
                     _ProfileMgr.AddData(DateTime.Parse(quoteData.LastUpdateTime),
                                                                float.Parse(quoteData.Items[5]),
                                                                int.Parse(quoteData.Items[2]));
                     iTickCount++;
-                    if (iTickCount == UPDATE_TICKS)
+                    iVolCount = iVolCount + int.Parse(quoteData.Items[2]);
+                    if ((iTickCount == UPDATE_TICKS) || (DateTime.Now > LastTickUpdateTime.AddSeconds(UPDATE_MAX_TIME)))
                     {
                         pChartContainer1.AddProfileMgr(_ProfileMgr);
                         pChartContainer1.SetLastPos();
                         pChartContainer1.SetLastDayProfileVT();
                         iTickCount = 0;
+                        iVolCount = 0;
+                        LastTickUpdateTime = DateTime.Now;
+                        //lblUpdateCnt.Text = quoteData.LastUpdateTime.ToString() + "(P:" + float.Parse(quoteData.Items[5]).ToString() + ";V:" + iVolCount + ";T:" + iTickCount + ")";
                     }
+                    lblUpdateCnt.Text = quoteData.LastUpdateTime.ToString() + "(P:" + float.Parse(quoteData.Items[5]).ToString() + ";V:" + iVolCount + ";T:" + iTickCount + ")";
                     //lblUpdateCnt.Text = quoteData.LastUpdateTime.ToString();
                 }
-                lblUpdateCnt.Text = quoteData.LastUpdateTime.ToString() + "(" + quoteData.Items[2] + ")";
             }
         }
 
@@ -334,6 +343,16 @@ namespace AAA.TradingSystem
             btnStopUpdate.Enabled = false;
             lblUpdateCnt.Text = "Stop";
             _client.Disconnect();
+        }
+
+        private void cbxUpdateTicks_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            UPDATE_TICKS = int.Parse(cbxUpdateTicks.Items[cbxUpdateTicks.SelectedIndex].ToString());
+        }
+
+        private void cbxUpdateSeconds_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            UPDATE_MAX_TIME = int.Parse(cbxUpdateSeconds.Items[cbxUpdateSeconds.SelectedIndex].ToString());
         }
     }
 }
