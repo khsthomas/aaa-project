@@ -25,8 +25,8 @@ namespace AAA.TradingSystem.Loader
                 _lstSymbolId = new List<string>();
                 while (resultSet.Read())
                 {
-                    if ((resultSet.Cells(2) == "上市") &&
-                       (resultSet.Cells(2) == "指數"))
+                    if ((resultSet.Cells(2).ToString() == "上市") &&
+                       (resultSet.Cells(3).ToString() == "指數"))
                         _lstSymbolId.Add(resultSet.Cells(0).ToString());
                 }
             }
@@ -62,15 +62,24 @@ namespace AAA.TradingSystem.Loader
             
             try
             {
-                strFields = strHead.Split(new string[] {"<th>"}, StringSplitOptions.RemoveEmptyEntries);
-
-                strFields[0] = strFields[0].Substring(strFields[0].IndexOf('>', strFields[0].IndexOf("<th") + 1) + 1);
-                strFields[0] = strFields[0].Substring(0, strFields[0].IndexOf('<'));
-                _strExDate = ParseDate(strFields[0]);
+                strFields = strHead.Split(new string[] {"</th>"}, StringSplitOptions.RemoveEmptyEntries);
+                _strExDate = ParseDate(strFields[0].Substring(strFields[0].LastIndexOf('>') + 1));
 
                 _lstField = new List<string>();
-                for(int i = 1; i < strFields.Length; i++)
-                    _lstField.Add(strFields[i].Replace("</th>", ""));
+                for (int i = 2; i < strFields.Length; i++)
+                {
+                    if (strFields[i].IndexOf("tr") > -1)
+                        continue;
+                    if (strFields[i].IndexOf("div") > -1)
+                    {
+                        strFields[i] = strFields[i].Replace("</div>", "");
+                        _lstField.Add(strFields[i].Substring(strFields[i].LastIndexOf('>') + 1));
+                    }
+                    else
+                    {
+                        _lstField.Add(strFields[i].Replace("<th>", ""));
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -80,8 +89,8 @@ namespace AAA.TradingSystem.Loader
 
         public override bool Load(AAA.ResultSet.IResultSet resultSet)
         {
-            string strInsertSQL = "INSERT INTO TWSE_Stock_D_Deal(OpenPrice, HighestPrice, LowestPrice, ClosePrice, Vol, Amt, PreClose, ExDate, SymbolId) VALUES({0}, {1}, {2}, {3}, {4}, {5}, {6}, '{7}', '{8}')";
-            string strUpdateSQL = "UPDATE TWSE_Stock_D_Deal SET OpenPrice = {0}, HighestPrice = {1}, LowestPrice = {2}, ClosePrice = {3}, Vol = {4}, Amt = {5}, PreClose = {6} WHERE ExDate = '{7}' AND SymbolId = '{8}'";
+            string strInsertSQL = "INSERT INTO TWSE_Stock_D_Deal(OpenPrice, HighestPrice, LowestPrice, ClosePrice, Vol, Amt, PreClose, ExDate, SymbolId) VALUES({0}, {1}, {2}, {3}, {4}, {5}, {6}, CDATE('{7}'), '{8}')";
+            string strUpdateSQL = "UPDATE TWSE_Stock_D_Deal SET OpenPrice = {0}, HighestPrice = {1}, LowestPrice = {2}, ClosePrice = {3}, Vol = {4}, Amt = {5}, PreClose = {6} WHERE ExDate = CDATE('{7}') AND SymbolId = '{8}'";
             string[] strValues;
 
             float[] fOpen;
@@ -93,10 +102,10 @@ namespace AAA.TradingSystem.Loader
             {
                 ParseHead(resultSet.GetAttribute("Date"));
                 strValues = new string[9];
-                fOpen = new float[_lstField.Count - 1];
-                fHigh = new float[_lstField.Count - 1];
-                fLow = new float[_lstField.Count - 1];
-                fClose = new float[_lstField.Count - 1];
+                fOpen = new float[_lstField.Count];
+                fHigh = new float[_lstField.Count];
+                fLow = new float[_lstField.Count];
+                fClose = new float[_lstField.Count];
                
                 resultSet.Reset();
 
@@ -112,18 +121,18 @@ namespace AAA.TradingSystem.Loader
                 {
                     Application.DoEvents();
 
-                    for (int i = 1; i < resultSet.ColumnCount; i++)
+                    for (int i = 0; i < resultSet.ColumnCount - 1; i++)
                     {
                         if (float.IsNaN(fOpen[i]))
                         {
-                            fOpen[i] = float.Parse(resultSet.Cells(i).ToString());
-                            fHigh[i] = float.Parse(resultSet.Cells(i).ToString());
-                            fLow[i] = float.Parse(resultSet.Cells(i).ToString());
+                            fOpen[i] = float.Parse(resultSet.Cells(i + 1).ToString());
+                            fHigh[i] = float.Parse(resultSet.Cells(i + 1).ToString());
+                            fLow[i] = float.Parse(resultSet.Cells(i + 1).ToString());
                         }
 
-                        fClose[i] = float.Parse(resultSet.Cells(i).ToString());
-                        fHigh[i] = Math.Max(float.Parse(resultSet.Cells(i).ToString()), fHigh[i]);
-                        fLow[i] = Math.Min(float.Parse(resultSet.Cells(i).ToString()), fLow[i]);
+                        fClose[i] = float.Parse(resultSet.Cells(i + 1).ToString());
+                        fHigh[i] = Math.Max(float.Parse(resultSet.Cells(i + 1).ToString()), fHigh[i]);
+                        fLow[i] = Math.Min(float.Parse(resultSet.Cells(i + 1).ToString()), fLow[i]);
                     }                    
                 }
                 
@@ -136,7 +145,7 @@ namespace AAA.TradingSystem.Loader
                     strValues[4] = "0";
                     strValues[5] = "0";
                     strValues[6] = "0";
-                    strValues[7] = GetLoaderParam("ExDate"); //DateTime
+                    strValues[7] = _strExDate; //DateTime
                     strValues[8] = _lstSymbolId[i].Trim(); //SymbolId
                     if (Database.ExecuteUpdate(strInsertSQL, strValues) != 1)
                         if (Database.ExecuteUpdate(strUpdateSQL, strValues) != 1)

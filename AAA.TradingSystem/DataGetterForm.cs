@@ -246,6 +246,8 @@ namespace AAA.TradingSystem
                 lstMessage.Items.Add("開始重新計算技術指標");
                 lstMessage.Update();
                 CalculateIndicator calculateIndicator = new CalculateIndicator(strHost, strDatabase, strUsername, strPassword);
+                if (txtStartDate.Text.Trim() != "")
+                    calculateIndicator.SetStartDate(txtStartDate.Text);
                 calculateIndicator.Calculate();
                 lstMessage.Items.Add("計算技術指標計算完畢");
                 lstMessage.Update();
@@ -262,8 +264,42 @@ namespace AAA.TradingSystem
 
         private void btnUpdateIndexMapping_Click(object sender, EventArgs e)
         {
+            IniReader iniReader = new IniReader(Environment.CurrentDirectory + @"\cfg\download.ini");
+            IResultSet resultSet = new TextResultSet(Environment.CurrentDirectory + @"\cfg\index_mapping.ini", false);
+            IDatabase database;
+            string strHost;
+            string strDatabase;
+            string strUsername;
+            string strPassword;
+            string[] strValues;
+            string strInsertSQL = "INSERT INTO SymbolProfile(SymbolId, SymbolName, MarketPlace, Industral) VALUES('{0}', '{1}', '{2}', '{3}')";
+            string strDeleteSQL = "DELETE FROM SymbolProfile WHERE Industral = '指數'";
             try
             {
+                database = new AccessDatabase();
+                resultSet.Load();
+                strHost = iniReader.GetParam("Calculate", "Host");
+                strDatabase = iniReader.GetParam("Calculate", "Database");
+                strUsername = iniReader.GetParam("Calculate", "Username");
+                strPassword = iniReader.GetParam("Calculate", "Password");
+
+                database.Open(strDatabase, strUsername, strPassword);
+
+                database.ExecuteUpdate(strDeleteSQL);
+                database.Commit();
+
+                strValues = new string[4];
+                while (resultSet.Read())
+                {
+                    strValues[0] = resultSet.Cells(0).ToString();
+                    strValues[1] = resultSet.Cells(1).ToString();
+                    strValues[2] = resultSet.Cells(2).ToString();
+                    strValues[3] = resultSet.Cells(3).ToString();
+                    if (database.ExecuteUpdate(strInsertSQL, strValues) != 1)
+                    {
+                        Console.WriteLine(database.ErrorMessage);
+                    }
+                }
 
             }
             catch (Exception ex)

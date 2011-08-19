@@ -44,7 +44,7 @@ namespace AAA.AGS.ClientTest
         {
             try
             {
-                _mqClient.SetStartDateTime(DateTime.Parse("2011/08/16 11:50:00"));
+                _mqClient.SetStartDateTime(DateTime.Parse("2011/08/16 13:15:00"));
                 _mqClient.StartService();
             }
             catch (Exception ex)

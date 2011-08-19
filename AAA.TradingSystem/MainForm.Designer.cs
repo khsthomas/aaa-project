@@ -41,6 +41,7 @@
             this.userDefineSymbol = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.dataTransfer = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.SuspendLayout();
@@ -80,6 +81,7 @@
             this.menuItemMarketProfile.Name = "menuItemMarketProfile";
             this.menuItemMarketProfile.Size = new System.Drawing.Size(144, 22);
             this.menuItemMarketProfile.Text = "Market Profile";
+            this.menuItemMarketProfile.Visible = false;
             this.menuItemMarketProfile.Click += new System.EventHandler(this.menuItemMarketProfile_Click);
             // 
             // MenuItemJournal
@@ -92,7 +94,8 @@
             // dataManagement
             // 
             this.dataManagement.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.dataGetter});
+            this.dataGetter,
+            this.dataTransfer});
             this.dataManagement.Name = "dataManagement";
             this.dataManagement.Size = new System.Drawing.Size(41, 20);
             this.dataManagement.Text = "資料";
@@ -100,7 +103,7 @@
             // dataGetter
             // 
             this.dataGetter.Name = "dataGetter";
-            this.dataGetter.Size = new System.Drawing.Size(118, 22);
+            this.dataGetter.Size = new System.Drawing.Size(152, 22);
             this.dataGetter.Text = "資料抓取";
             this.dataGetter.Click += new System.EventHandler(this.dataGetter_Click);
             // 
@@ -150,6 +153,13 @@
             this.toolStripStatusLabel.Size = new System.Drawing.Size(32, 17);
             this.toolStripStatusLabel.Text = "Status";
             // 
+            // dataTransfer
+            // 
+            this.dataTransfer.Name = "dataTransfer";
+            this.dataTransfer.Size = new System.Drawing.Size(152, 22);
+            this.dataTransfer.Text = "資料轉換";
+            this.dataTransfer.Click += new System.EventHandler(this.dataTransfer_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -185,6 +195,7 @@
         private System.Windows.Forms.ToolStripMenuItem MenuItemJournal;
         private System.Windows.Forms.ToolStripMenuItem userDefine;
         private System.Windows.Forms.ToolStripMenuItem userDefineSymbol;
+        private System.Windows.Forms.ToolStripMenuItem dataTransfer;
     }
 }
 

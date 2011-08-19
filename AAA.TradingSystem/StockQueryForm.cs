@@ -125,10 +125,10 @@ namespace AAA.TradingSystem
                     switch (cboRatioDirection.Text)
                     {
                         case "漲幅":
-                            strSQL += "   AND ((a.ClosePrice - a.PreClose) / a.PreClose) * 100 > {1} ";
+                            strSQL += "   AND IIF(a.PreClose = 0, 0, ((a.ClosePrice - a.PreClose) / a.PreClose) * 100) > {1} ";
                             break;
                         case "跌幅":
-                            strSQL += "   AND ((a.ClosePrice - a.PreClose) / a.PreClose) * 100 < {1} ";
+                            strSQL += "   AND IFF(a.PreClose = 0, 0, ((a.ClosePrice - a.PreClose) / a.PreClose) * 100) < {1} ";
                             break;
                     }
                 }
