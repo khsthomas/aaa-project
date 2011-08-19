@@ -13,6 +13,7 @@ namespace AAA.TradingSystem.Indicator
     {
         private IDatabase _databaseQuery;
         private IDatabase _databaseUpdate;
+        private string _strStartDate;
 
         public CalculateIndicator(string strHost, string strDatabase, string strUsername, string strPassword)
         {
@@ -42,6 +43,11 @@ namespace AAA.TradingSystem.Indicator
             }
 
             return strDate;
+        }
+
+        public void SetStartDate(string strStartDate)
+        {
+            _strStartDate = strStartDate;
         }
 
         public void Calculate()
@@ -92,12 +98,21 @@ namespace AAA.TradingSystem.Indicator
 
                 for (int i = 0; i < lstSymbolId.Count; i++)
                 {
-                    dataReader = _databaseQuery.ExecuteQuery("SELECT MAX(ExDate) FROM TWSE_Stock_D_Index WHERE SymbolId = '{0}'", new object[] { lstSymbolId[i] });
+                    if (_strStartDate == null)
+                    {
+                        dataReader = _databaseQuery.ExecuteQuery("SELECT MAX(ExDate) FROM TWSE_Stock_D_Index WHERE SymbolId = '{0}'", new object[] { lstSymbolId[i] });
 
-                    while(dataReader.Read())
-                        strStartTime = dataReader[0].ToString() == "" ? "1900/01/01 00:00:00" : DateTime.Parse(dataReader[0].ToString()).AddDays(-120).ToString("yyyy/MM/dd") + " 00:00:00";
+                        while (dataReader.Read())
+                            strStartTime = dataReader[0].ToString() == "" ? "1900/01/01 00:00:00" : DateTime.Parse(dataReader[0].ToString()).AddDays(-120).ToString("yyyy/MM/dd") + " 00:00:00";
+                        dataReader.Close();
 
-                    dataReader.Close();
+                    }
+                    else
+                    {
+                        strStartTime = _strStartDate + " 00:00:00";
+                    }
+
+                    
 
                     dataReader = _databaseQuery.ExecuteQuery("SELECT ExDate, OpenPrice, HighestPrice, LowestPrice, ClosePrice, Vol FROM TWSE_Stock_D_Deal WHERE ExDate >= CDATE('{0}') AND SymbolId = '{1}' ORDER BY ExDate", new object[] { strStartTime, lstSymbolId[i] });
                     lstOpen = new List<float>();

@@ -123,6 +123,20 @@ namespace AAA.TradingSystem
             }
         }
 
+        private void dataTransfer_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                DataTransferForm childForm = new DataTransferForm();                
+                childForm.MdiParent = this;
+                childForm.Show();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "," + ex.StackTrace);
+            }
+        }
+
 
     }
 }
