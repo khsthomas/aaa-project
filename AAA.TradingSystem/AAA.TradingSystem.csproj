@@ -105,6 +105,11 @@
     <Compile Include="IndicatorSetup.Designer.cs">
       <DependentUpon>IndicatorSetup.cs</DependentUpon>
     </Compile>
+    <Compile Include="Indicator\AbstractIndicator.cs" />
+    <Compile Include="Indicator\IIndicator.cs" />
+    <Compile Include="Indicator\KDCross.cs" />
+    <Compile Include="Indicator\MAArrange.cs" />
+    <Compile Include="Indicator\MACross.cs" />
     <Compile Include="Loader\TWSEIndexMonthlyVolLoader.cs" />
     <Compile Include="Loader\TWSEIndexDailyVolLoader.cs" />
     <Compile Include="Loader\OTCStockDailyLoader.cs" />

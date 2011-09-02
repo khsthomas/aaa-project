@@ -21,6 +21,8 @@ namespace AAA.TradingSystem
     public partial class KBarForm : Form, IObserver
     {
         private Dictionary<string, Dictionary<string, List<string>>> _dicActiveSeries;        
+        private Dictionary<string, List<string>> _dicChartIndicator;
+        private Dictionary<string, List<string>> _dicActiveChartIndicator;
         private List<string> _lstSheetName;
         private List<string> _lstDateTimeFormat;
         private List<string> _lstFileType;
@@ -49,6 +51,36 @@ namespace AAA.TradingSystem
             Init();
         }
 
+        private void ResizeChartPanel()
+        {
+            try
+            {
+                cpExcel.Top = cpDatabase.Top;
+                cpText.Top = cpDatabase.Top;
+                cpExcel.Left = cpDatabase.Left;
+                cpText.Left = cpDatabase.Left;
+                cpExcel.Height = cpDatabase.Height;
+                cpText.Height = cpDatabase.Height;
+                cpExcel.Width = cpDatabase.Width;
+                cpText.Width = cpDatabase.Width;
+
+                cpExcel.IsShowInfoTable = cpDatabase.IsShowInfoTable;
+                cpExcel.IsShowLightPane = cpDatabase.IsShowLightPane;
+                cpExcel.IsShowScale = cpDatabase.IsShowScale;
+
+                cpText.IsShowInfoTable = cpDatabase.IsShowInfoTable;
+                cpText.IsShowLightPane = cpDatabase.IsShowLightPane;
+                cpText.IsShowScale = cpDatabase.IsShowScale;
+
+                cpExcel.Anchor = cpDatabase.Anchor;
+                cpText.Anchor = cpDatabase.Anchor;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "," + ex.StackTrace);
+            }
+        }
+
         private void Init()
         {
             IniReader iniReader = null;
@@ -66,9 +98,15 @@ namespace AAA.TradingSystem
             Color cControlLineColor;
 
 
-            pnlInfo.Visible = true;
-            pnlDataSource.Visible = false;
-            _cpChartPanels = new TeeChartPanel[] {cpExcel, cpText, cpDatabase};            
+            pnlInfo.Visible = false;
+            pnlDataSource.Visible = true;
+            cpDatabase.IsShowInfoTable = true;
+            cpDatabase.IsShowScale = true;
+            cpDatabase.IsShowLightPane = true;
+
+            _cpChartPanels = new TeeChartPanel[] {cpExcel, cpText, cpDatabase};
+
+            ResizeChartPanel();
 
             try
             {
@@ -112,7 +150,8 @@ namespace AAA.TradingSystem
                 for (int i = 0; i < strValues.Length; i++)
                     cboFileType.Items.Add(strValues[i]);
                 if (cboFileType.Items.Count > 0)
-                    cboFileType.SelectedIndex = 2;
+                    //cboFileType.SelectedIndex = 2;
+                    cboFileType.SelectedIndex = 1;
 
                 txtSymbolId.Text = iniReader.GetParam("DataSource", "DefaultSymbolId");
 
@@ -135,8 +174,8 @@ namespace AAA.TradingSystem
                 {
                     _cpChartPanels[iDataSource].PointPerPage = int.Parse(iniReader.GetParam("DataSource", "PointPerPage"));
                     _cpChartPanels[iDataSource].ShowVerticalCursor = true;
-                    _cpChartPanels[iDataSource].IsShowInfoTable = false;
-                    _cpChartPanels[iDataSource].IsShowScale = false;
+//                    _cpChartPanels[iDataSource].IsShowInfoTable = false;
+//                    _cpChartPanels[iDataSource].IsShowScale = false;
                     _cpChartPanels[iDataSource].OnPositionChange += new PositionChangeEventHandler(OnPositionChange);
                     
                     _cpChartPanels[iDataSource].DateTimeFormat = _lstDateTimeFormat[cboPeriod.Items.IndexOf(cboPeriod.Text)];
@@ -170,8 +209,24 @@ namespace AAA.TradingSystem
                                 strTitleNames = iniReader.GetParam(_strDataSourceNames[iDataSource], strValues[i]).Split(',');
 
                             for (int j = 0; j < strTitleNames.Length; j++)
+                            {
                                 lstTitleName.Add(strTitleNames[j]);
-                            _cpChartPanels[iDataSource].AddExtraInfo(strValues[i], lstFieldName, lstTitleName);                                                        
+                                _cpChartPanels[iDataSource].SignalInfoPane.AddTitleMapping(strTitleNames[j], strFieldNames[j]);
+                            }
+                            _cpChartPanels[iDataSource].AddExtraInfo(strValues[i], lstFieldName, lstTitleName);
+
+                            if (iniReader.GetParam(_strDataSourceNames[iDataSource], "DisplayLight") != null)
+                            {
+                                if (iniReader.Section.IndexOf("Color") > -1)
+                                {
+                                    lstColor = iniReader.GetKey("Color");
+                                    for (int j = 0; j < lstColor.Count; j++)
+                                    {
+                                        strRGBs = iniReader.GetParam("Color", lstColor[j]).Split(',');
+                                        _cpChartPanels[iDataSource].SignalInfoPane.AddColorMapping(lstColor[j], Color.FromArgb(int.Parse(strRGBs[0]), int.Parse(strRGBs[1]), int.Parse(strRGBs[2])));
+                                    }
+                                }
+                            }
 
 /*
                             if(iniReader.GetParam(_strDataSourceNames[iDataSource], "DisplayLight") != null)
@@ -192,7 +247,7 @@ namespace AAA.TradingSystem
                                     }
                                 }
                             }
- */ 
+*/
                             //_cpChartPanels[iDataSource].AddSeriesField(strValues[i], lstFieldName);
                             
                         }
@@ -265,10 +320,16 @@ namespace AAA.TradingSystem
             try
             {
                 txtDateTime.Text = dicValue["時間"];
-                txtOpen.Text = dicValue["開盤價"];
-                txtHigh.Text = dicValue["最高價"];
-                txtLow.Text = dicValue["最低價"];
-                txtClose.Text = dicValue["收盤價"];
+
+                if(dicValue.ContainsKey("開盤價"))
+                    txtOpen.Text = dicValue["開盤價"];
+                if (dicValue.ContainsKey("最高價"))
+                    txtHigh.Text = dicValue["最高價"];
+                if (dicValue.ContainsKey("最低價"))
+                    txtLow.Text = dicValue["最低價"];
+                if (dicValue.ContainsKey("收盤價"))
+                    txtClose.Text = dicValue["收盤價"];
+
                 try
                 {
                     txtVolume.Text = float.Parse(dicValue["成交量"]).ToString("0");
@@ -365,6 +426,8 @@ namespace AAA.TradingSystem
                         {
                             strValues = strExtraInfo[i].Split('~');
                             _cpChartPanels[iDataSource].AddActiveExtraInfo(strValues[0], strValues[1]);
+                            _cpChartPanels[iDataSource].SignalInfoPane.DisplayKey = strValues[1];
+                            //_cpChartPanels[iDataSource].SignalInfoPane.AddActiveTitle(strValues[1]);
                         }
                     }
                 }                                
@@ -411,6 +474,12 @@ namespace AAA.TradingSystem
                 if (resultSet.Load() == false)
                 {
                     MessageBox.Show(resultSet.ErrorMessage);
+                    return;
+                }
+
+                if (resultSet.RowCount == 0)
+                {
+                    MessageBox.Show("查無資料");
                     return;
                 }
 
@@ -498,6 +567,210 @@ namespace AAA.TradingSystem
                     Display();
                     break;
  */ 
+            }
+        }
+
+        private void btnConfig_Click(object sender, EventArgs e)
+        {
+            IniReader iniReader = null;
+            string[] strChartList;
+            string[] strIndicators;
+            List<string> lstIndicator;
+            
+            try
+            {
+                _dicChartIndicator = new Dictionary<string,List<string>>();
+                _dicActiveChartIndicator = new Dictionary<string, List<string>>();
+
+                iniReader = new IniReader(Environment.CurrentDirectory + @"\cfg\" + _strChartConfigs[cboFileType.SelectedIndex]);
+                strChartList = iniReader.GetParam("ChartList").Split(',');
+
+                cboChart.Items.Clear();
+                for(int i = 0; i < strChartList.Length; i++)
+                {
+                    cboChart.Items.Add(strChartList[i]);
+                    
+                    lstIndicator = new List<string>();
+                    strIndicators = iniReader.GetParam(strChartList[i]).Split(',');
+
+                    foreach(string strIndicator in strIndicators)
+                        lstIndicator.Add(strIndicator);
+
+                    _dicChartIndicator.Add(strChartList[i], lstIndicator);
+
+                }
+
+                iniReader = new IniReader(Environment.CurrentDirectory + @"\cfg\" + _strActiveCharts[cboFileType.SelectedIndex]);
+                strChartList = iniReader.GetParam("ChartList").Split(',');
+
+                for (int i = 0; i < strChartList.Length; i++)
+                {
+                    lstIndicator = new List<string>();
+                    strIndicators = iniReader.GetParam(strChartList[i]).Split(',');
+
+                    foreach (string strIndicator in strIndicators)
+                        lstIndicator.Add(strIndicator);
+
+                    _dicActiveChartIndicator.Add(strChartList[i], lstIndicator);
+
+                }
+                gbIndicatorSetup.Visible = true;
+
+                if (cboChart.Items.Count > 0)
+                    cboChart.SelectedIndex = 0;
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "," + ex.StackTrace);
+                gbIndicatorSetup.Visible = false;
+            }
+        }
+
+        private void cboChart_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            List<string> lstIndicator;
+            try
+            {
+                if(_dicChartIndicator.ContainsKey(cboChart.Text) == false)
+                    return;
+
+                lstIndicator = _dicChartIndicator[cboChart.Text];
+                lstSourceIndicator.Items.Clear();
+
+                foreach(string strIndicator in lstIndicator)
+                    lstSourceIndicator.Items.Add(strIndicator);
+
+                if (_dicActiveChartIndicator.ContainsKey(cboChart.Text) == false)
+                    return;
+
+                lstIndicator = _dicActiveChartIndicator[cboChart.Text];
+                lstChartIndicator.Items.Clear();
+
+                foreach (string strIndicator in lstIndicator)
+                    lstChartIndicator.Items.Add(strIndicator);
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message + "," + ex.StackTrace);
+            }
+        }
+
+        private void btnOK_Click(object sender, EventArgs e)
+        {
+            StreamWriter sw = null;
+            StreamReader sr = null;
+            string strLine;
+            List<string> lstParam;
+            List<string> lstLine;
+            List<string> lstIndicator;
+
+
+            try
+            {
+                gbIndicatorSetup.Visible = false;
+
+                sr = new StreamReader(Environment.CurrentDirectory + @"\cfg\" + _strActiveCharts[cboFileType.SelectedIndex]);
+                lstParam = new List<string>();
+                lstLine = new List<string>();
+
+                while ((strLine = sr.ReadLine()) != null)
+                {
+                    lstParam.Add(strLine.Split('=')[0]);
+                    lstLine.Add(strLine);
+                }
+                sr.Close();
+
+
+                sw = new StreamWriter(Environment.CurrentDirectory + @"\cfg\" + _strActiveCharts[cboFileType.SelectedIndex] + ".tmp", false,Encoding.Default);
+                for(int i = 0; i < lstParam.Count; i++)
+                {
+                    if (_dicActiveChartIndicator.ContainsKey(lstParam[i]))
+                    {
+                        lstIndicator = _dicActiveChartIndicator[lstParam[i]];
+                        strLine = "";
+
+                        foreach (string strIndicator in lstIndicator)
+                            strLine += "," + strIndicator;
+                        
+                        if(strLine.Trim().Length > 0)
+                            sw.WriteLine(lstParam[i] + "=" + strLine.Substring(1));
+
+                    }
+                    else
+                    {
+                        if(lstLine[i].Trim().Length > 0)
+                            sw.WriteLine(lstLine[i]);
+                    }
+                }
+
+                sw.Close();
+
+                if (File.Exists(Environment.CurrentDirectory + @"\cfg\" + _strActiveCharts[cboFileType.SelectedIndex] + ".bak"))
+                    File.Delete(Environment.CurrentDirectory + @"\cfg\" + _strActiveCharts[cboFileType.SelectedIndex] + ".bak");
+
+                File.Move(Environment.CurrentDirectory + @"\cfg\" + _strActiveCharts[cboFileType.SelectedIndex], Environment.CurrentDirectory + @"\cfg\" + _strActiveCharts[cboFileType.SelectedIndex] + ".bak");
+                File.Move(Environment.CurrentDirectory + @"\cfg\" + _strActiveCharts[cboFileType.SelectedIndex] + ".tmp", Environment.CurrentDirectory + @"\cfg\" + _strActiveCharts[cboFileType.SelectedIndex]);
+                 
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "," + ex.StackTrace);
+            }
+            finally
+            {
+                if (sr != null)
+                    sr.Close();
+
+                if (sw != null)
+                    sw.Close();
+            }
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                gbIndicatorSetup.Visible = false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "," + ex.StackTrace);
+            }
+        }
+
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (lstSourceIndicator.SelectedIndex < 0)
+                    return;
+
+                if (lstChartIndicator.Items.IndexOf(lstSourceIndicator.Items[lstSourceIndicator.SelectedIndex]) > -1)
+                    return;
+
+                lstChartIndicator.Items.Add(lstSourceIndicator.SelectedItem);
+                _dicActiveChartIndicator[cboChart.Text].Add(lstSourceIndicator.SelectedItem.ToString());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "," + ex.StackTrace);
+            }
+        }
+
+        private void btnRemove_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (lstChartIndicator.SelectedIndex < 0)
+                    return;
+
+                _dicActiveChartIndicator[cboChart.Text].Remove(lstChartIndicator.SelectedItem.ToString());
+                lstChartIndicator.Items.Remove(lstChartIndicator.SelectedItem);                
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "," + ex.StackTrace);
             }
         }
 
