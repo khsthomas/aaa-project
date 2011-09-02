@@ -54,12 +54,24 @@
             this.btnDisplay = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.txtSymbolId = new System.Windows.Forms.TextBox();
+            this.gbIndicatorSetup = new System.Windows.Forms.GroupBox();
+            this.btnCancel = new System.Windows.Forms.Button();
+            this.btnOK = new System.Windows.Forms.Button();
+            this.btnRemove = new System.Windows.Forms.Button();
+            this.btnAdd = new System.Windows.Forms.Button();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.cboChart = new System.Windows.Forms.ComboBox();
+            this.lstChartIndicator = new System.Windows.Forms.ListBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.lstSourceIndicator = new System.Windows.Forms.ListBox();
             this.cpDatabase = new AAA.TeeChart.TeeChartPanel();
             this.cpText = new AAA.TeeChart.TeeChartPanel();
             this.cpExcel = new AAA.TeeChart.TeeChartPanel();
             this.pnlConfig.SuspendLayout();
             this.pnlInfo.SuspendLayout();
             this.pnlDataSource.SuspendLayout();
+            this.gbIndicatorSetup.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlConfig
@@ -270,7 +282,7 @@
             this.btnConfig.TabIndex = 7;
             this.btnConfig.Text = "指標";
             this.btnConfig.UseVisualStyleBackColor = true;
-            this.btnConfig.Visible = false;
+            this.btnConfig.Click += new System.EventHandler(this.btnConfig_Click);
             // 
             // txtSymbolName
             // 
@@ -308,6 +320,120 @@
             this.txtSymbolId.Text = "1101";
             this.txtSymbolId.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtSymbolId_KeyUp);
             // 
+            // gbIndicatorSetup
+            // 
+            this.gbIndicatorSetup.Controls.Add(this.btnCancel);
+            this.gbIndicatorSetup.Controls.Add(this.btnOK);
+            this.gbIndicatorSetup.Controls.Add(this.btnRemove);
+            this.gbIndicatorSetup.Controls.Add(this.btnAdd);
+            this.gbIndicatorSetup.Controls.Add(this.label12);
+            this.gbIndicatorSetup.Controls.Add(this.label11);
+            this.gbIndicatorSetup.Controls.Add(this.cboChart);
+            this.gbIndicatorSetup.Controls.Add(this.lstChartIndicator);
+            this.gbIndicatorSetup.Controls.Add(this.label10);
+            this.gbIndicatorSetup.Controls.Add(this.lstSourceIndicator);
+            this.gbIndicatorSetup.Location = new System.Drawing.Point(558, 83);
+            this.gbIndicatorSetup.Name = "gbIndicatorSetup";
+            this.gbIndicatorSetup.Size = new System.Drawing.Size(388, 255);
+            this.gbIndicatorSetup.TabIndex = 5;
+            this.gbIndicatorSetup.TabStop = false;
+            this.gbIndicatorSetup.Text = "指標設定";
+            this.gbIndicatorSetup.Visible = false;
+            // 
+            // btnCancel
+            // 
+            this.btnCancel.Location = new System.Drawing.Point(199, 217);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(59, 23);
+            this.btnCancel.TabIndex = 9;
+            this.btnCancel.Text = "取消";
+            this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            // 
+            // btnOK
+            // 
+            this.btnOK.Location = new System.Drawing.Point(128, 217);
+            this.btnOK.Name = "btnOK";
+            this.btnOK.Size = new System.Drawing.Size(59, 23);
+            this.btnOK.TabIndex = 8;
+            this.btnOK.Text = "確定";
+            this.btnOK.UseVisualStyleBackColor = true;
+            this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
+            // 
+            // btnRemove
+            // 
+            this.btnRemove.Location = new System.Drawing.Point(178, 146);
+            this.btnRemove.Name = "btnRemove";
+            this.btnRemove.Size = new System.Drawing.Size(35, 23);
+            this.btnRemove.TabIndex = 7;
+            this.btnRemove.Text = "<<";
+            this.btnRemove.UseVisualStyleBackColor = true;
+            this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
+            // 
+            // btnAdd
+            // 
+            this.btnAdd.Location = new System.Drawing.Point(178, 117);
+            this.btnAdd.Name = "btnAdd";
+            this.btnAdd.Size = new System.Drawing.Size(35, 23);
+            this.btnAdd.TabIndex = 6;
+            this.btnAdd.Text = ">>";
+            this.btnAdd.UseVisualStyleBackColor = true;
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(229, 29);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(29, 12);
+            this.label12.TabIndex = 5;
+            this.label12.Text = "副圖";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(229, 82);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(53, 12);
+            this.label11.TabIndex = 4;
+            this.label11.Text = "選取指標";
+            // 
+            // cboChart
+            // 
+            this.cboChart.FormattingEnabled = true;
+            this.cboChart.Location = new System.Drawing.Point(231, 53);
+            this.cboChart.Name = "cboChart";
+            this.cboChart.Size = new System.Drawing.Size(141, 20);
+            this.cboChart.TabIndex = 3;
+            this.cboChart.SelectedIndexChanged += new System.EventHandler(this.cboChart_SelectedIndexChanged);
+            // 
+            // lstChartIndicator
+            // 
+            this.lstChartIndicator.FormattingEnabled = true;
+            this.lstChartIndicator.ItemHeight = 12;
+            this.lstChartIndicator.Location = new System.Drawing.Point(231, 101);
+            this.lstChartIndicator.Name = "lstChartIndicator";
+            this.lstChartIndicator.Size = new System.Drawing.Size(141, 100);
+            this.lstChartIndicator.TabIndex = 2;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(16, 29);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(53, 12);
+            this.label10.TabIndex = 1;
+            this.label10.Text = "可用指標";
+            // 
+            // lstSourceIndicator
+            // 
+            this.lstSourceIndicator.FormattingEnabled = true;
+            this.lstSourceIndicator.ItemHeight = 12;
+            this.lstSourceIndicator.Location = new System.Drawing.Point(18, 53);
+            this.lstSourceIndicator.Name = "lstSourceIndicator";
+            this.lstSourceIndicator.Size = new System.Drawing.Size(141, 148);
+            this.lstSourceIndicator.TabIndex = 0;
+            // 
             // cpDatabase
             // 
             this.cpDatabase.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
@@ -321,13 +447,12 @@
             this.cpDatabase.PointPerPage = 0;
             this.cpDatabase.ShowHorizontalCursor = false;
             this.cpDatabase.ShowVerticalCursor = false;
-            this.cpDatabase.Size = new System.Drawing.Size(992, 298);
+            this.cpDatabase.Size = new System.Drawing.Size(992, 355);
             this.cpDatabase.TabIndex = 4;
             // 
             // cpText
             // 
-            this.cpText.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
+            this.cpText.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.cpText.DateTimeFormat = null;
             this.cpText.IsShowInfoTable = false;
@@ -337,13 +462,12 @@
             this.cpText.PointPerPage = 0;
             this.cpText.ShowHorizontalCursor = false;
             this.cpText.ShowVerticalCursor = false;
-            this.cpText.Size = new System.Drawing.Size(992, 254);
+            this.cpText.Size = new System.Drawing.Size(992, 261);
             this.cpText.TabIndex = 3;
             // 
             // cpExcel
             // 
-            this.cpExcel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
+            this.cpExcel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.cpExcel.DateTimeFormat = null;
             this.cpExcel.IsShowInfoTable = false;
@@ -353,14 +477,15 @@
             this.cpExcel.PointPerPage = 0;
             this.cpExcel.ShowHorizontalCursor = false;
             this.cpExcel.ShowVerticalCursor = false;
-            this.cpExcel.Size = new System.Drawing.Size(992, 254);
+            this.cpExcel.Size = new System.Drawing.Size(992, 261);
             this.cpExcel.TabIndex = 2;
             // 
             // KBarForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1016, 363);
+            this.ClientSize = new System.Drawing.Size(1016, 427);
+            this.Controls.Add(this.gbIndicatorSetup);
             this.Controls.Add(this.cpDatabase);
             this.Controls.Add(this.cpText);
             this.Controls.Add(this.cpExcel);
@@ -373,6 +498,8 @@
             this.pnlInfo.PerformLayout();
             this.pnlDataSource.ResumeLayout(false);
             this.pnlDataSource.PerformLayout();
+            this.gbIndicatorSetup.ResumeLayout(false);
+            this.gbIndicatorSetup.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -408,6 +535,17 @@
         private System.Windows.Forms.TextBox txtHigh;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox txtOpen;
+        private System.Windows.Forms.GroupBox gbIndicatorSetup;
+        private System.Windows.Forms.ComboBox cboChart;
+        private System.Windows.Forms.ListBox lstChartIndicator;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.ListBox lstSourceIndicator;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Button btnRemove;
+        private System.Windows.Forms.Button btnAdd;
+        private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.Button btnOK;
 
     }
 }

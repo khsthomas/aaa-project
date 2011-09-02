@@ -209,6 +209,7 @@ namespace AAA.TradingSystem
                 lstMessage.Update();
                 CalculateIndicator calculateIndicator = new CalculateIndicator(strHost, strDatabase, strUsername, strPassword);
                 calculateIndicator.Calculate();
+                lstMessage.Items.Add("技術指標更新完畢");
                 MessageBox.Show("資料下載成功!");
                 btnDownload.Enabled = true;
             }
@@ -300,7 +301,7 @@ namespace AAA.TradingSystem
                         Console.WriteLine(database.ErrorMessage);
                     }
                 }
-
+                MessageBox.Show("指數對照表更新完畢");
             }
             catch (Exception ex)
             {

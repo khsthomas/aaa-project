@@ -36,6 +36,7 @@ namespace AAA.Trade.VolumeAnalyzer
         private Thread _tMonitor;
         private SynchronizationContext _context;
         private bool _isSaved;
+        private string _strAlarmType;
 
         public VolumeAnalyzerForm()
         {
@@ -48,6 +49,8 @@ namespace AAA.Trade.VolumeAnalyzer
             try
             {
                 _iniReader = new IniReader(Environment.CurrentDirectory + @"\" + CONFIG_FILE);
+
+                _strAlarmType = _iniReader.GetParam("AlarmType");
 
                 _dtStartTime = DateTime.Parse(DateTime.Now.ToString("yyyy/MM/dd ") + _iniReader.GetParam("StartTime"));
                 _iDealBarLen = int.Parse(_iniReader.GetParam("DealInterval"));
@@ -134,16 +137,32 @@ namespace AAA.Trade.VolumeAnalyzer
         {
             for (int i = 0; i < tblSource.Rows.Count; i++)
             {
-                if (int.Parse(tblSource.Rows[i].Cells["DealDiff"].Value.ToString()) >= _iBigAlarmDiffVolume)
-                    tblSource.Rows[i].Cells["DealDiff"].Style.BackColor = Color.Red;
-                else if (int.Parse(tblSource.Rows[i].Cells["DealDiff"].Value.ToString()) <= -1 * _iBigAlarmDiffVolume)
-                    tblSource.Rows[i].Cells["DealDiff"].Style.BackColor = Color.Green;
-                else if (int.Parse(tblSource.Rows[i].Cells["DealDiff"].Value.ToString()) >= _iSmallAlarmDiffVolume)
-                    tblSource.Rows[i].Cells["DealDiff"].Style.BackColor = Color.LightPink;
-                else if (int.Parse(tblSource.Rows[i].Cells["DealDiff"].Value.ToString()) <= -1 * _iSmallAlarmDiffVolume)
-                    tblSource.Rows[i].Cells["DealDiff"].Style.BackColor = Color.LightGreen;
+                if (_strAlarmType == "Resp")
+                {
+                    if (int.Parse(tblSource.Rows[i].Cells["DealDiff"].Value.ToString()) >= _iBigAlarmDiffVolume)
+                        tblSource.Rows[i].Cells["DealDiff"].Style.BackColor = Color.Red;
+                    else if (int.Parse(tblSource.Rows[i].Cells["DealDiff"].Value.ToString()) <= -1 * _iBigAlarmDiffVolume)
+                        tblSource.Rows[i].Cells["DealDiff"].Style.BackColor = Color.Green;
+                    else if (int.Parse(tblSource.Rows[i].Cells["DealDiff"].Value.ToString()) >= _iSmallAlarmDiffVolume)
+                        tblSource.Rows[i].Cells["DealDiff"].Style.BackColor = Color.LightPink;
+                    else if (int.Parse(tblSource.Rows[i].Cells["DealDiff"].Value.ToString()) <= -1 * _iSmallAlarmDiffVolume)
+                        tblSource.Rows[i].Cells["DealDiff"].Style.BackColor = Color.LightGreen;
+                    else
+                        tblSource.Rows[i].Cells["DealDiff"].Style.BackColor = Color.White;
+                }
                 else
-                    tblSource.Rows[i].Cells["DealDiff"].Style.BackColor = Color.White;
+                {
+                    if (int.Parse(tblSource.Rows[i].Cells["DealDiff"].Value.ToString()) >= _iBigAlarmDiffVolume)
+                        tblSource.Rows[i].Cells["DealDiff"].Style.BackColor = Color.Green;
+                    else if (int.Parse(tblSource.Rows[i].Cells["DealDiff"].Value.ToString()) <= -1 * _iBigAlarmDiffVolume)
+                        tblSource.Rows[i].Cells["DealDiff"].Style.BackColor = Color.Red;
+                    else if (int.Parse(tblSource.Rows[i].Cells["DealDiff"].Value.ToString()) >= _iSmallAlarmDiffVolume)
+                        tblSource.Rows[i].Cells["DealDiff"].Style.BackColor = Color.LightGreen;
+                    else if (int.Parse(tblSource.Rows[i].Cells["DealDiff"].Value.ToString()) <= -1 * _iSmallAlarmDiffVolume)
+                        tblSource.Rows[i].Cells["DealDiff"].Style.BackColor = Color.LightPink;
+                    else
+                        tblSource.Rows[i].Cells["DealDiff"].Style.BackColor = Color.White;
+                }
             }
         }
 
