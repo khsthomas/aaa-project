@@ -44,6 +44,9 @@
             this.cboDirection = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.tblStock = new System.Windows.Forms.DataGridView();
+            this.chkRedBlack3 = new System.Windows.Forms.CheckBox();
+            this.txtRedBlack3 = new System.Windows.Forms.MaskedTextBox();
+            this.cboRedBlack3Compare = new System.Windows.Forms.ComboBox();
             this.gbCriteria.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tblStock)).BeginInit();
             this.SuspendLayout();
@@ -52,6 +55,9 @@
             // 
             this.gbCriteria.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbCriteria.Controls.Add(this.chkRedBlack3);
+            this.gbCriteria.Controls.Add(this.txtRedBlack3);
+            this.gbCriteria.Controls.Add(this.cboRedBlack3Compare);
             this.gbCriteria.Controls.Add(this.chkBCValue);
             this.gbCriteria.Controls.Add(this.chkRatioDirection);
             this.gbCriteria.Controls.Add(this.chkVolume);
@@ -68,7 +74,7 @@
             this.gbCriteria.Controls.Add(this.label1);
             this.gbCriteria.Location = new System.Drawing.Point(7, 3);
             this.gbCriteria.Name = "gbCriteria";
-            this.gbCriteria.Size = new System.Drawing.Size(413, 164);
+            this.gbCriteria.Size = new System.Drawing.Size(413, 188);
             this.gbCriteria.TabIndex = 0;
             this.gbCriteria.TabStop = false;
             this.gbCriteria.Text = "條件";
@@ -124,7 +130,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(133, 114);
+            this.label7.Location = new System.Drawing.Point(160, 112);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(11, 12);
             this.label7.TabIndex = 14;
@@ -132,7 +138,7 @@
             // 
             // txtDate
             // 
-            this.txtDate.Location = new System.Drawing.Point(83, 15);
+            this.txtDate.Location = new System.Drawing.Point(110, 13);
             this.txtDate.Name = "txtDate";
             this.txtDate.Size = new System.Drawing.Size(119, 22);
             this.txtDate.TabIndex = 13;
@@ -143,14 +149,14 @@
             this.cboBCValue.Items.AddRange(new object[] {
             "BC值高",
             "BC值低"});
-            this.cboBCValue.Location = new System.Drawing.Point(83, 137);
+            this.cboBCValue.Location = new System.Drawing.Point(110, 135);
             this.cboBCValue.Name = "cboBCValue";
             this.cboBCValue.Size = new System.Drawing.Size(121, 20);
             this.cboBCValue.TabIndex = 12;
             // 
             // btnQuery
             // 
-            this.btnQuery.Location = new System.Drawing.Point(243, 135);
+            this.btnQuery.Location = new System.Drawing.Point(270, 133);
             this.btnQuery.Name = "btnQuery";
             this.btnQuery.Size = new System.Drawing.Size(75, 23);
             this.btnQuery.TabIndex = 10;
@@ -161,7 +167,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(190, 116);
+            this.label5.Location = new System.Drawing.Point(217, 114);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(14, 12);
             this.label5.TabIndex = 9;
@@ -169,7 +175,7 @@
             // 
             // txtRatio
             // 
-            this.txtRatio.Location = new System.Drawing.Point(147, 110);
+            this.txtRatio.Location = new System.Drawing.Point(174, 108);
             this.txtRatio.Mask = "0.00";
             this.txtRatio.Name = "txtRatio";
             this.txtRatio.Size = new System.Drawing.Size(41, 22);
@@ -182,7 +188,7 @@
             this.cboRatioDirection.Items.AddRange(new object[] {
             "漲幅",
             "跌幅"});
-            this.cboRatioDirection.Location = new System.Drawing.Point(83, 111);
+            this.cboRatioDirection.Location = new System.Drawing.Point(110, 109);
             this.cboRatioDirection.Name = "cboRatioDirection";
             this.cboRatioDirection.Size = new System.Drawing.Size(44, 20);
             this.cboRatioDirection.TabIndex = 7;
@@ -195,7 +201,7 @@
             "量大於前三天",
             "量大於前五天",
             "量縮"});
-            this.cboVolume.Location = new System.Drawing.Point(82, 78);
+            this.cboVolume.Location = new System.Drawing.Point(109, 76);
             this.cboVolume.Name = "cboVolume";
             this.cboVolume.Size = new System.Drawing.Size(121, 20);
             this.cboVolume.TabIndex = 5;
@@ -206,7 +212,7 @@
             this.cboDirection.Items.AddRange(new object[] {
             "上漲",
             "下跌"});
-            this.cboDirection.Location = new System.Drawing.Point(82, 45);
+            this.cboDirection.Location = new System.Drawing.Point(109, 43);
             this.cboDirection.Name = "cboDirection";
             this.cboDirection.Size = new System.Drawing.Size(121, 20);
             this.cboDirection.TabIndex = 3;
@@ -230,15 +236,47 @@
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.tblStock.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.tblStock.Location = new System.Drawing.Point(7, 173);
+            this.tblStock.Location = new System.Drawing.Point(7, 197);
             this.tblStock.Name = "tblStock";
             this.tblStock.ReadOnly = true;
             this.tblStock.RowHeadersVisible = false;
             this.tblStock.RowTemplate.Height = 24;
             this.tblStock.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.tblStock.Size = new System.Drawing.Size(413, 307);
+            this.tblStock.Size = new System.Drawing.Size(413, 283);
             this.tblStock.TabIndex = 1;
             this.tblStock.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.tblStock_CellDoubleClick);
+            // 
+            // chkRedBlack3
+            // 
+            this.chkRedBlack3.AutoSize = true;
+            this.chkRedBlack3.Checked = true;
+            this.chkRedBlack3.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkRedBlack3.Location = new System.Drawing.Point(16, 163);
+            this.chkRedBlack3.Name = "chkRedBlack3";
+            this.chkRedBlack3.Size = new System.Drawing.Size(84, 16);
+            this.chkRedBlack3.TabIndex = 21;
+            this.chkRedBlack3.Text = "三日紅黑值";
+            this.chkRedBlack3.UseVisualStyleBackColor = true;
+            // 
+            // txtRedBlack3
+            // 
+            this.txtRedBlack3.Location = new System.Drawing.Point(162, 159);
+            this.txtRedBlack3.Mask = "0.00";
+            this.txtRedBlack3.Name = "txtRedBlack3";
+            this.txtRedBlack3.Size = new System.Drawing.Size(41, 22);
+            this.txtRedBlack3.TabIndex = 20;
+            this.txtRedBlack3.Text = "000";
+            // 
+            // cboRedBlack3Compare
+            // 
+            this.cboRedBlack3Compare.FormattingEnabled = true;
+            this.cboRedBlack3Compare.Items.AddRange(new object[] {
+            ">=",
+            "<="});
+            this.cboRedBlack3Compare.Location = new System.Drawing.Point(110, 161);
+            this.cboRedBlack3Compare.Name = "cboRedBlack3Compare";
+            this.cboRedBlack3Compare.Size = new System.Drawing.Size(44, 20);
+            this.cboRedBlack3Compare.TabIndex = 19;
             // 
             // StockQueryForm
             // 
@@ -276,5 +314,8 @@
         private System.Windows.Forms.CheckBox chkVolume;
         private System.Windows.Forms.CheckBox chkDirection;
         private System.Windows.Forms.CheckBox chkBCValue;
+        private System.Windows.Forms.CheckBox chkRedBlack3;
+        private System.Windows.Forms.MaskedTextBox txtRedBlack3;
+        private System.Windows.Forms.ComboBox cboRedBlack3Compare;
     }
 }

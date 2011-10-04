@@ -137,6 +137,20 @@ namespace AAA.TradingSystem
             }
         }
 
+        private void dataQuery_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                DataQueryForm childForm = new DataQueryForm();
+                childForm.MdiParent = this;
+                childForm.Show();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "," + ex.StackTrace);
+            }
+        }
+
 
     }
 }

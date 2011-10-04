@@ -448,17 +448,34 @@ namespace AAA.Trade.VolumeAnalyzer
                 txtDealDiff.Text = iDiff.ToString();
                 txtPriceDiff.Text = strValues[4];
 
-                if (iDiff >= _iBigAlarmDiffVolume)
-                    txtDealDiff.BackColor = Color.Red;
-                else if (iDiff <= -1 * _iBigAlarmDiffVolume)
-                    txtDealDiff.BackColor = Color.Green;
-                else if (iDiff >= _iSmallAlarmDiffVolume)
-                    txtDealDiff.BackColor = Color.LightPink;
-                else if (iDiff <= -1 * _iSmallAlarmDiffVolume)
-                    txtDealDiff.BackColor = Color.LightGreen;
+                if (_strAlarmType == "Resp")
+                {
+                    if (iDiff >= _iBigAlarmDiffVolume)
+                        txtDealDiff.BackColor = Color.Red;
+                    else if (iDiff <= -1 * _iBigAlarmDiffVolume)
+                        txtDealDiff.BackColor = Color.Green;
+                    else if (iDiff >= _iSmallAlarmDiffVolume)
+                        txtDealDiff.BackColor = Color.LightPink;
+                    else if (iDiff <= -1 * _iSmallAlarmDiffVolume)
+                        txtDealDiff.BackColor = Color.LightGreen;
+                    else
+                        txtDealDiff.BackColor = txtPrice.BackColor;
+                }
                 else
-                    txtDealDiff.BackColor = txtPrice.BackColor;
+                {
+                    if (iDiff >= _iBigAlarmDiffVolume)
+                        txtDealDiff.BackColor = Color.Green;
+                    else if (iDiff <= -1 * _iBigAlarmDiffVolume)
+                        txtDealDiff.BackColor = Color.Red;
+                    else if (iDiff >= _iSmallAlarmDiffVolume)
+                        txtDealDiff.BackColor = Color.LightGreen;
+                    else if (iDiff <= -1 * _iSmallAlarmDiffVolume)
+                        txtDealDiff.BackColor = Color.LightPink;
+                    else
+                        txtDealDiff.BackColor = txtPrice.BackColor;
+                }
             }
+
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message + "," + ex.StackTrace);

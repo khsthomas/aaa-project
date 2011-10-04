@@ -15,6 +15,11 @@ namespace AAA.TradingSystem
 {
     public partial class StockQueryForm : Form
     {
+        private const int QUERY_RATIO = 1;
+        private const int QUERY_RED_BLACK = 2;
+
+        private int[] _iQueryTypes = {QUERY_RATIO, QUERY_RED_BLACK };
+
         public StockQueryForm()
         {
             InitializeComponent();
@@ -26,6 +31,7 @@ namespace AAA.TradingSystem
             cboDirection.SelectedIndex = 0;
             cboVolume.SelectedIndex = 0;
             cboBCValue.SelectedIndex = 0;
+            cboRedBlack3Compare.SelectedIndex = 0;
 
             txtDate.Text = DateTime.Now.ToString("yyyy/MM/dd");
             tblStock.Columns.Add("SymbolId", "股票代碼");
@@ -43,7 +49,8 @@ namespace AAA.TradingSystem
             string strSQL;
             DbDataReader dataReader;
             string[] strValues;
-
+            int iParamIndex;
+            int iQueryType;
 
             try
             {
@@ -120,24 +127,67 @@ namespace AAA.TradingSystem
                     }
                 }
 
+                iQueryType = 0;
+
                 if (chkRatioDirection.Checked)
+                    iQueryType += QUERY_RATIO;
+
+                if (chkRedBlack3.Checked)
+                    iQueryType += QUERY_RED_BLACK;
+
+                iParamIndex = 1;
+
+                for (int i = 0; i < _iQueryTypes.Length; i++)
                 {
-                    switch (cboRatioDirection.Text)
+                    if ((iQueryType & _iQueryTypes[i]) == _iQueryTypes[i])
                     {
-                        case "漲幅":
-                            strSQL += "   AND IIF(a.PreClose = 0, 0, ((a.ClosePrice - a.PreClose) / a.PreClose) * 100) > {1} ";
-                            break;
-                        case "跌幅":
-                            strSQL += "   AND IFF(a.PreClose = 0, 0, ((a.ClosePrice - a.PreClose) / a.PreClose) * 100) < {1} ";
-                            break;
+                        switch (_iQueryTypes[i])
+                        {
+                            case QUERY_RATIO:
+                                switch (cboRatioDirection.Text)
+                                {
+                                    case "漲幅":
+                                        strSQL += "   AND IIF(a.PreClose = 0, 0, ((a.ClosePrice - a.PreClose) / a.PreClose) * 100) > {" + (iParamIndex++) + "} ";
+                                        break;
+                                    case "跌幅":
+                                        strSQL += "   AND IFF(a.PreClose = 0, 0, ((a.ClosePrice - a.PreClose) / a.PreClose) * 100) < {" + (iParamIndex++) + "} ";
+                                        break;
+                                }
+                                break;
+
+                            case QUERY_RED_BLACK:
+                                switch (cboRedBlack3Compare.Text)
+                                {
+                                    case ">=":
+                                        strSQL += "   AND b.Index18 >= {" + (iParamIndex++) + "} ";
+                                        break;
+                                    case "<=":                                        
+                                        strSQL += "   AND b.Index18 <= {" + (iParamIndex++) + "} ";
+                                        break;
+                                }
+                                break;
+                        }
                     }
                 }
 
-                if(chkRatioDirection.Checked)
-                    dataReader = database.ExecuteQuery(strSQL, new object[] {txtDate.Text, txtRatio.Text });
-                else
-                    dataReader = database.ExecuteQuery(strSQL, new object[] { txtDate.Text });
+                switch (iQueryType)
+                {
+                    case 1:
+                        dataReader = database.ExecuteQuery(strSQL, new object[] {txtDate.Text, txtRatio.Text });
+                        break;
+                    
+                    case 2:
+                        dataReader = database.ExecuteQuery(strSQL, new object[] {txtDate.Text, txtRedBlack3.Text });
+                        break;
 
+                    case 3:
+                        dataReader = database.ExecuteQuery(strSQL, new object[] { txtDate.Text, txtRatio.Text, txtRedBlack3.Text });
+                        break;
+                    default:
+                        dataReader = database.ExecuteQuery(strSQL, new object[] { txtDate.Text });
+                        break;
+                }
+                   
                 while (dataReader.Read())
                 {
                     tblStock.Rows.Add(new object[] {dataReader["SymbolId"].ToString(), dataReader["SymbolName"].ToString() });
