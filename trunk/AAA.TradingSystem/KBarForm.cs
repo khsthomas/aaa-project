@@ -98,11 +98,12 @@ namespace AAA.TradingSystem
             Color cControlLineColor;
 
 
-            pnlInfo.Visible = false;
-            pnlDataSource.Visible = true;
-            cpDatabase.IsShowInfoTable = true;
-            cpDatabase.IsShowScale = true;
-            cpDatabase.IsShowLightPane = true;
+            pnlInfo.Visible = true; // 顯示開, 高, 低, 收, 量
+            pnlDataSource.Visible = false; // 顯示DataSource的選項
+            cpDatabase.IsShowInfoTable = false; // 在右邊顯示資料細項
+            cpDatabase.IsShowScale = false; // 顯示放大縮小按鈕
+            cpDatabase.IsShowLightPane = false; // 顯示燈號
+            btnConfig.Visible = false; // 顯示指標設定
 
             _cpChartPanels = new TeeChartPanel[] {cpExcel, cpText, cpDatabase};
 
@@ -150,8 +151,8 @@ namespace AAA.TradingSystem
                 for (int i = 0; i < strValues.Length; i++)
                     cboFileType.Items.Add(strValues[i]);
                 if (cboFileType.Items.Count > 0)
-                    //cboFileType.SelectedIndex = 2;
-                    cboFileType.SelectedIndex = 1;
+                    cboFileType.SelectedIndex = 2;
+                    //cboFileType.SelectedIndex = 1;
 
                 txtSymbolId.Text = iniReader.GetParam("DataSource", "DefaultSymbolId");
 

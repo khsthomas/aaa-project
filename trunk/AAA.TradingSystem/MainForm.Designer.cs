@@ -42,6 +42,7 @@
             this.userDefineSymbol = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.dataQuery = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.SuspendLayout();
@@ -95,7 +96,8 @@
             // 
             this.dataManagement.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.dataGetter,
-            this.dataTransfer});
+            this.dataTransfer,
+            this.dataQuery});
             this.dataManagement.Name = "dataManagement";
             this.dataManagement.Size = new System.Drawing.Size(41, 20);
             this.dataManagement.Text = "資料";
@@ -103,16 +105,16 @@
             // dataGetter
             // 
             this.dataGetter.Name = "dataGetter";
-            this.dataGetter.Size = new System.Drawing.Size(118, 22);
+            this.dataGetter.Size = new System.Drawing.Size(152, 22);
             this.dataGetter.Text = "資料抓取";
-            this.dataGetter.Visible = false;
             this.dataGetter.Click += new System.EventHandler(this.dataGetter_Click);
             // 
             // dataTransfer
             // 
             this.dataTransfer.Name = "dataTransfer";
-            this.dataTransfer.Size = new System.Drawing.Size(118, 22);
+            this.dataTransfer.Size = new System.Drawing.Size(152, 22);
             this.dataTransfer.Text = "資料轉換";
+            this.dataTransfer.Visible = false;
             this.dataTransfer.Click += new System.EventHandler(this.dataTransfer_Click);
             // 
             // stockCriteria
@@ -122,7 +124,6 @@
             this.stockCriteria.Name = "stockCriteria";
             this.stockCriteria.Size = new System.Drawing.Size(41, 20);
             this.stockCriteria.Text = "選股";
-            this.stockCriteria.Visible = false;
             // 
             // filterStock
             // 
@@ -138,7 +139,6 @@
             this.userDefine.Name = "userDefine";
             this.userDefine.Size = new System.Drawing.Size(41, 20);
             this.userDefine.Text = "設定";
-            this.userDefine.Visible = false;
             // 
             // userDefineSymbol
             // 
@@ -162,6 +162,13 @@
             this.toolStripStatusLabel.Name = "toolStripStatusLabel";
             this.toolStripStatusLabel.Size = new System.Drawing.Size(32, 17);
             this.toolStripStatusLabel.Text = "Status";
+            // 
+            // dataQuery
+            // 
+            this.dataQuery.Name = "dataQuery";
+            this.dataQuery.Size = new System.Drawing.Size(152, 22);
+            this.dataQuery.Text = "資料查詢";
+            this.dataQuery.Click += new System.EventHandler(this.dataQuery_Click);
             // 
             // MainForm
             // 
@@ -199,6 +206,7 @@
         private System.Windows.Forms.ToolStripMenuItem userDefine;
         private System.Windows.Forms.ToolStripMenuItem userDefineSymbol;
         private System.Windows.Forms.ToolStripMenuItem dataTransfer;
+        private System.Windows.Forms.ToolStripMenuItem dataQuery;
     }
 }
 

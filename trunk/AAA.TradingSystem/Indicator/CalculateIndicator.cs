@@ -63,6 +63,8 @@ namespace AAA.TradingSystem.Indicator
             List<float> lstA;
             List<float> lstB;
             List<float> lstC;
+            List<float> lstRedBlack;
+
             object[] oValues;
             bool hasNull;
 
@@ -83,8 +85,9 @@ namespace AAA.TradingSystem.Indicator
             float fPreVol2;
             float fPreVol3;
             float fPreVol5;
-            string strInsertSQL = "INSERT INTO TWSE_Stock_D_Index(Index1, Index2, Index3, Index4, Index5, Index6, Index7, Index8, Index9, Index10, Index11, Index12, Index13, Index14, Index15, Index16, Index17, ExDate, SymbolId) VALUES({0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11}, {12},  {13}, {14}, {15}, {16}, CDATE('{17}'), '{18}')";
-            string strUpdateSQL = "UPDATE TWSE_Stock_D_Index SET Index1 = {0}, Index2 = {1}, Index3 = {2}, Index4 = {3}, Index5 = {4}, Index6 = {5}, Index7 = {6}, Index8 = {7}, Index9 = {8}, Index10 = {9}, Index11 = {10}, Index12 = {11}, Index13 = {12}, Index14 = {13}, Index15 = {14}, Index16 = {15}, Index17 = {16}  WHERE ExDate = CDATE('{17}') AND SymbolId = '{18}'";
+            float fRedBlack3;
+            string strInsertSQL = "INSERT INTO TWSE_Stock_D_Index(Index1, Index2, Index3, Index4, Index5, Index6, Index7, Index8, Index9, Index10, Index11, Index12, Index13, Index14, Index15, Index16, Index17, Index18, ExDate, SymbolId) VALUES({0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11}, {12},  {13}, {14}, {15}, {16}, {17}, CDATE('{18}'), '{19}')";
+            string strUpdateSQL = "UPDATE TWSE_Stock_D_Index SET Index1 = {0}, Index2 = {1}, Index3 = {2}, Index4 = {3}, Index5 = {4}, Index6 = {5}, Index7 = {6}, Index8 = {7}, Index9 = {8}, Index10 = {9}, Index11 = {10}, Index12 = {11}, Index13 = {12}, Index14 = {13}, Index15 = {14}, Index16 = {15}, Index17 = {16}, Index18 = {17} WHERE ExDate = CDATE('{18}') AND SymbolId = '{19}'";
 
             try
             {
@@ -123,6 +126,7 @@ namespace AAA.TradingSystem.Indicator
                     lstA = new List<float>();
                     lstB = new List<float>();
                     lstC = new List<float>();
+                    lstRedBlack = new List<float>();
 
                     while (dataReader.Read())
                     {
@@ -161,12 +165,26 @@ namespace AAA.TradingSystem.Indicator
                                     ? 0
                                     : (lstClose[lstClose.Count - 1] < lstClose[lstClose.Count - 2])
                                         ? lstClose[lstClose.Count - 1] - lstHigh[lstHigh.Count - 1]
-                                        : 0;                        
+                                        : 0;
+
+                        lstRedBlack.Add(fRed + fBlack);
 
                         fPreVol1 = (lstVolume.Count > 1) ? lstVolume[lstVolume.Count - 2] : float.NaN;
                         fPreVol2 = (lstVolume.Count > 2) ? lstVolume[lstVolume.Count - 3] : float.NaN;
                         fPreVol3 = (lstVolume.Count > 3) ? lstVolume[lstVolume.Count - 4] : float.NaN;
                         fPreVol5 = (lstVolume.Count > 5) ? lstVolume[lstVolume.Count - 6] : float.NaN;
+
+                        fRedBlack3 = float.NaN;
+
+                        if (lstRedBlack.Count >= 3)
+                        {
+                            fRedBlack3 = 0;
+
+                            for (int j = 0; j < 3; j++)
+                            {
+                                fRedBlack3 += lstRedBlack[lstRedBlack.Count - j - 1];
+                            }
+                        }
 
                         oValues = new object[] {fMA3,
                                                 fMA6,
@@ -185,6 +203,7 @@ namespace AAA.TradingSystem.Indicator
                                                 fPreVol2,
                                                 fPreVol3,
                                                 fPreVol5,
+                                                fRedBlack3,
                                                 ParseDate(dataReader["ExDate"].ToString()),
                                                 lstSymbolId[i]};
 

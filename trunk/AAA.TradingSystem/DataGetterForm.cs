@@ -21,6 +21,9 @@ namespace AAA.TradingSystem
         public DataGetterForm()
         {
             InitializeComponent();
+
+            Util.CreateTable();
+            txtDeleteDate.Text = DateTime.Now.AddYears(-2).ToString("yyyy/MM/dd");
         }
 
         private void btnDownload_Click(object sender, EventArgs e)
@@ -302,6 +305,52 @@ namespace AAA.TradingSystem
                     }
                 }
                 MessageBox.Show("指數對照表更新完畢");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "," + ex.StackTrace);
+            }
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            IDatabase database;
+            string strHost;
+            string strDatabase;
+            string strUsername;
+            string strPassword;                        
+            string strSQL;
+            IniReader iniReader = new IniReader(Environment.CurrentDirectory + @"\cfg\system.ini");
+
+            try
+            {
+                if (txtDeleteDate.Text.Trim() == "")
+                {
+                    MessageBox.Show("請輸入卻刪除的日期");
+                    return;
+                }
+
+                database = new AccessDatabase();                
+                strHost = iniReader.GetParam("DataSource", "Host");
+                strDatabase = iniReader.GetParam("DataSource", "Database");
+                strUsername = iniReader.GetParam("DataSource", "Username");
+                strPassword = iniReader.GetParam("DataSource", "Password");
+
+                strDatabase = strDatabase.StartsWith(".") ? Environment.CurrentDirectory + strDatabase.Substring(1) : strDatabase;
+
+                database.Open(strDatabase, strUsername, strPassword);                
+
+                strSQL = "DELETE FROM TWSE_Stock_D_Deal WHERE ExDate <= CDATE('{0}')";
+                database.ExecuteUpdate(strSQL, new string[] {txtDeleteDate.Text});
+                database.Commit();
+
+                strSQL = "DELETE FROM TWSE_Stock_D_Index WHERE ExDate <= CDATE('{0}')";
+                database.ExecuteUpdate(strSQL, new string[] { txtDeleteDate.Text });
+                database.Commit();
+
+                database.Close();
+
+                MessageBox.Show("資料刪除完畢");
             }
             catch (Exception ex)
             {
