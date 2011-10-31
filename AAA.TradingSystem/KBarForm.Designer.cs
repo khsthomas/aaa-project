@@ -113,18 +113,20 @@
             // 
             // txtDateTime
             // 
+            this.txtDateTime.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtDateTime.Location = new System.Drawing.Point(3, 3);
             this.txtDateTime.Name = "txtDateTime";
             this.txtDateTime.ReadOnly = true;
-            this.txtDateTime.Size = new System.Drawing.Size(69, 22);
+            this.txtDateTime.Size = new System.Drawing.Size(69, 15);
             this.txtDateTime.TabIndex = 29;
             // 
             // txtDiffRatio
             // 
+            this.txtDiffRatio.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtDiffRatio.Location = new System.Drawing.Point(531, 2);
             this.txtDiffRatio.Name = "txtDiffRatio";
             this.txtDiffRatio.ReadOnly = true;
-            this.txtDiffRatio.Size = new System.Drawing.Size(44, 22);
+            this.txtDiffRatio.Size = new System.Drawing.Size(44, 15);
             this.txtDiffRatio.TabIndex = 28;
             // 
             // label9
@@ -138,10 +140,11 @@
             // 
             // txtDiff
             // 
+            this.txtDiff.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtDiff.Location = new System.Drawing.Point(481, 3);
             this.txtDiff.Name = "txtDiff";
             this.txtDiff.ReadOnly = true;
-            this.txtDiff.Size = new System.Drawing.Size(44, 22);
+            this.txtDiff.Size = new System.Drawing.Size(44, 15);
             this.txtDiff.TabIndex = 26;
             // 
             // label8
@@ -155,10 +158,11 @@
             // 
             // txtVolume
             // 
+            this.txtVolume.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtVolume.Location = new System.Drawing.Point(404, 3);
             this.txtVolume.Name = "txtVolume";
             this.txtVolume.ReadOnly = true;
-            this.txtVolume.Size = new System.Drawing.Size(35, 22);
+            this.txtVolume.Size = new System.Drawing.Size(35, 15);
             this.txtVolume.TabIndex = 24;
             // 
             // label7
@@ -172,10 +176,11 @@
             // 
             // txtClose
             // 
+            this.txtClose.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtClose.Location = new System.Drawing.Point(341, 3);
             this.txtClose.Name = "txtClose";
             this.txtClose.ReadOnly = true;
-            this.txtClose.Size = new System.Drawing.Size(35, 22);
+            this.txtClose.Size = new System.Drawing.Size(35, 15);
             this.txtClose.TabIndex = 22;
             // 
             // label6
@@ -189,10 +194,11 @@
             // 
             // txtLow
             // 
+            this.txtLow.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtLow.Location = new System.Drawing.Point(261, 3);
             this.txtLow.Name = "txtLow";
             this.txtLow.ReadOnly = true;
-            this.txtLow.Size = new System.Drawing.Size(35, 22);
+            this.txtLow.Size = new System.Drawing.Size(35, 15);
             this.txtLow.TabIndex = 20;
             // 
             // label5
@@ -206,10 +212,11 @@
             // 
             // txtHigh
             // 
+            this.txtHigh.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtHigh.Location = new System.Drawing.Point(185, 3);
             this.txtHigh.Name = "txtHigh";
             this.txtHigh.ReadOnly = true;
-            this.txtHigh.Size = new System.Drawing.Size(35, 22);
+            this.txtHigh.Size = new System.Drawing.Size(35, 15);
             this.txtHigh.TabIndex = 18;
             // 
             // label4
@@ -223,10 +230,11 @@
             // 
             // txtOpen
             // 
+            this.txtOpen.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtOpen.Location = new System.Drawing.Point(110, 3);
             this.txtOpen.Name = "txtOpen";
             this.txtOpen.ReadOnly = true;
-            this.txtOpen.Size = new System.Drawing.Size(35, 22);
+            this.txtOpen.Size = new System.Drawing.Size(35, 15);
             this.txtOpen.TabIndex = 16;
             // 
             // pnlDataSource
@@ -286,10 +294,11 @@
             // 
             // txtSymbolName
             // 
+            this.txtSymbolName.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtSymbolName.Location = new System.Drawing.Point(146, 9);
             this.txtSymbolName.Name = "txtSymbolName";
             this.txtSymbolName.ReadOnly = true;
-            this.txtSymbolName.Size = new System.Drawing.Size(82, 22);
+            this.txtSymbolName.Size = new System.Drawing.Size(82, 15);
             this.txtSymbolName.TabIndex = 16;
             // 
             // btnDisplay
@@ -440,7 +449,9 @@
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.cpDatabase.DateTimeFormat = null;
+            this.cpDatabase.Font = new System.Drawing.Font("PMingLiU", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.cpDatabase.IsShowInfoTable = false;
+            this.cpDatabase.IsShowLightPane = false;
             this.cpDatabase.IsShowScale = false;
             this.cpDatabase.Location = new System.Drawing.Point(12, 60);
             this.cpDatabase.Name = "cpDatabase";
@@ -456,6 +467,7 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.cpText.DateTimeFormat = null;
             this.cpText.IsShowInfoTable = false;
+            this.cpText.IsShowLightPane = false;
             this.cpText.IsShowScale = false;
             this.cpText.Location = new System.Drawing.Point(12, 60);
             this.cpText.Name = "cpText";
@@ -471,6 +483,7 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.cpExcel.DateTimeFormat = null;
             this.cpExcel.IsShowInfoTable = false;
+            this.cpExcel.IsShowLightPane = false;
             this.cpExcel.IsShowScale = false;
             this.cpExcel.Location = new System.Drawing.Point(12, 60);
             this.cpExcel.Name = "cpExcel";
