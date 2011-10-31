@@ -143,7 +143,7 @@ namespace AAA.TradingSystem
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void btnRemove_Click(object sender, EventArgs e)
         {
             try
             {
@@ -301,5 +301,41 @@ namespace AAA.TradingSystem
                 MessageBox.Show(ex.Message + "," + ex.StackTrace);
             }
         }
+
+        private void txtSymbolId_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode != Keys.Enter)
+                return;
+
+            string strSymbolId = txtSymbolId.Text.Trim(); ;
+
+            for (int i = 0; i < tblTarget.Rows.Count; i++)
+            {
+                if (tblTarget.Rows[i].Cells["SymbolId"].Value.ToString() == strSymbolId)
+                {
+                    MessageBox.Show(strSymbolId + "已存在自選股內");
+                    return;
+                }
+            }
+
+            for (int i = 0; i < tblSource.Rows.Count; i++)
+            {
+                if (tblSource.Rows[i].Cells["SymbolId"].Value.ToString() == strSymbolId)
+                {
+
+                    object[] oValues = new object[tblSource.Columns.Count];
+
+                    for (int j = 0; j < tblSource.Columns.Count; j++)
+                    {
+                        oValues[j] = tblSource.Rows[i].Cells[j].Value.ToString(); ;
+                    }
+
+                    tblTarget.Rows.Add(oValues);
+                    break;
+                }
+            }
+
+        }
+
     }
 }

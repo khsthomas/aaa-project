@@ -35,7 +35,9 @@
             this.tblSource = new System.Windows.Forms.DataGridView();
             this.tblTarget = new System.Windows.Forms.DataGridView();
             this.btnAdd = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnRemove = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txtSymbolId = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.tblSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tblTarget)).BeginInit();
             this.SuspendLayout();
@@ -104,13 +106,13 @@
             this.tblTarget.AllowUserToResizeRows = false;
             this.tblTarget.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.tblTarget.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.tblTarget.Location = new System.Drawing.Point(238, 69);
+            this.tblTarget.Location = new System.Drawing.Point(238, 95);
             this.tblTarget.Name = "tblTarget";
             this.tblTarget.ReadOnly = true;
             this.tblTarget.RowHeadersVisible = false;
             this.tblTarget.RowTemplate.Height = 24;
             this.tblTarget.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.tblTarget.Size = new System.Drawing.Size(181, 185);
+            this.tblTarget.Size = new System.Drawing.Size(181, 159);
             this.tblTarget.TabIndex = 5;
             this.tblTarget.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.tblTarget_CellDoubleClick);
             // 
@@ -124,22 +126,41 @@
             this.btnAdd.UseVisualStyleBackColor = true;
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
-            // button1
+            // btnRemove
             // 
-            this.button1.Location = new System.Drawing.Point(199, 154);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(33, 23);
-            this.button1.TabIndex = 7;
-            this.button1.Text = "<";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.btnRemove.Location = new System.Drawing.Point(199, 154);
+            this.btnRemove.Name = "btnRemove";
+            this.btnRemove.Size = new System.Drawing.Size(33, 23);
+            this.btnRemove.TabIndex = 7;
+            this.btnRemove.Text = "<";
+            this.btnRemove.UseVisualStyleBackColor = true;
+            this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(238, 69);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(53, 12);
+            this.label2.TabIndex = 8;
+            this.label2.Text = "商品代碼";
+            // 
+            // txtSymbolId
+            // 
+            this.txtSymbolId.Location = new System.Drawing.Point(297, 66);
+            this.txtSymbolId.Name = "txtSymbolId";
+            this.txtSymbolId.Size = new System.Drawing.Size(122, 22);
+            this.txtSymbolId.TabIndex = 9;
+            this.txtSymbolId.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSymbolId_KeyDown);
             // 
             // UserDefineSymbolForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(425, 266);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.txtSymbolId);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.btnRemove);
             this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.tblTarget);
             this.Controls.Add(this.tblSource);
@@ -167,6 +188,8 @@
         private System.Windows.Forms.DataGridView tblSource;
         private System.Windows.Forms.DataGridView tblTarget;
         private System.Windows.Forms.Button btnAdd;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnRemove;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox txtSymbolId;
     }
 }

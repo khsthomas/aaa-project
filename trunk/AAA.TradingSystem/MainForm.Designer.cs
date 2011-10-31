@@ -36,13 +36,13 @@
             this.dataManagement = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGetter = new System.Windows.Forms.ToolStripMenuItem();
             this.dataTransfer = new System.Windows.Forms.ToolStripMenuItem();
+            this.dataQuery = new System.Windows.Forms.ToolStripMenuItem();
             this.stockCriteria = new System.Windows.Forms.ToolStripMenuItem();
             this.filterStock = new System.Windows.Forms.ToolStripMenuItem();
             this.userDefine = new System.Windows.Forms.ToolStripMenuItem();
             this.userDefineSymbol = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.dataQuery = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.SuspendLayout();
@@ -90,7 +90,6 @@
             this.MenuItemJournal.Name = "MenuItemJournal";
             this.MenuItemJournal.Size = new System.Drawing.Size(144, 22);
             this.MenuItemJournal.Text = "Trading Journal";
-            this.MenuItemJournal.Visible = false;
             // 
             // dataManagement
             // 
@@ -117,6 +116,13 @@
             this.dataTransfer.Visible = false;
             this.dataTransfer.Click += new System.EventHandler(this.dataTransfer_Click);
             // 
+            // dataQuery
+            // 
+            this.dataQuery.Name = "dataQuery";
+            this.dataQuery.Size = new System.Drawing.Size(152, 22);
+            this.dataQuery.Text = "資料查詢";
+            this.dataQuery.Click += new System.EventHandler(this.dataQuery_Click);
+            // 
             // stockCriteria
             // 
             this.stockCriteria.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -128,7 +134,7 @@
             // filterStock
             // 
             this.filterStock.Name = "filterStock";
-            this.filterStock.Size = new System.Drawing.Size(118, 22);
+            this.filterStock.Size = new System.Drawing.Size(152, 22);
             this.filterStock.Text = "條件選股";
             this.filterStock.Click += new System.EventHandler(this.filterStock_Click);
             // 
@@ -143,7 +149,7 @@
             // userDefineSymbol
             // 
             this.userDefineSymbol.Name = "userDefineSymbol";
-            this.userDefineSymbol.Size = new System.Drawing.Size(130, 22);
+            this.userDefineSymbol.Size = new System.Drawing.Size(152, 22);
             this.userDefineSymbol.Text = "自選股設定";
             this.userDefineSymbol.Click += new System.EventHandler(this.userDefineSymbol_Click);
             // 
@@ -162,13 +168,6 @@
             this.toolStripStatusLabel.Name = "toolStripStatusLabel";
             this.toolStripStatusLabel.Size = new System.Drawing.Size(32, 17);
             this.toolStripStatusLabel.Text = "Status";
-            // 
-            // dataQuery
-            // 
-            this.dataQuery.Name = "dataQuery";
-            this.dataQuery.Size = new System.Drawing.Size(152, 22);
-            this.dataQuery.Text = "資料查詢";
-            this.dataQuery.Click += new System.EventHandler(this.dataQuery_Click);
             // 
             // MainForm
             // 
