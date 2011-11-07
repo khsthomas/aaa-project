@@ -8,6 +8,8 @@ namespace AAA.WretchPublisher
 {
     public class WretchPublisher : AbstractPublisher
     {
+        private string _strHomepage = "http://www.wretch.cc/";
+
         public WretchPublisher()
         {
             WebSite = "www.wretch.cc";
