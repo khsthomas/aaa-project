@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             this.gbAuto = new System.Windows.Forms.GroupBox();
-            this.gbCheck = new System.Windows.Forms.GroupBox();
-            this.lstAuto = new System.Windows.Forms.CheckedListBox();
-            this.lstCheck = new System.Windows.Forms.CheckedListBox();
             this.btnPublishAuto = new System.Windows.Forms.Button();
+            this.lstAuto = new System.Windows.Forms.CheckedListBox();
+            this.gbCheck = new System.Windows.Forms.GroupBox();
             this.btnPublishCheck = new System.Windows.Forms.Button();
+            this.lstCheck = new System.Windows.Forms.CheckedListBox();
             this.gbAuto.SuspendLayout();
             this.gbCheck.SuspendLayout();
             this.SuspendLayout();
@@ -49,16 +49,15 @@
             this.gbAuto.TabStop = false;
             this.gbAuto.Text = "不需認證網站";
             // 
-            // gbCheck
+            // btnPublishAuto
             // 
-            this.gbCheck.Controls.Add(this.btnPublishCheck);
-            this.gbCheck.Controls.Add(this.lstCheck);
-            this.gbCheck.Location = new System.Drawing.Point(250, 12);
-            this.gbCheck.Name = "gbCheck";
-            this.gbCheck.Size = new System.Drawing.Size(212, 341);
-            this.gbCheck.TabIndex = 1;
-            this.gbCheck.TabStop = false;
-            this.gbCheck.Text = "需認證網站";
+            this.btnPublishAuto.Location = new System.Drawing.Point(64, 303);
+            this.btnPublishAuto.Name = "btnPublishAuto";
+            this.btnPublishAuto.Size = new System.Drawing.Size(75, 23);
+            this.btnPublishAuto.TabIndex = 3;
+            this.btnPublishAuto.Text = "發佈";
+            this.btnPublishAuto.UseVisualStyleBackColor = true;
+            this.btnPublishAuto.Click += new System.EventHandler(this.btnPublishAuto_Click);
             // 
             // lstAuto
             // 
@@ -71,6 +70,26 @@
             this.lstAuto.Size = new System.Drawing.Size(200, 276);
             this.lstAuto.TabIndex = 1;
             // 
+            // gbCheck
+            // 
+            this.gbCheck.Controls.Add(this.btnPublishCheck);
+            this.gbCheck.Controls.Add(this.lstCheck);
+            this.gbCheck.Location = new System.Drawing.Point(250, 12);
+            this.gbCheck.Name = "gbCheck";
+            this.gbCheck.Size = new System.Drawing.Size(212, 341);
+            this.gbCheck.TabIndex = 1;
+            this.gbCheck.TabStop = false;
+            this.gbCheck.Text = "需認證網站";
+            // 
+            // btnPublishCheck
+            // 
+            this.btnPublishCheck.Location = new System.Drawing.Point(67, 303);
+            this.btnPublishCheck.Name = "btnPublishCheck";
+            this.btnPublishCheck.Size = new System.Drawing.Size(75, 23);
+            this.btnPublishCheck.TabIndex = 4;
+            this.btnPublishCheck.Text = "發佈";
+            this.btnPublishCheck.UseVisualStyleBackColor = true;
+            // 
             // lstCheck
             // 
             this.lstCheck.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
@@ -81,24 +100,6 @@
             this.lstCheck.Name = "lstCheck";
             this.lstCheck.Size = new System.Drawing.Size(200, 276);
             this.lstCheck.TabIndex = 2;
-            // 
-            // btnPublishAuto
-            // 
-            this.btnPublishAuto.Location = new System.Drawing.Point(64, 303);
-            this.btnPublishAuto.Name = "btnPublishAuto";
-            this.btnPublishAuto.Size = new System.Drawing.Size(75, 23);
-            this.btnPublishAuto.TabIndex = 3;
-            this.btnPublishAuto.Text = "發佈";
-            this.btnPublishAuto.UseVisualStyleBackColor = true;
-            // 
-            // btnPublishCheck
-            // 
-            this.btnPublishCheck.Location = new System.Drawing.Point(67, 303);
-            this.btnPublishCheck.Name = "btnPublishCheck";
-            this.btnPublishCheck.Size = new System.Drawing.Size(75, 23);
-            this.btnPublishCheck.TabIndex = 4;
-            this.btnPublishCheck.Text = "發佈";
-            this.btnPublishCheck.UseVisualStyleBackColor = true;
             // 
             // PublishForm
             // 

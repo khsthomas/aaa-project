@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AAA.WebPublisher;
+using System.Windows.Forms;
 
 namespace AAA.WretchPublisher
 {
     public class WretchPublisher : AbstractPublisher
-    {
-        private string _strHomepage = "http://www.wretch.cc/";
+    {        
+        //private string _strHomepage = "http://www.wretch.cc/";
+        private string _strHomepage = "http://www.google.com/";
 
         public WretchPublisher()
         {
@@ -18,8 +20,32 @@ namespace AAA.WretchPublisher
 
         public override bool Login()
         {
-            return true;
+            try
+            {
+                WebBrowser.Url = new Uri(_strHomepage);                
+                return true;
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = ex.Message + "," + ex.StackTrace;
+            }
+            return false;
         }
+
+        protected override bool ParseHtml(HtmlDocument document)
+        {
+            try
+            {
+                Console.WriteLine(document.Body.ToString());
+                return true;
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = ex.Message + "," + ex.StackTrace;
+            }
+            return false;
+        }
+
         public override bool Logout()
         {
             return true;

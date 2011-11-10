@@ -69,5 +69,20 @@ namespace AAA.BlogPublisher
                 MessageBox.Show(ex.Message + "," + ex.StackTrace);
             }
         }
+
+        private void btnPublishAuto_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                for (int i = 0; i < lstAuto.CheckedItems.Count; i++)
+                {
+                    _dicPublisher[lstAuto.CheckedItems[i].ToString()].Login();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "," + ex.StackTrace);
+            }
+        }
     }
 }
