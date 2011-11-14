@@ -90,4 +90,7 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <PropertyGroup>
+    <PostBuildEvent>copy $(TargetPath) D:\AAA\Project\AAA.BlogPublisher\AAA.BlogPublisher\AAA.Publisher.VersionCheck\bin\Debug</PostBuildEvent>
+  </PropertyGroup>
 </Project>

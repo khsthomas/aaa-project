@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace AAA.PublisherManager
+namespace AAA.Publisher.VersionCheck
 {
     static class Program
     {
@@ -15,7 +15,6 @@ namespace AAA.PublisherManager
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new MonitorForm());
             Application.Run(new MainForm());
         }
     }

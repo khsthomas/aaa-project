@@ -10,7 +10,7 @@ namespace AAA.WretchPublisher
     public class WretchPublisher : AbstractPublisher
     {        
         //private string _strHomepage = "http://www.wretch.cc/";
-        private string _strHomepage = "http://www.google.com/";
+        private string _strHomepage = "http://mail.google.com/";
 
         public WretchPublisher()
         {
