@@ -1,0 +1,8 @@
+D:\AAA\project\AAA.BlogPublisher\AAA.BlogPublisher\AAA.PixnetPublisher\obj\Debug\ResolveAssemblyReference.cache
+D:\AAA\project\AAA.BlogPublisher\AAA.BlogPublisher\AAA.PixnetPublisher\bin\Debug\AAA.PixnetPublisher.dll
+D:\AAA\project\AAA.BlogPublisher\AAA.BlogPublisher\AAA.PixnetPublisher\bin\Debug\AAA.PixnetPublisher.pdb
+D:\AAA\project\AAA.BlogPublisher\AAA.BlogPublisher\AAA.PixnetPublisher\bin\Debug\AAA.WebPublisher.dll
+D:\AAA\project\AAA.BlogPublisher\AAA.BlogPublisher\AAA.PixnetPublisher\bin\Debug\Newtonsoft.Json.dll
+D:\AAA\project\AAA.BlogPublisher\AAA.BlogPublisher\AAA.PixnetPublisher\bin\Debug\Newtonsoft.Json.xml
+D:\AAA\project\AAA.BlogPublisher\AAA.BlogPublisher\AAA.PixnetPublisher\obj\Debug\AAA.PixnetPublisher.dll
+D:\AAA\project\AAA.BlogPublisher\AAA.BlogPublisher\AAA.PixnetPublisher\obj\Debug\AAA.PixnetPublisher.pdb
