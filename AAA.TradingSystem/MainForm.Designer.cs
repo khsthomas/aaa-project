@@ -90,6 +90,7 @@
             this.MenuItemJournal.Name = "MenuItemJournal";
             this.MenuItemJournal.Size = new System.Drawing.Size(144, 22);
             this.MenuItemJournal.Text = "Trading Journal";
+            this.MenuItemJournal.Visible = false;
             // 
             // dataManagement
             // 
@@ -104,14 +105,14 @@
             // dataGetter
             // 
             this.dataGetter.Name = "dataGetter";
-            this.dataGetter.Size = new System.Drawing.Size(152, 22);
+            this.dataGetter.Size = new System.Drawing.Size(118, 22);
             this.dataGetter.Text = "資料抓取";
             this.dataGetter.Click += new System.EventHandler(this.dataGetter_Click);
             // 
             // dataTransfer
             // 
             this.dataTransfer.Name = "dataTransfer";
-            this.dataTransfer.Size = new System.Drawing.Size(152, 22);
+            this.dataTransfer.Size = new System.Drawing.Size(118, 22);
             this.dataTransfer.Text = "資料轉換";
             this.dataTransfer.Visible = false;
             this.dataTransfer.Click += new System.EventHandler(this.dataTransfer_Click);
@@ -119,7 +120,7 @@
             // dataQuery
             // 
             this.dataQuery.Name = "dataQuery";
-            this.dataQuery.Size = new System.Drawing.Size(152, 22);
+            this.dataQuery.Size = new System.Drawing.Size(118, 22);
             this.dataQuery.Text = "資料查詢";
             this.dataQuery.Click += new System.EventHandler(this.dataQuery_Click);
             // 
@@ -134,7 +135,7 @@
             // filterStock
             // 
             this.filterStock.Name = "filterStock";
-            this.filterStock.Size = new System.Drawing.Size(152, 22);
+            this.filterStock.Size = new System.Drawing.Size(118, 22);
             this.filterStock.Text = "條件選股";
             this.filterStock.Click += new System.EventHandler(this.filterStock_Click);
             // 
@@ -149,7 +150,7 @@
             // userDefineSymbol
             // 
             this.userDefineSymbol.Name = "userDefineSymbol";
-            this.userDefineSymbol.Size = new System.Drawing.Size(152, 22);
+            this.userDefineSymbol.Size = new System.Drawing.Size(130, 22);
             this.userDefineSymbol.Text = "自選股設定";
             this.userDefineSymbol.Click += new System.EventHandler(this.userDefineSymbol_Click);
             // 
