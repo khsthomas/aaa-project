@@ -18,6 +18,7 @@ namespace AAA.BlogPublisher
     {
         private Dictionary<string, IPublisher> _dicPublisher;
         private Dictionary<string, string> _dicAccount;
+        private Dictionary<string, string> _dicBlogname;
         private string _strAccount;
         private string _strPassword;
 
@@ -27,6 +28,7 @@ namespace AAA.BlogPublisher
 
             _dicPublisher = new Dictionary<string, IPublisher>();
             _dicAccount = new Dictionary<string, string>();
+            _dicBlogname = new Dictionary<string, string>();
         }
 
         private void PublishForm_Load(object sender, EventArgs e)
@@ -95,8 +97,9 @@ namespace AAA.BlogPublisher
                 for (int i = 0; i < iAccountCount; i++)
                 {
                     strValues = iniReader.GetParam("Account" + (i + 1)).Split(',');
-                    lstAccount.Items.Add(strValues[0]);
-                    _dicAccount.Add(strValues[0], strValues[1]);
+                    lstAccount.Items.Add(strValues[1]);
+                    _dicBlogname.Add(strValues[1], strValues[0]);
+                    _dicAccount.Add(strValues[1], strValues[2]);
                 }
 
                 // Check login account and password
@@ -163,6 +166,13 @@ namespace AAA.BlogPublisher
                     sw.WriteLine(strKey + "=" + dicCategoryDate[strKey]);
                 sw.Close();
 
+                filesInfo = (new DirectoryInfo(Environment.CurrentDirectory + @"\articles")).GetFiles();
+                for (int i = 0; i < filesInfo.Length; i++)
+                {
+                    if (lstNewArticle.Items.IndexOf(filesInfo[i].Name) < 0)
+                        lstNewArticle.Items.Add(filesInfo[i].Name);
+                }
+
             }
             catch (Exception ex)
             {
@@ -179,18 +189,38 @@ namespace AAA.BlogPublisher
         {
             string strAccount;
             string strPassword;
+            string strBlogname;
+
             try
             {
                 for (int i = 0; i < lstAuto.CheckedItems.Count; i++)
                 {
+                    Application.DoEvents();
+                    while(pnlBrowser.Controls.Count > 0)
+                        pnlBrowser.Controls.RemoveAt(0);
+                    
+                    pnlBrowser.Controls.Add(_dicPublisher[lstAuto.CheckedItems[i].ToString()].WebBrowser);
+
+                    _dicPublisher[lstAuto.CheckedItems[i].ToString()].WebBrowser.Visible = true;
+                    _dicPublisher[lstAuto.CheckedItems[i].ToString()].WebBrowser.Dock = DockStyle.Fill;
+                    _dicPublisher[lstAuto.CheckedItems[i].ToString()].WebBrowser.ScrollBarsEnabled = true;
+
                     for (int j = 0; j < lstAccount.CheckedItems.Count; j++)
                     {
                         strAccount = lstAccount.Items[lstAccount.CheckedIndices[j]].ToString();
                         strPassword = _dicAccount[strAccount];
+                        strBlogname = _dicBlogname[strAccount];
 
                         _dicPublisher[lstAuto.CheckedItems[i].ToString()].Username = strAccount;
                         _dicPublisher[lstAuto.CheckedItems[i].ToString()].Password = strPassword;
+                        _dicPublisher[lstAuto.CheckedItems[i].ToString()].Blogname = strBlogname;
                         _dicPublisher[lstAuto.CheckedItems[i].ToString()].Login();
+
+                        for (int k = 0; k < lstNewArticle.CheckedItems.Count; k++)
+                        {
+                            _dicPublisher[lstAuto.CheckedItems[i].ToString()].UploadPicture("");
+                            _dicPublisher[lstAuto.CheckedItems[i].ToString()].PostArticle(Environment.CurrentDirectory + @"\articles\" + lstNewArticle.Items[lstNewArticle.CheckedIndices[k]]);
+                        }
                     }
                 }
             }
