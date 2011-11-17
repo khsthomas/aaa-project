@@ -20,15 +20,17 @@ namespace AAA.WretchPublisher
         private const int REDIRECT_TO_YAHOO_LOGIN = 0;
         private const int YAHOO_LOGIN_FORM = 1;
         private const int REDIRECT_TO_BLOG = 2;
-        private const int CLICK_TO_POST = 3;
+        private const int LOGIN_COMPLETED = 3;
         private const int FILL_BLOG = 4;
         private const int PUBLISH = 5;
+        private const int POST_COMPLETED = 6;
 
 
         private string _strTitle;
         private string _strArticle;
 
         private int _iCurrentStep = -1;
+        private bool _isCompleted;
 
         public WretchPublisher()
         {
@@ -41,8 +43,15 @@ namespace AAA.WretchPublisher
             try
             {
                 Console.WriteLine(WebBrowser.Version);
+                LoginCompleted = false;
                 _iCurrentStep = REDIRECT_TO_YAHOO_LOGIN;
-                WebBrowser.Url = new Uri(_strHomepage);                
+                WebBrowser.Url = new Uri(_strHomepage);
+
+                while (LoginCompleted == false)
+                {
+                    Application.DoEvents();
+                    Thread.Sleep(10);
+                }
 
                 return true;
             }
@@ -82,29 +91,34 @@ namespace AAA.WretchPublisher
                     case REDIRECT_TO_BLOG:
                         if (WebBrowser.ReadyState == WebBrowserReadyState.Complete)
                         {
-                            _iCurrentStep = CLICK_TO_POST;
+                            _iCurrentStep = LOGIN_COMPLETED;
                             HtmlAction.HrefClick(document, "http://tw.rd.yahoo.com/referurl/wretch/index/turf/login/blog/*http://www.wretch.cc/blog/" + Blogname);
                         }
                         break;
 
-                    case CLICK_TO_POST:
+                    case LOGIN_COMPLETED:
                         if (WebBrowser.ReadyState == WebBrowserReadyState.Complete)
                         {
-                            _iCurrentStep = FILL_BLOG;
-                            HtmlAction.ClickButton(document, null, "發表新文章(舊版)");
+                            LoginCompleted = true; 
                         }
                         break;
 
                     case FILL_BLOG:
                         if (WebBrowser.ReadyState == WebBrowserReadyState.Complete)
                         {
-                            Thread.Sleep(3000);
+                           Thread.Sleep(3000);
                             _iCurrentStep = PUBLISH;
                             HtmlAction.FillTextFieldData(document, "addpost", "title", _strTitle);
                             HtmlAction.FillTextAreaData(document, "addpost", "text", _strArticle);
                             HtmlAction.ClickCheckButton(document, "default_category", null);
                             Thread.Sleep(3000);
-                            HtmlAction.Submit(document, "addpost", "confirm");
+                            HtmlAction.Submit(document, "addpost", "confirm");                            
+                        }
+                        break;
+                    case PUBLISH:
+                        if (WebBrowser.ReadyState == WebBrowserReadyState.Complete)
+                        {
+                            _isCompleted = true;
                         }
                         break;
                 }
@@ -148,8 +162,15 @@ namespace AAA.WretchPublisher
                     _strArticle += strLine + "<br>";
                 }
 
-//                _iCurrentStep = FILL_BLOG;
-//                HtmlAction.ClickButton(WebBrowser.Document, null, "發表新文章(舊版)");
+                _isCompleted = false;
+                _iCurrentStep = FILL_BLOG;
+                HtmlAction.ClickButton(WebBrowser.Document, null, "發表新文章(舊版)");
+
+                while (_isCompleted == false)
+                {
+                    Application.DoEvents();
+                    Thread.Sleep(10);
+                }
                 return true;
             }
             catch (Exception ex)

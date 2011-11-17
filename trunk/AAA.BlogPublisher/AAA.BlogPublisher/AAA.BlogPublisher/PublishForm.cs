@@ -11,6 +11,7 @@ using System.Reflection;
 using AAA.WebPublisher;
 using AAA.Base.Util.Reader;
 using AAA.FTP;
+using System.Threading;
 
 namespace AAA.BlogPublisher
 {    
@@ -118,7 +119,7 @@ namespace AAA.BlogPublisher
                 strFTPUsername = iniReader.GetParam("FTPUsername");
                 strFTPPassword = iniReader.GetParam("FTPPassword");
 
-                File.Delete(Environment.CurrentDirectory + @"\user.ini");
+//                File.Delete(Environment.CurrentDirectory + @"\user.ini");
 
                 // Download new article from FTP server
                 lstNewArticle.Items.Clear();
@@ -166,13 +167,6 @@ namespace AAA.BlogPublisher
                     sw.WriteLine(strKey + "=" + dicCategoryDate[strKey]);
                 sw.Close();
 
-                filesInfo = (new DirectoryInfo(Environment.CurrentDirectory + @"\articles")).GetFiles();
-                for (int i = 0; i < filesInfo.Length; i++)
-                {
-                    if (lstNewArticle.Items.IndexOf(filesInfo[i].Name) < 0)
-                        lstNewArticle.Items.Add(filesInfo[i].Name);
-                }
-
             }
             catch (Exception ex)
             {
@@ -182,6 +176,14 @@ namespace AAA.BlogPublisher
             {
                 if (sw != null)
                     sw.Close();
+
+                filesInfo = (new DirectoryInfo(Environment.CurrentDirectory + @"\articles")).GetFiles();
+                for (int i = 0; i < filesInfo.Length; i++)
+                {
+                    if (lstNewArticle.Items.IndexOf(filesInfo[i].Name) < 0)
+                        lstNewArticle.Items.Add(filesInfo[i].Name);
+                }
+
             }
         }
 
@@ -219,7 +221,7 @@ namespace AAA.BlogPublisher
                         for (int k = 0; k < lstNewArticle.CheckedItems.Count; k++)
                         {
                             _dicPublisher[lstAuto.CheckedItems[i].ToString()].UploadPicture("");
-                            _dicPublisher[lstAuto.CheckedItems[i].ToString()].PostArticle(Environment.CurrentDirectory + @"\articles\" + lstNewArticle.Items[lstNewArticle.CheckedIndices[k]]);
+                            _dicPublisher[lstAuto.CheckedItems[i].ToString()].PostArticle(Environment.CurrentDirectory + @"\articles\" + lstNewArticle.Items[lstNewArticle.CheckedIndices[k]]);                            
                         }
                     }
                 }
