@@ -38,6 +38,7 @@
             this.lstAccount = new System.Windows.Forms.CheckedListBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.lstNewArticle = new System.Windows.Forms.CheckedListBox();
+            this.pnlBrowser = new System.Windows.Forms.Panel();
             this.gbAuto.SuspendLayout();
             this.gbCheck.SuspendLayout();
             this.gbAccount.SuspendLayout();
@@ -131,7 +132,7 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.lstNewArticle);
-            this.groupBox1.Location = new System.Drawing.Point(244, 12);
+            this.groupBox1.Location = new System.Drawing.Point(250, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(212, 184);
             this.groupBox1.TabIndex = 3;
@@ -149,11 +150,19 @@
             this.lstNewArticle.Size = new System.Drawing.Size(194, 157);
             this.lstNewArticle.TabIndex = 2;
             // 
+            // pnlBrowser
+            // 
+            this.pnlBrowser.Location = new System.Drawing.Point(468, 15);
+            this.pnlBrowser.Name = "pnlBrowser";
+            this.pnlBrowser.Size = new System.Drawing.Size(283, 407);
+            this.pnlBrowser.TabIndex = 4;
+            // 
             // PublishForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(474, 436);
+            this.ClientSize = new System.Drawing.Size(772, 436);
+            this.Controls.Add(this.pnlBrowser);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.gbAccount);
             this.Controls.Add(this.gbCheck);
@@ -181,6 +190,7 @@
         private System.Windows.Forms.CheckedListBox lstAccount;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.CheckedListBox lstNewArticle;
+        private System.Windows.Forms.Panel pnlBrowser;
     }
 }
 
