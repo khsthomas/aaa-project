@@ -54,6 +54,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Command\GetArticleCategoryListCommand.cs" />
+    <Compile Include="Command\UpdateAccountArticleMappingCommand.cs" />
+    <Compile Include="Command\UpdateAccountFunctionMappingCommand.cs" />
+    <Compile Include="Command\UpdateArticleCategoryCommand.cs" />
     <Compile Include="Command\GetFunctionListCommand.cs" />
     <Compile Include="Command\GetSystemConfigCommand.cs" />
     <Compile Include="Command\LoginCommand.cs" />
@@ -81,6 +85,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>copy $(TargetPath) D:\AAA\Project\AAA.BlogPublisher\AAA.BlogPublisher\AAA.PublisherManager\bin\Debug</PostBuildEvent>
+    <PostBuildEvent>copy $(TargetPath) D:\AAA\Project\AAA.BlogPublisher\AAA.BlogPublisher\AAA.PublisherManager\bin\Debug
+copy $(TargetPath) D:\AAA\Project\Lib</PostBuildEvent>
   </PropertyGroup>
 </Project>

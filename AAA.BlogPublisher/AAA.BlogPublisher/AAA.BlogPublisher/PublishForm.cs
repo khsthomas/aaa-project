@@ -9,17 +9,24 @@ using System.Windows.Forms;
 using System.IO;
 using System.Reflection;
 using AAA.WebPublisher;
+using AAA.Base.Util.Reader;
+using AAA.FTP;
 
 namespace AAA.BlogPublisher
 {    
     public partial class PublishForm : Form
     {
         private Dictionary<string, IPublisher> _dicPublisher;
+        private Dictionary<string, string> _dicAccount;
+        private string _strAccount;
+        private string _strPassword;
+
         public PublishForm()
         {
             InitializeComponent();
 
             _dicPublisher = new Dictionary<string, IPublisher>();
+            _dicAccount = new Dictionary<string, string>();
         }
 
         private void PublishForm_Load(object sender, EventArgs e)
@@ -28,13 +35,30 @@ namespace AAA.BlogPublisher
             Assembly asmb = null;
             IPublisher publisher;
             string strNamespace;
+            IniReader iniReader = null;
+            int iAccountCount;
+            string[] strValues;
+
+            string strFTPHost = null;
+            string strFTPPort = null;
+            string strFTPUsername = null;
+            string strFTPPassword = null;
+            string[] strCategories = null;
+            string[] strDates = null;
+            string[] strDownloadFiles = null;
+            FTPClient ftpClient = null;
+            Dictionary<string, string> dicCategoryDate = null;
+            string strLastDate;
+            StreamWriter sw = null;
+
             try
             {
-                
+
+                // Load publishers from local publisher's folder
                 DirectoryInfo directoryInfo = new DirectoryInfo(Environment.CurrentDirectory + @"\publisher");
                 filesInfo = directoryInfo.GetFiles("*.dll");
 
-                while(lstAuto.Items.Count > 0)
+                while (lstAuto.Items.Count > 0)
                     lstAuto.Items.RemoveAt(0);
 
                 while (lstCheck.Items.Count > 0)
@@ -63,20 +87,111 @@ namespace AAA.BlogPublisher
                     {
                     }
                 }
+
+                // Read the publisher account from account setting
+                iniReader = new IniReader(Environment.CurrentDirectory + @"\cfg\account.ini");
+                iAccountCount = int.Parse(iniReader.GetParam("AccountCount"));
+
+                for (int i = 0; i < iAccountCount; i++)
+                {
+                    strValues = iniReader.GetParam("Account" + (i + 1)).Split(',');
+                    lstAccount.Items.Add(strValues[0]);
+                    _dicAccount.Add(strValues[0], strValues[1]);
+                }
+
+                // Check login account and password
+                if (File.Exists(Environment.CurrentDirectory + @"\user.ini") == false)
+                {
+                    MessageBox.Show("請先登入系統");
+                    Application.Exit();
+                }
+
+                iniReader = new IniReader(Environment.CurrentDirectory + @"\user.ini");
+                _strAccount = iniReader.GetParam("Account");
+                _strPassword = iniReader.GetParam("Password");
+
+                strFTPHost = iniReader.GetParam("FTPHost");
+                strFTPPort = iniReader.GetParam("FTPPort");
+                strFTPUsername = iniReader.GetParam("FTPUsername");
+                strFTPPassword = iniReader.GetParam("FTPPassword");
+
+                File.Delete(Environment.CurrentDirectory + @"\user.ini");
+
+                // Download new article from FTP server
+                lstNewArticle.Items.Clear();
+                AAA.PublisherClient.PublisherClient publishClient = new AAA.PublisherClient.PublisherClient();
+                publishClient.Connect();
+                strCategories = publishClient.GetArticleCategories(_strAccount);
+
+                dicCategoryDate = new Dictionary<string, string>();
+                iniReader = new IniReader(Environment.CurrentDirectory + @"\cfg\article.ini");
+                for (int i = 0; i < strCategories.Length; i++)
+                    dicCategoryDate.Add(strCategories[i], iniReader.GetParam("Default", strCategories[i], "19000101"));
+
+                ftpClient = new FTPClient(strFTPHost, int.Parse(strFTPPort));
+                ftpClient.Login(strFTPUsername, strFTPPassword);
+
+                ftpClient.Chdir("Article");
+                for (int i = 0; i < strCategories.Length; i++)
+                {
+                    strLastDate = dicCategoryDate[strCategories[i]];
+                    ftpClient.Chdir(strCategories[i]);
+                    strDates = ftpClient.Dir();
+
+                    for (int j = 0; j < strDates.Length; j++)
+                    {
+                        if (strDates[j].CompareTo(strLastDate) <= 0)
+                            continue;
+                        ftpClient.Chdir(strDates[j]);
+                        strDownloadFiles = ftpClient.Dir();
+
+                        for (int k = 0; k < strDownloadFiles.Length; k++)
+                        {
+                            ftpClient.Get(Environment.CurrentDirectory + @"\articles\" + strDownloadFiles[k], strDownloadFiles[k]);
+                            if (lstNewArticle.Items.IndexOf(strDownloadFiles[k]) < 0)
+                                lstNewArticle.Items.Add(strDownloadFiles[k]);
+                        }
+
+                        ftpClient.Chdir("..");
+                    }
+                    dicCategoryDate[strCategories[i]] = strDates[strDates.Length - 1];
+                    ftpClient.Chdir("..");
+                }
+
+                sw = new StreamWriter(Environment.CurrentDirectory + @"\cfg\article.ini");
+                foreach (string strKey in dicCategoryDate.Keys)
+                    sw.WriteLine(strKey + "=" + dicCategoryDate[strKey]);
+                sw.Close();
+
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message + "," + ex.StackTrace);
             }
+            finally
+            {
+                if (sw != null)
+                    sw.Close();
+            }
         }
 
         private void btnPublishAuto_Click(object sender, EventArgs e)
         {
+            string strAccount;
+            string strPassword;
             try
             {
                 for (int i = 0; i < lstAuto.CheckedItems.Count; i++)
                 {
-                    _dicPublisher[lstAuto.CheckedItems[i].ToString()].Login();
+                    for (int j = 0; j < lstAccount.CheckedItems.Count; j++)
+                    {
+                        strAccount = lstAccount.Items[lstAccount.CheckedIndices[j]].ToString();
+                        strPassword = _dicAccount[strAccount];
+
+                        _dicPublisher[lstAuto.CheckedItems[i].ToString()].Username = strAccount;
+                        _dicPublisher[lstAuto.CheckedItems[i].ToString()].Password = strPassword;
+                        _dicPublisher[lstAuto.CheckedItems[i].ToString()].Login();
+                    }
                 }
             }
             catch (Exception ex)

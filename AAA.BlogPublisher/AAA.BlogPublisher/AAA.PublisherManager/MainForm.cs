@@ -10,6 +10,9 @@ using AAA.Command.WCF;
 using System.ServiceModel;
 using AAA.Communication.WCFService;
 using AAA.Base.Util.WCF;
+using AAA.Base.Util.Reader;
+using System.IO;
+using AAA.PublisherService.Command;
 
 namespace AAA.PublisherManager
 {
@@ -30,6 +33,36 @@ namespace AAA.PublisherManager
                                      "AAA.PublisherService.Config.return_code.ini");
             StartService();
 
+            UpdateArticleCategory();
+        }
+
+        private void UpdateArticleCategory()
+        {
+            IniReader iniReader = new IniReader(Environment.CurrentDirectory + @"\cfg\system.ini");
+            string strArticleFolder;            
+            string[] strArticles;
+            string strArticle;
+            Dictionary<string, string> dicModel = new Dictionary<string, string>();
+            ICommand command;
+            try
+            {
+                strArticleFolder = iniReader.GetParam("ArticleFolder");
+
+                strArticles = Directory.GetDirectories(strArticleFolder);
+
+                for (int i = 0; i < strArticles.Length; i++)
+                {
+                    strArticle = strArticles[i].Substring(strArticles[i].LastIndexOf('\\') + 1);
+                    dicModel.Add(strArticle.Split('.')[0], strArticle.Split('.')[1]);
+                }
+
+                command = new UpdateArticleCategoryCommand();
+                command.Execute(dicModel);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "," + ex.StackTrace);
+            }
         }
 
         private void StartService()
