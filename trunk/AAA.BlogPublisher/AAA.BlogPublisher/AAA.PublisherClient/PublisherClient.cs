@@ -63,5 +63,15 @@ namespace AAA.PublisherClient
             command = _commandClient.ExecuteCommand(command);
             return command.Data;
         }
+
+        public string[] GetArticleCategories(string strAccount)
+        {
+            CommandProfile command = new CommandProfile();
+            command.Command = "GetArticleCategoryList";
+            command.SetValue("Account", strAccount);
+
+            command = _commandClient.ExecuteCommand(command);
+            return command.Data["CategoryList"].Split(',');
+        }
     }
 }

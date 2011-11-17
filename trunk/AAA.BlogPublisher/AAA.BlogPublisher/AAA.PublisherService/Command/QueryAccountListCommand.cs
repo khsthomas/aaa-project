@@ -12,10 +12,11 @@ namespace AAA.PublisherService.Command
         protected override int ExecuteCommand(Dictionary<string, string> dicModel)
         {
             string strRecord;
-            string strSQL = "SELECT Account, Password, StartDate, EndDate, ActiveFlag FROM Account";
+            string strSQL = "SELECT Account, Password, StartDate, ExpiredDate, ActiveFlag FROM Account";
             DatabaseResultSet databaseResult = new DatabaseResultSet(SystemConfig.DATABASE_TYPE, SystemConfig.HOST, SystemConfig.DATABASE, SystemConfig.USERNAME, SystemConfig.PASSWORD);
             databaseResult.SQLStatement = strSQL;
             databaseResult.Load();
+            databaseResult.Read();
 
             dicModel.Add("RowCount", databaseResult.RowCount.ToString());
 
@@ -24,7 +25,7 @@ namespace AAA.PublisherService.Command
                 strRecord = "";
 
                 for (int j = 0; j < databaseResult.ColumnCount; j++)
-                    strRecord += "," + databaseResult.Cells(i).ToString();
+                    strRecord += "," + databaseResult.Cells(j).ToString();
                 dicModel.Add("Row" + i, strRecord.Substring(1));                                
             }
             return OK;

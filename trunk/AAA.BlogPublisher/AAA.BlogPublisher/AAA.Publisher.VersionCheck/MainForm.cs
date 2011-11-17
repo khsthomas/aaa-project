@@ -74,7 +74,7 @@ namespace AAA.Publisher.VersionCheck
                 strDllFiles = Directory.GetFiles(Environment.CurrentDirectory + @"\publisher");
 
                 for (int i = 0; i < strDllFiles.Length; i++)
-                    File.Delete(Environment.CurrentDirectory + @"\publisher\" + strDllFiles[i]);
+                    File.Delete(strDllFiles[i]);
 
                 ftpClient = new FTPClient(_strFTPHost);
                 ftpClient.Login(_strFTPUsername, _strFTPPassword);
@@ -124,8 +124,8 @@ namespace AAA.Publisher.VersionCheck
                 _strFTPUsername = dicResult["Username"];
                 _strFTPPassword = dicResult["Password"];
 
-                ftpClient = new FTPClient(dicResult["Host"]);
-                ftpClient.Login(dicResult["Username"], dicResult["Password"]);
+                ftpClient = new FTPClient(_strFTPHost, int.Parse(_strFTPPort));
+                ftpClient.Login(_strFTPUsername, _strFTPPassword);
                 ftpClient.Chdir(dicResult["PathName"]);
 
                 ftpClient.TransferType = FTPTransferType.ASCII;
@@ -153,15 +153,23 @@ namespace AAA.Publisher.VersionCheck
 
         public void StartPublisher(string strAccount, string strPassword)
         {
+            StreamWriter sw = null;
             try
             {
-/*
-                Process process = new Process();
-                process.StartInfo.WorkingDirectory = Environment.CurrentDirectory;
-                process.StartInfo.FileName = "AAA.BlogPublisher.exe";
-                process.Start(); 
-*/
+                /*
+                                Process process = new Process();
+                                process.StartInfo.WorkingDirectory = Environment.CurrentDirectory;
+                                process.StartInfo.FileName = "AAA.BlogPublisher.exe";
+                                process.Start(); 
+                */
 
+                sw = new StreamWriter(Environment.CurrentDirectory + @"\user.ini");
+                sw.WriteLine("Account=" + txtAccount.Text);
+                sw.WriteLine("Password=" + txtPassword.Text);
+                sw.WriteLine("FTPHost=" + _strFTPHost);
+                sw.WriteLine("FTPPort=" + _strFTPPort);
+                sw.WriteLine("FTPUsername=" + _strFTPUsername);
+                sw.WriteLine("FTPPassword=" + _strFTPPassword);
 
                 ProcessStartInfo Info = new ProcessStartInfo();
                 //設定外部啟動程式名稱 
@@ -176,7 +184,11 @@ namespace AAA.Publisher.VersionCheck
             {
                 MessageBox.Show(ex.Message + "," + ex.StackTrace);
             }
-
+            finally
+            {
+                if (sw != null)
+                    sw.Close();
+            }
 
         }
     }
