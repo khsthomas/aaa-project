@@ -775,6 +775,43 @@ namespace AAA.TradingSystem
             }
         }
 
+        private void txtDateTime_KeyUp(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                switch (e.KeyCode)
+                {
+                    case Keys.Left:
+                        _cpChartPanels[cboFileType.SelectedIndex].MoveLeft();
+/*
+                        for (int i = 0; i < _cpChartPanels.Length; i++)
+                            try
+                            {
+                                _cpChartPanels[i].MoveLeft();                                
+                            }
+                            catch { }
+ */ 
+                        break;
+                    case Keys.Right:
+                        _cpChartPanels[cboFileType.SelectedIndex].MoveLeft();
+/*
+                        for (int i = 0; i < _cpChartPanels.Length; i++)
+                            try
+                            {
+                                _cpChartPanels[i].MoveRight();
+                            }
+                            catch { }
+ */ 
+                        break;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "," + ex.StackTrace);
+            }
+        }
+
 
     }
 }

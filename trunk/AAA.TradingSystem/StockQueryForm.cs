@@ -87,10 +87,10 @@ namespace AAA.TradingSystem
                     switch (cboDirection.Text)
                     {
                         case "上漲":
-                            strSQL += "   AND a.ClosePrice > a.PreClose ";
+                            strSQL += "   AND a.ClosePrice > a.PreClose AND a.PreClose <> 0 AND a.ClosePrice <> 0 ";
                             break;
                         case "下跌":
-                            strSQL += "   AND a.ClosePrice < a.PreClose ";
+                            strSQL += "   AND a.ClosePrice < a.PreClose AND a.PreClose <> 0 AND a.ClosePrice <> 0 ";
                             break;
                     }
                 }

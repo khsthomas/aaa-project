@@ -119,6 +119,7 @@
             this.txtDateTime.ReadOnly = true;
             this.txtDateTime.Size = new System.Drawing.Size(69, 15);
             this.txtDateTime.TabIndex = 29;
+            this.txtDateTime.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtDateTime_KeyUp);
             // 
             // txtDiffRatio
             // 
@@ -454,6 +455,7 @@
             this.cpDatabase.IsShowLightPane = false;
             this.cpDatabase.IsShowScale = false;
             this.cpDatabase.Location = new System.Drawing.Point(12, 60);
+            this.cpDatabase.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.cpDatabase.Name = "cpDatabase";
             this.cpDatabase.PointPerPage = 0;
             this.cpDatabase.ShowHorizontalCursor = false;
