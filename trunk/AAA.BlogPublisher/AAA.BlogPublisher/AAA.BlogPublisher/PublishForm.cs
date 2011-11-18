@@ -213,16 +213,29 @@ namespace AAA.BlogPublisher
                         strPassword = _dicAccount[strAccount];
                         strBlogname = _dicBlogname[strAccount];
 
+                        _dicPublisher[lstAuto.CheckedItems[i].ToString()].Logout();
+
                         _dicPublisher[lstAuto.CheckedItems[i].ToString()].Username = strAccount;
                         _dicPublisher[lstAuto.CheckedItems[i].ToString()].Password = strPassword;
                         _dicPublisher[lstAuto.CheckedItems[i].ToString()].Blogname = strBlogname;
-                        _dicPublisher[lstAuto.CheckedItems[i].ToString()].Login();
+                        if (_dicPublisher[lstAuto.CheckedItems[i].ToString()].Login() == false)
+                        {
+                            MessageBox.Show(_dicPublisher[lstAuto.CheckedItems[i].ToString()].ErrorMessage);
+                            continue;
+                        }
 
                         for (int k = 0; k < lstNewArticle.CheckedItems.Count; k++)
                         {
                             _dicPublisher[lstAuto.CheckedItems[i].ToString()].UploadPicture("");
-                            _dicPublisher[lstAuto.CheckedItems[i].ToString()].PostArticle(Environment.CurrentDirectory + @"\articles\" + lstNewArticle.Items[lstNewArticle.CheckedIndices[k]]);                            
+                            if (_dicPublisher[lstAuto.CheckedItems[i].ToString()].PostArticle(Environment.CurrentDirectory + @"\articles\" + lstNewArticle.Items[lstNewArticle.CheckedIndices[k]]) == false)
+                            {
+                                MessageBox.Show(_dicPublisher[lstAuto.CheckedItems[i].ToString()].ErrorMessage);
+                                continue;
+                            }
                         }
+                        Thread.Sleep(3000);
+                        if(_dicPublisher[lstAuto.CheckedItems[i].ToString()].Logout() == false)
+                            MessageBox.Show(_dicPublisher[lstAuto.CheckedItems[i].ToString()].ErrorMessage);
                     }
                 }
             }

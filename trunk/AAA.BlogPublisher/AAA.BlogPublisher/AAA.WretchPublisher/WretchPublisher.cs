@@ -24,6 +24,7 @@ namespace AAA.WretchPublisher
         private const int FILL_BLOG = 4;
         private const int PUBLISH = 5;
         private const int POST_COMPLETED = 6;
+        private const int LOGOUT = 7;
 
 
         private string _strTitle;
@@ -121,6 +122,12 @@ namespace AAA.WretchPublisher
                             _isCompleted = true;
                         }
                         break;
+                    case LOGOUT:
+                        if (WebBrowser.ReadyState == WebBrowserReadyState.Complete)
+                        {
+                            _isCompleted = true;
+                        }
+                        break;
                 }
                 
                 return true;
@@ -133,7 +140,17 @@ namespace AAA.WretchPublisher
         }
 
         public override bool Logout()
-        {
+        {            
+            _isCompleted = false;
+            _iCurrentStep = LOGOUT;
+            WebBrowser.Url = new Uri("http://tw.rd.yahoo.com/referurl/wretch/index/turf/logout/*http://www.wretch.cc/index/logout.php?url=http://www.wretch.cc");
+
+            while (_isCompleted == false)
+            {
+                Application.DoEvents();
+                Thread.Sleep(10);
+            }
+
             return true;
         }
 

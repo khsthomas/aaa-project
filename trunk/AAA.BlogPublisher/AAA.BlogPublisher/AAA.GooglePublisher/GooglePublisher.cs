@@ -8,11 +8,11 @@ using AAA.Web;
 using System.IO;
 using System.Threading;
 
-namespace AAA.YahooPublisher
+namespace AAA.GooglePublisher
 {
-    public class YahooPublisher : AbstractPublisher
+    public class GooglePublisher : AbstractPublisher
     {
-        private string _strHomepage = "http://tw.yahoo.com/";
+        private string _strHomepage = "http://www.google.com/";
 
         private const int REDIRECT_TO_YAHOO_LOGIN = 0;
         private const int YAHOO_LOGIN_FORM = 1;
@@ -30,10 +30,15 @@ namespace AAA.YahooPublisher
         private int _iCurrentStep = -1;
         private bool _isCompleted;
 
-        public YahooPublisher()
+        public GooglePublisher()
         {
-            WebSite = "tw.yahoo.com";
-            WebSiteName = "雅虎部落格";
+            WebSite = "www.google.com";
+            WebSiteName = "Google部落格";
+
+            Username = "bealover2001";
+            Password = "bealover2001!111";
+            Blogname = "6612753544305311345";
+
         }
 
         public override bool Login()
@@ -70,34 +75,27 @@ namespace AAA.YahooPublisher
                         if (WebBrowser.ReadyState == WebBrowserReadyState.Complete)
                         {
                             _iCurrentStep = YAHOO_LOGIN_FORM;
-                            HtmlAction.HrefClick(document, "http://tw.rd.yahoo.com/referurl/hp/1024/pa/in/*https://login.yahoo.com/config/login?.intl=tw&.src=fpctx&.done=http://tw.yahoo.com");
+                            HtmlAction.HrefClick(document, "https://accounts.google.com/ServiceLogin?hl=zh-TW&continue=http://www.google.com/");
                         }
                         break;
 
                     case YAHOO_LOGIN_FORM:
                         if (WebBrowser.ReadyState == WebBrowserReadyState.Complete)
                         {
-                            _iCurrentStep = REDIRECT_TO_BLOG_HOME;
-                            HtmlAction.FillTextFieldData(document, "login_form", "login", Username);
-                            HtmlAction.FillTextFieldData(document, "login_form", "passwd", Password);
-                            HtmlAction.ClickSubmitButton(document, "login_form", ".save");
+                            _iCurrentStep = REDIRECT_TO_BLOG;
+                            HtmlAction.FillTextFieldData(document, "gaia_loginform", "Email", Username);
+                            HtmlAction.FillTextFieldData(document, "gaia_loginform", "Passwd", Password);
+                            HtmlAction.Submit(document, "gaia_loginform", "signIn");
                             //HtmlAction.ClickButton(document, null, ".save");
                         }
                         break;
 
-                    case REDIRECT_TO_BLOG_HOME:
-                        if (WebBrowser.ReadyState == WebBrowserReadyState.Complete)
-                        {
-                            _iCurrentStep = REDIRECT_TO_BLOG;                        
-                            HtmlAction.HrefClick(document, "http://tw.rd.yahoo.com/referurl/hp/1024/me/blog/*http://tw.blog.yahoo.com/");
-                        }
-                        break;
 
                     case REDIRECT_TO_BLOG:
                         if (WebBrowser.ReadyState == WebBrowserReadyState.Complete)
                         {
                             _iCurrentStep = LOGIN_COMPLETED;
-                            HtmlAction.HrefClick(document, "http://tw.rd.yahoo.com/referurl/blog/hp/my/*http://tw.myblog.yahoo.com");
+                            WebBrowser.Url = new Uri("http://www.blogger.com/home?pli=1");
                         }
                         break;
 
@@ -113,12 +111,11 @@ namespace AAA.YahooPublisher
                         {
                             Thread.Sleep(3000);
                             _iCurrentStep = PUBLISH;
-                            HtmlAction.FillTextFieldData(document, "blog_compose", "title", _strTitle);
-                            HtmlAction.SetOptionValue(document, "folder_id", "6");
-                            HtmlAction.FillTextAreaData(document, "blog_compose", "contents", _strArticle);
+                            HtmlAction.FillTextFieldData(document, "postingForm", "title", _strTitle);
+                            HtmlAction.FillTextAreaData(document, "postingForm", "postBody", _strArticle);
                             //HtmlAction.ClickCheckButton(document, "default_category", null);
                             Thread.Sleep(3000);
-                            HtmlAction.Submit(document, "blog_compose", "post");
+                            HtmlAction.Submit(document, "postingForm", "publish");
                         }
                         break;
                     case PUBLISH:
@@ -149,9 +146,9 @@ namespace AAA.YahooPublisher
         {
             _isCompleted = false;
             _iCurrentStep = LOGOUT;
-            WebBrowser.Url = new Uri("http://tw.rd.yahoo.com/referurl/hp/1024/pa/exit/*https://login.yahoo.com/config/login?&.srv=fpctx&logout=1&.direct=1&.done=http://tw.yahoo.com");            
+            WebBrowser.Url = new Uri("http://www.blogger.com/logout.g");
 
-            while(_isCompleted == false)
+            while (_isCompleted == false)
             {
                 Application.DoEvents();
                 Thread.Sleep(10);
@@ -187,8 +184,9 @@ namespace AAA.YahooPublisher
 
                 _isCompleted = false;
                 _iCurrentStep = FILL_BLOG;
-                HtmlAction.HrefClick(WebBrowser.Document, "http://tw.blog.yahoo.com/post/post_html.php");
-            
+                //HtmlAction.HrefClick(WebBrowser.Document, "http://www.blogger.com/post-create.g?blogID=6612753544305311345");
+                HtmlAction.HrefClick(WebBrowser.Document, "http://www.blogger.com/post-create.g?blogID=" + Blogname);
+
 
                 while (_isCompleted == false)
                 {
