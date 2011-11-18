@@ -8,9 +8,9 @@ using AAA.Web;
 using System.IO;
 using System.Threading;
 
-namespace AAA.GooglePublisher
+namespace AAA.PCHomePublisher
 {
-    public class GooglePublisher : AbstractPublisher
+    public class PCHomePublisher : AbstractPublisher
     {
         private string _strHomepage = "http://www.google.com/";
 
@@ -30,7 +30,7 @@ namespace AAA.GooglePublisher
         private int _iCurrentStep = -1;
         private bool _isCompleted;
 
-        public GooglePublisher()
+        public PCHomePublisher()
         {
             WebSite = "www.google.com";
             WebSiteName = "Google部落格";
