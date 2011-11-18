@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{31B499CB-140E-407E-8223-3F19DC5E63A8}</ProjectGuid>
+    <ProjectGuid>{D0517A44-2AC8-49BF-820A-E9388BE1BBD4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AAA.YahooPublisher</RootNamespace>
-    <AssemblyName>AAA.YahooPublisher</AssemblyName>
+    <RootNamespace>AAA.GooglePublisher</RootNamespace>
+    <AssemblyName>AAA.GooglePublisher</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -49,7 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="YahooPublisher.cs" />
+    <Compile Include="GooglePublisher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
