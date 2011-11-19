@@ -7,15 +7,27 @@ using System.Windows.Forms;
 using AAA.Web;
 using System.IO;
 using System.Threading;
+using System.Runtime.InteropServices;
 
 namespace AAA.PCHomePublisher
 {
+
     public class PCHomePublisher : AbstractPublisher
     {
-        private string _strHomepage = "http://www.google.com/";
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = false)]
+        static extern IntPtr SendMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
 
-        private const int REDIRECT_TO_YAHOO_LOGIN = 0;
-        private const int YAHOO_LOGIN_FORM = 1;
+        [DllImport("user32.dll", SetLastError = true)]
+        static extern IntPtr GetWindow(IntPtr hWnd, uint uCmd);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        static extern int GetClassName(IntPtr hWnd, StringBuilder lpClassName, int nMaxCount); 
+
+
+        private string _strHomepage = "http://www.pchome.com.tw/";
+/*
+        private const int REDIRECT_TO_LOGIN = 0;
+        private const int LOGIN_FORM = 1;
         private const int REDIRECT_TO_BLOG_HOME = 20;
         private const int REDIRECT_TO_BLOG = 21;
         private const int LOGIN_COMPLETED = 3;
@@ -23,7 +35,7 @@ namespace AAA.PCHomePublisher
         private const int PUBLISH = 5;
         private const int POST_COMPLETED = 6;
         private const int LOGOUT = 7;
-
+*/
         private string _strTitle;
         private string _strArticle;
 
@@ -32,8 +44,9 @@ namespace AAA.PCHomePublisher
 
         public PCHomePublisher()
         {
-            WebSite = "www.google.com";
-            WebSiteName = "Google部落格";
+            WebSite = "www.pchome.com.tw";
+            WebSiteName = "PCHome部落格";
+            NeedPictureValidate = true;
         }
 
         public override bool Login()
@@ -41,7 +54,7 @@ namespace AAA.PCHomePublisher
             try
             {
                 LoginCompleted = false;
-                _iCurrentStep = REDIRECT_TO_YAHOO_LOGIN;
+                _iCurrentStep = REDIRECT_TO_LOGIN;
                 WebBrowser.Url = new Uri(_strHomepage);
 
                 while (LoginCompleted == false)
@@ -66,31 +79,41 @@ namespace AAA.PCHomePublisher
                 Console.WriteLine(document.Body.ToString());
                 switch (_iCurrentStep)
                 {
-                    case REDIRECT_TO_YAHOO_LOGIN:
+                    case REDIRECT_TO_LOGIN:
                         if (WebBrowser.ReadyState == WebBrowserReadyState.Complete)
                         {
-                            _iCurrentStep = YAHOO_LOGIN_FORM;
-                            HtmlAction.HrefClick(document, "https://accounts.google.com/ServiceLogin?hl=zh-TW&continue=http://www.google.com/");
+                            _iCurrentStep = LOGIN_FORM;
+                            HtmlAction.HrefClick(document, "https://member.pchome.com.tw/login.html?ref=http://www.pchome.com.tw/");
                         }
                         break;
 
-                    case YAHOO_LOGIN_FORM:
+                    case LOGIN_FORM:
+                        if (WebBrowser.ReadyState == WebBrowserReadyState.Complete)
+                        {
+                            _iCurrentStep = REDIRECT_TO_BLOG_HOME;
+                            HtmlAction.FillTextFieldData(document, "idcheck", "userId", Username);
+                            HtmlAction.FillTextFieldData(document, "idcheck", "passwd", Password);
+                            HtmlAction.SimulateClickImage(WebBrowser, document, null, "loading...");
+                            //SendMessage(WebBrowser.Handle, downCode, wParam, lParam);
+                            //SendMessage(WebBrowser.Handle, upCode, wParam, lParam);
+                            //HtmlAction.ClickImage(document, null, "loading...");
+                        }
+                        break;
+
+                    case REDIRECT_TO_BLOG_HOME:
                         if (WebBrowser.ReadyState == WebBrowserReadyState.Complete)
                         {
                             _iCurrentStep = REDIRECT_TO_BLOG;
-                            HtmlAction.FillTextFieldData(document, "gaia_loginform", "Email", Username);
-                            HtmlAction.FillTextFieldData(document, "gaia_loginform", "Passwd", Password);
-                            HtmlAction.Submit(document, "gaia_loginform", "signIn");
-                            //HtmlAction.ClickButton(document, null, ".save");
+                            WebBrowser.Url = new Uri("http://blog.pchome.com.tw/");
                         }
                         break;
-
+                        
 
                     case REDIRECT_TO_BLOG:
                         if (WebBrowser.ReadyState == WebBrowserReadyState.Complete)
                         {
                             _iCurrentStep = LOGIN_COMPLETED;
-                            WebBrowser.Url = new Uri("http://www.blogger.com/home?pli=1");
+                            WebBrowser.Url = new Uri("http://blog.pchome.com.tw/public_file/index_login.php");
                         }
                         break;
 
@@ -106,11 +129,11 @@ namespace AAA.PCHomePublisher
                         {
                             Thread.Sleep(3000);
                             _iCurrentStep = PUBLISH;
-                            HtmlAction.FillTextFieldData(document, "postingForm", "title", _strTitle);
-                            HtmlAction.FillTextAreaData(document, "postingForm", "postBody", _strArticle);
+                            HtmlAction.FillTextFieldData(document, "ttimes", "d_title", _strTitle);
+                            HtmlAction.FillTextAreaData(document, "ttimes", "area_content", _strArticle);
                             //HtmlAction.ClickCheckButton(document, "default_category", null);
                             Thread.Sleep(3000);
-                            HtmlAction.Submit(document, "postingForm", "publish");
+                           HtmlAction.ClickButton(document, "pubButton", null);
                         }
                         break;
                     case PUBLISH:
@@ -141,7 +164,7 @@ namespace AAA.PCHomePublisher
         {
             _isCompleted = false;
             _iCurrentStep = LOGOUT;
-            WebBrowser.Url = new Uri("http://www.blogger.com/logout.g");
+            WebBrowser.Url = new Uri("http://member.pchome.com.tw/logout.html?ref=http://www.pchome.com.tw/");
 
             while (_isCompleted == false)
             {
@@ -179,8 +202,7 @@ namespace AAA.PCHomePublisher
 
                 _isCompleted = false;
                 _iCurrentStep = FILL_BLOG;
-                //HtmlAction.HrefClick(WebBrowser.Document, "http://www.blogger.com/post-create.g?blogID=6612753544305311345");
-                HtmlAction.HrefClick(WebBrowser.Document, "http://www.blogger.com/post-create.g?blogID=" + Blogname);
+                HtmlAction.HrefClick(WebBrowser.Document, "http://blog.pchome.com.tw/panel/article_add");
 
 
                 while (_isCompleted == false)

@@ -86,8 +86,9 @@ namespace AAA.BlogPublisher
                             lstAuto.Items.Add(publisher.WebSiteName);
                         }
                     }
-                    catch
+                    catch(Exception ex)
                     {
+                        MessageBox.Show(ex.Message + "," + ex.TargetSite);
                     }
                 }
 
@@ -134,7 +135,7 @@ namespace AAA.BlogPublisher
 
                 ftpClient = new FTPClient(strFTPHost, int.Parse(strFTPPort));
                 ftpClient.Login(strFTPUsername, strFTPPassword);
-
+                ftpClient.TransferType = FTPTransferType.ASCII;
                 ftpClient.Chdir("Article");
                 for (int i = 0; i < strCategories.Length; i++)
                 {
@@ -189,23 +190,28 @@ namespace AAA.BlogPublisher
 
         private void btnPublishAuto_Click(object sender, EventArgs e)
         {
+            Publish(lstAuto);
+        }
+
+        private void Publish(CheckedListBox lstList)
+        {
             string strAccount;
             string strPassword;
             string strBlogname;
 
             try
             {
-                for (int i = 0; i < lstAuto.CheckedItems.Count; i++)
+                for (int i = 0; i < lstList.CheckedItems.Count; i++)
                 {
                     Application.DoEvents();
                     while(pnlBrowser.Controls.Count > 0)
                         pnlBrowser.Controls.RemoveAt(0);
                     
-                    pnlBrowser.Controls.Add(_dicPublisher[lstAuto.CheckedItems[i].ToString()].WebBrowser);
+                    pnlBrowser.Controls.Add(_dicPublisher[lstList.CheckedItems[i].ToString()].WebBrowser);
 
-                    _dicPublisher[lstAuto.CheckedItems[i].ToString()].WebBrowser.Visible = true;
-                    _dicPublisher[lstAuto.CheckedItems[i].ToString()].WebBrowser.Dock = DockStyle.Fill;
-                    _dicPublisher[lstAuto.CheckedItems[i].ToString()].WebBrowser.ScrollBarsEnabled = true;
+                    _dicPublisher[lstList.CheckedItems[i].ToString()].WebBrowser.Visible = true;
+                    _dicPublisher[lstList.CheckedItems[i].ToString()].WebBrowser.Dock = DockStyle.Fill;
+                    _dicPublisher[lstList.CheckedItems[i].ToString()].WebBrowser.ScrollBarsEnabled = true;
 
                     for (int j = 0; j < lstAccount.CheckedItems.Count; j++)
                     {
@@ -213,29 +219,31 @@ namespace AAA.BlogPublisher
                         strPassword = _dicAccount[strAccount];
                         strBlogname = _dicBlogname[strAccount];
 
-                        _dicPublisher[lstAuto.CheckedItems[i].ToString()].Logout();
+                        _dicPublisher[lstList.CheckedItems[i].ToString()].Logout();
 
-                        _dicPublisher[lstAuto.CheckedItems[i].ToString()].Username = strAccount;
-                        _dicPublisher[lstAuto.CheckedItems[i].ToString()].Password = strPassword;
-                        _dicPublisher[lstAuto.CheckedItems[i].ToString()].Blogname = strBlogname;
-                        if (_dicPublisher[lstAuto.CheckedItems[i].ToString()].Login() == false)
+                        _dicPublisher[lstList.CheckedItems[i].ToString()].Username = strAccount;
+                        _dicPublisher[lstList.CheckedItems[i].ToString()].Password = strPassword;
+                        _dicPublisher[lstList.CheckedItems[i].ToString()].Blogname = strBlogname;
+                        if (_dicPublisher[lstList.CheckedItems[i].ToString()].Login() == false)
                         {
-                            MessageBox.Show(_dicPublisher[lstAuto.CheckedItems[i].ToString()].ErrorMessage);
+                            MessageBox.Show(_dicPublisher[lstList.CheckedItems[i].ToString()].ErrorMessage);
                             continue;
                         }
 
                         for (int k = 0; k < lstNewArticle.CheckedItems.Count; k++)
                         {
-                            _dicPublisher[lstAuto.CheckedItems[i].ToString()].UploadPicture("");
-                            if (_dicPublisher[lstAuto.CheckedItems[i].ToString()].PostArticle(Environment.CurrentDirectory + @"\articles\" + lstNewArticle.Items[lstNewArticle.CheckedIndices[k]]) == false)
+                            _dicPublisher[lstList.CheckedItems[i].ToString()].UploadPicture("");
+                            if (_dicPublisher[lstList.CheckedItems[i].ToString()].PostArticle(Environment.CurrentDirectory + @"\articles\" + lstNewArticle.Items[lstNewArticle.CheckedIndices[k]]) == false)
                             {
-                                MessageBox.Show(_dicPublisher[lstAuto.CheckedItems[i].ToString()].ErrorMessage);
+                                MessageBox.Show(_dicPublisher[lstList.CheckedItems[i].ToString()].ErrorMessage);
                                 continue;
                             }
                         }
+/*
                         Thread.Sleep(3000);
-                        if(_dicPublisher[lstAuto.CheckedItems[i].ToString()].Logout() == false)
-                            MessageBox.Show(_dicPublisher[lstAuto.CheckedItems[i].ToString()].ErrorMessage);
+                        if(_dicPublisher[lstList.CheckedItems[i].ToString()].Logout() == false)
+                            MessageBox.Show(_dicPublisher[lstList.CheckedItems[i].ToString()].ErrorMessage);
+ */ 
                     }
                 }
             }
@@ -243,6 +251,11 @@ namespace AAA.BlogPublisher
             {
                 MessageBox.Show(ex.Message + "," + ex.StackTrace);
             }
+        }
+
+        private void btnPublishCheck_Click(object sender, EventArgs e)
+        {
+            Publish(lstCheck);
         }
     }
 }
