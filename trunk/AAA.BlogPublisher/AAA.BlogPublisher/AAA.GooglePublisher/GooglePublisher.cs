@@ -13,9 +13,9 @@ namespace AAA.GooglePublisher
     public class GooglePublisher : AbstractPublisher
     {
         private string _strHomepage = "http://www.google.com/";
-
-        private const int REDIRECT_TO_YAHOO_LOGIN = 0;
-        private const int YAHOO_LOGIN_FORM = 1;
+/*
+        private const int REDIRECT_TO_LOGIN = 0;
+        private const int LOGIN_FORM = 1;
         private const int REDIRECT_TO_BLOG_HOME = 20;
         private const int REDIRECT_TO_BLOG = 21;
         private const int LOGIN_COMPLETED = 3;
@@ -23,7 +23,7 @@ namespace AAA.GooglePublisher
         private const int PUBLISH = 5;
         private const int POST_COMPLETED = 6;
         private const int LOGOUT = 7;
-
+*/
         private string _strTitle;
         private string _strArticle;
 
@@ -41,7 +41,7 @@ namespace AAA.GooglePublisher
             try
             {
                 LoginCompleted = false;
-                _iCurrentStep = REDIRECT_TO_YAHOO_LOGIN;
+                _iCurrentStep = REDIRECT_TO_LOGIN;
                 WebBrowser.Url = new Uri(_strHomepage);
 
                 while (LoginCompleted == false)
@@ -66,15 +66,15 @@ namespace AAA.GooglePublisher
                 Console.WriteLine(document.Body.ToString());
                 switch (_iCurrentStep)
                 {
-                    case REDIRECT_TO_YAHOO_LOGIN:
+                    case REDIRECT_TO_LOGIN:
                         if (WebBrowser.ReadyState == WebBrowserReadyState.Complete)
                         {
-                            _iCurrentStep = YAHOO_LOGIN_FORM;
+                            _iCurrentStep = LOGIN_FORM;
                             HtmlAction.HrefClick(document, "https://accounts.google.com/ServiceLogin?hl=zh-TW&continue=http://www.google.com/");
                         }
                         break;
 
-                    case YAHOO_LOGIN_FORM:
+                    case LOGIN_FORM:
                         if (WebBrowser.ReadyState == WebBrowserReadyState.Complete)
                         {
                             _iCurrentStep = REDIRECT_TO_BLOG;

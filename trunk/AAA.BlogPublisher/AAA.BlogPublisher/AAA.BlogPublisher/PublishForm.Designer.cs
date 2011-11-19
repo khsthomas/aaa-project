@@ -96,6 +96,7 @@
             this.btnPublishCheck.TabIndex = 4;
             this.btnPublishCheck.Text = "發佈";
             this.btnPublishCheck.UseVisualStyleBackColor = true;
+            this.btnPublishCheck.Click += new System.EventHandler(this.btnPublishCheck_Click);
             // 
             // lstCheck
             // 
@@ -152,9 +153,12 @@
             // 
             // pnlBrowser
             // 
+            this.pnlBrowser.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.pnlBrowser.Location = new System.Drawing.Point(468, 15);
             this.pnlBrowser.Name = "pnlBrowser";
-            this.pnlBrowser.Size = new System.Drawing.Size(283, 407);
+            this.pnlBrowser.Size = new System.Drawing.Size(302, 407);
             this.pnlBrowser.TabIndex = 4;
             // 
             // PublishForm

@@ -13,19 +13,16 @@ namespace AAA.WretchPublisher
     public class WretchPublisher : AbstractPublisher
     {        
         private string _strHomepage = "http://www.wretch.cc/";
-        //private string _strHomepage = "http://mail.google.com/";
-
-        //private string _strHomepage = "http://tw.rd.yahoo.com/referurl/wretch/index/turf/login/*http://www.wretch.cc/IDintegration/?ref=%2525252F";        
-
-        private const int REDIRECT_TO_YAHOO_LOGIN = 0;
-        private const int YAHOO_LOGIN_FORM = 1;
+/*
+        private const int REDIRECT_TO_LOGIN = 0;
+        private const int LOGIN_FORM = 1;
         private const int REDIRECT_TO_BLOG = 2;
         private const int LOGIN_COMPLETED = 3;
         private const int FILL_BLOG = 4;
         private const int PUBLISH = 5;
         private const int POST_COMPLETED = 6;
         private const int LOGOUT = 7;
-
+*/
 
         private string _strTitle;
         private string _strArticle;
@@ -45,7 +42,7 @@ namespace AAA.WretchPublisher
             {
                 Console.WriteLine(WebBrowser.Version);
                 LoginCompleted = false;
-                _iCurrentStep = REDIRECT_TO_YAHOO_LOGIN;
+                _iCurrentStep = REDIRECT_TO_LOGIN;
                 WebBrowser.Url = new Uri(_strHomepage);
 
                 while (LoginCompleted == false)
@@ -70,15 +67,15 @@ namespace AAA.WretchPublisher
                 Console.WriteLine(document.Body.ToString());
                 switch (_iCurrentStep)
                 {
-                    case REDIRECT_TO_YAHOO_LOGIN:
+                    case REDIRECT_TO_LOGIN:
                         if (WebBrowser.ReadyState == WebBrowserReadyState.Complete)
                         {
-                            _iCurrentStep = YAHOO_LOGIN_FORM;
+                            _iCurrentStep = LOGIN_FORM;
                             HtmlAction.HrefClick(document, "http://tw.rd.yahoo.com/referurl/wretch/index/turf/login/*http://www.wretch.cc/IDintegration/?ref=%2525252F");
                         }
                         break;
 
-                    case YAHOO_LOGIN_FORM:
+                    case LOGIN_FORM:
                         if (WebBrowser.ReadyState == WebBrowserReadyState.Complete)
                         {
                             _iCurrentStep = REDIRECT_TO_BLOG;
