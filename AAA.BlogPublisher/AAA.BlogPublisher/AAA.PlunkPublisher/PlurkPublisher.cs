@@ -9,44 +9,22 @@ using System.IO;
 using System.Threading;
 using System.Runtime.InteropServices;
 
-namespace AAA.PCHomePublisher
+namespace AAA.PlurkPublisher
 {
 
-    public class PCHomePublisher : AbstractPublisher
+    public class PlurkPublisher : AbstractPublisher
     {
-        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = false)]
-        static extern IntPtr SendMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
-
-        [DllImport("user32.dll", SetLastError = true)]
-        static extern IntPtr GetWindow(IntPtr hWnd, uint uCmd);
-
-        [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        static extern int GetClassName(IntPtr hWnd, StringBuilder lpClassName, int nMaxCount); 
-
-
-        private string _strHomepage = "http://www.pchome.com.tw/";
-/*
-        private const int REDIRECT_TO_LOGIN = 0;
-        private const int LOGIN_FORM = 1;
-        private const int REDIRECT_TO_BLOG_HOME = 20;
-        private const int REDIRECT_TO_BLOG = 21;
-        private const int LOGIN_COMPLETED = 3;
-        private const int FILL_BLOG = 4;
-        private const int PUBLISH = 5;
-        private const int POST_COMPLETED = 6;
-        private const int LOGOUT = 7;
-*/
+        private string _strHomepage = "http://www.plurk.com/t/Taiwan#hot";
         private string _strTitle;
         private string _strArticle;
 
         private int _iCurrentStep = -1;
         private bool _isCompleted;
 
-        public PCHomePublisher()
+        public PlurkPublisher()
         {
-            WebSite = "www.pchome.com.tw";
-            WebSiteName = "PCHome部落格";
-            NeedPictureValidate = true;
+            WebSite = "www.pplurk.com";
+            WebSiteName = "噗浪(Plurk)";
         }
 
         public override bool Login()
@@ -83,7 +61,7 @@ namespace AAA.PCHomePublisher
                         if (WebBrowser.ReadyState == WebBrowserReadyState.Complete)
                         {
                             _iCurrentStep = LOGIN_FORM;
-                            HtmlAction.HrefClick(document, "https://member.pchome.com.tw/login.html?ref=http://www.pchome.com.tw/");
+                            HtmlAction.HrefClick(document, "http://www.plurk.com/Users/showLogin?login_return_url=/t/");
                         }
                         break;
 
@@ -91,9 +69,9 @@ namespace AAA.PCHomePublisher
                         if (WebBrowser.ReadyState == WebBrowserReadyState.Complete)
                         {
                             _iCurrentStep = REDIRECT_TO_BLOG_HOME;
-                            HtmlAction.FillTextFieldData(document, "idcheck", "userId", Username);
-                            HtmlAction.FillTextFieldData(document, "idcheck", "passwd", Password);
-                            //HtmlSimulateClickImage
+                            HtmlAction.FillTextFieldDataWithoutForm(document, "first", Username);
+                            HtmlAction.FillTextFieldDataWithoutForm(document, "password", Password);
+                            HtmlAction.Submit(document, null, "登入");
                             //SendMessage(WebBrowser.Handle, downCode, wParam, lParam);
                             //SendMessage(WebBrowser.Handle, upCode, wParam, lParam);
                             //HtmlAction.ClickImage(document, null, "loading...");
@@ -107,7 +85,7 @@ namespace AAA.PCHomePublisher
                             WebBrowser.Url = new Uri("http://blog.pchome.com.tw/");
                         }
                         break;
-                        
+
 
                     case REDIRECT_TO_BLOG:
                         if (WebBrowser.ReadyState == WebBrowserReadyState.Complete)
@@ -133,7 +111,7 @@ namespace AAA.PCHomePublisher
                             HtmlAction.FillTextAreaData(document, "ttimes", "area_content", _strArticle);
                             //HtmlAction.ClickCheckButton(document, "default_category", null);
                             Thread.Sleep(3000);
-                           HtmlAction.ClickButton(document, "pubButton", null);
+                            HtmlAction.ClickButton(document, "pubButton", null);
                         }
                         break;
                     case PUBLISH:
@@ -164,7 +142,7 @@ namespace AAA.PCHomePublisher
         {
             _isCompleted = false;
             _iCurrentStep = LOGOUT;
-            WebBrowser.Url = new Uri("http://member.pchome.com.tw/logout.html?ref=http://www.pchome.com.tw/");
+            WebBrowser.Url = new Uri("http://www.plurk.com/Users/logout?token=c085c85a58801003d573862fafa86f83");
 
             while (_isCompleted == false)
             {

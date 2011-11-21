@@ -6,3 +6,5 @@ D:\AAA\project\AAA.BlogPublisher\AAA.BlogPublisher\AAA.PixnetPublisher\bin\Debug
 D:\AAA\project\AAA.BlogPublisher\AAA.BlogPublisher\AAA.PixnetPublisher\bin\Debug\Newtonsoft.Json.xml
 D:\AAA\project\AAA.BlogPublisher\AAA.BlogPublisher\AAA.PixnetPublisher\obj\Debug\AAA.PixnetPublisher.dll
 D:\AAA\project\AAA.BlogPublisher\AAA.BlogPublisher\AAA.PixnetPublisher\obj\Debug\AAA.PixnetPublisher.pdb
+D:\AAA\Project\AAA.BlogPublisher\AAA.BlogPublisher\AAA.PixnetPublisher\bin\Debug\AAA.Base.Util.dll
+D:\AAA\Project\AAA.BlogPublisher\AAA.BlogPublisher\AAA.PixnetPublisher\bin\Debug\AAA.Web.dll

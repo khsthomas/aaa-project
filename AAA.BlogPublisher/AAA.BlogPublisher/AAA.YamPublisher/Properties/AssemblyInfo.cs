@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("AAA.PlurkPublisher")]
+[assembly: AssemblyTitle("AAA.YamPublisher")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("AAA.PlurkPublisher")]
+[assembly: AssemblyProduct("AAA.YamPublisher")]
 [assembly: AssemblyCopyright("Copyright ©  2011")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("3598d9cc-c8f4-41f4-97c6-31e8716883f8")]
+[assembly: Guid("c3ae3519-8aeb-4c9b-b6b6-f7e9711fdace")]
 
 // Version information for an assembly consists of the following four values:
 //
