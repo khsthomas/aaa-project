@@ -54,6 +54,8 @@ namespace AAA.PublisherManager
                     strNamespace = filesInfos[i].Name.Replace(".dll", "");
                     asmb = Assembly.LoadFile(filesInfos[i].FullName);
                     publisher = (IPublisher)asmb.CreateInstance(strNamespace + "." + strNamespace.Substring(strNamespace.LastIndexOf('.') + 1));
+                    if (publisher == null)
+                        continue;
                     lstWebSite.Items.Add(publisher.WebSiteName);
                 }
 

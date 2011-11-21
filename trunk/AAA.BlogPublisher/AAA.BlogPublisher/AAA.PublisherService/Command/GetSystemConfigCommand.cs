@@ -7,13 +7,14 @@ using AAA.ResultSet;
 
 namespace AAA.PublisherService.Command
 {
-    public class GetSystemConfigCommand : DefaultCommand
+    public class GetSystemConfigCommand : DatabaseCommand
     {
         protected override int ExecuteCommand(Dictionary<string, string> dicModel)
         {
             string strRecord;
             string strSQL = "SELECT ParamName, ParamValue FROM SystemConfig WHERE Category = '{0}'";
-            DatabaseResultSet databaseResult = new DatabaseResultSet(SystemConfig.DATABASE_TYPE, SystemConfig.HOST, SystemConfig.DATABASE, SystemConfig.USERNAME, SystemConfig.PASSWORD);
+            //DatabaseResultSet databaseResult = new DatabaseResultSet(SystemConfig.DATABASE_TYPE, SystemConfig.HOST, SystemConfig.DATABASE, SystemConfig.USERNAME, SystemConfig.PASSWORD);
+            DatabaseResultSet databaseResult = CreateResultSet();
             databaseResult.SQLStatement = string.Format(strSQL, new string[] {dicModel["Category"]});
             databaseResult.Load();
             databaseResult.Read();

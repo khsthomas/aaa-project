@@ -7,13 +7,14 @@ using AAA.ResultSet;
 
 namespace AAA.PublisherService.Command
 {
-    public class QueryAccountListCommand : DefaultCommand
+    public class QueryAccountListCommand : DatabaseCommand
     {
         protected override int ExecuteCommand(Dictionary<string, string> dicModel)
         {
             string strRecord;
             string strSQL = "SELECT Account, Password, StartDate, ExpiredDate, ActiveFlag FROM Account";
-            DatabaseResultSet databaseResult = new DatabaseResultSet(SystemConfig.DATABASE_TYPE, SystemConfig.HOST, SystemConfig.DATABASE, SystemConfig.USERNAME, SystemConfig.PASSWORD);
+            //DatabaseResultSet databaseResult = new DatabaseResultSet(SystemConfig.DATABASE_TYPE, SystemConfig.HOST, SystemConfig.DATABASE, SystemConfig.USERNAME, SystemConfig.PASSWORD);
+            DatabaseResultSet databaseResult = CreateResultSet();
             databaseResult.SQLStatement = strSQL;
             databaseResult.Load();
             databaseResult.Read();

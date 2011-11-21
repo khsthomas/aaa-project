@@ -74,7 +74,12 @@ namespace AAA.Publisher.VersionCheck
                 strDllFiles = Directory.GetFiles(Environment.CurrentDirectory + @"\publisher");
 
                 for (int i = 0; i < strDllFiles.Length; i++)
-                    File.Delete(strDllFiles[i]);
+                    try
+                    {
+                        File.Delete(strDllFiles[i]);
+                    }
+                    catch { }
+
 
                 ftpClient = new FTPClient(_strFTPHost);
                 ftpClient.Login(_strFTPUsername, _strFTPPassword);

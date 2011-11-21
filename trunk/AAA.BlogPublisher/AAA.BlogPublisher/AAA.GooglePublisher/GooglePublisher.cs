@@ -23,10 +23,10 @@ namespace AAA.GooglePublisher
         private const int PUBLISH = 5;
         private const int POST_COMPLETED = 6;
         private const int LOGOUT = 7;
-*/
+
         private string _strTitle;
         private string _strArticle;
-
+*/
         private int _iCurrentStep = -1;
         private bool _isCompleted;
 
@@ -106,8 +106,8 @@ namespace AAA.GooglePublisher
                         {
                             Thread.Sleep(3000);
                             _iCurrentStep = PUBLISH;
-                            HtmlAction.FillTextFieldData(document, "postingForm", "title", _strTitle);
-                            HtmlAction.FillTextAreaData(document, "postingForm", "postBody", _strArticle);
+                            HtmlAction.FillTextFieldData(document, "postingForm", "title", Title);
+                            HtmlAction.FillTextAreaData(document, "postingForm", "postBody", Article);
                             //HtmlAction.ClickCheckButton(document, "default_category", null);
                             Thread.Sleep(3000);
                             HtmlAction.Submit(document, "postingForm", "publish");
@@ -164,10 +164,11 @@ namespace AAA.GooglePublisher
 
         public override bool PostArticle(string strFilename)
         {
-            StreamReader sr = null;
-            string strLine;
+//            StreamReader sr = null;
+//            string strLine;
             try
             {
+/*
                 sr = new StreamReader(strFilename, Encoding.Default);
 
                 _strTitle = sr.ReadLine();
@@ -176,7 +177,8 @@ namespace AAA.GooglePublisher
                 {
                     _strArticle += strLine + "<br>";
                 }
-
+*/
+                ParseFile(strFilename);
                 _isCompleted = false;
                 _iCurrentStep = FILL_BLOG;
                 //HtmlAction.HrefClick(WebBrowser.Document, "http://www.blogger.com/post-create.g?blogID=6612753544305311345");

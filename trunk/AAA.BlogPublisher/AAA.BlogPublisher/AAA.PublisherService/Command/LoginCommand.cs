@@ -8,14 +8,15 @@ using AAA.ResultSet;
 
 namespace AAA.PublisherService.Command
 {
-    public class LoginCommand : DefaultCommand
+    public class LoginCommand : DatabaseCommand
     {
         protected override int ExecuteCommand(Dictionary<string, string> dicModel)
         {
             try
             {
                 string strSQL = "SELECT Account, Password FROM Account WHERE Account = '{0}' AND ActiveFlag = 'Y'";
-                DatabaseResultSet databaseResult = new DatabaseResultSet(SystemConfig.DATABASE_TYPE, SystemConfig.HOST, SystemConfig.DATABASE, SystemConfig.USERNAME, SystemConfig.PASSWORD);
+                //DatabaseResultSet databaseResult = new DatabaseResultSet(SystemConfig.DATABASE_TYPE, SystemConfig.HOST, SystemConfig.DATABASE, SystemConfig.USERNAME, SystemConfig.PASSWORD);
+                DatabaseResultSet databaseResult = CreateResultSet();
                 databaseResult.SQLStatement = string.Format(strSQL, new string[] { dicModel["Account"] });
                 databaseResult.Load();
                 databaseResult.Read();

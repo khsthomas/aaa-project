@@ -15,8 +15,8 @@ namespace AAA.PlurkPublisher
     public class PlurkPublisher : AbstractPublisher
     {
         private string _strHomepage = "http://www.plurk.com/t/Taiwan#hot";
-        private string _strTitle;
-        private string _strArticle;
+//        private string _strTitle;
+//        private string _strArticle;
 
         private int _iCurrentStep = -1;
         private bool _isCompleted;
@@ -107,8 +107,8 @@ namespace AAA.PlurkPublisher
                         {
                             Thread.Sleep(3000);
                             _iCurrentStep = PUBLISH;
-                            HtmlAction.FillTextFieldData(document, "ttimes", "d_title", _strTitle);
-                            HtmlAction.FillTextAreaData(document, "ttimes", "area_content", _strArticle);
+                            HtmlAction.FillTextFieldData(document, "ttimes", "d_title", Title);
+                            HtmlAction.FillTextAreaData(document, "ttimes", "area_content", Article);
                             //HtmlAction.ClickCheckButton(document, "default_category", null);
                             Thread.Sleep(3000);
                             HtmlAction.ClickButton(document, "pubButton", null);
@@ -165,10 +165,11 @@ namespace AAA.PlurkPublisher
 
         public override bool PostArticle(string strFilename)
         {
-            StreamReader sr = null;
-            string strLine;
+//            StreamReader sr = null;
+//            string strLine;
             try
             {
+/*
                 sr = new StreamReader(strFilename, Encoding.Default);
 
                 _strTitle = sr.ReadLine();
@@ -177,7 +178,8 @@ namespace AAA.PlurkPublisher
                 {
                     _strArticle += strLine + "<br>";
                 }
-
+*/
+                ParseFile(strFilename);
                 _isCompleted = false;
                 _iCurrentStep = FILL_BLOG;
                 HtmlAction.HrefClick(WebBrowser.Document, "http://blog.pchome.com.tw/panel/article_add");

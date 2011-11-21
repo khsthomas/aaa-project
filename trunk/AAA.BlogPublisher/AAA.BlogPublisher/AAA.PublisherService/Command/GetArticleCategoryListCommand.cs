@@ -7,12 +7,13 @@ using AAA.ResultSet;
 
 namespace AAA.PublisherService.Command
 {
-    public class GetArticleCategoryListCommand : DefaultCommand
+    public class GetArticleCategoryListCommand : DatabaseCommand
     {
         protected override int ExecuteCommand(Dictionary<string, string> dicModel)
         {            
-            string strSQL = "SELECT a.ArticleCategoryId CategoryId, b.ArticleCategoryName CategoryName FROM AccountArticleMapping a, ArticleCategory b WHERE a.ArticleCategoryId = b.ArticleCategoryId AND a.Account = '{0}'";
-            DatabaseResultSet databaseResult = new DatabaseResultSet(SystemConfig.DATABASE_TYPE, SystemConfig.HOST, SystemConfig.DATABASE, SystemConfig.USERNAME, SystemConfig.PASSWORD);
+            string strSQL = "SELECT a.ArticleCategoryId AS CategoryId, b.ArticleCategoryName AS CategoryName FROM AccountArticleMapping a, ArticleCategory b WHERE a.ArticleCategoryId = b.ArticleCategoryId AND a.Account = '{0}'";
+            //DatabaseResultSet databaseResult = new DatabaseResultSet(SystemConfig.DATABASE_TYPE, SystemConfig.HOST, SystemConfig.DATABASE, SystemConfig.USERNAME, SystemConfig.PASSWORD);
+            DatabaseResultSet databaseResult = CreateResultSet();
             string strCategoryIdList;
             databaseResult.SQLStatement = string.Format(strSQL, new string[] {dicModel["Account"]});
             databaseResult.Load();
