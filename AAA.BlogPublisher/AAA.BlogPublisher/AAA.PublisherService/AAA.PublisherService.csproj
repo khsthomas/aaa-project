@@ -54,6 +54,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Command\UpdateFunctionInfoCommand.cs" />
+    <Compile Include="Command\DatabaseCommand.cs" />
     <Compile Include="Command\GetArticleCategoryListCommand.cs" />
     <Compile Include="Command\UpdateAccountArticleMappingCommand.cs" />
     <Compile Include="Command\UpdateAccountFunctionMappingCommand.cs" />

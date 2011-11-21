@@ -8,13 +8,13 @@ using AAA.Database;
 
 namespace AAA.PublisherService.Command
 {
-    public class UpdateArticleCategoryCommand : DatabaseCommand
+    public class UpdateFunctionInfoCommand : DatabaseCommand
     {
         protected override int ExecuteCommand(Dictionary<string, string> dicModel)
         {
             IDatabase database = CreateDatabase();
-            string strDeleteSQL = "DELETE FROM ArticleCategory";
-            string strInsertSQL = "INSERT INTO ArticleCategory(ArticleCategoryId, ArticleCategoryName) VALUES('{0}', '{1}')";
+            string strDeleteSQL = "DELETE FROM FunctionInfo";
+            string strInsertSQL = "INSERT INTO FunctionInfo(FunctionId, DllName) VALUES('{0}', '{1}')";
 
             if (database == null)
                 return NG;

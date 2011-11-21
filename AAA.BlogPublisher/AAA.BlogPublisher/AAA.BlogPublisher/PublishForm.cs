@@ -119,7 +119,7 @@ namespace AAA.BlogPublisher
                 iniReader = new IniReader(Environment.CurrentDirectory + @"\user.ini");
                 _strAccount = iniReader.GetParam("Account");
                 _strPassword = iniReader.GetParam("Password");
-/*
+
                 strFTPHost = iniReader.GetParam("FTPHost");
                 strFTPPort = iniReader.GetParam("FTPPort");
                 strFTPUsername = iniReader.GetParam("FTPUsername");
@@ -172,7 +172,7 @@ namespace AAA.BlogPublisher
                 foreach (string strKey in dicCategoryDate.Keys)
                     sw.WriteLine(strKey + "=" + dicCategoryDate[strKey]);
                 sw.Close();
-*/
+
             }
             catch (Exception ex)
             {
@@ -183,11 +183,18 @@ namespace AAA.BlogPublisher
                 if (sw != null)
                     sw.Close();
 
-                filesInfo = (new DirectoryInfo(Environment.CurrentDirectory + @"\articles")).GetFiles();
-                for (int i = 0; i < filesInfo.Length; i++)
+                try
                 {
-                    if (lstNewArticle.Items.IndexOf(filesInfo[i].Name) < 0)
-                        lstNewArticle.Items.Add(filesInfo[i].Name);
+                    filesInfo = (new DirectoryInfo(Environment.CurrentDirectory + @"\articles")).GetFiles();
+                    for (int i = 0; i < filesInfo.Length; i++)
+                    {
+                        if (lstNewArticle.Items.IndexOf(filesInfo[i].Name) < 0)
+                            lstNewArticle.Items.Add(filesInfo[i].Name);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message + "," + ex.StackTrace);
                 }
 
             }

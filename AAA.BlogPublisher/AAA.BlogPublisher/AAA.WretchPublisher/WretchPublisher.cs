@@ -24,8 +24,8 @@ namespace AAA.WretchPublisher
         private const int LOGOUT = 7;
 */
 
-        private string _strTitle;
-        private string _strArticle;
+//        private string _strTitle;
+//        private string _strArticle;
 
         private int _iCurrentStep = -1;
         private bool _isCompleted;
@@ -106,8 +106,8 @@ namespace AAA.WretchPublisher
                         {
                            Thread.Sleep(3000);
                             _iCurrentStep = PUBLISH;
-                            HtmlAction.FillTextFieldData(document, "addpost", "title", _strTitle);
-                            HtmlAction.FillTextAreaData(document, "addpost", "text", _strArticle);
+                            HtmlAction.FillTextFieldData(document, "addpost", "title", Title);
+                            HtmlAction.FillTextAreaData(document, "addpost", "text", Article);
                             HtmlAction.ClickCheckButton(document, "default_category", null);
                             Thread.Sleep(3000);
                             HtmlAction.Submit(document, "addpost", "confirm");                            
@@ -163,10 +163,11 @@ namespace AAA.WretchPublisher
 
         public override bool PostArticle(string strFilename)
         {
-            StreamReader sr = null;
-            string strLine;
+//            StreamReader sr = null;
+//            string strLine;
             try
             {
+/*
                 sr = new StreamReader(strFilename, Encoding.Default);
 
                 _strTitle = sr.ReadLine();
@@ -175,7 +176,9 @@ namespace AAA.WretchPublisher
                 {
                     _strArticle += strLine + "<br>";
                 }
+*/
 
+                ParseFile(strFilename);
                 _isCompleted = false;
                 _iCurrentStep = FILL_BLOG;
                 HtmlAction.ClickButton(WebBrowser.Document, null, "發表新文章(舊版)");

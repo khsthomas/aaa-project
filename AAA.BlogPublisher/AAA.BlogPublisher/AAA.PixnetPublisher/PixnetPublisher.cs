@@ -14,8 +14,8 @@ namespace AAA.PixnetPublisher
     {
         private string _strHomepage = "http://www.pixnet.net/";
 
-        private string _strTitle;
-        private string _strArticle;
+//        private string _strTitle;
+//        private string _strArticle;
 
         private int _iCurrentStep = -1;
         private bool _isCompleted;
@@ -92,8 +92,8 @@ namespace AAA.PixnetPublisher
                                 return true;
                             }
                             _iCurrentStep = PUBLISH;                            
-                            HtmlAction.FillTextFieldData(document, "blogarticle_new", "blogarticle_title", _strTitle);
-                            HtmlAction.FillTextAreaData(document, "blogarticle_new", "blogarticle_body", _strArticle);
+                            HtmlAction.FillTextFieldData(document, "blogarticle_new", "blogarticle_title", Title);
+                            HtmlAction.FillTextAreaData(document, "blogarticle_new", "blogarticle_body", Article);
                             //HtmlAction.FillTextFieldDataWithoutForm(document, "blogarticle_title", _strTitle);
                             //HtmlAction.FillTextAreaDataWithoutForm(document, "blogarticle_body", _strArticle);
                             HtmlAction.SetOptionValue(document, "blogarticle_sitecategoryid", "5");
@@ -152,10 +152,11 @@ namespace AAA.PixnetPublisher
 
         public override bool PostArticle(string strFilename)
         {
-            StreamReader sr = null;
-            string strLine;
+//            StreamReader sr = null;
+//            string strLine;
             try
             {
+/*
                 sr = new StreamReader(strFilename, Encoding.Default);
 
                 _strTitle = sr.ReadLine();
@@ -164,7 +165,9 @@ namespace AAA.PixnetPublisher
                 {
                     _strArticle += strLine + "<br>";
                 }
+*/
 
+                ParseFile(strFilename);
                 _isCompleted = false;
                 _iCurrentStep = FILL_BLOG;
                 HtmlAction.HrefClick(WebBrowser.Document, "http://panel.pixnet.cc/blog/articlenew");

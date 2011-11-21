@@ -13,6 +13,8 @@ using AAA.Base.Util.WCF;
 using AAA.Base.Util.Reader;
 using System.IO;
 using AAA.PublisherService.Command;
+using System.Reflection;
+using AAA.WebPublisher;
 
 namespace AAA.PublisherManager
 {
@@ -34,7 +36,48 @@ namespace AAA.PublisherManager
             StartService();
 
             UpdateArticleCategory();
+            UpdatePublisher();
         }
+
+        private void UpdatePublisher()
+        {
+            IniReader iniReader = new IniReader(Environment.CurrentDirectory + @"\cfg\system.ini");
+            string strPublisherFolder;
+            string[] strPublishers;
+            string strPublisher;
+            string strNamespace;
+            Dictionary<string, string> dicModel = new Dictionary<string, string>();
+            ICommand command;
+            Assembly asmb;
+            IPublisher publisher;
+            try
+            {
+                strPublisherFolder = iniReader.GetParam("PublisherFolder");
+
+                strPublishers = Directory.GetFiles(strPublisherFolder);
+
+                for (int i = 0; i < strPublishers.Length; i++)
+                {
+                    strPublisher = strPublishers[i].Substring(strPublishers[i].LastIndexOf('\\') + 1);
+                    strNamespace = strPublisher.Replace(".dll", "");
+                    asmb = Assembly.LoadFile(strPublisherFolder + @"\" + strPublisher);
+                    if (asmb == null)
+                        continue;
+                    publisher = (IPublisher)asmb.CreateInstance(strNamespace + "." + strNamespace.Substring(strNamespace.LastIndexOf('.') + 1));
+                    if (publisher == null)
+                        continue;
+                    dicModel.Add(publisher.WebSiteName, strPublisher);
+                }
+
+                command = new UpdateFunctionInfoCommand();
+                command.Execute(dicModel);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "," + ex.StackTrace);
+            }
+        }
+
 
         private void UpdateArticleCategory()
         {

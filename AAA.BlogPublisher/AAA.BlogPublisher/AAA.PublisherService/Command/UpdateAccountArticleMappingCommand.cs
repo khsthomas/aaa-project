@@ -8,15 +8,15 @@ using AAA.Database;
 
 namespace AAA.PublisherService.Command
 {
-    public class UpdateAccountArticleMappingCommand : DefaultCommand
+    public class UpdateAccountArticleMappingCommand : DatabaseCommand
     {
         protected override int ExecuteCommand(Dictionary<string, string> dicModel)
         {
-            IDatabase database = null;
+            IDatabase database = CreateDatabase();
             string strAccount = null;
             string strDeleteSQL = "DELETE FROM AccountArticleMapping WHERE Account = '{0}'";
             string strInsertSQL = "INSERT INTO AccountArticleMapping(Account, ArticleCategoryId) VALUES('{0}', '{1}')";
-
+/*
             switch (SystemConfig.DATABASE_TYPE)
             {
                 case DatabaseTypeEnum.Access:
@@ -28,7 +28,7 @@ namespace AAA.PublisherService.Command
                     database.Open(SystemConfig.HOST, SystemConfig.DATABASE, SystemConfig.USERNAME, SystemConfig.PASSWORD);
                     break;
             }
-
+*/
             if (database == null)
                 return NG;
 

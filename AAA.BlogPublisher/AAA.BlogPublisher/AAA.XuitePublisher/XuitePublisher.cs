@@ -14,8 +14,8 @@ namespace AAA.XuitePublisher
     {
         private string _strHomepage = "http://xuite.net/";
 
-        private string _strTitle;
-        private string _strArticle;
+//        private string _strTitle;
+//        private string _strArticle;
 
         private int _iCurrentStep = -1;
         private bool _isCompleted;
@@ -103,9 +103,9 @@ namespace AAA.XuitePublisher
                         {
                             Thread.Sleep(3000);
                             _iCurrentStep = PUBLISH;
-                            HtmlAction.FillTextFieldData(document, "blog_compose", "title", _strTitle);
+                            HtmlAction.FillTextFieldData(document, "blog_compose", "title", Title);
                             HtmlAction.SetOptionValue(document, "folder_id", "6");
-                            HtmlAction.FillTextAreaData(document, "blog_compose", "contents", _strArticle);
+                            HtmlAction.FillTextAreaData(document, "blog_compose", "contents", Article);
                             //HtmlAction.ClickCheckButton(document, "default_category", null);
                             Thread.Sleep(3000);
                             HtmlAction.Submit(document, "blog_compose", "post");
@@ -162,10 +162,11 @@ namespace AAA.XuitePublisher
 
         public override bool PostArticle(string strFilename)
         {
-            StreamReader sr = null;
-            string strLine;
+//            StreamReader sr = null;
+//            string strLine;
             try
             {
+/*
                 sr = new StreamReader(strFilename, Encoding.Default);
 
                 _strTitle = sr.ReadLine();
@@ -174,7 +175,9 @@ namespace AAA.XuitePublisher
                 {
                     _strArticle += strLine + "<br>";
                 }
+*/
 
+                ParseFile(strFilename);
                 _isCompleted = false;
                 _iCurrentStep = FILL_BLOG;
                 HtmlAction.HrefClick(WebBrowser.Document, "http://tw.blog.yahoo.com/post/post_html.php");
