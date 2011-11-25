@@ -20,6 +20,7 @@ namespace AAA.BlogPublisher
         private Dictionary<string, IPublisher> _dicPublisher;
         private Dictionary<string, string> _dicAccount;
         private Dictionary<string, string> _dicBlogname;
+        private Dictionary<string, List<UserInfo>> _dicBlogAccount;
         private string _strAccount;
         private string _strPassword;
 
@@ -30,6 +31,7 @@ namespace AAA.BlogPublisher
             _dicPublisher = new Dictionary<string, IPublisher>();
             _dicAccount = new Dictionary<string, string>();
             _dicBlogname = new Dictionary<string, string>();
+            _dicBlogAccount = new Dictionary<string, List<UserInfo>>();
         }
 
         private void PublishForm_Load(object sender, EventArgs e)
@@ -53,6 +55,8 @@ namespace AAA.BlogPublisher
             Dictionary<string, string> dicCategoryDate = null;
             string strLastDate;
             StreamWriter sw = null;
+            UserInfo userInfo;
+            string[] strBlogs;
 
             try
             {
@@ -104,9 +108,27 @@ namespace AAA.BlogPublisher
                 for (int i = 0; i < iAccountCount; i++)
                 {
                     strValues = iniReader.GetParam("Account" + (i + 1)).Split(',');
-                    lstAccount.Items.Add(strValues[1]);
+                    strBlogs = strValues[4].Split(';');
+
+                    userInfo = new UserInfo();
+                    userInfo.UserId = strValues[0];
+                    userInfo.Blogname = strValues[1];
+                    userInfo.Username = strValues[2];
+                    userInfo.Password = strValues[3];
+
+                    for (int j = 0; j < strBlogs.Length; j++)
+                    {
+                        if (_dicBlogAccount.ContainsKey(strBlogs[j]) == false)
+                            _dicBlogAccount.Add(strBlogs[j], new List<UserInfo>());
+                        _dicBlogAccount[strBlogs[j]].Add(userInfo);
+                    }
+
+/*
+                    lstAccount.Items.Add(strValues[1]);                    
                     _dicBlogname.Add(strValues[1], strValues[0]);
-                    _dicAccount.Add(strValues[1], strValues[2]);
+                    _dicAccount.Add(strValues[1], strValues[2]);    
+ */
+                    lstAccount.Items.Add(userInfo.UserId);
                 }
 
                 // Check login account and password
@@ -225,11 +247,16 @@ namespace AAA.BlogPublisher
                     _dicPublisher[lstList.CheckedItems[i].ToString()].WebBrowser.Dock = DockStyle.Fill;
                     _dicPublisher[lstList.CheckedItems[i].ToString()].WebBrowser.ScrollBarsEnabled = true;
 
-                    for (int j = 0; j < lstAccount.CheckedItems.Count; j++)
+//                    for (int j = 0; j < lstAccount.CheckedItems.Count; j++)
+                    for(int j = 0; j < _dicBlogAccount[_dicPublisher[lstList.CheckedItems[i].ToString()].WebSiteName].Count; j++)
                     {
-                        strAccount = lstAccount.Items[lstAccount.CheckedIndices[j]].ToString();
-                        strPassword = _dicAccount[strAccount];
-                        strBlogname = _dicBlogname[strAccount];
+//                        strAccount = lstAccount.Items[lstAccount.CheckedIndices[j]].ToString();
+//                        strPassword = _dicAccount[strAccount];
+//                        strBlogname = _dicBlogname[strAccount];
+
+                        strAccount = _dicBlogAccount[_dicPublisher[lstList.CheckedItems[i].ToString()].WebSiteName][j].Username;
+                        strPassword = _dicBlogAccount[_dicPublisher[lstList.CheckedItems[i].ToString()].WebSiteName][j].Password;
+                        strBlogname = _dicBlogAccount[_dicPublisher[lstList.CheckedItems[i].ToString()].WebSiteName][j].Blogname;
 
                         _dicPublisher[lstList.CheckedItems[i].ToString()].Logout();
 
@@ -251,11 +278,11 @@ namespace AAA.BlogPublisher
                                 continue;
                             }
                         }
-/*
+
                         Thread.Sleep(3000);
                         if(_dicPublisher[lstList.CheckedItems[i].ToString()].Logout() == false)
                             MessageBox.Show(_dicPublisher[lstList.CheckedItems[i].ToString()].ErrorMessage);
- */ 
+ 
                     }
                 }
             }
