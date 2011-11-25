@@ -1,0 +1,12 @@
+D:\AAA\Project\AAA.BlogPublisher\AAA.BlogPublisher\AAA.PixnetPublisher\bin\x86\Debug\AAA.PixnetPublisher.dll
+D:\AAA\Project\AAA.BlogPublisher\AAA.BlogPublisher\AAA.PixnetPublisher\bin\x86\Debug\AAA.PixnetPublisher.pdb
+D:\AAA\Project\AAA.BlogPublisher\AAA.BlogPublisher\AAA.PixnetPublisher\bin\x86\Debug\AAA.Base.Util.dll
+D:\AAA\Project\AAA.BlogPublisher\AAA.BlogPublisher\AAA.PixnetPublisher\bin\x86\Debug\AAA.Web.dll
+D:\AAA\Project\AAA.BlogPublisher\AAA.BlogPublisher\AAA.PixnetPublisher\bin\x86\Debug\AAA.WebPublisher.dll
+D:\AAA\Project\AAA.BlogPublisher\AAA.BlogPublisher\AAA.PixnetPublisher\bin\x86\Debug\HtmlAgilityPack.dll
+D:\AAA\Project\AAA.BlogPublisher\AAA.BlogPublisher\AAA.PixnetPublisher\bin\x86\Debug\Newtonsoft.Json.dll
+D:\AAA\Project\AAA.BlogPublisher\AAA.BlogPublisher\AAA.PixnetPublisher\bin\x86\Debug\HtmlAgilityPack.xml
+D:\AAA\Project\AAA.BlogPublisher\AAA.BlogPublisher\AAA.PixnetPublisher\bin\x86\Debug\Newtonsoft.Json.xml
+D:\AAA\Project\AAA.BlogPublisher\AAA.BlogPublisher\AAA.PixnetPublisher\obj\x86\Debug\ResolveAssemblyReference.cache
+D:\AAA\Project\AAA.BlogPublisher\AAA.BlogPublisher\AAA.PixnetPublisher\obj\x86\Debug\AAA.PixnetPublisher.dll
+D:\AAA\Project\AAA.BlogPublisher\AAA.BlogPublisher\AAA.PixnetPublisher\obj\x86\Debug\AAA.PixnetPublisher.pdb

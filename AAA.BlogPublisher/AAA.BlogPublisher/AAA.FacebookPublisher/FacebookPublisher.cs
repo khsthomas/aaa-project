@@ -56,7 +56,7 @@ namespace AAA.FacebookPublisher
                     case LOGIN_FORM:
                         if (WebBrowser.ReadyState == WebBrowserReadyState.Complete)
                         {
-                            _iCurrentStep = REDIRECT_TO_BLOG;
+                            _iCurrentStep = LOGIN_COMPLETED;
                             HtmlAction.FillTextFieldData(document, "login_form", "email", Username);
                             HtmlAction.FillTextFieldData(document, "login_form", "pass", Password);
                             HtmlAction.SetOptionValue(document, "persistent", "0");                            
@@ -64,16 +64,7 @@ namespace AAA.FacebookPublisher
                             //HtmlAction.ClickButton(document, null, ".save");
                         }
                         break;
-
-
-                    case REDIRECT_TO_BLOG:
-                        if (WebBrowser.ReadyState == WebBrowserReadyState.Complete)
-                        {
-                            _iCurrentStep = LOGIN_COMPLETED;
-                            WebBrowser.Url = new Uri("http://www.blogger.com/home?pli=1");
-                        }
-                        break;
-
+                    
                     case LOGIN_COMPLETED:
                         if (WebBrowser.ReadyState == WebBrowserReadyState.Complete)
                         {
@@ -86,11 +77,10 @@ namespace AAA.FacebookPublisher
                         {
                             Thread.Sleep(3000);
                             _iCurrentStep = PUBLISH;
-                            HtmlAction.FillTextFieldData(document, "postingForm", "title", Title);
-                            HtmlAction.FillTextAreaData(document, "postingForm", "postBody", Article);
-                            //HtmlAction.ClickCheckButton(document, "default_category", null);
-                            Thread.Sleep(3000);
-                            HtmlAction.Submit(document, "postingForm", "publish");
+                            HtmlAction.ClickTextArea(document, "/ajax/updatestatus.php", "xhpc_message");
+                            //HtmlAction.FillTextAreaData(document, "/ajax/updatestatus.php", "xhpc_message", Article);
+
+                            //HtmlAction.ClickCheckButton(document, "default_category", null);                                                        
                         }
                         break;
                     case PUBLISH:

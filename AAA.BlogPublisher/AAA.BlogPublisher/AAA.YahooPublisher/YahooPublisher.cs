@@ -114,7 +114,7 @@ namespace AAA.YahooPublisher
                             Thread.Sleep(3000);
                             _iCurrentStep = PUBLISH;
                             HtmlAction.FillTextFieldData(document, "blog_compose", "title", Title);
-                            HtmlAction.SetOptionValue(document, "folder_id", "6");
+                            HtmlAction.SetOptionValue(document, "folder_id", "5");
                             HtmlAction.FillTextAreaData(document, "blog_compose", "contents", Article);
                             //HtmlAction.ClickCheckButton(document, "default_category", null);
                             Thread.Sleep(3000);
