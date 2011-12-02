@@ -73,7 +73,7 @@ namespace AAA.PublisherManager
                 tblAccount.Columns.Add("Account", "帳號");
                 tblAccount.Columns.Add("Password", "密碼");
                 tblAccount.Columns.Add("StartDate", "建立日期");
-                tblAccount.Columns.Add("EndDate", "有效日期");
+                tblAccount.Columns.Add("ExpiredDate", "有效日期");
                 tblAccount.Columns.Add("ActiveFlag", "是否有效");                
             }
             catch (Exception ex)
@@ -128,6 +128,7 @@ namespace AAA.PublisherManager
             string strAccount;
             Dictionary<string, string> dicFunction = new Dictionary<string, string>();
             Dictionary<string, string> dicArticle = new Dictionary<string, string>();
+            Dictionary<string, string> dicAccount = new Dictionary<string, string>();
             ICommand command;
             try
             {
@@ -155,6 +156,15 @@ namespace AAA.PublisherManager
                 command = new UpdateAccountFunctionMappingCommand();
                 command.Execute(dicFunction);
 
+                dicAccount = new Dictionary<string, string>();
+                dicAccount.Add("Account", strAccount);
+                dicAccount.Add("ExpiredDate", dtExpiredDate.Value.ToString("yyyy/MM/dd"));
+                dicAccount.Add("ActiveFlag", chkActive.Checked ? "Y" : "N");
+
+                command = new UpdateAccountPrivilegeCommand();
+                command.Execute(dicAccount);
+
+
                 MessageBox.Show("儲存成功");
             }
             catch (Exception ex)
@@ -170,6 +180,8 @@ namespace AAA.PublisherManager
             ICommand command;
             try
             {
+                dtExpiredDate.Value = DateTime.Parse(tblAccount.SelectedRows[e.RowIndex].Cells["ExpiredDate"].Value.ToString());
+                chkActive.Checked = (tblAccount.SelectedRows[e.RowIndex].Cells["ActiveFlag"].Value.ToString() == "Y");
                 strAccount = tblAccount.SelectedRows[e.RowIndex].Cells["Account"].Value.ToString();
                 dicModel = new Dictionary<string, string>();
                 dicModel.Add("Account", strAccount);
@@ -185,6 +197,7 @@ namespace AAA.PublisherManager
                     if (lstWebSite.Items.IndexOf(strKey) >= 0)
                         lstWebSite.SetItemChecked(lstWebSite.Items.IndexOf(strKey), true);
                 }
+
 
                 dicModel = new Dictionary<string, string>();
                 dicModel.Add("Account", strAccount);

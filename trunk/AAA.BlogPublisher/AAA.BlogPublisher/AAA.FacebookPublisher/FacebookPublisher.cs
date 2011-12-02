@@ -21,6 +21,18 @@ namespace AAA.FacebookPublisher
         {
             WebSite = "www.facebook.com";
             WebSiteName = "Facebook";
+            IsRegisterReleased = false;
+            IsPublisherReleased = false;
+        }
+
+        public override bool Register()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool ReadConfig(string strConfig)
+        {
+            throw new NotImplementedException();
         }
 
         public override bool Login()

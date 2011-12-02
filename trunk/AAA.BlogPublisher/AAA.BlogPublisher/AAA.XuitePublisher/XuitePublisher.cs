@@ -24,6 +24,18 @@ namespace AAA.XuitePublisher
         {
             WebSite = "xuite.net";
             WebSiteName = "Xuite日誌";
+            IsRegisterReleased = false;
+            IsPublisherReleased = false;
+        }
+
+        public override bool Register()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool ReadConfig(string strConfig)
+        {
+            throw new NotImplementedException();
         }
 
         public override bool Login()

@@ -15,7 +15,7 @@ namespace AAA.BlogPublisher
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new PublishForm());
+            Application.Run(new MainForm());
         }
     }
 }
