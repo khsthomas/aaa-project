@@ -34,6 +34,18 @@ namespace AAA.WretchPublisher
         {
             WebSite = "www.wretch.cc";
             WebSiteName = "無名部落格";
+            IsRegisterReleased = false;
+            IsPublisherReleased = true;
+        }
+
+        public override bool Register()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool ReadConfig(string strConfig)
+        {
+            throw new NotImplementedException();
         }
 
         public override bool Login()

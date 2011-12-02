@@ -34,6 +34,19 @@ namespace AAA.YahooPublisher
         {
             WebSite = "tw.yahoo.com";
             WebSiteName = "雅虎部落格";
+            IsRegisterReleased = false;
+            IsPublisherReleased = true;
+        }
+
+        public override bool Register()
+        {
+//            "http://tw.rd.yahoo.com/referurl/hp/1024/pa/up/*http://tw.reg.yahoo.com/ap/reg/preg?srv=www&done=http%3a//tw.yahoo.com/"
+            return true;
+        }
+
+        public override bool ReadConfig(string strConfig)
+        {
+            throw new NotImplementedException();
         }
 
         public override bool Login()

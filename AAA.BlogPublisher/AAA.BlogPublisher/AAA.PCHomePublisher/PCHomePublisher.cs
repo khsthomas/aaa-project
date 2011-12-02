@@ -47,6 +47,18 @@ namespace AAA.PCHomePublisher
             WebSite = "www.pchome.com.tw";
             WebSiteName = "PCHome部落格";
             NeedPictureValidate = true;
+            IsRegisterReleased = false;
+            IsPublisherReleased = true;
+        }
+
+        public override bool Register()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool ReadConfig(string strConfig)
+        {
+            throw new NotImplementedException();
         }
 
         public override bool Login()

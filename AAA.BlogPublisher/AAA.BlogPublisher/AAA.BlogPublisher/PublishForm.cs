@@ -58,12 +58,15 @@ namespace AAA.BlogPublisher
             UserInfo userInfo;
             string[] strBlogs;
 
+            List<IPublisher> lstPublisher;
+            LoadLibrary loadLibrary;
+
             try
             {
 
                 // Load publishers from local publisher's folder
-                DirectoryInfo directoryInfo = new DirectoryInfo(Environment.CurrentDirectory + @"\publisher");
-                filesInfo = directoryInfo.GetFiles("*.dll");
+//                DirectoryInfo directoryInfo = new DirectoryInfo(Environment.CurrentDirectory + @"\publisher");
+//                filesInfo = directoryInfo.GetFiles("*.dll");
 
                 while (lstAuto.Items.Count > 0)
                     lstAuto.Items.RemoveAt(0);
@@ -71,6 +74,26 @@ namespace AAA.BlogPublisher
                 while (lstCheck.Items.Count > 0)
                     lstCheck.Items.RemoveAt(0);
 
+                loadLibrary = new LoadLibrary();
+                lstPublisher = loadLibrary.LoadPublisher(Environment.CurrentDirectory + @"\publisher");
+                for (int i = 0; i < lstPublisher.Count; i++)
+                {
+                    if (lstPublisher[i].IsPublisherReleased == false)
+                        continue;
+
+                    _dicPublisher.Add(lstPublisher[i].WebSiteName, lstPublisher[i]);
+
+                    if (lstPublisher[i].NeedPictureValidate)
+                    {
+                        lstCheck.Items.Add(lstPublisher[i].WebSiteName);
+                    }
+                    else
+                    {
+                        lstAuto.Items.Add(lstPublisher[i].WebSiteName);
+                    }
+                }
+
+/*
                 for (int i = 0; i < filesInfo.Length; i++)
                 {
                     try
@@ -100,7 +123,7 @@ namespace AAA.BlogPublisher
                         MessageBox.Show(ex.Message + "," + ex.StackTrace);
                     }
                 }
-
+*/
                 // Read the publisher account from account setting
                 iniReader = new IniReader(Environment.CurrentDirectory + @"\cfg\account.ini");
                 iAccountCount = int.Parse(iniReader.GetParam("AccountCount"));

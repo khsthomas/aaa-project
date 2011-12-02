@@ -25,6 +25,18 @@ namespace AAA.PlurkPublisher
         {
             WebSite = "www.pplurk.com";
             WebSiteName = "噗浪(Plurk)";
+            IsRegisterReleased = false;
+            IsPublisherReleased = false;
+        }
+
+        public override bool Register()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool ReadConfig(string strConfig)
+        {
+            throw new NotImplementedException();
         }
 
         public override bool Login()

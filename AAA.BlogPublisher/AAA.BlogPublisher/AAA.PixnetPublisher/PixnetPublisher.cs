@@ -24,6 +24,18 @@ namespace AAA.PixnetPublisher
         {
             WebSite = "www.pixnet.net";
             WebSiteName = "痞客邦部落格";
+            IsRegisterReleased = false;
+            IsPublisherReleased = true;
+        }
+
+        public override bool Register()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool ReadConfig(string strConfig)
+        {
+            throw new NotImplementedException();
         }
 
         public override bool Login()
