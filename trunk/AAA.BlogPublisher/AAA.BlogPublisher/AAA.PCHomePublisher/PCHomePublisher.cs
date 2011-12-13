@@ -56,6 +56,11 @@ namespace AAA.PCHomePublisher
             throw new NotImplementedException();
         }
 
+        public override bool CreateBlog()
+        {
+            throw new NotImplementedException();
+        }
+
         public override bool ReadConfig(string strConfig)
         {
             throw new NotImplementedException();
@@ -105,6 +110,7 @@ namespace AAA.PCHomePublisher
                             _iCurrentStep = REDIRECT_TO_BLOG_HOME;
                             HtmlAction.FillTextFieldData(document, "idcheck", "userId", Username);
                             HtmlAction.FillTextFieldData(document, "idcheck", "passwd", Password);
+                            MessageBox.Show("請點擊登入按鈕, 謝謝!");
                             //HtmlSimulateClickImage
                             //SendMessage(WebBrowser.Handle, downCode, wParam, lParam);
                             //SendMessage(WebBrowser.Handle, upCode, wParam, lParam);
@@ -145,7 +151,8 @@ namespace AAA.PCHomePublisher
                             HtmlAction.FillTextAreaData(document, "ttimes", "area_content", Article);
                             //HtmlAction.ClickCheckButton(document, "default_category", null);
                             Thread.Sleep(3000);
-                           HtmlAction.ClickButton(document, "pubButton", null);
+                           //HtmlAction.ClickButton(document, "pubButton", null);
+                            MessageBox.Show("請點擊登表按鈕, 謝謝!");
                         }
                         break;
                     case PUBLISH:
