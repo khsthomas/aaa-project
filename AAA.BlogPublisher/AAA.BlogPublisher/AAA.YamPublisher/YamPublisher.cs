@@ -32,6 +32,11 @@ namespace AAA.YamPublisher
             throw new NotImplementedException();
         }
 
+        public override bool CreateBlog()
+        {
+            throw new NotImplementedException();
+        }
+
         public override bool ReadConfig(string strConfig)
         {
             throw new NotImplementedException();

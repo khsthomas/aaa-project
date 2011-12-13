@@ -23,7 +23,7 @@ namespace AAA.BlogPublisher
         private Dictionary<string, List<UserInfo>> _dicBlogAccount;
         private string _strAccount;
         private string _strPassword;
-
+        private bool _isServerExist;
         public PublishForm()
         {
             InitializeComponent();
@@ -155,69 +155,72 @@ namespace AAA.BlogPublisher
                 }
 
                 // Check login account and password
-                if (File.Exists(Environment.CurrentDirectory + @"\user.ini") == false)
+                if (_isServerExist)
                 {
-                    MessageBox.Show("請先登入系統");
-                    Application.Exit();
-                }
 
-                iniReader = new IniReader(Environment.CurrentDirectory + @"\user.ini");
-                _strAccount = iniReader.GetParam("Account");
-                _strPassword = iniReader.GetParam("Password");
-
-                strFTPHost = iniReader.GetParam("FTPHost");
-                strFTPPort = iniReader.GetParam("FTPPort");
-                strFTPUsername = iniReader.GetParam("FTPUsername");
-                strFTPPassword = iniReader.GetParam("FTPPassword");
-
-//                File.Delete(Environment.CurrentDirectory + @"\user.ini");
-
-                // Download new article from FTP server
-                lstNewArticle.Items.Clear();
-                AAA.PublisherClient.PublisherClient publishClient = new AAA.PublisherClient.PublisherClient();
-                publishClient.Connect();
-                strCategories = publishClient.GetArticleCategories(_strAccount);
-
-                dicCategoryDate = new Dictionary<string, string>();
-                iniReader = new IniReader(Environment.CurrentDirectory + @"\cfg\article.ini");
-                for (int i = 0; i < strCategories.Length; i++)
-                    dicCategoryDate.Add(strCategories[i], iniReader.GetParam("Default", strCategories[i], "19000101"));
-
-                ftpClient = new FTPClient(strFTPHost, int.Parse(strFTPPort));
-                ftpClient.Login(strFTPUsername, strFTPPassword);
-                ftpClient.TransferType = FTPTransferType.ASCII;
-                ftpClient.Chdir("Article");
-                for (int i = 0; i < strCategories.Length; i++)
-                {
-                    strLastDate = dicCategoryDate[strCategories[i]];
-                    ftpClient.Chdir(strCategories[i]);
-                    strDates = ftpClient.Dir();
-
-                    for (int j = 0; j < strDates.Length; j++)
+                    if (File.Exists(Environment.CurrentDirectory + @"\user.ini") == false)
                     {
-                        if (strDates[j].CompareTo(strLastDate) <= 0)
-                            continue;
-                        ftpClient.Chdir(strDates[j]);
-                        strDownloadFiles = ftpClient.Dir();
+                        MessageBox.Show("請先登入系統");
+                        Application.Exit();
+                    }
 
-                        for (int k = 0; k < strDownloadFiles.Length; k++)
+                    iniReader = new IniReader(Environment.CurrentDirectory + @"\user.ini");
+                    _strAccount = iniReader.GetParam("Account");
+                    _strPassword = iniReader.GetParam("Password");
+
+                    strFTPHost = iniReader.GetParam("FTPHost");
+                    strFTPPort = iniReader.GetParam("FTPPort");
+                    strFTPUsername = iniReader.GetParam("FTPUsername");
+                    strFTPPassword = iniReader.GetParam("FTPPassword");
+
+                    //                File.Delete(Environment.CurrentDirectory + @"\user.ini");
+
+                    // Download new article from FTP server
+                    lstNewArticle.Items.Clear();
+                    AAA.PublisherClient.PublisherClient publishClient = new AAA.PublisherClient.PublisherClient();
+                    publishClient.Connect();
+                    strCategories = publishClient.GetArticleCategories(_strAccount);
+
+                    dicCategoryDate = new Dictionary<string, string>();
+                    iniReader = new IniReader(Environment.CurrentDirectory + @"\cfg\article.ini");
+                    for (int i = 0; i < strCategories.Length; i++)
+                        dicCategoryDate.Add(strCategories[i], iniReader.GetParam("Default", strCategories[i], "19000101"));
+
+                    ftpClient = new FTPClient(strFTPHost, int.Parse(strFTPPort));
+                    ftpClient.Login(strFTPUsername, strFTPPassword);
+                    ftpClient.TransferType = FTPTransferType.ASCII;
+                    ftpClient.Chdir("Article");
+                    for (int i = 0; i < strCategories.Length; i++)
+                    {
+                        strLastDate = dicCategoryDate[strCategories[i]];
+                        ftpClient.Chdir(strCategories[i]);
+                        strDates = ftpClient.Dir();
+
+                        for (int j = 0; j < strDates.Length; j++)
                         {
-                            ftpClient.Get(Environment.CurrentDirectory + @"\articles\" + strDownloadFiles[k], strDownloadFiles[k]);
-                            if (lstNewArticle.Items.IndexOf(strDownloadFiles[k]) < 0)
-                                lstNewArticle.Items.Add(strDownloadFiles[k]);
-                        }
+                            if (strDates[j].CompareTo(strLastDate) <= 0)
+                                continue;
+                            ftpClient.Chdir(strDates[j]);
+                            strDownloadFiles = ftpClient.Dir();
 
+                            for (int k = 0; k < strDownloadFiles.Length; k++)
+                            {
+                                ftpClient.Get(Environment.CurrentDirectory + @"\articles\" + strDownloadFiles[k], strDownloadFiles[k]);
+                                if (lstNewArticle.Items.IndexOf(strDownloadFiles[k]) < 0)
+                                    lstNewArticle.Items.Add(strDownloadFiles[k]);
+                            }
+
+                            ftpClient.Chdir("..");
+                        }
+                        dicCategoryDate[strCategories[i]] = strDates[strDates.Length - 1];
                         ftpClient.Chdir("..");
                     }
-                    dicCategoryDate[strCategories[i]] = strDates[strDates.Length - 1];
-                    ftpClient.Chdir("..");
+
+                    sw = new StreamWriter(Environment.CurrentDirectory + @"\cfg\article.ini");
+                    foreach (string strKey in dicCategoryDate.Keys)
+                        sw.WriteLine(strKey + "=" + dicCategoryDate[strKey]);
+                    sw.Close();
                 }
-
-                sw = new StreamWriter(Environment.CurrentDirectory + @"\cfg\article.ini");
-                foreach (string strKey in dicCategoryDate.Keys)
-                    sw.WriteLine(strKey + "=" + dicCategoryDate[strKey]);
-                sw.Close();
-
             }
             catch (Exception ex)
             {
@@ -291,7 +294,7 @@ namespace AAA.BlogPublisher
                             MessageBox.Show(_dicPublisher[lstList.CheckedItems[i].ToString()].ErrorMessage);
                             continue;
                         }
-
+                        
                         for (int k = 0; k < lstNewArticle.CheckedItems.Count; k++)
                         {
                             _dicPublisher[lstList.CheckedItems[i].ToString()].UploadPicture("");
@@ -305,7 +308,7 @@ namespace AAA.BlogPublisher
                         Thread.Sleep(3000);
                         if(_dicPublisher[lstList.CheckedItems[i].ToString()].Logout() == false)
                             MessageBox.Show(_dicPublisher[lstList.CheckedItems[i].ToString()].ErrorMessage);
- 
+
                     }
                 }
             }

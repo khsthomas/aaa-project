@@ -62,14 +62,14 @@
             // postItem
             // 
             this.postItem.Name = "postItem";
-            this.postItem.Size = new System.Drawing.Size(152, 22);
+            this.postItem.Size = new System.Drawing.Size(142, 22);
             this.postItem.Text = "自動發文系統";
             this.postItem.Click += new System.EventHandler(this.postItem_Click);
             // 
             // registerItem
             // 
             this.registerItem.Name = "registerItem";
-            this.registerItem.Size = new System.Drawing.Size(152, 22);
+            this.registerItem.Size = new System.Drawing.Size(142, 22);
             this.registerItem.Text = "自動註冊系統";
             this.registerItem.Click += new System.EventHandler(this.registerItem_Click);
             // 
@@ -99,7 +99,7 @@
             this.IsMdiContainer = true;
             this.MainMenuStrip = this.menuStrip;
             this.Name = "MainForm";
-            this.Text = "MainForm";
+            this.Text = "自動發文系統";
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
             this.statusStrip.ResumeLayout(false);
