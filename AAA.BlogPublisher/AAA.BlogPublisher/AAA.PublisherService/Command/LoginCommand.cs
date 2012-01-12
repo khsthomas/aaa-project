@@ -14,7 +14,7 @@ namespace AAA.PublisherService.Command
         {
             try
             {
-                string strSQL = "SELECT Account, Password FROM Account WHERE Account = '{0}' AND ActiveFlag = 'Y'";
+                string strSQL = "SELECT AccountId AS Account, UserPassword AS Password FROM Account WHERE AccountId = '{0}' AND ActiveFlag = 'Y'";
                 //DatabaseResultSet databaseResult = new DatabaseResultSet(SystemConfig.DATABASE_TYPE, SystemConfig.HOST, SystemConfig.DATABASE, SystemConfig.USERNAME, SystemConfig.PASSWORD);
                 DatabaseResultSet databaseResult = CreateResultSet();
                 databaseResult.SQLStatement = string.Format(strSQL, new string[] { dicModel["Account"] });

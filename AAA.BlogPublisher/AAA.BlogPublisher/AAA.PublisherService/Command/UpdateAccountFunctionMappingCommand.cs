@@ -14,8 +14,8 @@ namespace AAA.PublisherService.Command
         {
             IDatabase database = CreateDatabase();
             string strAccount = null;
-            string strDeleteSQL = "DELETE FROM AccountFunctionMapping WHERE Account = '{0}'";
-            string strInsertSQL = "INSERT INTO AccountFunctionMapping(Account, FunctionId) VALUES('{0}', '{1}')";
+            string strDeleteSQL = "DELETE FROM AccountFunctionMapping WHERE AccountId = '{0}'";
+            string strInsertSQL = "INSERT INTO AccountFunctionMapping(AccountId, FunctionId) VALUES('{0}', '{1}')";
 /*
             switch (SystemConfig.DATABASE_TYPE)
             {

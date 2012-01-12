@@ -34,6 +34,17 @@ namespace AAA.PublisherClient
             return command.Data;
         }
 
+        public Dictionary<string, string> GetAccountInfo(string strAccount)
+        {
+            CommandProfile command = new CommandProfile();
+            command.Command = "GetArticleCategoryList";
+            command.SetValue("Account", strAccount);
+
+            command = _commandClient.ExecuteCommand(command);
+
+            return command.Data;
+        }
+
         public Dictionary<string, string> VersionCheckInfo()
         {
             CommandProfile command = new CommandProfile();

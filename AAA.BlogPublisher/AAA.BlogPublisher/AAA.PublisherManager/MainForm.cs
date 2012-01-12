@@ -37,6 +37,29 @@ namespace AAA.PublisherManager
 
             UpdateArticleCategory();
             UpdatePublisher();
+            UpdateAccount();
+            tCheckUser.Interval = 60 * 60 * 1000;
+            tCheckUser.Enabled = true;
+
+            UserAlarmForm childForm = new UserAlarmForm();            
+            childForm.MdiParent = this;
+            childForm.Show();
+        }
+
+        public void UpdateAccount()
+        {            
+            Dictionary<string, string> dicModel = new Dictionary<string, string>();
+            ICommand command;
+            try
+            {
+                command = new UpdateAccountActiveCommand();
+                command.Execute(dicModel);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "," + ex.StackTrace);
+            }
+
         }
 
         private void UpdatePublisher()
@@ -235,6 +258,23 @@ namespace AAA.PublisherManager
             MaxChildForm(childForm);
             childForm.MdiParent = this;
             childForm.Show();
+        }
+
+        private void tCheckUser_Tick(object sender, EventArgs e)
+        {
+            try
+            {
+                if (DateTime.Now.ToString("HH") != "00")
+                    return;
+
+                ICommand command = new UpdateAccountActiveCommand();
+                command.Execute(new Dictionary<string, string>());
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "," + ex.StackTrace);
+            }
         }        
     }
 }

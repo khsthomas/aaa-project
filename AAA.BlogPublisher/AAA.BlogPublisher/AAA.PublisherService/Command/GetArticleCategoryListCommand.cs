@@ -11,7 +11,7 @@ namespace AAA.PublisherService.Command
     {
         protected override int ExecuteCommand(Dictionary<string, string> dicModel)
         {            
-            string strSQL = "SELECT a.ArticleCategoryId AS CategoryId, b.ArticleCategoryName AS CategoryName FROM AccountArticleMapping a, ArticleCategory b WHERE a.ArticleCategoryId = b.ArticleCategoryId AND a.Account = '{0}'";
+            string strSQL = "SELECT a.ArticleCategoryId AS CategoryId, b.ArticleCategoryName AS CategoryName FROM AccountArticleMapping a, ArticleCategory b WHERE a.ArticleCategoryId = b.ArticleCategoryId AND a.AccountId = '{0}'";
             //DatabaseResultSet databaseResult = new DatabaseResultSet(SystemConfig.DATABASE_TYPE, SystemConfig.HOST, SystemConfig.DATABASE, SystemConfig.USERNAME, SystemConfig.PASSWORD);
             DatabaseResultSet databaseResult = CreateResultSet();
             string strCategoryIdList;

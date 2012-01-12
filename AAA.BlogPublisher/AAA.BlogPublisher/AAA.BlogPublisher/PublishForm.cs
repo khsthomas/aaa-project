@@ -12,6 +12,7 @@ using AAA.WebPublisher;
 using AAA.Base.Util.Reader;
 using AAA.FTP;
 using System.Threading;
+using AAA.Base.Util;
 
 namespace AAA.BlogPublisher
 {    
@@ -57,6 +58,8 @@ namespace AAA.BlogPublisher
             StreamWriter sw = null;
             UserInfo userInfo;
             string[] strBlogs;
+
+            Dictionary<string, string> dicUserInfo;
 
             List<IPublisher> lstPublisher;
             LoadLibrary loadLibrary;
@@ -179,6 +182,12 @@ namespace AAA.BlogPublisher
                     lstNewArticle.Items.Clear();
                     AAA.PublisherClient.PublisherClient publishClient = new AAA.PublisherClient.PublisherClient();
                     publishClient.Connect();
+
+                    dicUserInfo = publishClient.GetAccountInfo(_strAccount);
+
+                    if (DateTimeHelper.DateDiff(DateTimeHelper.DAY, dicUserInfo["ExpiredDate"], DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss")) < 30)
+                        MessageBox.Show("您的帳號將在" + dicUserInfo["ExpiredDate"] + "過期, 請在過期前與管理者聯絡");
+
                     strCategories = publishClient.GetArticleCategories(_strAccount);
 
                     dicCategoryDate = new Dictionary<string, string>();

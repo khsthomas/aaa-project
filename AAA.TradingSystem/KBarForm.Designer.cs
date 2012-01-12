@@ -85,9 +85,9 @@
             this.pnlConfig.Controls.Add(this.btnDisplay);
             this.pnlConfig.Controls.Add(this.label1);
             this.pnlConfig.Controls.Add(this.txtSymbolId);
-            this.pnlConfig.Location = new System.Drawing.Point(12, 12);
+            this.pnlConfig.Location = new System.Drawing.Point(12, 4);
             this.pnlConfig.Name = "pnlConfig";
-            this.pnlConfig.Size = new System.Drawing.Size(992, 42);
+            this.pnlConfig.Size = new System.Drawing.Size(1010, 50);
             this.pnlConfig.TabIndex = 1;
             // 
             // pnlInfo
@@ -106,136 +106,153 @@
             this.pnlInfo.Controls.Add(this.txtHigh);
             this.pnlInfo.Controls.Add(this.label4);
             this.pnlInfo.Controls.Add(this.txtOpen);
-            this.pnlInfo.Location = new System.Drawing.Point(234, 6);
+            this.pnlInfo.Location = new System.Drawing.Point(213, 6);
             this.pnlInfo.Name = "pnlInfo";
-            this.pnlInfo.Size = new System.Drawing.Size(580, 29);
+            this.pnlInfo.Size = new System.Drawing.Size(598, 29);
             this.pnlInfo.TabIndex = 24;
             // 
             // txtDateTime
             // 
             this.txtDateTime.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtDateTime.Font = new System.Drawing.Font("PMingLiU", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.txtDateTime.Location = new System.Drawing.Point(3, 3);
             this.txtDateTime.Name = "txtDateTime";
             this.txtDateTime.ReadOnly = true;
-            this.txtDateTime.Size = new System.Drawing.Size(69, 15);
+            this.txtDateTime.Size = new System.Drawing.Size(79, 20);
             this.txtDateTime.TabIndex = 29;
             this.txtDateTime.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtDateTime_KeyUp);
             // 
             // txtDiffRatio
             // 
             this.txtDiffRatio.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtDiffRatio.Location = new System.Drawing.Point(531, 2);
+            this.txtDiffRatio.Font = new System.Drawing.Font("PMingLiU", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.txtDiffRatio.Location = new System.Drawing.Point(701, 3);
             this.txtDiffRatio.Name = "txtDiffRatio";
             this.txtDiffRatio.ReadOnly = true;
-            this.txtDiffRatio.Size = new System.Drawing.Size(44, 15);
+            this.txtDiffRatio.Size = new System.Drawing.Size(47, 20);
             this.txtDiffRatio.TabIndex = 28;
+            this.txtDiffRatio.Visible = false;
             // 
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(446, 6);
+            this.label9.Font = new System.Drawing.Font("PMingLiU", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label9.Location = new System.Drawing.Point(593, 7);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(29, 12);
+            this.label9.Size = new System.Drawing.Size(40, 16);
             this.label9.TabIndex = 27;
             this.label9.Text = "漲跌";
+            this.label9.Visible = false;
             // 
             // txtDiff
             // 
             this.txtDiff.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtDiff.Location = new System.Drawing.Point(481, 3);
+            this.txtDiff.Font = new System.Drawing.Font("PMingLiU", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.txtDiff.Location = new System.Drawing.Point(636, 4);
             this.txtDiff.Name = "txtDiff";
             this.txtDiff.ReadOnly = true;
-            this.txtDiff.Size = new System.Drawing.Size(44, 15);
+            this.txtDiff.Size = new System.Drawing.Size(49, 20);
             this.txtDiff.TabIndex = 26;
+            this.txtDiff.Visible = false;
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(385, 7);
+            this.label8.Font = new System.Drawing.Font("PMingLiU", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label8.Location = new System.Drawing.Point(510, 8);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(17, 12);
+            this.label8.Size = new System.Drawing.Size(24, 16);
             this.label8.TabIndex = 25;
             this.label8.Text = "量";
             // 
             // txtVolume
             // 
             this.txtVolume.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtVolume.Location = new System.Drawing.Point(404, 3);
+            this.txtVolume.Font = new System.Drawing.Font("PMingLiU", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.txtVolume.Location = new System.Drawing.Point(537, 4);
             this.txtVolume.Name = "txtVolume";
             this.txtVolume.ReadOnly = true;
-            this.txtVolume.Size = new System.Drawing.Size(35, 15);
+            this.txtVolume.Size = new System.Drawing.Size(45, 20);
             this.txtVolume.TabIndex = 24;
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(310, 6);
+            this.label7.Font = new System.Drawing.Font("PMingLiU", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label7.Location = new System.Drawing.Point(403, 7);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(29, 12);
+            this.label7.Size = new System.Drawing.Size(40, 16);
             this.label7.TabIndex = 23;
             this.label7.Text = "收盤";
             // 
             // txtClose
             // 
             this.txtClose.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtClose.Location = new System.Drawing.Point(341, 3);
+            this.txtClose.Font = new System.Drawing.Font("PMingLiU", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.txtClose.Location = new System.Drawing.Point(448, 4);
             this.txtClose.Name = "txtClose";
             this.txtClose.ReadOnly = true;
-            this.txtClose.Size = new System.Drawing.Size(35, 15);
+            this.txtClose.Size = new System.Drawing.Size(50, 20);
             this.txtClose.TabIndex = 22;
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(230, 6);
+            this.label6.Font = new System.Drawing.Font("PMingLiU", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label6.Location = new System.Drawing.Point(297, 7);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(29, 12);
+            this.label6.Size = new System.Drawing.Size(40, 16);
             this.label6.TabIndex = 21;
             this.label6.Text = "最低";
             // 
             // txtLow
             // 
             this.txtLow.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtLow.Location = new System.Drawing.Point(261, 3);
+            this.txtLow.Font = new System.Drawing.Font("PMingLiU", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.txtLow.Location = new System.Drawing.Point(339, 4);
             this.txtLow.Name = "txtLow";
             this.txtLow.ReadOnly = true;
-            this.txtLow.Size = new System.Drawing.Size(35, 15);
+            this.txtLow.Size = new System.Drawing.Size(50, 20);
             this.txtLow.TabIndex = 20;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(154, 6);
+            this.label5.Font = new System.Drawing.Font("PMingLiU", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label5.Location = new System.Drawing.Point(194, 7);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(29, 12);
+            this.label5.Size = new System.Drawing.Size(40, 16);
             this.label5.TabIndex = 19;
             this.label5.Text = "最高";
             // 
             // txtHigh
             // 
             this.txtHigh.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtHigh.Location = new System.Drawing.Point(185, 3);
+            this.txtHigh.Font = new System.Drawing.Font("PMingLiU", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.txtHigh.Location = new System.Drawing.Point(237, 4);
             this.txtHigh.Name = "txtHigh";
             this.txtHigh.ReadOnly = true;
-            this.txtHigh.Size = new System.Drawing.Size(35, 15);
+            this.txtHigh.Size = new System.Drawing.Size(50, 20);
             this.txtHigh.TabIndex = 18;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(80, 6);
+            this.label4.Font = new System.Drawing.Font("PMingLiU", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label4.Location = new System.Drawing.Point(91, 6);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(29, 12);
+            this.label4.Size = new System.Drawing.Size(40, 16);
             this.label4.TabIndex = 17;
             this.label4.Text = "開盤";
             // 
             // txtOpen
             // 
             this.txtOpen.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtOpen.Location = new System.Drawing.Point(110, 3);
+            this.txtOpen.Font = new System.Drawing.Font("PMingLiU", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.txtOpen.Location = new System.Drawing.Point(133, 4);
             this.txtOpen.Name = "txtOpen";
             this.txtOpen.ReadOnly = true;
-            this.txtOpen.Size = new System.Drawing.Size(35, 15);
+            this.txtOpen.Size = new System.Drawing.Size(50, 20);
             this.txtOpen.TabIndex = 16;
             // 
             // pnlDataSource
@@ -244,7 +261,7 @@
             this.pnlDataSource.Controls.Add(this.cboFileType);
             this.pnlDataSource.Controls.Add(this.cboPeriod);
             this.pnlDataSource.Controls.Add(this.label2);
-            this.pnlDataSource.Location = new System.Drawing.Point(236, 6);
+            this.pnlDataSource.Location = new System.Drawing.Point(273, 6);
             this.pnlDataSource.Name = "pnlDataSource";
             this.pnlDataSource.Size = new System.Drawing.Size(314, 30);
             this.pnlDataSource.TabIndex = 24;
@@ -285,9 +302,10 @@
             // 
             // btnConfig
             // 
-            this.btnConfig.Location = new System.Drawing.Point(820, 9);
+            this.btnConfig.Font = new System.Drawing.Font("PMingLiU", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.btnConfig.Location = new System.Drawing.Point(923, 8);
             this.btnConfig.Name = "btnConfig";
-            this.btnConfig.Size = new System.Drawing.Size(75, 23);
+            this.btnConfig.Size = new System.Drawing.Size(83, 23);
             this.btnConfig.TabIndex = 7;
             this.btnConfig.Text = "指標";
             this.btnConfig.UseVisualStyleBackColor = true;
@@ -296,17 +314,19 @@
             // txtSymbolName
             // 
             this.txtSymbolName.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtSymbolName.Location = new System.Drawing.Point(146, 9);
+            this.txtSymbolName.Font = new System.Drawing.Font("PMingLiU", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.txtSymbolName.Location = new System.Drawing.Point(137, 8);
             this.txtSymbolName.Name = "txtSymbolName";
             this.txtSymbolName.ReadOnly = true;
-            this.txtSymbolName.Size = new System.Drawing.Size(82, 15);
+            this.txtSymbolName.Size = new System.Drawing.Size(69, 20);
             this.txtSymbolName.TabIndex = 16;
             // 
             // btnDisplay
             // 
-            this.btnDisplay.Location = new System.Drawing.Point(901, 9);
+            this.btnDisplay.Font = new System.Drawing.Font("PMingLiU", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.btnDisplay.Location = new System.Drawing.Point(833, 8);
             this.btnDisplay.Name = "btnDisplay";
-            this.btnDisplay.Size = new System.Drawing.Size(75, 23);
+            this.btnDisplay.Size = new System.Drawing.Size(85, 23);
             this.btnDisplay.TabIndex = 2;
             this.btnDisplay.Text = "顯示";
             this.btnDisplay.UseVisualStyleBackColor = true;
@@ -315,17 +335,19 @@
             // label1
             // 
             this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("PMingLiU", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label1.Location = new System.Drawing.Point(3, 12);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(53, 12);
+            this.label1.Size = new System.Drawing.Size(72, 16);
             this.label1.TabIndex = 1;
             this.label1.Text = "商品代碼";
             // 
             // txtSymbolId
             // 
-            this.txtSymbolId.Location = new System.Drawing.Point(62, 9);
+            this.txtSymbolId.Font = new System.Drawing.Font("PMingLiU", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.txtSymbolId.Location = new System.Drawing.Point(81, 6);
             this.txtSymbolId.Name = "txtSymbolId";
-            this.txtSymbolId.Size = new System.Drawing.Size(78, 22);
+            this.txtSymbolId.Size = new System.Drawing.Size(52, 27);
             this.txtSymbolId.TabIndex = 0;
             this.txtSymbolId.Text = "1101";
             this.txtSymbolId.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtSymbolId_KeyUp);
@@ -449,6 +471,7 @@
             this.cpDatabase.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.cpDatabase.BaseSeriesName = "";
             this.cpDatabase.DateTimeFormat = null;
             this.cpDatabase.Font = new System.Drawing.Font("PMingLiU", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.cpDatabase.IsShowInfoTable = false;
@@ -460,13 +483,14 @@
             this.cpDatabase.PointPerPage = 0;
             this.cpDatabase.ShowHorizontalCursor = false;
             this.cpDatabase.ShowVerticalCursor = false;
-            this.cpDatabase.Size = new System.Drawing.Size(992, 355);
+            this.cpDatabase.Size = new System.Drawing.Size(1001, 355);
             this.cpDatabase.TabIndex = 4;
             // 
             // cpText
             // 
             this.cpText.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.cpText.BaseSeriesName = "";
             this.cpText.DateTimeFormat = null;
             this.cpText.IsShowInfoTable = false;
             this.cpText.IsShowLightPane = false;
@@ -476,13 +500,14 @@
             this.cpText.PointPerPage = 0;
             this.cpText.ShowHorizontalCursor = false;
             this.cpText.ShowVerticalCursor = false;
-            this.cpText.Size = new System.Drawing.Size(992, 261);
+            this.cpText.Size = new System.Drawing.Size(1001, 261);
             this.cpText.TabIndex = 3;
             // 
             // cpExcel
             // 
             this.cpExcel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.cpExcel.BaseSeriesName = "";
             this.cpExcel.DateTimeFormat = null;
             this.cpExcel.IsShowInfoTable = false;
             this.cpExcel.IsShowLightPane = false;
@@ -492,14 +517,14 @@
             this.cpExcel.PointPerPage = 0;
             this.cpExcel.ShowHorizontalCursor = false;
             this.cpExcel.ShowVerticalCursor = false;
-            this.cpExcel.Size = new System.Drawing.Size(992, 261);
+            this.cpExcel.Size = new System.Drawing.Size(1001, 261);
             this.cpExcel.TabIndex = 2;
             // 
             // KBarForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1016, 427);
+            this.ClientSize = new System.Drawing.Size(1025, 427);
             this.Controls.Add(this.gbIndicatorSetup);
             this.Controls.Add(this.cpDatabase);
             this.Controls.Add(this.cpText);
