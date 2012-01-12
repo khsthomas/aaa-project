@@ -13,6 +13,7 @@ using AAA.Base.Util.Reader;
 using System.IO;
 using System.Reflection;
 using AAA.WebPublisher;
+using AAA.DataLoader;
 
 namespace AAA.PublisherManager
 {
@@ -179,10 +180,11 @@ namespace AAA.PublisherManager
             Dictionary<string, string> dicModel;
             ICommand command;
             try
-            {
-                dtExpiredDate.Value = DateTime.Parse(tblAccount.SelectedRows[e.RowIndex].Cells["ExpiredDate"].Value.ToString());
-                chkActive.Checked = (tblAccount.SelectedRows[e.RowIndex].Cells["ActiveFlag"].Value.ToString() == "Y");
-                strAccount = tblAccount.SelectedRows[e.RowIndex].Cells["Account"].Value.ToString();
+            { 
+                
+                dtExpiredDate.Value = DateTime.Parse(tblAccount.Rows[e.RowIndex].Cells["ExpiredDate"].Value.ToString());
+                chkActive.Checked = (tblAccount.Rows[e.RowIndex].Cells["ActiveFlag"].Value.ToString() == "Y");
+                strAccount = tblAccount.Rows[e.RowIndex].Cells["Account"].Value.ToString();
                 dicModel = new Dictionary<string, string>();
                 dicModel.Add("Account", strAccount);
                 
@@ -214,6 +216,31 @@ namespace AAA.PublisherManager
                         lstArticle.SetItemChecked(lstArticle.Items.IndexOf(strKey + "." + dicModel[strKey]), true);
                 }
 
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "," + ex.StackTrace);
+            }
+        }
+
+        private void btnImportAccount_Click(object sender, EventArgs e)
+        {
+            IResultSet resultSet = null;
+            Dictionary<string, string> dicModel = new Dictionary<string, string>();
+            ICommand command;
+            try
+            {
+                resultSet = new TextResultSet(Environment.CurrentDirectory + @"\import\account.txt", ',', false);
+                resultSet.Load();
+                
+                while(resultSet.Read())
+                {
+                    dicModel.Add(resultSet.Cells(1).ToString(),
+                                 resultSet.Cells(2).ToString());
+                }
+
+                command = new LoadAccountCommand();
+                command.Execute(dicModel);
             }
             catch (Exception ex)
             {

@@ -14,7 +14,7 @@ namespace AAA.PublisherService.Command
         {
             IDatabase database = CreateDatabase();
             string strAccount = null;
-            string strUpdateSQL = "UPDATE Account SET ExpiredDate = CDate('{0}'), ActiveFlag = '{1}' WHERE Account = '{2}'";
+            string strUpdateSQL = "UPDATE Account SET ExpiredDate = CDate('{0}'), ActiveFlag = '{1}' WHERE AccountId = '{2}'";
             if (database == null)
                 return NG;
 

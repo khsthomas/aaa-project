@@ -264,6 +264,9 @@ namespace AAA.TradingSystem
                     strChartNames = iniReader.GetParam("ChartList").Split(',');
                     strChartSizes = iniReader.GetParam("ChartSize").Split(',');
 
+                    if (iniReader.GetParam("BaseSeriesName") != null)
+                        _cpChartPanels[iDataSource].BaseSeriesName = iniReader.GetParam("BaseSeriesName");
+
                     for (int i = 0; i < strChartNames.Length; i++)
                     {
                         _cpChartPanels[iDataSource].AddChart(strChartNames[i]);
@@ -274,6 +277,9 @@ namespace AAA.TradingSystem
                             _cpChartPanels[iDataSource].SetYAxisFormat(strChartNames[i], iniReader.GetParam(strChartNames[i], "YAxisFormat"));
                         else
                             _cpChartPanels[iDataSource].SetYAxisFormat(strChartNames[i], "0.00");
+
+                        if (iniReader.GetParam(strChartNames[i], "LabelAlignment") != null)
+                            _cpChartPanels[iDataSource].SetLabelAlignment(strChartNames[i], (LabelAlignmentEnum)Enum.Parse(typeof(LabelAlignmentEnum), iniReader.GetParam(strChartNames[i], "LabelAlignment")));
 
                         for (int j = 0; j < strValues.Length; j++)
                         {
@@ -793,7 +799,7 @@ namespace AAA.TradingSystem
  */ 
                         break;
                     case Keys.Right:
-                        _cpChartPanels[cboFileType.SelectedIndex].MoveLeft();
+                        _cpChartPanels[cboFileType.SelectedIndex].MoveRight();
 /*
                         for (int i = 0; i < _cpChartPanels.Length; i++)
                             try

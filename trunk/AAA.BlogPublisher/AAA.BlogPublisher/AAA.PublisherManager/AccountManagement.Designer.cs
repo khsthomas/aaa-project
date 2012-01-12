@@ -38,6 +38,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.dtExpiredDate = new System.Windows.Forms.DateTimePicker();
             this.chkActive = new System.Windows.Forms.CheckBox();
+            this.btnImportAccount = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.tblAccount)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -151,11 +152,22 @@
             this.chkActive.Text = "有效帳號";
             this.chkActive.UseVisualStyleBackColor = true;
             // 
+            // btnImportAccount
+            // 
+            this.btnImportAccount.Location = new System.Drawing.Point(174, 339);
+            this.btnImportAccount.Name = "btnImportAccount";
+            this.btnImportAccount.Size = new System.Drawing.Size(75, 23);
+            this.btnImportAccount.TabIndex = 8;
+            this.btnImportAccount.Text = "匯入帳號";
+            this.btnImportAccount.UseVisualStyleBackColor = true;
+            this.btnImportAccount.Click += new System.EventHandler(this.btnImportAccount_Click);
+            // 
             // AccountManagement
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(633, 365);
+            this.Controls.Add(this.btnImportAccount);
             this.Controls.Add(this.chkActive);
             this.Controls.Add(this.dtExpiredDate);
             this.Controls.Add(this.label1);
@@ -186,6 +198,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DateTimePicker dtExpiredDate;
         private System.Windows.Forms.CheckBox chkActive;
+        private System.Windows.Forms.Button btnImportAccount;
     }
 }
 

@@ -36,6 +36,7 @@
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.articleEditorItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.SuspendLayout();
@@ -54,7 +55,8 @@
             // 
             this.functionItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.postItem,
-            this.registerItem});
+            this.registerItem,
+            this.articleEditorItem});
             this.functionItem.Name = "functionItem";
             this.functionItem.Size = new System.Drawing.Size(41, 20);
             this.functionItem.Text = "系統";
@@ -62,14 +64,14 @@
             // postItem
             // 
             this.postItem.Name = "postItem";
-            this.postItem.Size = new System.Drawing.Size(142, 22);
+            this.postItem.Size = new System.Drawing.Size(152, 22);
             this.postItem.Text = "自動發文系統";
             this.postItem.Click += new System.EventHandler(this.postItem_Click);
             // 
             // registerItem
             // 
             this.registerItem.Name = "registerItem";
-            this.registerItem.Size = new System.Drawing.Size(142, 22);
+            this.registerItem.Size = new System.Drawing.Size(152, 22);
             this.registerItem.Text = "自動註冊系統";
             this.registerItem.Click += new System.EventHandler(this.registerItem_Click);
             // 
@@ -88,6 +90,13 @@
             this.toolStripStatusLabel.Name = "toolStripStatusLabel";
             this.toolStripStatusLabel.Size = new System.Drawing.Size(32, 17);
             this.toolStripStatusLabel.Text = "Status";
+            // 
+            // articleEditorItem
+            // 
+            this.articleEditorItem.Name = "articleEditorItem";
+            this.articleEditorItem.Size = new System.Drawing.Size(152, 22);
+            this.articleEditorItem.Text = "圖文整合系統";
+            this.articleEditorItem.Click += new System.EventHandler(this.articleEditorItem_Click);
             // 
             // MainForm
             // 
@@ -118,6 +127,7 @@
         private System.Windows.Forms.ToolStripMenuItem functionItem;
         private System.Windows.Forms.ToolStripMenuItem postItem;
         private System.Windows.Forms.ToolStripMenuItem registerItem;
+        private System.Windows.Forms.ToolStripMenuItem articleEditorItem;
     }
 }
 

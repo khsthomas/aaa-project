@@ -115,5 +115,11 @@ namespace AAA.BlogPublisher
             Form child = new RegisterForm();
             MdiFormUtil.AddChild(this, child, true);
         }
+
+        private void articleEditorItem_Click(object sender, EventArgs e)
+        {
+            Form child = new ArticleEditor();
+            MdiFormUtil.AddChild(this, child, true);
+        }
     }
 }

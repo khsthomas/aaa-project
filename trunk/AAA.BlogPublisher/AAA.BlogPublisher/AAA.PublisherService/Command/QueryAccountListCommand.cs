@@ -12,7 +12,8 @@ namespace AAA.PublisherService.Command
         protected override int ExecuteCommand(Dictionary<string, string> dicModel)
         {
             string strRecord;
-            string strSQL = "SELECT Account, Password, StartDate, ExpiredDate, ActiveFlag FROM Account";
+            string strFieldName;
+            string strSQL = "SELECT AccountId AS Account, UserPassword, StartDate, ExpiredDate, ActiveFlag FROM Account";
             //DatabaseResultSet databaseResult = new DatabaseResultSet(SystemConfig.DATABASE_TYPE, SystemConfig.HOST, SystemConfig.DATABASE, SystemConfig.USERNAME, SystemConfig.PASSWORD);
             DatabaseResultSet databaseResult = CreateResultSet();
             databaseResult.SQLStatement = strSQL;
@@ -20,6 +21,12 @@ namespace AAA.PublisherService.Command
             databaseResult.Read();
 
             dicModel.Add("RowCount", databaseResult.RowCount.ToString());
+            strFieldName = "";
+            for (int i = 0; i < databaseResult.ColumnCount; i++)
+                strFieldName += "," + databaseResult.ColumnNames()[i];
+
+            if (strFieldName.Length > 0)
+                dicModel.Add("FieldName", strFieldName.Substring(1));
 
             for (int i = 0; i < databaseResult.RowCount; i++, databaseResult.Read())
             {

@@ -55,6 +55,7 @@
     <Reference Include="AAA.Command.WCF, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="AAA.Communication.WCFService, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="AAA.Database, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86" />
+    <Reference Include="AAA.DataLoader, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="AAA.PublisherClient, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="AAA.PublisherService, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="AAA.ResultSet, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
@@ -129,6 +130,9 @@
     <EmbeddedResource Include="PublisherForm.resx">
       <DependentUpon>PublisherForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UserAlarmForm.resx">
+      <DependentUpon>UserAlarmForm.cs</DependentUpon>
+    </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
@@ -152,6 +156,17 @@
     <Compile Include="PublisherForm.Designer.cs">
       <DependentUpon>PublisherForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserAlarmForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserAlarmForm.Designer.cs">
+      <DependentUpon>UserAlarmForm.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="import\account.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -11,7 +11,7 @@ namespace AAA.PublisherService.Command
     {
         protected override int ExecuteCommand(Dictionary<string, string> dicModel)
         {            
-            string strSQL = "SELECT a.FunctionId AS FunctionId, b.DllName AS DllName FROM AccountFunctionMapping a, FunctionInfo b WHERE a.FunctionId = b.FunctionId AND a.Account = '{0}'";
+            string strSQL = "SELECT a.FunctionId AS FunctionId, b.DllName AS DllName FROM AccountFunctionMapping a, FunctionInfo b WHERE a.FunctionId = b.FunctionId AND a.AccountId = '{0}'";
             //DatabaseResultSet databaseResult = new DatabaseResultSet(SystemConfig.DATABASE_TYPE, SystemConfig.HOST, SystemConfig.DATABASE, SystemConfig.USERNAME, SystemConfig.PASSWORD);
             DatabaseResultSet databaseResult = CreateResultSet();
             string strDllList;

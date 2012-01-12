@@ -74,6 +74,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Command\QueryAccountInfoCommand.cs" />
+    <Compile Include="Command\UpdateAccountActiveCommand.cs" />
+    <Compile Include="Command\LoadAccountCommand.cs" />
     <Compile Include="Command\UpdateAccountPrivilegeCommand.cs" />
     <Compile Include="Command\UpdateFunctionInfoCommand.cs" />
     <Compile Include="Command\DatabaseCommand.cs" />

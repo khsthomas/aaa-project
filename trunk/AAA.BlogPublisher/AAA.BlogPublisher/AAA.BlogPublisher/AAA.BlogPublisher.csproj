@@ -82,6 +82,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ArticleEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ArticleEditor.Designer.cs">
+      <DependentUpon>ArticleEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="LoadLibrary.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -97,6 +103,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="ArticleEditor.resx">
+      <DependentUpon>ArticleEditor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
