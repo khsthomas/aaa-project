@@ -61,7 +61,7 @@ namespace AAA.TradingSystem
             List<DateTime> lstParameter;
             string[] strFields;
             List<string> lstField;
-
+            string strReturnMessage;
             try
             {
                 btnDownload.Enabled = false;
@@ -199,20 +199,26 @@ namespace AAA.TradingSystem
                         }
                     }                                       
                     database.Close();
+                    if((strReturnMessage = Database.DatabaseUtil.CompressAccess(strDatabase.StartsWith(".") ? Environment.CurrentDirectory + strDatabase.Substring(1) : strDatabase,
+                                                                                strPassword)) != null)
+                        MessageBox.Show(strReturnMessage);
                 }
 
 
-                strHost = iniReader.GetParam("Calculate", "Host");
-                strDatabase = iniReader.GetParam("Calculate", "Database");
-                strUsername = iniReader.GetParam("Calculate", "Username");
-                strPassword = iniReader.GetParam("Calculate", "Password");
+                if (chkCalculateIndex.Checked)
+                {
+                    strHost = iniReader.GetParam("Calculate", "Host");
+                    strDatabase = iniReader.GetParam("Calculate", "Database");
+                    strUsername = iniReader.GetParam("Calculate", "Username");
+                    strPassword = iniReader.GetParam("Calculate", "Password");
 
-                strDatabase = strDatabase.StartsWith(".") ? Environment.CurrentDirectory + strDatabase.Substring(1) : strDatabase;
-                lstMessage.Items.Add("開始更新技術指標");
-                lstMessage.Update();
-                CalculateIndicator calculateIndicator = new CalculateIndicator(strHost, strDatabase, strUsername, strPassword);
-                calculateIndicator.Calculate();
-                lstMessage.Items.Add("技術指標更新完畢");
+                    strDatabase = strDatabase.StartsWith(".") ? Environment.CurrentDirectory + strDatabase.Substring(1) : strDatabase;
+                    lstMessage.Items.Add("開始更新技術指標");
+                    lstMessage.Update();
+                    CalculateIndicator calculateIndicator = new CalculateIndicator(strHost, strDatabase, strUsername, strPassword);
+                    calculateIndicator.Calculate();
+                    lstMessage.Items.Add("技術指標更新完畢");
+                }
                 MessageBox.Show("資料下載成功!");
                 btnDownload.Enabled = true;
             }

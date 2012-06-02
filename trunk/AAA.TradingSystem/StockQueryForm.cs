@@ -150,7 +150,7 @@ namespace AAA.TradingSystem
                                         strSQL += "   AND IIF(a.PreClose = 0, 0, ((a.ClosePrice - a.PreClose) / a.PreClose) * 100) > {" + (iParamIndex++) + "} ";
                                         break;
                                     case "跌幅":
-                                        strSQL += "   AND IFF(a.PreClose = 0, 0, ((a.ClosePrice - a.PreClose) / a.PreClose) * 100) < {" + (iParamIndex++) + "} ";
+                                        strSQL += "   AND IIF(a.PreClose = 0, 0, ((a.ClosePrice - a.PreClose) / a.PreClose) * 100) < {" + (iParamIndex++) + "} ";
                                         break;
                                 }
                                 break;

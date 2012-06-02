@@ -196,6 +196,6 @@ namespace AAA.TradingSystem
             {
                 MessageBox.Show(ex.Message + "," + ex.StackTrace);
             }
-        }
+        }       
     }
 }

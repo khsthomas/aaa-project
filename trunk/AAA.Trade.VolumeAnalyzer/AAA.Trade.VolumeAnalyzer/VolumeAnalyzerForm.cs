@@ -10,11 +10,15 @@ using AAA.Base.Util.Reader;
 using NDde.Client;
 using System.Threading;
 using System.IO;
+using System.Runtime.InteropServices;
 
 namespace AAA.Trade.VolumeAnalyzer
 {
     public partial class VolumeAnalyzerForm : Form
     {
+        [DllImport("Kernel32.dll")]
+        public static extern bool Beep(UInt32 frequency, UInt32 duration);
+
         private const string CONFIG_FILE = "dde_ft.ini";
         private IniReader _iniReader;
         private DateTime _dtStartTime;
@@ -33,10 +37,14 @@ namespace AAA.Trade.VolumeAnalyzer
         private int _iSmallAlarmDiffVolume;
         private int _iBigAlarmDiffVolume;
         private int _iDetectInterval;
+        private int _iPeriodAlarmInterval;
+        private int _iPeriodAlarmVolume;
         private Thread _tMonitor;
         private SynchronizationContext _context;
         private bool _isSaved;
         private string _strAlarmType;
+        private Dictionary<string, double> _dicEstimateTable;
+        private int _iAlarmIndex;
 
         public VolumeAnalyzerForm()
         {
@@ -46,17 +54,24 @@ namespace AAA.Trade.VolumeAnalyzer
 
         private void Init()
         {
+            string strEstimateTable;
             try
             {
+                if ((new DirectoryInfo(Environment.CurrentDirectory + @"\SecondVolume")).Exists == false)
+                    (new DirectoryInfo(Environment.CurrentDirectory + @"\SecondVolume")).Create();
+
                 _iniReader = new IniReader(Environment.CurrentDirectory + @"\" + CONFIG_FILE);
 
                 _strAlarmType = _iniReader.GetParam("AlarmType");
-
+                strEstimateTable = _iniReader.GetParam(_iniReader.GetParam("DefaultEstVolTbl"));
+               
                 _dtStartTime = DateTime.Parse(DateTime.Now.ToString("yyyy/MM/dd ") + _iniReader.GetParam("StartTime"));
                 _iDealBarLen = int.Parse(_iniReader.GetParam("DealInterval"));
                 _iDetectInterval = int.Parse(_iniReader.GetParam("DetectInterval"));
                 _iSmallAlarmDiffVolume = int.Parse(_iniReader.GetParam("SmallAlarmDiffVolume"));
                 _iBigAlarmDiffVolume = int.Parse(_iniReader.GetParam("BigAlarmDiffVolume"));
+                _iPeriodAlarmInterval = int.Parse(_iniReader.GetParam("PeriodAlarmInterval"));
+                _iPeriodAlarmVolume = int.Parse(_iniReader.GetParam("PeriodAlarmVolume"));
 
                 _ddeClient = new DdeClient(_iniReader.GetParam("Application"), _iniReader.GetParam("Topic"));
                 _iPreviousVolume = 0;
@@ -70,6 +85,9 @@ namespace AAA.Trade.VolumeAnalyzer
                 _iAlarmVolume = int.Parse(_iniReader.GetParam("AlarmVolume"));
                 _iMarkVolume1 = int.Parse(_iniReader.GetParam("MarkVolume1"));
                 _iMarkVolume2 = int.Parse(_iniReader.GetParam("MarkVolume2"));
+
+                txtPeriodAlarmInterval.Text = _iPeriodAlarmInterval.ToString();
+                txtPeriodAlarmVolume.Text = _iPeriodAlarmVolume.ToString();
 
                 tblVolume.Columns.Add("DealTime", "成交時間");
                 tblVolume.Columns.Add("OpenPrice", "開盤價");
@@ -125,11 +143,45 @@ namespace AAA.Trade.VolumeAnalyzer
                 txtDate.Text = DateTime.Now.ToString("yyyyMMdd");
                 LoadRecord(DateTime.Now.ToString("yyyyMMdd"));
 
+                LoadEstimateTable(strEstimateTable);
+
                 (new Thread(new ThreadStart(UpdateTime))).Start();
+                (new Thread(new ThreadStart(UpdateEstVol))).Start();
+                
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message + "," + ex.StackTrace);
+            }
+        }
+
+        private void LoadEstimateTable(string strTableName)
+        {
+            StreamReader sr = null;
+            string strLine;
+            string[] strValues;
+
+            try
+            {
+                _dicEstimateTable = new Dictionary<string, double>();
+                
+                sr = new StreamReader(Environment.CurrentDirectory + @"\" + strTableName);
+
+                while ((strLine = sr.ReadLine()) != null)
+                {
+                    strValues = strLine.Split(',');
+                    _dicEstimateTable.Add(strValues[0], double.Parse(strValues[1]));
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "," + ex.StackTrace);
+            }
+            finally
+            {
+                if (sr != null)
+                    sr.Close();
             }
         }
 
@@ -256,6 +308,43 @@ namespace AAA.Trade.VolumeAnalyzer
             else
                 tblAbnormalVolume1.Rows.Insert(0, oArgs);
             MarkAbnormalTable(tblAbnormalVolume1);
+        }
+
+        private void UpdatePeriodVolume(int iPeriodVolume, int iDiffPrice, float fPrice, float fStartPrice)
+        {
+            try
+            {
+                txtPeriodVolume.Text = iPeriodVolume.ToString();
+                if (iPeriodVolume > _iPeriodAlarmVolume)
+                {
+                    txtPeriodVolume.BackColor = iDiffPrice > 0 ? Color.Red : Color.Green;
+                    alarmTimer.Tag = txtPeriodVolume.BackColor;
+                    alarmTimer.Enabled = true;
+                    StreamWriter sw = null;
+                    try
+                    {
+                        sw = new StreamWriter(Environment.CurrentDirectory + @"\SecondVolume\tick_" + DateTime.Now.ToString("yyyyMMdd") + ".log", true);
+                        sw.WriteLine(DateTime.Now.ToString("HH:mm:ss") + ":" + iDiffPrice + "," + iPeriodVolume + "," + fPrice + "," + fStartPrice);
+                        sw.Flush();
+                    }
+                    catch
+                    { }
+                    finally
+                    {
+                        if(sw != null)
+                            sw.Close();
+                    }
+                }
+                else
+                {
+                    txtPeriodVolume.BackColor = iDiffPrice > 0 ? Color.Pink : Color.LightGreen;
+                    _iAlarmIndex = 0;
+                    alarmTimer.Enabled = false;
+                }
+
+            }
+            catch 
+            { }
         }
 
         private void LoadRecord(string strDate)
@@ -487,6 +576,24 @@ namespace AAA.Trade.VolumeAnalyzer
             txtTime.Text = DateTime.Now.ToString("HH:mm:ss");
         }
 
+        private void SetEstVol()
+        {
+            try
+            {
+                string strTime = DateTime.Now.ToString("HH:mm");
+
+                if (_dicEstimateTable.ContainsKey(strTime))
+                    txtEstVol.Text = (int.Parse(txtVolume.Text) * _dicEstimateTable[strTime]).ToString("0");
+                else
+                    txtEstVol.Text = "0";
+            }
+            catch (Exception ex)
+            {
+                txtEstVol.Text = "0";
+                //MessageBox.Show(ex.Message + "," + ex.StackTrace);
+            }
+        }
+
         private void UpdateTime()
         {
             try
@@ -504,11 +611,38 @@ namespace AAA.Trade.VolumeAnalyzer
                     {
                         SetTime();
                     }
+
                     Thread.Sleep(1000);
                 }
             }
             catch (Exception ex)
             {
+            }
+        }
+
+        private void UpdateEstVol()
+        {
+            try
+            {
+                while (_isUpdateTime)
+                {
+                    if (txtEstVol.InvokeRequired)
+                    {
+                        txtEstVol.Invoke((MethodInvoker)delegate()
+                        {
+                            SetEstVol();
+                        });
+                    }
+                    else
+                    {
+                        SetEstVol();
+                    }
+                    Thread.Sleep(1000);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "," + ex.StackTrace);
             }
         }
 
@@ -531,6 +665,11 @@ namespace AAA.Trade.VolumeAnalyzer
             object[] oItems;
             DateTime dtPreviousMinute = DateTime.Now;
             DateTime dtNow;
+            List<int> lstVolume = new List<int>();
+            List<int> lstPrice = new List<int>();
+            int iPeriodTotalVolume = 0;
+            int iSecondVolume = 0;
+            int iDiffPrice = 0;
 
             while (_isStartMonitor)
             {
@@ -556,13 +695,48 @@ namespace AAA.Trade.VolumeAnalyzer
                         Thread.Sleep(_iDetectInterval);
                         continue;
                     }
-
+                    
                     iTickVolume = iVolume - _iPreviousVolume;
                     fPrice = float.Parse(_ddeClient.Request(_iniReader.GetParam("Price"), 6000));
                     fBuyPrice1 = float.Parse(_ddeClient.Request(_iniReader.GetParam("BuyPrice1"), 6000));
                     fSellPrice1 = float.Parse(_ddeClient.Request(_iniReader.GetParam("SellPrice1"), 6000));
                     iTotalVolume += iTickVolume;
                     dtNow = DateTime.Now;
+
+
+                    iSecondVolume += iTickVolume;
+                    if (DateTime.Now.ToString("HHmmss") != dtPreviousMinute.ToString("HHmmss"))
+                    {
+                        if (lstVolume.Count < _iPeriodAlarmInterval)
+                        {
+
+                            iPeriodTotalVolume += iSecondVolume;
+                        }
+                        else
+                        {
+                            iPeriodTotalVolume = iPeriodTotalVolume - lstVolume[0] + iSecondVolume;
+                            lstVolume.RemoveAt(0);                            
+                            lstPrice.RemoveAt(0);                            
+                        }
+
+                        lstVolume.Add(iSecondVolume);
+                        lstPrice.Add((int)fPrice);
+
+                        iSecondVolume = 0;
+                        iDiffPrice = (int)fPrice - lstPrice[0];
+                        if (txtPeriodVolume.InvokeRequired)
+                        {
+                            txtPeriodVolume.Invoke((MethodInvoker)delegate()
+                            {
+                                UpdatePeriodVolume(iPeriodTotalVolume, iDiffPrice, fPrice, lstPrice[0]);
+                            });
+                        }
+                        else
+                        {
+                            UpdatePeriodVolume(iPeriodTotalVolume, iDiffPrice, fPrice, lstPrice[0]);
+                        }
+                    }
+
 
                     if (float.IsNaN(fPreviousBuyPrice1))
                         fPreviousBuyPrice1 = fBuyPrice1;
@@ -808,6 +982,19 @@ namespace AAA.Trade.VolumeAnalyzer
             MarkTable(tblVolume1);
             MarkAbnormalTable(tblAbnormalVolume);
             MarkAbnormalTable(tblAbnormalVolume1);
+        }
+
+        private void alarmTimer_Tick(object sender, EventArgs e)
+        {
+            try
+            {
+                if(_iAlarmIndex < 3)
+                    Beep(1000, 200);
+                txtPeriodVolume.BackColor = ((_iAlarmIndex++ % 2) == 1) ? Color.LightGray : (Color)alarmTimer.Tag;
+            }
+            catch (Exception ex)
+            {
+            }
         }
     }
 }

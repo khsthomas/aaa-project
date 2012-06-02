@@ -40,6 +40,7 @@
     <Reference Include="AAA.DesignPattern, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="AAA.Finacial, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="AAA.Forms.Components, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="AAA.Meta, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="AAA.Meta.Chart, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86" />
     <Reference Include="AAA.Meta.Quote, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="AAA.MQ, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
@@ -80,6 +81,12 @@
     </Compile>
     <Compile Include="ActivityGrid.Designer.cs">
       <DependentUpon>ActivityGrid.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BasicDataGetterForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BasicDataGetterForm.Designer.cs">
+      <DependentUpon>BasicDataGetterForm.cs</DependentUpon>
     </Compile>
     <Compile Include="DataGetterForm.cs">
       <SubType>Form</SubType>
@@ -155,6 +162,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ActivityGrid.resx">
       <DependentUpon>ActivityGrid.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BasicDataGetterForm.resx">
+      <DependentUpon>BasicDataGetterForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DataGetterForm.resx">
       <DependentUpon>DataGetterForm.cs</DependentUpon>
@@ -379,6 +389,24 @@
     <Content Include="data\db_dumper_pv_20110515.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="ADODB">
+      <Guid>{2A75196C-D9EB-4129-B803-931327F72D5C}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>8</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
+    <COMReference Include="JRO">
+      <Guid>{AC3B8B4C-B6CA-11D1-9F31-00C04FC29D52}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>6</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

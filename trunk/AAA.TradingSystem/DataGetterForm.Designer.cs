@@ -42,6 +42,7 @@
             this.txtDeleteDate = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.btnDelete = new System.Windows.Forms.Button();
+            this.chkCalculateIndex = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -49,6 +50,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.chkCalculateIndex);
             this.groupBox1.Controls.Add(this.txtStartDate);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.btnDownload);
@@ -183,6 +185,16 @@
             this.btnDelete.UseVisualStyleBackColor = true;
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
+            // chkCalculateIndex
+            // 
+            this.chkCalculateIndex.AutoSize = true;
+            this.chkCalculateIndex.Location = new System.Drawing.Point(17, 99);
+            this.chkCalculateIndex.Name = "chkCalculateIndex";
+            this.chkCalculateIndex.Size = new System.Drawing.Size(96, 16);
+            this.chkCalculateIndex.TabIndex = 5;
+            this.chkCalculateIndex.Text = "計算技術指標";
+            this.chkCalculateIndex.UseVisualStyleBackColor = true;
+            // 
             // DataGetterForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -193,7 +205,7 @@
             this.Controls.Add(this.lstMessage);
             this.Controls.Add(this.groupBox1);
             this.Name = "DataGetterForm";
-            this.Text = "資料下載";
+            this.Text = "交易資料下載";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
@@ -219,5 +231,6 @@
         private System.Windows.Forms.TextBox txtDeleteDate;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button btnDelete;
+        private System.Windows.Forms.CheckBox chkCalculateIndex;
     }
 }

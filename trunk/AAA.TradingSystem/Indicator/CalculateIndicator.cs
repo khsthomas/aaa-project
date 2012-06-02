@@ -211,12 +211,13 @@ namespace AAA.TradingSystem.Indicator
                         for(int j = 0; j < oValues.Length - 2; j++)
                             if (float.IsNaN((float)oValues[j]))
                             {
+//                                  oValues[j] = "0";
                                 oValues[j] = "null";
                                 hasNull = true;
                             }
 
-                        if (hasNull)
-                            continue;
+//                        if (hasNull)
+//                            continue;
 
                         if (_databaseUpdate.ExecuteUpdate(strInsertSQL, oValues) != 1)
                             if (_databaseUpdate.ExecuteUpdate(strUpdateSQL, oValues) != 1)
