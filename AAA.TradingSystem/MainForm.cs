@@ -151,6 +151,20 @@ namespace AAA.TradingSystem
             }
         }
 
+        private void basicDataGetter_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Form childForm = new BasicDataGetterForm();
+                childForm.MdiParent = this;
+                childForm.Show();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "," + ex.StackTrace);
+            }
+        }
+
 
     }
 }

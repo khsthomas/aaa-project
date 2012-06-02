@@ -29,27 +29,27 @@
         private void InitializeComponent()
         {
             this.gbCriteria = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.txtSymbolId = new System.Windows.Forms.TextBox();
-            this.txtStartDate = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
+            this.btnQuery = new System.Windows.Forms.Button();
             this.txtEndDate = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.btnQuery = new System.Windows.Forms.Button();
+            this.txtStartDate = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txtSymbolId = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.pnlDailyData = new System.Windows.Forms.TabPage();
-            this.pnlIndicator = new System.Windows.Forms.TabPage();
-            this.pnlJoin = new System.Windows.Forms.TabPage();
             this.tblDailyData = new System.Windows.Forms.DataGridView();
+            this.pnlIndicator = new System.Windows.Forms.TabPage();
             this.tblIndicator = new System.Windows.Forms.DataGridView();
+            this.pnlJoin = new System.Windows.Forms.TabPage();
             this.tblJoin = new System.Windows.Forms.DataGridView();
             this.gbCriteria.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.pnlDailyData.SuspendLayout();
-            this.pnlIndicator.SuspendLayout();
-            this.pnlJoin.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tblDailyData)).BeginInit();
+            this.pnlIndicator.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tblIndicator)).BeginInit();
+            this.pnlJoin.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tblJoin)).BeginInit();
             this.SuspendLayout();
             // 
@@ -71,38 +71,15 @@
             this.gbCriteria.TabStop = false;
             this.gbCriteria.Text = "查詢條件";
             // 
-            // label1
+            // btnQuery
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 18);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(53, 12);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "股票代碼";
-            // 
-            // txtSymbolId
-            // 
-            this.txtSymbolId.Location = new System.Drawing.Point(65, 15);
-            this.txtSymbolId.Name = "txtSymbolId";
-            this.txtSymbolId.Size = new System.Drawing.Size(94, 22);
-            this.txtSymbolId.TabIndex = 1;
-            this.txtSymbolId.Text = "2881";
-            // 
-            // txtStartDate
-            // 
-            this.txtStartDate.Location = new System.Drawing.Point(224, 15);
-            this.txtStartDate.Name = "txtStartDate";
-            this.txtStartDate.Size = new System.Drawing.Size(94, 22);
-            this.txtStartDate.TabIndex = 3;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(165, 18);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(53, 12);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "起始日期";
+            this.btnQuery.Location = new System.Drawing.Point(84, 49);
+            this.btnQuery.Name = "btnQuery";
+            this.btnQuery.Size = new System.Drawing.Size(75, 23);
+            this.btnQuery.TabIndex = 6;
+            this.btnQuery.Text = "查詢";
+            this.btnQuery.UseVisualStyleBackColor = true;
+            this.btnQuery.Click += new System.EventHandler(this.btnQuery_Click);
             // 
             // txtEndDate
             // 
@@ -120,15 +97,38 @@
             this.label3.TabIndex = 4;
             this.label3.Text = "結束日期";
             // 
-            // btnQuery
+            // txtStartDate
             // 
-            this.btnQuery.Location = new System.Drawing.Point(84, 49);
-            this.btnQuery.Name = "btnQuery";
-            this.btnQuery.Size = new System.Drawing.Size(75, 23);
-            this.btnQuery.TabIndex = 6;
-            this.btnQuery.Text = "查詢";
-            this.btnQuery.UseVisualStyleBackColor = true;
-            this.btnQuery.Click += new System.EventHandler(this.btnQuery_Click);
+            this.txtStartDate.Location = new System.Drawing.Point(224, 15);
+            this.txtStartDate.Name = "txtStartDate";
+            this.txtStartDate.Size = new System.Drawing.Size(94, 22);
+            this.txtStartDate.TabIndex = 3;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(165, 18);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(53, 12);
+            this.label2.TabIndex = 2;
+            this.label2.Text = "起始日期";
+            // 
+            // txtSymbolId
+            // 
+            this.txtSymbolId.Location = new System.Drawing.Point(65, 15);
+            this.txtSymbolId.Name = "txtSymbolId";
+            this.txtSymbolId.Size = new System.Drawing.Size(94, 22);
+            this.txtSymbolId.TabIndex = 1;
+            this.txtSymbolId.Text = "2881";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(6, 18);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(53, 12);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "股票代碼";
             // 
             // tabControl1
             // 
@@ -155,28 +155,6 @@
             this.pnlDailyData.Text = "日資料";
             this.pnlDailyData.UseVisualStyleBackColor = true;
             // 
-            // pnlIndicator
-            // 
-            this.pnlIndicator.Controls.Add(this.tblIndicator);
-            this.pnlIndicator.Location = new System.Drawing.Point(4, 21);
-            this.pnlIndicator.Name = "pnlIndicator";
-            this.pnlIndicator.Padding = new System.Windows.Forms.Padding(3);
-            this.pnlIndicator.Size = new System.Drawing.Size(556, 261);
-            this.pnlIndicator.TabIndex = 1;
-            this.pnlIndicator.Text = "技術指標";
-            this.pnlIndicator.UseVisualStyleBackColor = true;
-            // 
-            // pnlJoin
-            // 
-            this.pnlJoin.Controls.Add(this.tblJoin);
-            this.pnlJoin.Location = new System.Drawing.Point(4, 21);
-            this.pnlJoin.Name = "pnlJoin";
-            this.pnlJoin.Padding = new System.Windows.Forms.Padding(3);
-            this.pnlJoin.Size = new System.Drawing.Size(556, 261);
-            this.pnlJoin.TabIndex = 2;
-            this.pnlJoin.Text = "綜合查詢";
-            this.pnlJoin.UseVisualStyleBackColor = true;
-            // 
             // tblDailyData
             // 
             this.tblDailyData.AllowUserToAddRows = false;
@@ -194,6 +172,17 @@
             this.tblDailyData.Size = new System.Drawing.Size(550, 255);
             this.tblDailyData.TabIndex = 0;
             // 
+            // pnlIndicator
+            // 
+            this.pnlIndicator.Controls.Add(this.tblIndicator);
+            this.pnlIndicator.Location = new System.Drawing.Point(4, 21);
+            this.pnlIndicator.Name = "pnlIndicator";
+            this.pnlIndicator.Padding = new System.Windows.Forms.Padding(3);
+            this.pnlIndicator.Size = new System.Drawing.Size(556, 261);
+            this.pnlIndicator.TabIndex = 1;
+            this.pnlIndicator.Text = "技術指標";
+            this.pnlIndicator.UseVisualStyleBackColor = true;
+            // 
             // tblIndicator
             // 
             this.tblIndicator.AllowUserToAddRows = false;
@@ -210,6 +199,17 @@
             this.tblIndicator.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.tblIndicator.Size = new System.Drawing.Size(550, 255);
             this.tblIndicator.TabIndex = 1;
+            // 
+            // pnlJoin
+            // 
+            this.pnlJoin.Controls.Add(this.tblJoin);
+            this.pnlJoin.Location = new System.Drawing.Point(4, 21);
+            this.pnlJoin.Name = "pnlJoin";
+            this.pnlJoin.Padding = new System.Windows.Forms.Padding(3);
+            this.pnlJoin.Size = new System.Drawing.Size(556, 261);
+            this.pnlJoin.TabIndex = 2;
+            this.pnlJoin.Text = "綜合查詢";
+            this.pnlJoin.UseVisualStyleBackColor = true;
             // 
             // tblJoin
             // 
@@ -241,10 +241,10 @@
             this.gbCriteria.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             this.pnlDailyData.ResumeLayout(false);
-            this.pnlIndicator.ResumeLayout(false);
-            this.pnlJoin.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.tblDailyData)).EndInit();
+            this.pnlIndicator.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.tblIndicator)).EndInit();
+            this.pnlJoin.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.tblJoin)).EndInit();
             this.ResumeLayout(false);
 

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.txtPrice = new System.Windows.Forms.TextBox();
@@ -62,6 +63,15 @@
             this.btnRemark = new System.Windows.Forms.Button();
             this.txtTime = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
+            this.txtEstVol = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.txtPeriodAlarmVolume = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.txtPeriodAlarmInterval = new System.Windows.Forms.TextBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.txtPeriodVolume = new System.Windows.Forms.TextBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.alarmTimer = new System.Windows.Forms.Timer(this.components);
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tblVolume)).BeginInit();
@@ -143,7 +153,7 @@
             // 
             // btnStart
             // 
-            this.btnStart.Location = new System.Drawing.Point(491, 5);
+            this.btnStart.Location = new System.Drawing.Point(384, 6);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(75, 23);
             this.btnStart.TabIndex = 9;
@@ -170,7 +180,7 @@
             // 
             // btnStop
             // 
-            this.btnStop.Location = new System.Drawing.Point(491, 30);
+            this.btnStop.Location = new System.Drawing.Point(384, 31);
             this.btnStop.Name = "btnStop";
             this.btnStop.Size = new System.Drawing.Size(75, 23);
             this.btnStop.TabIndex = 12;
@@ -204,10 +214,10 @@
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage4);
-            this.tabControl1.Location = new System.Drawing.Point(3, 60);
+            this.tabControl1.Location = new System.Drawing.Point(3, 84);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(856, 375);
+            this.tabControl1.Size = new System.Drawing.Size(914, 351);
             this.tabControl1.TabIndex = 15;
             // 
             // tabPage1
@@ -216,7 +226,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 21);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(848, 350);
+            this.tabPage1.Size = new System.Drawing.Size(906, 326);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "成交量(1)";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -236,7 +246,7 @@
             this.tblVolume.RowHeadersVisible = false;
             this.tblVolume.RowTemplate.Height = 24;
             this.tblVolume.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.tblVolume.Size = new System.Drawing.Size(842, 344);
+            this.tblVolume.Size = new System.Drawing.Size(900, 320);
             this.tblVolume.TabIndex = 1;
             // 
             // tabPage3
@@ -245,7 +255,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 21);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(848, 350);
+            this.tabPage3.Size = new System.Drawing.Size(848, 326);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "成交量(2)";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -265,7 +275,7 @@
             this.tblVolume1.RowHeadersVisible = false;
             this.tblVolume1.RowTemplate.Height = 24;
             this.tblVolume1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.tblVolume1.Size = new System.Drawing.Size(842, 344);
+            this.tblVolume1.Size = new System.Drawing.Size(842, 320);
             this.tblVolume1.TabIndex = 2;
             // 
             // tabPage2
@@ -274,7 +284,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 21);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(848, 350);
+            this.tabPage2.Size = new System.Drawing.Size(848, 326);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "異常成交量(1)";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -294,7 +304,7 @@
             this.tblAbnormalVolume.RowHeadersVisible = false;
             this.tblAbnormalVolume.RowTemplate.Height = 24;
             this.tblAbnormalVolume.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.tblAbnormalVolume.Size = new System.Drawing.Size(842, 344);
+            this.tblAbnormalVolume.Size = new System.Drawing.Size(842, 320);
             this.tblAbnormalVolume.TabIndex = 1;
             // 
             // tabPage4
@@ -303,7 +313,7 @@
             this.tabPage4.Location = new System.Drawing.Point(4, 21);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(848, 350);
+            this.tabPage4.Size = new System.Drawing.Size(848, 326);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "異常成交量(2)";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -323,12 +333,12 @@
             this.tblAbnormalVolume1.RowHeadersVisible = false;
             this.tblAbnormalVolume1.RowTemplate.Height = 24;
             this.tblAbnormalVolume1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.tblAbnormalVolume1.Size = new System.Drawing.Size(842, 344);
+            this.tblAbnormalVolume1.Size = new System.Drawing.Size(842, 320);
             this.tblAbnormalVolume1.TabIndex = 2;
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(574, 5);
+            this.btnSave.Location = new System.Drawing.Point(467, 6);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
             this.btnSave.TabIndex = 16;
@@ -338,7 +348,7 @@
             // 
             // btnLoad
             // 
-            this.btnLoad.Location = new System.Drawing.Point(574, 31);
+            this.btnLoad.Location = new System.Drawing.Point(467, 32);
             this.btnLoad.Name = "btnLoad";
             this.btnLoad.Size = new System.Drawing.Size(75, 23);
             this.btnLoad.TabIndex = 17;
@@ -349,7 +359,7 @@
             // txtDate
             // 
             this.txtDate.BackColor = System.Drawing.SystemColors.Control;
-            this.txtDate.Location = new System.Drawing.Point(420, 6);
+            this.txtDate.Location = new System.Drawing.Point(187, 57);
             this.txtDate.Name = "txtDate";
             this.txtDate.Size = new System.Drawing.Size(63, 22);
             this.txtDate.TabIndex = 19;
@@ -357,7 +367,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(385, 9);
+            this.label7.Location = new System.Drawing.Point(152, 60);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(29, 12);
             this.label7.TabIndex = 18;
@@ -366,7 +376,7 @@
             // txtBigAlarmDiffVolume
             // 
             this.txtBigAlarmDiffVolume.BackColor = System.Drawing.SystemColors.Control;
-            this.txtBigAlarmDiffVolume.Location = new System.Drawing.Point(714, 6);
+            this.txtBigAlarmDiffVolume.Location = new System.Drawing.Point(607, 7);
             this.txtBigAlarmDiffVolume.Name = "txtBigAlarmDiffVolume";
             this.txtBigAlarmDiffVolume.Size = new System.Drawing.Size(63, 22);
             this.txtBigAlarmDiffVolume.TabIndex = 21;
@@ -374,7 +384,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(655, 9);
+            this.label8.Location = new System.Drawing.Point(548, 10);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(53, 12);
             this.label8.TabIndex = 20;
@@ -383,7 +393,7 @@
             // txtSmallAlarmDiffVolume
             // 
             this.txtSmallAlarmDiffVolume.BackColor = System.Drawing.SystemColors.Control;
-            this.txtSmallAlarmDiffVolume.Location = new System.Drawing.Point(714, 34);
+            this.txtSmallAlarmDiffVolume.Location = new System.Drawing.Point(607, 35);
             this.txtSmallAlarmDiffVolume.Name = "txtSmallAlarmDiffVolume";
             this.txtSmallAlarmDiffVolume.Size = new System.Drawing.Size(63, 22);
             this.txtSmallAlarmDiffVolume.TabIndex = 23;
@@ -391,7 +401,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(655, 36);
+            this.label9.Location = new System.Drawing.Point(548, 37);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(53, 12);
             this.label9.TabIndex = 22;
@@ -399,7 +409,7 @@
             // 
             // btnRemark
             // 
-            this.btnRemark.Location = new System.Drawing.Point(784, 4);
+            this.btnRemark.Location = new System.Drawing.Point(677, 5);
             this.btnRemark.Name = "btnRemark";
             this.btnRemark.Size = new System.Drawing.Size(75, 23);
             this.btnRemark.TabIndex = 24;
@@ -410,7 +420,7 @@
             // txtTime
             // 
             this.txtTime.BackColor = System.Drawing.SystemColors.Control;
-            this.txtTime.Location = new System.Drawing.Point(420, 31);
+            this.txtTime.Location = new System.Drawing.Point(315, 56);
             this.txtTime.Name = "txtTime";
             this.txtTime.Size = new System.Drawing.Size(63, 22);
             this.txtTime.TabIndex = 26;
@@ -418,17 +428,98 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(385, 34);
+            this.label10.Location = new System.Drawing.Point(280, 59);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(29, 12);
             this.label10.TabIndex = 25;
             this.label10.Text = "時間";
             // 
+            // txtEstVol
+            // 
+            this.txtEstVol.Location = new System.Drawing.Point(59, 56);
+            this.txtEstVol.Name = "txtEstVol";
+            this.txtEstVol.ReadOnly = true;
+            this.txtEstVol.Size = new System.Drawing.Size(63, 22);
+            this.txtEstVol.TabIndex = 28;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(12, 60);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(41, 12);
+            this.label11.TabIndex = 27;
+            this.label11.Text = "預估量";
+            // 
+            // txtPeriodAlarmVolume
+            // 
+            this.txtPeriodAlarmVolume.Location = new System.Drawing.Point(821, 31);
+            this.txtPeriodAlarmVolume.Name = "txtPeriodAlarmVolume";
+            this.txtPeriodAlarmVolume.ReadOnly = true;
+            this.txtPeriodAlarmVolume.Size = new System.Drawing.Size(63, 22);
+            this.txtPeriodAlarmVolume.TabIndex = 32;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(762, 37);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(53, 12);
+            this.label12.TabIndex = 31;
+            this.label12.Text = "警示口數";
+            // 
+            // txtPeriodAlarmInterval
+            // 
+            this.txtPeriodAlarmInterval.Location = new System.Drawing.Point(821, 6);
+            this.txtPeriodAlarmInterval.Name = "txtPeriodAlarmInterval";
+            this.txtPeriodAlarmInterval.ReadOnly = true;
+            this.txtPeriodAlarmInterval.Size = new System.Drawing.Size(63, 22);
+            this.txtPeriodAlarmInterval.TabIndex = 30;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(762, 9);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(53, 12);
+            this.label13.TabIndex = 29;
+            this.label13.Text = "警示秒數";
+            // 
+            // txtPeriodVolume
+            // 
+            this.txtPeriodVolume.Location = new System.Drawing.Point(821, 56);
+            this.txtPeriodVolume.Name = "txtPeriodVolume";
+            this.txtPeriodVolume.ReadOnly = true;
+            this.txtPeriodVolume.Size = new System.Drawing.Size(63, 22);
+            this.txtPeriodVolume.TabIndex = 34;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(762, 62);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(53, 12);
+            this.label14.TabIndex = 33;
+            this.label14.Text = "累積口數";
+            // 
+            // alarmTimer
+            // 
+            this.alarmTimer.Interval = 200;
+            this.alarmTimer.Tick += new System.EventHandler(this.alarmTimer_Tick);
+            // 
             // VolumeAnalyzerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(869, 439);
+            this.ClientSize = new System.Drawing.Size(927, 439);
+            this.Controls.Add(this.txtPeriodVolume);
+            this.Controls.Add(this.label14);
+            this.Controls.Add(this.txtPeriodAlarmVolume);
+            this.Controls.Add(this.label12);
+            this.Controls.Add(this.txtPeriodAlarmInterval);
+            this.Controls.Add(this.label13);
+            this.Controls.Add(this.txtEstVol);
+            this.Controls.Add(this.label11);
             this.Controls.Add(this.txtTime);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.btnRemark);
@@ -508,6 +599,15 @@
         private System.Windows.Forms.Button btnRemark;
         private System.Windows.Forms.TextBox txtTime;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.TextBox txtEstVol;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.TextBox txtPeriodAlarmVolume;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.TextBox txtPeriodAlarmInterval;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.TextBox txtPeriodVolume;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Timer alarmTimer;
     }
 }
 

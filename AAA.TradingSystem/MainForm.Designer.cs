@@ -43,6 +43,7 @@
             this.userDefineSymbol = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.basicDataGetter = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.SuspendLayout();
@@ -96,6 +97,7 @@
             // 
             this.dataManagement.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.dataGetter,
+            this.basicDataGetter,
             this.dataTransfer,
             this.dataQuery});
             this.dataManagement.Name = "dataManagement";
@@ -105,14 +107,14 @@
             // dataGetter
             // 
             this.dataGetter.Name = "dataGetter";
-            this.dataGetter.Size = new System.Drawing.Size(118, 22);
+            this.dataGetter.Size = new System.Drawing.Size(152, 22);
             this.dataGetter.Text = "資料抓取";
             this.dataGetter.Click += new System.EventHandler(this.dataGetter_Click);
             // 
             // dataTransfer
             // 
             this.dataTransfer.Name = "dataTransfer";
-            this.dataTransfer.Size = new System.Drawing.Size(118, 22);
+            this.dataTransfer.Size = new System.Drawing.Size(152, 22);
             this.dataTransfer.Text = "資料轉換";
             this.dataTransfer.Visible = false;
             this.dataTransfer.Click += new System.EventHandler(this.dataTransfer_Click);
@@ -120,7 +122,7 @@
             // dataQuery
             // 
             this.dataQuery.Name = "dataQuery";
-            this.dataQuery.Size = new System.Drawing.Size(118, 22);
+            this.dataQuery.Size = new System.Drawing.Size(152, 22);
             this.dataQuery.Text = "資料查詢";
             this.dataQuery.Click += new System.EventHandler(this.dataQuery_Click);
             // 
@@ -170,6 +172,13 @@
             this.toolStripStatusLabel.Size = new System.Drawing.Size(32, 17);
             this.toolStripStatusLabel.Text = "Status";
             // 
+            // basicDataGetter
+            // 
+            this.basicDataGetter.Name = "basicDataGetter";
+            this.basicDataGetter.Size = new System.Drawing.Size(152, 22);
+            this.basicDataGetter.Text = "基本資料匯入";
+            this.basicDataGetter.Click += new System.EventHandler(this.basicDataGetter_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -207,6 +216,7 @@
         private System.Windows.Forms.ToolStripMenuItem userDefineSymbol;
         private System.Windows.Forms.ToolStripMenuItem dataTransfer;
         private System.Windows.Forms.ToolStripMenuItem dataQuery;
+        private System.Windows.Forms.ToolStripMenuItem basicDataGetter;
     }
 }
 

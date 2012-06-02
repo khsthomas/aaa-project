@@ -1,5 +1,5 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <ReferencePath>D:\AAA\Base\Lib\</ReferencePath>
+    <ReferencePath>D:\AAA\Project\Lib\</ReferencePath>
   </PropertyGroup>
 </Project>

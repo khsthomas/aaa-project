@@ -114,7 +114,7 @@ namespace AAA.GooglePublisher
                 switch (_iCurrentStep)
                 {
                     case REDIRECT_TO_LOGIN:
-                        if (WebBrowser.ReadyState == WebBrowserReadyState.Complete)
+                            
                         {
                             _iCurrentStep = LOGIN_FORM;
                             HtmlAction.HrefClick(document, "https://accounts.google.com/ServiceLogin?hl=zh-TW&continue=http://www.google.com/");
