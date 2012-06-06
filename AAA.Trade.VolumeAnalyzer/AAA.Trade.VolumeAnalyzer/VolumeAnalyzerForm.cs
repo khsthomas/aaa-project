@@ -670,6 +670,8 @@ namespace AAA.Trade.VolumeAnalyzer
             int iPeriodTotalVolume = 0;
             int iSecondVolume = 0;
             int iDiffPrice = 0;
+            int iAlarmVolumn;
+
 
             while (_isStartMonitor)
             {
@@ -777,6 +779,9 @@ namespace AAA.Trade.VolumeAnalyzer
                                                 iTotalVolume.ToString(), 
                                                 (_iDealBuyVolume - _iDealSellVolume).ToString(),
                                                 (fPrice - fOpen).ToString()};
+
+
+
                         if (tblVolume.InvokeRequired)
                         {
                             tblVolume.Invoke((MethodInvoker)delegate()
