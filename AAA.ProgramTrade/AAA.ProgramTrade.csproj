@@ -76,8 +76,6 @@
     <Compile Include="AutoTradeForm.Designer.cs">
       <DependentUpon>AutoTradeForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="data\ContractInfo.cs" />
-    <Compile Include="data\OrderInfo.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
