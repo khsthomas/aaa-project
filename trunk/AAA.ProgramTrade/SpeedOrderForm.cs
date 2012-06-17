@@ -10,9 +10,9 @@ using AAA.Base.Util.Reader;
 using AAA.Quote;
 using AAA.Meta.Quote;
 using AAA.Meta.Quote.Data;
-using AAA.ProgramTrade.data;
 using AAA.Trade;
 using AAA.DesignPattern.Observer;
+using AAA.Meta.Trade.Data;
 
 namespace AAA.ProgramTrade
 {
@@ -47,24 +47,12 @@ namespace AAA.ProgramTrade
             cboSymbolType.Items.Add("選擇權");
             cboSymbolType.SelectedIndex = 0;
 
-            cboYear.Items.Clear();
-            cboYear.Items.Add("2012");
-            cboYear.Items.Add("2013");
-            cboYear.SelectedIndex = 0;
-
             cboMonth.Items.Clear();
-            cboMonth.Items.Add("01");
-            cboMonth.Items.Add("02");
-            cboMonth.Items.Add("03");
-            cboMonth.Items.Add("04");
-            cboMonth.Items.Add("05");
-            cboMonth.Items.Add("06");
-            cboMonth.Items.Add("07");
-            cboMonth.Items.Add("08");
-            cboMonth.Items.Add("09");
-            cboMonth.Items.Add("10");
-            cboMonth.Items.Add("11");
-            cboMonth.Items.Add("12");
+            cboMonth.Items.Add("近月");
+            cboMonth.Items.Add("遠月");
+            cboMonth.Items.Add("季月1");
+            cboMonth.Items.Add("季月2");
+            cboMonth.Items.Add("季月3");
             cboMonth.SelectedIndex = 0;
 
             cboPutOrCall.Items.Clear();
@@ -72,9 +60,6 @@ namespace AAA.ProgramTrade
             cboPutOrCall.Items.Add("Put");
             cboPutOrCall.Items.Add("Call");
             cboPutOrCall.SelectedIndex = 0;
-
-
-
         }
 
         private void Init()

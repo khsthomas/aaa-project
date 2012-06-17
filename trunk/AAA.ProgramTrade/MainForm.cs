@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using AAA.Forms.Components.Util;
 using AAA.Base.Util.Reader;
 using AAA.DesignPattern.Observer;
+using AAA.TradeLanguage;
 
 namespace AAA.ProgramTrade
 {
@@ -35,6 +36,10 @@ namespace AAA.ProgramTrade
                 }
 
                 MessageSubject.Instance().Subject.Attach(this);
+
+                AAA.DesignPattern.Singleton.SystemParameter.Parameter["TradingRule"] = new DefaultTradingRule();
+
+
             }
             catch (Exception ex)
             {

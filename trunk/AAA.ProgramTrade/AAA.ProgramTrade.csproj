@@ -43,6 +43,7 @@
     <Reference Include="AAA.SPFTrade, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="AAA.Trade, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="AAA.Trade.SignalCatcher, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="AAA.TradeLanguage, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="NDde, Version=2.1.563.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\ext-lib\NDde.dll</HintPath>
@@ -147,7 +148,6 @@
     <Compile Include="SpeedOrderForm.Designer.cs">
       <DependentUpon>SpeedOrderForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="SymbolUtil.cs" />
     <Compile Include="SystemHelper.cs" />
   </ItemGroup>
   <ItemGroup>

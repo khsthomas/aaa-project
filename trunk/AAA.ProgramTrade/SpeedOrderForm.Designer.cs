@@ -50,17 +50,18 @@
             this.txtAccount = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.cboSymbolType = new System.Windows.Forms.ComboBox();
-            this.label8 = new System.Windows.Forms.Label();
-            this.cboYear = new System.Windows.Forms.ComboBox();
-            this.cboMonth = new System.Windows.Forms.ComboBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.cboPutOrCall = new System.Windows.Forms.ComboBox();
-            this.label10 = new System.Windows.Forms.Label();
             this.cboStrikePrice = new System.Windows.Forms.ComboBox();
             this.label11 = new System.Windows.Forms.Label();
+            this.cboPutOrCall = new System.Windows.Forms.ComboBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.cboMonth = new System.Windows.Forms.ComboBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.cboYear = new System.Windows.Forms.ComboBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.cboSymbolType = new System.Windows.Forms.ComboBox();
+            this.label7 = new System.Windows.Forms.Label();
             this.chkDayTrade = new System.Windows.Forms.CheckBox();
+            this.txtSymbolCode = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.tblPrice)).BeginInit();
             this.gbBracketSetting.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.udOrderLots)).BeginInit();
@@ -287,6 +288,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.txtSymbolCode);
             this.groupBox1.Controls.Add(this.cboStrikePrice);
             this.groupBox1.Controls.Add(this.label11);
             this.groupBox1.Controls.Add(this.cboPutOrCall);
@@ -303,74 +305,6 @@
             this.groupBox1.TabIndex = 17;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "下單商品設定";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(6, 21);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(41, 12);
-            this.label7.TabIndex = 16;
-            this.label7.Text = "商品別";
-            // 
-            // cboSymbolType
-            // 
-            this.cboSymbolType.FormattingEnabled = true;
-            this.cboSymbolType.Location = new System.Drawing.Point(54, 18);
-            this.cboSymbolType.Name = "cboSymbolType";
-            this.cboSymbolType.Size = new System.Drawing.Size(121, 20);
-            this.cboSymbolType.TabIndex = 17;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(6, 49);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(29, 12);
-            this.label8.TabIndex = 18;
-            this.label8.Text = "年度";
-            // 
-            // cboYear
-            // 
-            this.cboYear.FormattingEnabled = true;
-            this.cboYear.Location = new System.Drawing.Point(54, 44);
-            this.cboYear.Name = "cboYear";
-            this.cboYear.Size = new System.Drawing.Size(121, 20);
-            this.cboYear.TabIndex = 19;
-            // 
-            // cboMonth
-            // 
-            this.cboMonth.FormattingEnabled = true;
-            this.cboMonth.Location = new System.Drawing.Point(54, 70);
-            this.cboMonth.Name = "cboMonth";
-            this.cboMonth.Size = new System.Drawing.Size(121, 20);
-            this.cboMonth.TabIndex = 21;
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(6, 75);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(29, 12);
-            this.label9.TabIndex = 20;
-            this.label9.Text = "月份";
-            // 
-            // cboPutOrCall
-            // 
-            this.cboPutOrCall.FormattingEnabled = true;
-            this.cboPutOrCall.Location = new System.Drawing.Point(230, 18);
-            this.cboPutOrCall.Name = "cboPutOrCall";
-            this.cboPutOrCall.Size = new System.Drawing.Size(121, 20);
-            this.cboPutOrCall.TabIndex = 23;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(182, 23);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(22, 12);
-            this.label10.TabIndex = 22;
-            this.label10.Text = "P/C";
             // 
             // cboStrikePrice
             // 
@@ -389,6 +323,74 @@
             this.label11.TabIndex = 24;
             this.label11.Text = "履約價";
             // 
+            // cboPutOrCall
+            // 
+            this.cboPutOrCall.FormattingEnabled = true;
+            this.cboPutOrCall.Location = new System.Drawing.Point(230, 18);
+            this.cboPutOrCall.Name = "cboPutOrCall";
+            this.cboPutOrCall.Size = new System.Drawing.Size(121, 20);
+            this.cboPutOrCall.TabIndex = 23;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(182, 23);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(22, 12);
+            this.label10.TabIndex = 22;
+            this.label10.Text = "P/C";
+            // 
+            // cboMonth
+            // 
+            this.cboMonth.FormattingEnabled = true;
+            this.cboMonth.Location = new System.Drawing.Point(54, 70);
+            this.cboMonth.Name = "cboMonth";
+            this.cboMonth.Size = new System.Drawing.Size(121, 20);
+            this.cboMonth.TabIndex = 21;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(6, 75);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(29, 12);
+            this.label9.TabIndex = 20;
+            this.label9.Text = "月份";
+            // 
+            // cboYear
+            // 
+            this.cboYear.FormattingEnabled = true;
+            this.cboYear.Location = new System.Drawing.Point(54, 44);
+            this.cboYear.Name = "cboYear";
+            this.cboYear.Size = new System.Drawing.Size(121, 20);
+            this.cboYear.TabIndex = 19;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(6, 49);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(29, 12);
+            this.label8.TabIndex = 18;
+            this.label8.Text = "年度";
+            // 
+            // cboSymbolType
+            // 
+            this.cboSymbolType.FormattingEnabled = true;
+            this.cboSymbolType.Location = new System.Drawing.Point(54, 18);
+            this.cboSymbolType.Name = "cboSymbolType";
+            this.cboSymbolType.Size = new System.Drawing.Size(121, 20);
+            this.cboSymbolType.TabIndex = 17;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(6, 21);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(41, 12);
+            this.label7.TabIndex = 16;
+            this.label7.Text = "商品別";
+            // 
             // chkDayTrade
             // 
             this.chkDayTrade.AutoSize = true;
@@ -398,6 +400,14 @@
             this.chkDayTrade.TabIndex = 18;
             this.chkDayTrade.Text = "當沖";
             this.chkDayTrade.UseVisualStyleBackColor = true;
+            // 
+            // txtSymbolCode
+            // 
+            this.txtSymbolCode.Location = new System.Drawing.Point(184, 70);
+            this.txtSymbolCode.Name = "txtSymbolCode";
+            this.txtSymbolCode.ReadOnly = true;
+            this.txtSymbolCode.Size = new System.Drawing.Size(167, 22);
+            this.txtSymbolCode.TabIndex = 26;
             // 
             // SpeedOrderForm
             // 
@@ -473,5 +483,6 @@
         private System.Windows.Forms.ComboBox cboPutOrCall;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.CheckBox chkDayTrade;
+        private System.Windows.Forms.TextBox txtSymbolCode;
     }
 }
