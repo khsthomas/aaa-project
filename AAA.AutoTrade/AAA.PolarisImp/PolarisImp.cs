@@ -68,8 +68,9 @@ namespace AAA.Polaris
         {
             try
             {
-                B2BApi.Login((int)0, Util.FillSpace(_accountInfo.AccountNo, 22), _accountInfo.Password);
-
+                string strLoginAccount = Util.FillSpace(_accountInfo.AccountType + _accountInfo.AccountNo, 22);
+                B2BApi.Login((int)0, strLoginAccount, _accountInfo.Password);
+                AAA.DesignPattern.Singleton.SystemParameter.Parameter["LoginAccounts"] = strLoginAccount;
 /*
                 string strLoginAccount = Util.FillSpace(dicInput["AccountType"] + dicInput["Account"], 22);
 
@@ -91,7 +92,18 @@ namespace AAA.Polaris
 
         public override object Logout()
         {
-            throw new NotImplementedException();
+            try
+            {
+                B2BApi.Logout(AAA.DesignPattern.Singleton.SystemParameter.Parameter["LoginAccounts"].ToString().Trim());
+                B2BApi.Close();
+
+                return "Success";
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "Fail";
         }
 
         public override void OnMessage(AAA.Meta.Trade.MessageEvent messageEvent)
