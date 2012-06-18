@@ -10,6 +10,7 @@ using AAA.Forms.Components.Util;
 using AAA.Base.Util.Reader;
 using AAA.DesignPattern.Observer;
 using AAA.TradeLanguage;
+using AAA.Schedule;
 
 namespace AAA.ProgramTrade
 {
@@ -38,7 +39,7 @@ namespace AAA.ProgramTrade
                 MessageSubject.Instance().Subject.Attach(this);
 
                 AAA.DesignPattern.Singleton.SystemParameter.Parameter["TradingRule"] = new DefaultTradingRule();
-
+                AAA.DesignPattern.Singleton.SystemParameter.Parameter["ScheduleManager"] = new ScheduleManager();
 
             }
             catch (Exception ex)

@@ -14,6 +14,11 @@ namespace AAA.ProgramTrade
         public ScheduleForm()
         {
             InitializeComponent();
+            Init();
+        }
+
+        private void Init()
+        {
         }
     }
 }

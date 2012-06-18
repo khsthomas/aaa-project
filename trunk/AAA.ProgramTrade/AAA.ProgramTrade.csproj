@@ -40,6 +40,7 @@
     <Reference Include="AAA.Meta.Quote, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="AAA.Meta.Trade, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="AAA.Quote, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="AAA.Schedule, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="AAA.SPFTrade, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="AAA.Trade, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="AAA.Trade.SignalCatcher, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
@@ -159,6 +160,9 @@
       <WrapperTool>tlbimp</WrapperTool>
       <Isolated>False</Isolated>
     </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Task\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
