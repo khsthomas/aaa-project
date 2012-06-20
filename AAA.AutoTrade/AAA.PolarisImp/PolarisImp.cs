@@ -10,12 +10,33 @@ namespace AAA.Polaris
     
     public class PolarisImp : AbstractTrade, IDisposable
     {
+        private const string GET_POSITION_REPORT = "20.103.20.11";
+        private const string TODAY_EQUITY = "20.104.20.12";
+
+        private static string[] INVENTORY_OUTPUT_PARENT_TYPE = { "int" };
+        private static int[] INVENTORY_OUTPUT_PARENT_LEN = { 4 };
+        private static string[] INVENTORY_OUTPUT_PARENT_NAME = { "RecordCount" };
+
+        private static string[] INVENTORY_OUTPUT_CHILDREN_TYPE = { "string", "string", "string", "string", "int", "long", "string", "string", "int", "int", "string", "string", "int", "int", "int", "int", "string", "string", "string", "string", "string", "string", "byte", "string", "byte", "string", "byte", "string", "byte", "string" };
+        private static int[] INVENTORY_OUTPUT_CHILDREN_LEN = { 22, 1, 20, 1, 4, 8, 6, 1, 4, 4, 6, 1, 4, 4, 4, 4, 3, 1, 1, 1, 1, 1, 1, 12, 1, 12, 1, 12, 1, 12 };
+        private static string[] INVENTORY_OUTPUT_CHILDREN_NAME = { "Account", "Kind", "Trid", "BS", "Qty", "Amount", "CommodityID1", "CallPut1", "SettlementMonth1", "StrikePrice1", "CommodityID2", "CallPut2", "SettlementMonth2", "StrikePrice2", "Fee", "Tax", "CurrencyType", "DayTradeID", "BS1", "BS2", "ProdKind1", "ProdKind2", "MarketNo1", "StockCode1", "MarketNo2", "StockCode2", "BelongMarketNo1", "BelongStockCode1", "BelongMarketNo2", "BelongStockCode2" };
+
+
+        private static string[] EQUITY_OUTPUT_PARENT_TYPE = { "short", "string", "long", "long", "long", "long", "long", "long", "long", "long", "long", "long", "long", "long", "string", "long", "long", "string", "long", "long", "long", "long", "string", "long" };
+        private static int[] EQUITY_OUTPUT_PARENT_LEN = { 2, 78, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 9, 8, 8, 9, 8, 8, 8, 8, 1, 8 };
+        private static string[] EQUITY_OUTPUT_PARENT_NAME = { "ReplyCode", "Advisory", "CurrencyRate", "AccountBalance", "InOutAmt", "VarIncome", "AccountEquity", "RealizePremium", "UnRealizePremium", "InitialMargin", "MaintainMargin", "CoverIncome", "TodayTOT", "UsableMargin", "MaintainRate", "BuyOptionValue", "SellOptionValue", "FullRate", "CoverAmt", "AddMargin", "CashUsable", "NetEquityAmt", "MarginGetType", "YNetEquitAmt" };
+
 
         private PolarisB2BAPI.PolaisB2BTrader B2BApi;
 
         private PolarisB2BAPI.IPolaisB2BTraderEvents_OnResponseEventHandler _eventHandle = null;
 
         private bool _isConnected;
+
+        public PolarisB2BAPI.PolaisB2BTrader APIInstance
+        {
+            get { return B2BApi; }
+        }
 
         public override object CA()
         {
@@ -44,12 +65,35 @@ namespace AAA.Polaris
 
         public override object GetPositionReport()
         {
-            throw new NotImplementedException();
+            try
+            {
+                B2BApi.inMsgAddLong(1);                           //填入筆數
+                B2BApi.inMsgAddStr(((string)AAA.DesignPattern.Singleton.SystemParameter.Parameter["LoginAccounts"]).Trim(), 22); //填入查詢帳號
+
+                B2BApi.inMsgSend(GET_POSITION_REPORT, (uint)0, ((string)AAA.DesignPattern.Singleton.SystemParameter.Parameter["LoginAccounts"]).Trim(), true); //將即時回報ID為 10.0.0.13的功能送出
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "Success";
         }
 
         public override object GetTodayEquity()
         {
-            throw new NotImplementedException();
+            try
+            {
+                B2BApi.inMsgAddStr(((string)AAA.DesignPattern.Singleton.SystemParameter.Parameter["LoginAccounts"]).Trim(), 22); //填入查詢帳號
+                B2BApi.inMsgAddStr("2", 1);  //填入幣別 1:基幣 2:台幣 3:美金
+
+                B2BApi.inMsgSend(TODAY_EQUITY, (uint)0, ((string)AAA.DesignPattern.Singleton.SystemParameter.Parameter["LoginAccounts"]).Trim(), true); //將即時回報ID為 10.0.0.13的功能送出
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "Success";
         }
 
         public override object InitProgram(AAA.Meta.Trade.Data.AccountInfo accountInfo)
