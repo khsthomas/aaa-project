@@ -11,6 +11,10 @@ using AAA.Base.Util.Reader;
 using AAA.DesignPattern.Observer;
 using AAA.TradeLanguage;
 using AAA.Schedule;
+using System.IO;
+using AAA.Meta.Quote.Data;
+using AAA.Meta.Quote;
+using AAA.DataSource;
 
 namespace AAA.ProgramTrade
 {
@@ -38,9 +42,9 @@ namespace AAA.ProgramTrade
 
                 MessageSubject.Instance().Subject.Attach(this);
 
-                AAA.DesignPattern.Singleton.SystemParameter.Parameter["TradingRule"] = new DefaultTradingRule();
-                AAA.DesignPattern.Singleton.SystemParameter.Parameter["ScheduleManager"] = new ScheduleManager();
-
+                AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.TRADING_RULE] = new DefaultTradingRule();
+                AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.SCHEDULE_MANAGER] = new ScheduleManager();
+                AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.DATA_SOURCE] = new DefaultDataSource();
             }
             catch (Exception ex)
             {
@@ -174,6 +178,69 @@ namespace AAA.ProgramTrade
         private void speedOrderItem_Click(object sender, EventArgs e)
         {
             MdiFormUtil.AddChild(this, new SpeedOrderForm(), false);
+        }
+
+        private void offlineDataItem_Click(object sender, EventArgs e)
+        {
+            StreamReader sr = null;
+            string strSymbolId;
+            string strDataCompression;
+            string strLine;
+            string[] strValues;
+            List<BarData> lstBarData;
+            BarData barData;
+            BarCompressionEnum eBarCompression;
+            try
+            {
+                if (ofdOpenFile.ShowDialog() != DialogResult.OK)
+                    return;
+
+                foreach (string strFilename in ofdOpenFile.FileNames)
+                {
+                    sr = new StreamReader(strFilename);
+
+                    strSymbolId = sr.ReadLine().Trim();
+                    strDataCompression = sr.ReadLine().Trim();
+                    lstBarData = new List<BarData>();
+                    eBarCompression = (BarCompressionEnum)Enum.Parse(typeof(BarCompressionEnum), strDataCompression);
+ 
+                    while ((strLine = sr.ReadLine()) != null)
+                    {
+                        strValues = strLine.Split('\t');
+                        barData = new BarData();
+                        barData.SymbolId = strSymbolId;
+                        barData.BarCompression = eBarCompression;
+                        barData.BarDateTime = DateTime.Parse(strValues[0]);
+                        barData.Open = float.Parse(strValues[1]);
+                        barData.High = float.Parse(strValues[2]);
+                        barData.Low = float.Parse(strValues[3]);
+                        barData.Close = float.Parse(strValues[4]);
+                        barData.Volume = float.Parse(strValues[5]);
+                        barData.Amount = float.Parse(strValues[6]);
+
+                        lstBarData.Add(barData);
+                    }
+
+                    sr.Close();
+
+                    ((IDataSource)AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.DATA_SOURCE]).AddSymbol(strSymbolId, lstBarData);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "," + ex.StackTrace);
+            }
+            finally
+            {
+                if (sr != null)
+                    sr.Close();
+            }
+        }
+
+        private void dataMonitorItem_Click(object sender, EventArgs e)
+        {
+            MdiFormUtil.AddChild(this, new DataMonitorForm(), false);
         }
     }
 }

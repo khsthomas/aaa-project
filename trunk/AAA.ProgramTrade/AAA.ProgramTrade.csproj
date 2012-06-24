@@ -34,6 +34,7 @@
     <Reference Include="AAA.Base.Util, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="AAA.Chart, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="AAA.Command.WCF, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="AAA.DataSource, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="AAA.DesignPattern, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="AAA.Forms.Components, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="AAA.Logger, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
@@ -79,12 +80,19 @@
     <Compile Include="AutoTradeForm.Designer.cs">
       <DependentUpon>AutoTradeForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="DataMonitorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataMonitorForm.Designer.cs">
+      <DependentUpon>DataMonitorForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ProgramTradeConstants.cs" />
     <Compile Include="Quote\PolarisHistoryQuote.cs" />
     <Compile Include="ScheduleForm.cs">
       <SubType>Form</SubType>
@@ -99,6 +107,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AutoTradeForm.resx">
       <DependentUpon>AutoTradeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataMonitorForm.resx">
+      <DependentUpon>DataMonitorForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -162,6 +173,11 @@
       <WrapperTool>tlbimp</WrapperTool>
       <Isolated>False</Isolated>
     </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Data\TFHTX-TP-1min.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Task\" />
