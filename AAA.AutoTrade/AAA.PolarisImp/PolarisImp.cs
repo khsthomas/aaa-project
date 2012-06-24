@@ -13,7 +13,7 @@ namespace AAA.Polaris
         private const string GET_POSITION_REPORT = "20.103.20.11";
         private const string TODAY_EQUITY = "20.104.20.12";
 
-        private const string INVENTORY_RETUTN_CODE = 
+        private const string INVENTORY_RETUTN_CODE = "";
         private static string[] INVENTORY_OUTPUT_PARENT_TYPE = { "int" };
         private static int[] INVENTORY_OUTPUT_PARENT_LEN = { 4 };
         private static string[] INVENTORY_OUTPUT_PARENT_NAME = { "RecordCount" };

@@ -31,10 +31,13 @@
             this.components = new System.ComponentModel.Container();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.loginItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dataItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.offlineDataItem = new System.Windows.Forms.ToolStripMenuItem();
             this.systemMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.catcherItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scheduleItem = new System.Windows.Forms.ToolStripMenuItem();
             this.autoTradeItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.speedOrderItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -50,7 +53,8 @@
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.loginStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.speedOrderItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ofdOpenFile = new System.Windows.Forms.OpenFileDialog();
+            this.dataMonitorItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.SuspendLayout();
@@ -59,6 +63,7 @@
             // 
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.loginItem,
+            this.dataItem,
             this.systemMenu,
             this.viewMenu,
             this.windowsMenu});
@@ -75,6 +80,22 @@
             this.loginItem.Size = new System.Drawing.Size(77, 20);
             this.loginItem.Text = "登入(&Login)";
             this.loginItem.Click += new System.EventHandler(this.loginItem_Click);
+            // 
+            // dataItem
+            // 
+            this.dataItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.offlineDataItem,
+            this.dataMonitorItem});
+            this.dataItem.Name = "dataItem";
+            this.dataItem.Size = new System.Drawing.Size(70, 20);
+            this.dataItem.Text = "資料(&Data)";
+            // 
+            // offlineDataItem
+            // 
+            this.offlineDataItem.Name = "offlineDataItem";
+            this.offlineDataItem.Size = new System.Drawing.Size(210, 22);
+            this.offlineDataItem.Text = "讀入離線資料(Load &Offline)";
+            this.offlineDataItem.Click += new System.EventHandler(this.offlineDataItem_Click);
             // 
             // systemMenu
             // 
@@ -93,32 +114,39 @@
             // catcherItem
             // 
             this.catcherItem.Name = "catcherItem";
-            this.catcherItem.Size = new System.Drawing.Size(152, 22);
+            this.catcherItem.Size = new System.Drawing.Size(142, 22);
             this.catcherItem.Text = "訊號讀取器";
             this.catcherItem.Click += new System.EventHandler(this.catcherItem_Click);
             // 
             // scheduleItem
             // 
             this.scheduleItem.Name = "scheduleItem";
-            this.scheduleItem.Size = new System.Drawing.Size(152, 22);
+            this.scheduleItem.Size = new System.Drawing.Size(142, 22);
             this.scheduleItem.Text = "工作排程";
             // 
             // autoTradeItem
             // 
             this.autoTradeItem.Name = "autoTradeItem";
-            this.autoTradeItem.Size = new System.Drawing.Size(152, 22);
+            this.autoTradeItem.Size = new System.Drawing.Size(142, 22);
             this.autoTradeItem.Text = "API下單";
             this.autoTradeItem.Click += new System.EventHandler(this.autoTradeItem_Click);
+            // 
+            // speedOrderItem
+            // 
+            this.speedOrderItem.Name = "speedOrderItem";
+            this.speedOrderItem.Size = new System.Drawing.Size(142, 22);
+            this.speedOrderItem.Text = "智慧閃電下單";
+            this.speedOrderItem.Click += new System.EventHandler(this.speedOrderItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(139, 6);
             // 
             // exitItem
             // 
             this.exitItem.Name = "exitItem";
-            this.exitItem.Size = new System.Drawing.Size(152, 22);
+            this.exitItem.Size = new System.Drawing.Size(142, 22);
             this.exitItem.Text = "E&xit";
             this.exitItem.Click += new System.EventHandler(this.ExitToolsStripMenuItem_Click);
             // 
@@ -217,12 +245,16 @@
             this.loginStatus.Size = new System.Drawing.Size(41, 17);
             this.loginStatus.Text = "未連線";
             // 
-            // speedOrderItem
+            // ofdOpenFile
             // 
-            this.speedOrderItem.Name = "speedOrderItem";
-            this.speedOrderItem.Size = new System.Drawing.Size(152, 22);
-            this.speedOrderItem.Text = "智慧閃電下單";
-            this.speedOrderItem.Click += new System.EventHandler(this.speedOrderItem_Click);
+            this.ofdOpenFile.FileName = "openFileDialog1";
+            // 
+            // dataMonitorItem
+            // 
+            this.dataMonitorItem.Name = "dataMonitorItem";
+            this.dataMonitorItem.Size = new System.Drawing.Size(210, 22);
+            this.dataMonitorItem.Text = "資料監控";
+            this.dataMonitorItem.Click += new System.EventHandler(this.dataMonitorItem_Click);
             // 
             // MainForm
             // 
@@ -268,6 +300,10 @@
         private System.Windows.Forms.ToolStripStatusLabel loginStatus;
         private System.Windows.Forms.ToolStripMenuItem loginItem;
         private System.Windows.Forms.ToolStripMenuItem speedOrderItem;
+        private System.Windows.Forms.ToolStripMenuItem dataItem;
+        private System.Windows.Forms.ToolStripMenuItem offlineDataItem;
+        private System.Windows.Forms.OpenFileDialog ofdOpenFile;
+        private System.Windows.Forms.ToolStripMenuItem dataMonitorItem;
     }
 }
 
