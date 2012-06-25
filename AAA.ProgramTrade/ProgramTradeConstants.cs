@@ -10,5 +10,6 @@ namespace AAA.ProgramTrade
         public const string DATA_SOURCE = "DataSource";
         public const string TRADING_RULE = "TradingRule";
         public const string SCHEDULE_MANAGER = "ScheduleManager";
+        public const string CURRENT_TIME = "CurrentTime";
     }
 }
