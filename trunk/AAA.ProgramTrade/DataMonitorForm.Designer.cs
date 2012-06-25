@@ -31,6 +31,10 @@
             this.tblSymbolList = new System.Windows.Forms.DataGridView();
             this.tblDataDetail = new System.Windows.Forms.DataGridView();
             this.btnRefresh = new System.Windows.Forms.Button();
+            this.txtCurrentTime = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.btnPrevious = new System.Windows.Forms.Button();
+            this.btnNext = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.tblSymbolList)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tblDataDetail)).BeginInit();
             this.SuspendLayout();
@@ -47,6 +51,7 @@
             this.tblSymbolList.RowTemplate.Height = 24;
             this.tblSymbolList.Size = new System.Drawing.Size(311, 392);
             this.tblSymbolList.TabIndex = 0;
+            this.tblSymbolList.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.tblSymbolList_CellDoubleClick);
             // 
             // tblDataDetail
             // 
@@ -72,11 +77,50 @@
             this.btnRefresh.UseVisualStyleBackColor = true;
             this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
+            // txtCurrentTime
+            // 
+            this.txtCurrentTime.Location = new System.Drawing.Point(101, 405);
+            this.txtCurrentTime.Name = "txtCurrentTime";
+            this.txtCurrentTime.ReadOnly = true;
+            this.txtCurrentTime.Size = new System.Drawing.Size(144, 22);
+            this.txtCurrentTime.TabIndex = 3;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(13, 410);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(53, 12);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "目前時間";
+            // 
+            // btnPrevious
+            // 
+            this.btnPrevious.Location = new System.Drawing.Point(72, 405);
+            this.btnPrevious.Name = "btnPrevious";
+            this.btnPrevious.Size = new System.Drawing.Size(23, 23);
+            this.btnPrevious.TabIndex = 5;
+            this.btnPrevious.Text = "<";
+            this.btnPrevious.UseVisualStyleBackColor = true;
+            // 
+            // btnNext
+            // 
+            this.btnNext.Location = new System.Drawing.Point(251, 403);
+            this.btnNext.Name = "btnNext";
+            this.btnNext.Size = new System.Drawing.Size(23, 23);
+            this.btnNext.TabIndex = 6;
+            this.btnNext.Text = ">";
+            this.btnNext.UseVisualStyleBackColor = true;
+            // 
             // DataMonitorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(875, 435);
+            this.Controls.Add(this.btnNext);
+            this.Controls.Add(this.btnPrevious);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.txtCurrentTime);
             this.Controls.Add(this.btnRefresh);
             this.Controls.Add(this.tblDataDetail);
             this.Controls.Add(this.tblSymbolList);
@@ -85,6 +129,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.tblSymbolList)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tblDataDetail)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -93,5 +138,9 @@
         private System.Windows.Forms.DataGridView tblSymbolList;
         private System.Windows.Forms.DataGridView tblDataDetail;
         private System.Windows.Forms.Button btnRefresh;
+        private System.Windows.Forms.TextBox txtCurrentTime;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button btnPrevious;
+        private System.Windows.Forms.Button btnNext;
     }
 }
