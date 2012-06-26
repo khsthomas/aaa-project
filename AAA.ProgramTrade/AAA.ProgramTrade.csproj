@@ -38,10 +38,12 @@
     <Reference Include="AAA.DesignPattern, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="AAA.Forms.Components, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="AAA.Logger, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="AAA.Meta.Chart, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86" />
     <Reference Include="AAA.Meta.Command, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="AAA.Meta.Quote, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="AAA.Meta.Trade, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="AAA.Quote, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="AAA.ResultSet, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="AAA.Schedule, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="AAA.SPFTrade, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="AAA.TeeChart, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
@@ -94,6 +96,7 @@
     <Compile Include="DataMonitorForm.Designer.cs">
       <DependentUpon>DataMonitorForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="DataSourceResultSet.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -187,6 +190,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Data\TFHTX-TP-1min.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\TFHTX-TP-30min.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

@@ -33,6 +33,7 @@
             this.loginItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataItem = new System.Windows.Forms.ToolStripMenuItem();
             this.offlineDataItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dataMonitorItem = new System.Windows.Forms.ToolStripMenuItem();
             this.systemMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.catcherItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scheduleItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -54,7 +55,7 @@
             this.loginStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.ofdOpenFile = new System.Windows.Forms.OpenFileDialog();
-            this.dataMonitorItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.chartItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.SuspendLayout();
@@ -63,8 +64,8 @@
             // 
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.loginItem,
-            this.dataItem,
             this.systemMenu,
+            this.dataItem,
             this.viewMenu,
             this.windowsMenu});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
@@ -93,9 +94,16 @@
             // offlineDataItem
             // 
             this.offlineDataItem.Name = "offlineDataItem";
-            this.offlineDataItem.Size = new System.Drawing.Size(210, 22);
-            this.offlineDataItem.Text = "讀入離線資料(Load &Offline)";
+            this.offlineDataItem.Size = new System.Drawing.Size(152, 22);
+            this.offlineDataItem.Text = "讀入離線資料";
             this.offlineDataItem.Click += new System.EventHandler(this.offlineDataItem_Click);
+            // 
+            // dataMonitorItem
+            // 
+            this.dataMonitorItem.Name = "dataMonitorItem";
+            this.dataMonitorItem.Size = new System.Drawing.Size(152, 22);
+            this.dataMonitorItem.Text = "資料監控";
+            this.dataMonitorItem.Click += new System.EventHandler(this.dataMonitorItem_Click);
             // 
             // systemMenu
             // 
@@ -104,6 +112,7 @@
             this.scheduleItem,
             this.autoTradeItem,
             this.speedOrderItem,
+            this.chartItem,
             this.toolStripSeparator1,
             this.exitItem});
             this.systemMenu.ImageTransparentColor = System.Drawing.SystemColors.ActiveBorder;
@@ -114,39 +123,39 @@
             // catcherItem
             // 
             this.catcherItem.Name = "catcherItem";
-            this.catcherItem.Size = new System.Drawing.Size(142, 22);
+            this.catcherItem.Size = new System.Drawing.Size(152, 22);
             this.catcherItem.Text = "訊號讀取器";
             this.catcherItem.Click += new System.EventHandler(this.catcherItem_Click);
             // 
             // scheduleItem
             // 
             this.scheduleItem.Name = "scheduleItem";
-            this.scheduleItem.Size = new System.Drawing.Size(142, 22);
+            this.scheduleItem.Size = new System.Drawing.Size(152, 22);
             this.scheduleItem.Text = "工作排程";
             // 
             // autoTradeItem
             // 
             this.autoTradeItem.Name = "autoTradeItem";
-            this.autoTradeItem.Size = new System.Drawing.Size(142, 22);
+            this.autoTradeItem.Size = new System.Drawing.Size(152, 22);
             this.autoTradeItem.Text = "API下單";
             this.autoTradeItem.Click += new System.EventHandler(this.autoTradeItem_Click);
             // 
             // speedOrderItem
             // 
             this.speedOrderItem.Name = "speedOrderItem";
-            this.speedOrderItem.Size = new System.Drawing.Size(142, 22);
+            this.speedOrderItem.Size = new System.Drawing.Size(152, 22);
             this.speedOrderItem.Text = "智慧閃電下單";
             this.speedOrderItem.Click += new System.EventHandler(this.speedOrderItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(139, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
             // 
             // exitItem
             // 
             this.exitItem.Name = "exitItem";
-            this.exitItem.Size = new System.Drawing.Size(142, 22);
+            this.exitItem.Size = new System.Drawing.Size(152, 22);
             this.exitItem.Text = "E&xit";
             this.exitItem.Click += new System.EventHandler(this.ExitToolsStripMenuItem_Click);
             // 
@@ -164,7 +173,7 @@
             this.statusBarToolStripMenuItem.CheckOnClick = true;
             this.statusBarToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.statusBarToolStripMenuItem.Name = "statusBarToolStripMenuItem";
-            this.statusBarToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
+            this.statusBarToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.statusBarToolStripMenuItem.Text = "&Status Bar";
             // 
             // windowsMenu
@@ -183,42 +192,42 @@
             // newWindowToolStripMenuItem
             // 
             this.newWindowToolStripMenuItem.Name = "newWindowToolStripMenuItem";
-            this.newWindowToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
+            this.newWindowToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.newWindowToolStripMenuItem.Text = "&New Window";
             this.newWindowToolStripMenuItem.Click += new System.EventHandler(this.ShowNewForm);
             // 
             // cascadeToolStripMenuItem
             // 
             this.cascadeToolStripMenuItem.Name = "cascadeToolStripMenuItem";
-            this.cascadeToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
+            this.cascadeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.cascadeToolStripMenuItem.Text = "&Cascade";
             this.cascadeToolStripMenuItem.Click += new System.EventHandler(this.CascadeToolStripMenuItem_Click);
             // 
             // tileVerticalToolStripMenuItem
             // 
             this.tileVerticalToolStripMenuItem.Name = "tileVerticalToolStripMenuItem";
-            this.tileVerticalToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
+            this.tileVerticalToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.tileVerticalToolStripMenuItem.Text = "Tile &Vertical";
             this.tileVerticalToolStripMenuItem.Click += new System.EventHandler(this.TileVerticalToolStripMenuItem_Click);
             // 
             // tileHorizontalToolStripMenuItem
             // 
             this.tileHorizontalToolStripMenuItem.Name = "tileHorizontalToolStripMenuItem";
-            this.tileHorizontalToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
+            this.tileHorizontalToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.tileHorizontalToolStripMenuItem.Text = "Tile &Horizontal";
             this.tileHorizontalToolStripMenuItem.Click += new System.EventHandler(this.TileHorizontalToolStripMenuItem_Click);
             // 
             // closeAllToolStripMenuItem
             // 
             this.closeAllToolStripMenuItem.Name = "closeAllToolStripMenuItem";
-            this.closeAllToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
+            this.closeAllToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.closeAllToolStripMenuItem.Text = "C&lose All";
             this.closeAllToolStripMenuItem.Click += new System.EventHandler(this.CloseAllToolStripMenuItem_Click);
             // 
             // arrangeIconsToolStripMenuItem
             // 
             this.arrangeIconsToolStripMenuItem.Name = "arrangeIconsToolStripMenuItem";
-            this.arrangeIconsToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
+            this.arrangeIconsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.arrangeIconsToolStripMenuItem.Text = "&Arrange Icons";
             this.arrangeIconsToolStripMenuItem.Click += new System.EventHandler(this.ArrangeIconsToolStripMenuItem_Click);
             // 
@@ -249,12 +258,12 @@
             // 
             this.ofdOpenFile.FileName = "openFileDialog1";
             // 
-            // dataMonitorItem
+            // chartItem
             // 
-            this.dataMonitorItem.Name = "dataMonitorItem";
-            this.dataMonitorItem.Size = new System.Drawing.Size(210, 22);
-            this.dataMonitorItem.Text = "資料監控";
-            this.dataMonitorItem.Click += new System.EventHandler(this.dataMonitorItem_Click);
+            this.chartItem.Name = "chartItem";
+            this.chartItem.Size = new System.Drawing.Size(152, 22);
+            this.chartItem.Text = "走勢圖";
+            this.chartItem.Click += new System.EventHandler(this.chartItem_Click);
             // 
             // MainForm
             // 
@@ -304,6 +313,7 @@
         private System.Windows.Forms.ToolStripMenuItem offlineDataItem;
         private System.Windows.Forms.OpenFileDialog ofdOpenFile;
         private System.Windows.Forms.ToolStripMenuItem dataMonitorItem;
+        private System.Windows.Forms.ToolStripMenuItem chartItem;
     }
 }
 
