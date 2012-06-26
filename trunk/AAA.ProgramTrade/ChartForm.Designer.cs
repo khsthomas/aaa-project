@@ -30,7 +30,7 @@
         {
             this.label1 = new System.Windows.Forms.Label();
             this.cboSymbolId = new System.Windows.Forms.ComboBox();
-            this.teeChartPanel1 = new AAA.TeeChart.TeeChartPanel();
+            this.chartPane = new AAA.TeeChart.TeeChartPanel();
             this.SuspendLayout();
             // 
             // label1
@@ -49,28 +49,29 @@
             this.cboSymbolId.Name = "cboSymbolId";
             this.cboSymbolId.Size = new System.Drawing.Size(121, 20);
             this.cboSymbolId.TabIndex = 1;
+            this.cboSymbolId.SelectedIndexChanged += new System.EventHandler(this.cboSymbolId_SelectedIndexChanged);
             // 
-            // teeChartPanel1
+            // chartPane
             // 
-            this.teeChartPanel1.BaseSeriesName = "";
-            this.teeChartPanel1.DateTimeFormat = null;
-            this.teeChartPanel1.IsShowInfoTable = false;
-            this.teeChartPanel1.IsShowLightPane = false;
-            this.teeChartPanel1.IsShowScale = false;
-            this.teeChartPanel1.Location = new System.Drawing.Point(3, 32);
-            this.teeChartPanel1.Name = "teeChartPanel1";
-            this.teeChartPanel1.PointPerPage = 0;
-            this.teeChartPanel1.ShowHorizontalCursor = false;
-            this.teeChartPanel1.ShowVerticalCursor = false;
-            this.teeChartPanel1.Size = new System.Drawing.Size(881, 571);
-            this.teeChartPanel1.TabIndex = 2;
+            this.chartPane.BaseSeriesName = "";
+            this.chartPane.DateTimeFormat = null;
+            this.chartPane.IsShowInfoTable = false;
+            this.chartPane.IsShowLightPane = false;
+            this.chartPane.IsShowScale = false;
+            this.chartPane.Location = new System.Drawing.Point(3, 32);
+            this.chartPane.Name = "chartPane";
+            this.chartPane.PointPerPage = 0;
+            this.chartPane.ShowHorizontalCursor = false;
+            this.chartPane.ShowVerticalCursor = false;
+            this.chartPane.Size = new System.Drawing.Size(881, 571);
+            this.chartPane.TabIndex = 2;
             // 
             // ChartForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(896, 587);
-            this.Controls.Add(this.teeChartPanel1);
+            this.Controls.Add(this.chartPane);
             this.Controls.Add(this.cboSymbolId);
             this.Controls.Add(this.label1);
             this.Name = "ChartForm";
@@ -84,6 +85,6 @@
 
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox cboSymbolId;
-        private AAA.TeeChart.TeeChartPanel teeChartPanel1;
+        private AAA.TeeChart.TeeChartPanel chartPane;
     }
 }

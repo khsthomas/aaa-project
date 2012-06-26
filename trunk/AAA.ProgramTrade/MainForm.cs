@@ -244,5 +244,10 @@ namespace AAA.ProgramTrade
         {
             MdiFormUtil.AddChild(this, new DataMonitorForm(), false);
         }
+
+        private void chartItem_Click(object sender, EventArgs e)
+        {
+            MdiFormUtil.AddChild(this, new ChartForm(), false);
+        }
     }
 }
