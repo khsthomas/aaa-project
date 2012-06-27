@@ -32,19 +32,15 @@ namespace AAA.ProgramTrade
             {
                 dataSource = (IDataSource)AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.DATA_SOURCE];
 
-                foreach (string strSymbolId in dataSource.GetSymbolList())
-                    cboSymbolId.Items.Add(strSymbolId);
-
-                if (cboSymbolId.Items.Count > 0)
-                    cboSymbolId.SelectedIndex = 0;
-
                 chartPane.PointPerPage = 440;
                 chartPane.ShowVerticalCursor = true;
+                chartPane.IsShowScale = true;
+                chartPane.IsShowInfoTable = true;
                 chartPane.AddChart("KBar");
                 chartPane.AddChart("Volume");
 
 
-                chartPane.AdddSeries("KBar", "KBar", ScaleTypeEnum.Screen, DataFieldTypeEnum.BarData, ChartStyleEnum.CandleStick);
+                chartPane.AdddSeries("KBar", "KBar", ScaleTypeEnum.Screen, DataFieldTypeEnum.BarData, ChartStyleEnum.CandleStick);                
                 lstFieldName = new List<string>();
                 lstFieldName.Add("ExDate");
                 lstFieldName.Add("Open");
@@ -61,6 +57,12 @@ namespace AAA.ProgramTrade
 
                 chartPane.AddActiveSeries("KBar", "KBar");
                 chartPane.AddActiveSeries("Volume", "Volume");
+
+                foreach (string strSymbolId in dataSource.GetSymbolList())
+                    cboSymbolId.Items.Add(strSymbolId);
+
+                if (cboSymbolId.Items.Count > 0)
+                    cboSymbolId.SelectedIndex = 0;
             }
             catch (Exception ex)
             {
@@ -85,8 +87,23 @@ namespace AAA.ProgramTrade
                     return;
                 }
 
-                chartPane.ProcessResultSet("KBar", "", resultSet);
+                chartPane.ProcessResultSet("KBar", "KBar", resultSet);
+                chartPane.ProcessResultSet("Volume", "Volume", resultSet);
 
+                chartPane.Draw();
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "," + ex.StackTrace);
+            }
+        }
+
+        private void btnPrint_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                chartPane.PrintInOnSheet();
             }
             catch (Exception ex)
             {
