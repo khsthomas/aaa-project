@@ -26,12 +26,12 @@ namespace AAA.ProgramTrade
 
                 foreach (BarData barData in _lstBarData)
                     AddRow(new object[] { barData.BarDateTime.ToString("yyyy/MM/dd HH:mm:ss"),
-                                          barData.Open,
-                                          barData.High,
-                                          barData.Low,
-                                          barData.Close,
-                                          barData.Volume,
-                                          barData.Amount});
+                                          barData.Open.ToString(),
+                                          barData.High.ToString(),
+                                          barData.Low.ToString(),
+                                          barData.Close.ToString(),
+                                          barData.Volume.ToString(),
+                                          barData.Amount.ToString()});
                 return true;
             }
             catch (Exception ex)

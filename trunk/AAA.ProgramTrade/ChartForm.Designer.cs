@@ -31,6 +31,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.cboSymbolId = new System.Windows.Forms.ComboBox();
             this.chartPane = new AAA.TeeChart.TeeChartPanel();
+            this.btnPrint = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -53,6 +54,9 @@
             // 
             // chartPane
             // 
+            this.chartPane.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.chartPane.BaseSeriesName = "";
             this.chartPane.DateTimeFormat = null;
             this.chartPane.IsShowInfoTable = false;
@@ -63,14 +67,25 @@
             this.chartPane.PointPerPage = 0;
             this.chartPane.ShowHorizontalCursor = false;
             this.chartPane.ShowVerticalCursor = false;
-            this.chartPane.Size = new System.Drawing.Size(881, 571);
+            this.chartPane.Size = new System.Drawing.Size(881, 543);
             this.chartPane.TabIndex = 2;
+            // 
+            // btnPrint
+            // 
+            this.btnPrint.Location = new System.Drawing.Point(198, 3);
+            this.btnPrint.Name = "btnPrint";
+            this.btnPrint.Size = new System.Drawing.Size(75, 23);
+            this.btnPrint.TabIndex = 3;
+            this.btnPrint.Text = "列印";
+            this.btnPrint.UseVisualStyleBackColor = true;
+            this.btnPrint.Click += new System.EventHandler(this.btnPrint_Click);
             // 
             // ChartForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(896, 587);
+            this.Controls.Add(this.btnPrint);
             this.Controls.Add(this.chartPane);
             this.Controls.Add(this.cboSymbolId);
             this.Controls.Add(this.label1);
@@ -86,5 +101,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox cboSymbolId;
         private AAA.TeeChart.TeeChartPanel chartPane;
+        private System.Windows.Forms.Button btnPrint;
     }
 }
