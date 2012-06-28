@@ -32,7 +32,7 @@ namespace AAA.ProgramTrade
             {
                 dataSource = (IDataSource)AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.DATA_SOURCE];
 
-                chartPane.PointPerPage = 440;
+                chartPane.PointPerPage = int.Parse(txtKBarCount.Text);
                 chartPane.ShowVerticalCursor = true;
                 chartPane.IsShowScale = true;
                 chartPane.IsShowInfoTable = true;
@@ -57,6 +57,9 @@ namespace AAA.ProgramTrade
 
                 chartPane.AddActiveSeries("KBar", "KBar");
                 chartPane.AddActiveSeries("Volume", "Volume");
+
+                chartPane.SetChartSize("KBar", 3);
+                chartPane.SetChartSize("Volume", 1);
 
                 foreach (string strSymbolId in dataSource.GetSymbolList())
                     cboSymbolId.Items.Add(strSymbolId);
@@ -89,7 +92,7 @@ namespace AAA.ProgramTrade
 
                 chartPane.ProcessResultSet("KBar", "KBar", resultSet);
                 chartPane.ProcessResultSet("Volume", "Volume", resultSet);
-
+                chartPane.PointPerPage = int.Parse(txtKBarCount.Text);
                 chartPane.Draw();
 
             }
@@ -104,6 +107,21 @@ namespace AAA.ProgramTrade
             try
             {
                 chartPane.PrintInOnSheet();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "," + ex.StackTrace);
+            }
+        }
+
+        private void txtKBarCount_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode != Keys.Return)
+                return;
+
+            try
+            {
+                chartPane.PointPerPage = int.Parse(txtKBarCount.Text);
             }
             catch (Exception ex)
             {
