@@ -42,11 +42,17 @@ namespace AAA.ProgramTrade
 
                 MessageSubject.Instance().Subject.Attach(this);
 
+                CurrentTime currentTime = new CurrentTime();
+                IDataSource dataSource = new DefaultDataSource();
+
                 AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.TRADING_RULE] = new DefaultTradingRule();
                 AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.SCHEDULE_MANAGER] = new ScheduleManager();
-                AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.DATA_SOURCE] = new DefaultDataSource();
-                AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.CURRENT_TIME] = new CurrentTime();
-                ((CurrentTime)AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.CURRENT_TIME]).DataSource = ((IDataSource)AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.DATA_SOURCE]);
+                AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.DATA_SOURCE] = dataSource;
+                AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.CURRENT_TIME] = currentTime;
+                currentTime.DataSource = dataSource;
+                dataSource.Attach(currentTime);
+                currentTime.TimeInterval = 60;
+                
             }
             catch (Exception ex)
             {

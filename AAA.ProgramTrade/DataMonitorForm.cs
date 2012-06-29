@@ -9,11 +9,15 @@ using System.Windows.Forms;
 using AAA.DataSource;
 using AAA.Meta.Quote.Data;
 using AAA.Forms.Components.Util;
+using AAA.TradeLanguage;
 
 namespace AAA.ProgramTrade
 {
     public partial class DataMonitorForm : Form
     {
+        private const int PREVIOUS = -1;
+        private const int NEXT = 1;
+
         public DataMonitorForm()
         {
             InitializeComponent();
@@ -60,17 +64,49 @@ namespace AAA.ProgramTrade
         {
             IDataSource dataSource;
             List<BarData> lstBarData;
+            CurrentTime currentTime;
+            int iCurrentIndex;
+            int iRowIndex = -1;
 
             try
             {
                 dataSource = (IDataSource)AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.DATA_SOURCE];
-
+                currentTime = (CurrentTime)AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.CURRENT_TIME];
+                if (currentTime == null)
+                    return;
                 foreach (string strSymbolId in dataSource.GetSymbolList())
                 {
                     lstBarData = dataSource.GetBar(strSymbolId);
-                    DataGridViewUtil.InsertRow(tblSymbolList, new object[] {strSymbolId, 
-                                                                            lstBarData[0].BarDateTime.ToString("yyyy/MM/dd HH:mm:ss"), 
-                                                                            lstBarData[lstBarData.Count - 1].BarDateTime.ToString("yyyy/MM/dd HH:mm:ss") });
+
+                    iCurrentIndex = currentTime.GetDataIndex(strSymbolId);
+                    if (iCurrentIndex == int.MinValue)
+                        continue;
+
+                    iRowIndex = DataGridViewUtil.FindRowIndex(tblSymbolList, new string[] { "SymbolId" }, new object[] {strSymbolId });
+                    if(iRowIndex < 0)
+                        DataGridViewUtil.InsertRow(tblSymbolList, new object[] {strSymbolId, 
+                                                                                lstBarData[0].BarDateTime.ToString("yyyy/MM/dd HH:mm:ss"), 
+                                                                                lstBarData[lstBarData.Count - 1].BarDateTime.ToString("yyyy/MM/dd HH:mm:ss"),
+                                                                                lstBarData[iCurrentIndex].BarDateTime.ToString("yyyy/MM/dd HH:mm:ss"),
+                                                                                lstBarData[iCurrentIndex].Open.ToString(),
+                                                                                lstBarData[iCurrentIndex].High.ToString(),
+                                                                                lstBarData[iCurrentIndex].Low.ToString(),
+                                                                                lstBarData[iCurrentIndex].Close.ToString(),
+                                                                                lstBarData[iCurrentIndex].Volume.ToString(),
+                                                                                lstBarData[iCurrentIndex].Amount.ToString()});
+                    else
+                        DataGridViewUtil.UpdateRow(tblSymbolList, new string[] {"SymbolId"},
+                                                                  new object[] {strSymbolId, 
+                                                                                lstBarData[0].BarDateTime.ToString("yyyy/MM/dd HH:mm:ss"), 
+                                                                                lstBarData[lstBarData.Count - 1].BarDateTime.ToString("yyyy/MM/dd HH:mm:ss"),
+                                                                                lstBarData[iCurrentIndex].BarDateTime.ToString("yyyy/MM/dd HH:mm:ss"),
+                                                                                lstBarData[iCurrentIndex].Open.ToString(),
+                                                                                lstBarData[iCurrentIndex].High.ToString(),
+                                                                                lstBarData[iCurrentIndex].Low.ToString(),
+                                                                                lstBarData[iCurrentIndex].Close.ToString(),
+                                                                                lstBarData[iCurrentIndex].Volume.ToString(),
+                                                                                lstBarData[iCurrentIndex].Amount.ToString()});
+                    
                 }
             }
             catch (Exception ex)
@@ -84,7 +120,7 @@ namespace AAA.ProgramTrade
             IDataSource dataSource;
             List<BarData> lstBarData;
             string strSymbolId;
-
+            
             try
             {               
                 strSymbolId = tblSymbolList.Rows[e.RowIndex].Cells["SymbolId"].Value.ToString();
@@ -92,7 +128,7 @@ namespace AAA.ProgramTrade
                 lstBarData = dataSource.GetBar(strSymbolId);
 
                 foreach (BarData barData in lstBarData)
-                {
+                {                    
                     DataGridViewUtil.InsertRow(tblDataDetail, new object[] { barData.BarDateTime.ToString("yyyy/MM/dd HH:mm:ss"),
                                                                              barData.Open.ToString(),
                                                                              barData.High.ToString(),
@@ -101,6 +137,46 @@ namespace AAA.ProgramTrade
                                                                              barData.Volume.ToString(),
                                                                              barData.Amount.ToString()});
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "," + ex.StackTrace);
+            }
+        }
+
+        private void Move(int iDirection)
+        {
+            CurrentTime currentTime = (CurrentTime)AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.CURRENT_TIME];
+            switch (iDirection)
+            {
+                case PREVIOUS:
+                    currentTime.MovePrevious();
+                    break;
+                case NEXT:
+                    currentTime.MoveNext();
+                    break;
+            }
+            txtCurrentTime.Text = currentTime.CurrentDateTime.ToString("yyyy/MM/dd HH:mm:ss");
+            RefreshData();
+        }
+
+        private void btnNext_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Move(NEXT);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "," + ex.StackTrace);
+            }
+        }
+
+        private void btnPrevious_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Move(PREVIOUS);
             }
             catch (Exception ex)
             {
