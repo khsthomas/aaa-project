@@ -78,7 +78,7 @@ namespace AAA.ProgramTrade
         {
             IDataSource dataSource;
             IResultSet resultSet;
-            List<BarData> lstBarData;
+            List<BarRecord> lstBarData;
             try
             {
                 dataSource = (IDataSource)AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.DATA_SOURCE];

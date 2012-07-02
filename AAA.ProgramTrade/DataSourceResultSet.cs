@@ -9,22 +9,25 @@ namespace AAA.ProgramTrade
 {
     public class DataSourceResultSet : AbstractResultSet
     {
-        private List<BarData> _lstBarData;
+        private List<BarRecord> _lstBarData;
         private static string[] COLUMN_NAMES = {"ExDate", "Open", "High", "Low", "Close", "Volume", "Amount" };
 
-        public DataSourceResultSet(List<BarData> lstBarData)
+        public DataSourceResultSet(List<BarRecord> lstBarData)
         {
             _lstBarData = lstBarData;
         }
 
         public override bool Load()
         {
+            BarData barData;
             try
             {
                 foreach (string strColumnName in COLUMN_NAMES)
                     AddColumn(strColumnName);
 
-                foreach (BarData barData in _lstBarData)
+                foreach (BarRecord barRecord in _lstBarData)
+                {
+                    barData = new BarData(barRecord);
                     AddRow(new object[] { barData.BarDateTime.ToString("yyyy/MM/dd HH:mm:ss"),
                                           barData.Open.ToString(),
                                           barData.High.ToString(),
@@ -32,6 +35,7 @@ namespace AAA.ProgramTrade
                                           barData.Close.ToString(),
                                           barData.Volume.ToString(),
                                           barData.Amount.ToString()});
+                }
                 return true;
             }
             catch (Exception ex)
