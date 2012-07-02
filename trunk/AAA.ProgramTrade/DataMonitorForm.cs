@@ -67,6 +67,7 @@ namespace AAA.ProgramTrade
             CurrentTime currentTime;
             int iCurrentIndex;
             int iRowIndex = -1;
+            IDataAccess dataAccess = new DefaultDataAccess();
 
             try
             {
@@ -74,8 +75,39 @@ namespace AAA.ProgramTrade
                 currentTime = (CurrentTime)AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.CURRENT_TIME];
                 if (currentTime == null)
                     return;
+                dataAccess.CurrentTime = currentTime;
+                dataAccess.DataSource = dataSource;
+
                 foreach (string strSymbolId in dataSource.GetSymbolList())
                 {
+                    
+
+                    iRowIndex = DataGridViewUtil.FindRowIndex(tblSymbolList, new string[] { "SymbolId" }, new object[] {strSymbolId });
+                    if(iRowIndex < 0)
+                        DataGridViewUtil.InsertRow(tblSymbolList, new object[] {strSymbolId, 
+                                                                                dataSource.DataStartTime(strSymbolId).ToString("yyyy/MM/dd HH:mm:ss"), 
+                                                                                dataSource.DataEndTime(strSymbolId).ToString("yyyy/MM/dd HH:mm:ss"),
+                                                                                dataAccess.Time(strSymbolId, 0).ToString("yyyy/MM/dd HH:mm:ss"),
+                                                                                dataAccess.Open(strSymbolId, 0).ToString(),
+                                                                                dataAccess.High(strSymbolId, 0).ToString(),
+                                                                                dataAccess.Low(strSymbolId, 0).ToString(),
+                                                                                dataAccess.Close(strSymbolId, 0).ToString(),
+                                                                                dataAccess.Volume(strSymbolId, 0).ToString(),
+                                                                                dataAccess.Amount(strSymbolId, 0).ToString()});
+                    else
+                        DataGridViewUtil.UpdateRow(tblSymbolList, new string[] {"SymbolId"},
+                                                                  new object[] {strSymbolId, 
+                                                                                dataSource.DataStartTime(strSymbolId).ToString("yyyy/MM/dd HH:mm:ss"), 
+                                                                                dataSource.DataEndTime(strSymbolId).ToString("yyyy/MM/dd HH:mm:ss"),
+                                                                                dataAccess.Time(strSymbolId, 0).ToString("yyyy/MM/dd HH:mm:ss"),
+                                                                                dataAccess.Open(strSymbolId, 0).ToString(),
+                                                                                dataAccess.High(strSymbolId, 0).ToString(),
+                                                                                dataAccess.Low(strSymbolId, 0).ToString(),
+                                                                                dataAccess.Close(strSymbolId, 0).ToString(),
+                                                                                dataAccess.Volume(strSymbolId, 0).ToString(),
+                                                                                dataAccess.Amount(strSymbolId, 0).ToString()});
+
+/*
                     lstBarData = dataSource.GetBar(strSymbolId);
 
                     iCurrentIndex = currentTime.GetDataIndex(strSymbolId);
@@ -106,6 +138,7 @@ namespace AAA.ProgramTrade
                                                                                 lstBarData[iCurrentIndex].Close.ToString(),
                                                                                 lstBarData[iCurrentIndex].Volume.ToString(),
                                                                                 lstBarData[iCurrentIndex].Amount.ToString()});
+ */ 
                     
                 }
             }
@@ -118,8 +151,9 @@ namespace AAA.ProgramTrade
         private void tblSymbolList_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             IDataSource dataSource;
-            List<BarData> lstBarData;
+            List<BarRecord> lstBarData;
             string strSymbolId;
+            BarData barData;
             
             try
             {               
@@ -127,8 +161,9 @@ namespace AAA.ProgramTrade
                 dataSource = (IDataSource)AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.DATA_SOURCE];
                 lstBarData = dataSource.GetBar(strSymbolId);
 
-                foreach (BarData barData in lstBarData)
-                {                    
+                foreach (BarRecord barRecord in lstBarData)
+                {
+                    barData = new BarData(barRecord);
                     DataGridViewUtil.InsertRow(tblDataDetail, new object[] { barData.BarDateTime.ToString("yyyy/MM/dd HH:mm:ss"),
                                                                              barData.Open.ToString(),
                                                                              barData.High.ToString(),

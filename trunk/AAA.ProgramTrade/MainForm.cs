@@ -195,7 +195,7 @@ namespace AAA.ProgramTrade
             string strDataCompression;
             string strLine;
             string[] strValues;
-            List<BarData> lstBarData;
+            List<BarRecord> lstBarData;
             BarData barData;
             BarCompressionEnum eBarCompression;
             try
@@ -209,7 +209,7 @@ namespace AAA.ProgramTrade
 
                     strSymbolId = sr.ReadLine().Trim();
                     strDataCompression = sr.ReadLine().Trim();
-                    lstBarData = new List<BarData>();
+                    lstBarData = new List<BarRecord>();
                     eBarCompression = (BarCompressionEnum)Enum.Parse(typeof(BarCompressionEnum), strDataCompression);
  
                     while ((strLine = sr.ReadLine()) != null)
@@ -226,7 +226,7 @@ namespace AAA.ProgramTrade
                         barData.Volume = float.Parse(strValues[5]);
                         barData.Amount = float.Parse(strValues[6]);
 
-                        lstBarData.Add(barData);
+                        lstBarData.Add(barData.ToBarRecord());
                     }
 
                     sr.Close();

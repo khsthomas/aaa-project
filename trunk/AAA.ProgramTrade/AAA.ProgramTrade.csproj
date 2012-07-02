@@ -97,6 +97,7 @@
       <DependentUpon>DataMonitorForm.cs</DependentUpon>
     </Compile>
     <Compile Include="DataSourceResultSet.cs" />
+    <Compile Include="Function\MA.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
