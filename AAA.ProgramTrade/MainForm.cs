@@ -255,5 +255,10 @@ namespace AAA.ProgramTrade
         {
             MdiFormUtil.AddChild(this, new ChartForm(), false);
         }
+
+        private void calculateItem_Click(object sender, EventArgs e)
+        {
+            MdiFormUtil.AddChild(this, new IndicatorForm(), false);
+        }
     }
 }

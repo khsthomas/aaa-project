@@ -31,16 +31,17 @@
             this.components = new System.ComponentModel.Container();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.loginItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.dataItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.offlineDataItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.dataMonitorItem = new System.Windows.Forms.ToolStripMenuItem();
             this.systemMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.catcherItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scheduleItem = new System.Windows.Forms.ToolStripMenuItem();
             this.autoTradeItem = new System.Windows.Forms.ToolStripMenuItem();
             this.speedOrderItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.chartItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dataItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.offlineDataItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dataMonitorItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.statusBarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.windowsMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -55,7 +56,8 @@
             this.loginStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.ofdOpenFile = new System.Windows.Forms.OpenFileDialog();
-            this.chartItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.reportItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.calculateItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.SuspendLayout();
@@ -66,6 +68,7 @@
             this.loginItem,
             this.systemMenu,
             this.dataItem,
+            this.reportItem,
             this.viewMenu,
             this.windowsMenu});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
@@ -81,29 +84,6 @@
             this.loginItem.Size = new System.Drawing.Size(77, 20);
             this.loginItem.Text = "登入(&Login)";
             this.loginItem.Click += new System.EventHandler(this.loginItem_Click);
-            // 
-            // dataItem
-            // 
-            this.dataItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.offlineDataItem,
-            this.dataMonitorItem});
-            this.dataItem.Name = "dataItem";
-            this.dataItem.Size = new System.Drawing.Size(70, 20);
-            this.dataItem.Text = "資料(&Data)";
-            // 
-            // offlineDataItem
-            // 
-            this.offlineDataItem.Name = "offlineDataItem";
-            this.offlineDataItem.Size = new System.Drawing.Size(152, 22);
-            this.offlineDataItem.Text = "讀入離線資料";
-            this.offlineDataItem.Click += new System.EventHandler(this.offlineDataItem_Click);
-            // 
-            // dataMonitorItem
-            // 
-            this.dataMonitorItem.Name = "dataMonitorItem";
-            this.dataMonitorItem.Size = new System.Drawing.Size(152, 22);
-            this.dataMonitorItem.Text = "資料監控";
-            this.dataMonitorItem.Click += new System.EventHandler(this.dataMonitorItem_Click);
             // 
             // systemMenu
             // 
@@ -147,6 +127,13 @@
             this.speedOrderItem.Text = "智慧閃電下單";
             this.speedOrderItem.Click += new System.EventHandler(this.speedOrderItem_Click);
             // 
+            // chartItem
+            // 
+            this.chartItem.Name = "chartItem";
+            this.chartItem.Size = new System.Drawing.Size(152, 22);
+            this.chartItem.Text = "走勢圖";
+            this.chartItem.Click += new System.EventHandler(this.chartItem_Click);
+            // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
@@ -158,6 +145,30 @@
             this.exitItem.Size = new System.Drawing.Size(152, 22);
             this.exitItem.Text = "E&xit";
             this.exitItem.Click += new System.EventHandler(this.ExitToolsStripMenuItem_Click);
+            // 
+            // dataItem
+            // 
+            this.dataItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.offlineDataItem,
+            this.calculateItem,
+            this.dataMonitorItem});
+            this.dataItem.Name = "dataItem";
+            this.dataItem.Size = new System.Drawing.Size(70, 20);
+            this.dataItem.Text = "資料(&Data)";
+            // 
+            // offlineDataItem
+            // 
+            this.offlineDataItem.Name = "offlineDataItem";
+            this.offlineDataItem.Size = new System.Drawing.Size(152, 22);
+            this.offlineDataItem.Text = "讀入離線資料";
+            this.offlineDataItem.Click += new System.EventHandler(this.offlineDataItem_Click);
+            // 
+            // dataMonitorItem
+            // 
+            this.dataMonitorItem.Name = "dataMonitorItem";
+            this.dataMonitorItem.Size = new System.Drawing.Size(152, 22);
+            this.dataMonitorItem.Text = "資料監控";
+            this.dataMonitorItem.Click += new System.EventHandler(this.dataMonitorItem_Click);
             // 
             // viewMenu
             // 
@@ -173,7 +184,7 @@
             this.statusBarToolStripMenuItem.CheckOnClick = true;
             this.statusBarToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.statusBarToolStripMenuItem.Name = "statusBarToolStripMenuItem";
-            this.statusBarToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.statusBarToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
             this.statusBarToolStripMenuItem.Text = "&Status Bar";
             // 
             // windowsMenu
@@ -192,42 +203,42 @@
             // newWindowToolStripMenuItem
             // 
             this.newWindowToolStripMenuItem.Name = "newWindowToolStripMenuItem";
-            this.newWindowToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.newWindowToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
             this.newWindowToolStripMenuItem.Text = "&New Window";
             this.newWindowToolStripMenuItem.Click += new System.EventHandler(this.ShowNewForm);
             // 
             // cascadeToolStripMenuItem
             // 
             this.cascadeToolStripMenuItem.Name = "cascadeToolStripMenuItem";
-            this.cascadeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.cascadeToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
             this.cascadeToolStripMenuItem.Text = "&Cascade";
             this.cascadeToolStripMenuItem.Click += new System.EventHandler(this.CascadeToolStripMenuItem_Click);
             // 
             // tileVerticalToolStripMenuItem
             // 
             this.tileVerticalToolStripMenuItem.Name = "tileVerticalToolStripMenuItem";
-            this.tileVerticalToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.tileVerticalToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
             this.tileVerticalToolStripMenuItem.Text = "Tile &Vertical";
             this.tileVerticalToolStripMenuItem.Click += new System.EventHandler(this.TileVerticalToolStripMenuItem_Click);
             // 
             // tileHorizontalToolStripMenuItem
             // 
             this.tileHorizontalToolStripMenuItem.Name = "tileHorizontalToolStripMenuItem";
-            this.tileHorizontalToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.tileHorizontalToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
             this.tileHorizontalToolStripMenuItem.Text = "Tile &Horizontal";
             this.tileHorizontalToolStripMenuItem.Click += new System.EventHandler(this.TileHorizontalToolStripMenuItem_Click);
             // 
             // closeAllToolStripMenuItem
             // 
             this.closeAllToolStripMenuItem.Name = "closeAllToolStripMenuItem";
-            this.closeAllToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.closeAllToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
             this.closeAllToolStripMenuItem.Text = "C&lose All";
             this.closeAllToolStripMenuItem.Click += new System.EventHandler(this.CloseAllToolStripMenuItem_Click);
             // 
             // arrangeIconsToolStripMenuItem
             // 
             this.arrangeIconsToolStripMenuItem.Name = "arrangeIconsToolStripMenuItem";
-            this.arrangeIconsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.arrangeIconsToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
             this.arrangeIconsToolStripMenuItem.Text = "&Arrange Icons";
             this.arrangeIconsToolStripMenuItem.Click += new System.EventHandler(this.ArrangeIconsToolStripMenuItem_Click);
             // 
@@ -258,12 +269,18 @@
             // 
             this.ofdOpenFile.FileName = "openFileDialog1";
             // 
-            // chartItem
+            // reportItem
             // 
-            this.chartItem.Name = "chartItem";
-            this.chartItem.Size = new System.Drawing.Size(152, 22);
-            this.chartItem.Text = "走勢圖";
-            this.chartItem.Click += new System.EventHandler(this.chartItem_Click);
+            this.reportItem.Name = "reportItem";
+            this.reportItem.Size = new System.Drawing.Size(81, 20);
+            this.reportItem.Text = "報表(&Report)";
+            // 
+            // calculateItem
+            // 
+            this.calculateItem.Name = "calculateItem";
+            this.calculateItem.Size = new System.Drawing.Size(152, 22);
+            this.calculateItem.Text = "指標載入";
+            this.calculateItem.Click += new System.EventHandler(this.calculateItem_Click);
             // 
             // MainForm
             // 
@@ -314,6 +331,8 @@
         private System.Windows.Forms.OpenFileDialog ofdOpenFile;
         private System.Windows.Forms.ToolStripMenuItem dataMonitorItem;
         private System.Windows.Forms.ToolStripMenuItem chartItem;
+        private System.Windows.Forms.ToolStripMenuItem calculateItem;
+        private System.Windows.Forms.ToolStripMenuItem reportItem;
     }
 }
 

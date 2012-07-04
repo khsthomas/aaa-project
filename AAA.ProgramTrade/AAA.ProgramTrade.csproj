@@ -97,7 +97,12 @@
       <DependentUpon>DataMonitorForm.cs</DependentUpon>
     </Compile>
     <Compile Include="DataSourceResultSet.cs" />
-    <Compile Include="Function\MA.cs" />
+    <Compile Include="IndicatorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IndicatorForm.Designer.cs">
+      <DependentUpon>IndicatorForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -131,6 +136,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DataMonitorForm.resx">
       <DependentUpon>DataMonitorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IndicatorForm.resx">
+      <DependentUpon>IndicatorForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -203,6 +211,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Data\TFHTX-TP-30min.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\TFHTX-TP-60min.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Function\AAA.ProgramTrade.Functions.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
