@@ -207,6 +207,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Signals\" />
     <Folder Include="Task\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

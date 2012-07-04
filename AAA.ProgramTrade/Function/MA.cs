@@ -9,12 +9,23 @@ namespace AAA.ProgramTrade.Function
 {
     public class MA : AbstractFunction
     {
+        public MA(BarCompression barCompression) : base(barCompression)
+        {
+        }
+
         public override BarRecord ExecCalculate()
         {
             BarRecord barRecord = null;
             try
             {
-                barRecord.V0 = 0;
+                int iLen = (int)Variable("Len");
+                string strSymbolId = (string)Variable("SymbolId");
+                float fSum = 0;
+
+                for (int i = 0; i < iLen; i++)
+                    fSum += Close(strSymbolId, i);
+
+                barRecord.V0 = fSum / iLen;
             }
             catch (Exception ex)
             {
