@@ -191,10 +191,10 @@ namespace AAA.ProgramTrade
             TradeSymbol tradeSymbol;
             try
             {
-                if (File.Exists(Environment.CurrentDirectory + @"\cfg\strategy.cfg") == false)
+                if (File.Exists((string)AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.PROGRAM_ROOT_PATH] + @"\cfg\strategy.cfg") == false)
                     return;
 
-                sr = new StreamReader(Environment.CurrentDirectory + @"\cfg\strategy.cfg", Encoding.Default);
+                sr = new StreamReader((string)AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.PROGRAM_ROOT_PATH] + @"\cfg\strategy.cfg", Encoding.Default);
 
                 sr.ReadLine();
 

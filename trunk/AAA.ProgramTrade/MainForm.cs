@@ -44,7 +44,8 @@ namespace AAA.ProgramTrade
 
                 CurrentTime currentTime = new CurrentTime();
                 IDataSource dataSource = new DefaultDataSource();
-
+                
+                AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.PROGRAM_ROOT_PATH] = Environment.CurrentDirectory;
                 AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.TRADING_RULE] = new DefaultTradingRule();
                 AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.SCHEDULE_MANAGER] = new ScheduleManager();
                 AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.DATA_SOURCE] = dataSource;
@@ -52,7 +53,7 @@ namespace AAA.ProgramTrade
                 currentTime.DataSource = dataSource;
                 dataSource.Attach(currentTime);
                 currentTime.TimeInterval = 60;
-                
+                                
             }
             catch (Exception ex)
             {

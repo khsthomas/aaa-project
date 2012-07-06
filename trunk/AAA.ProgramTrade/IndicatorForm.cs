@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using AAA.Base.Util.Reflection;
 using AAA.TradeLanguage;
 using AAA.Forms.Components.Util;
+using AAA.DataSource;
 
 namespace AAA.ProgramTrade
 {
@@ -36,17 +37,46 @@ namespace AAA.ProgramTrade
             }
         }
 
+        private void LoadSymbolId()
+        {
+            IDataSource dataSource;
+            List<string> lstSymbolId;
+            try
+            {
+                dataSource = (IDataSource)AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.DATA_SOURCE];
+                lstSymbolId = dataSource.GetSymbolList();
+
+                while (cboBaseSymbolId.Items.Count > 0)
+                    cboBaseSymbolId.Items.RemoveAt(0);
+
+                foreach (string strSymbolId in lstSymbolId)
+                {
+                    cboBaseSymbolId.Items.Add(strSymbolId);
+                }
+
+                if (cboBaseSymbolId.Items.Count > 0)
+                    cboBaseSymbolId.SelectedIndex = 0;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "," + ex.StackTrace);
+            }
+        }
+
         private void LoadIndicator()
         {
             try
             {
-                _lstFunction = (List<IFunction>)Builder.LoadLibrary<IFunction>(Environment.CurrentDirectory + @"\Function");
+                _lstFunction = (List<IFunction>)Builder.LoadClasses<IFunction>((string)AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.PROGRAM_ROOT_PATH] + @"\Function");
 
                 while (cboIndicator.Items.Count > 0)
                     cboIndicator.Items.RemoveAt(0);
 
                 foreach (IFunction function in _lstFunction)
                     cboIndicator.Items.Add(function.DisplayName);
+
+                if (cboIndicator.Items.Count > 0)
+                    cboIndicator.SelectedIndex = 0;
             }
             catch (Exception ex)
             {
