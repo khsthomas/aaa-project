@@ -91,7 +91,7 @@ namespace AAA.ProgramTrade
                 tblPrice.Columns.Add("DelSellOrder", "刪單");
                 tblPrice.Columns["DelSellOrder"].Width = 70;
 
-                iniReader = new IniReader(Environment.CurrentDirectory + @"\cfg\realtime.ini");
+                iniReader = new IniReader((string)AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.PROGRAM_ROOT_PATH] + @"\cfg\realtime.ini");
 
                 
                 _fDiffRatio = float.Parse(iniReader.GetParam("View", "DiffRatio"));

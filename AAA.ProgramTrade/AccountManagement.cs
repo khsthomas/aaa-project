@@ -25,7 +25,7 @@ namespace AAA.ProgramTrade
 
             if (AAA.DesignPattern.Singleton.SystemParameter.Parameter["AutoTrade"] == null)
             {
-                IniReader iniReader = new IniReader(Environment.CurrentDirectory + @"\cfg\system.ini");
+                IniReader iniReader = new IniReader((string)AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.PROGRAM_ROOT_PATH] + @"\cfg\system.ini");
                 txtUsername.Text = iniReader.GetParam("Account", "Username");
                 txtPassword.Text = iniReader.GetParam("Account", "Password");
                 txtCAPassword.Text = iniReader.GetParam("Account", "CAPassword");
@@ -60,13 +60,13 @@ namespace AAA.ProgramTrade
             }
 
             // Init Logger
-            if (Directory.Exists(Environment.CurrentDirectory + @"\trade_logs") == false)
-                Directory.CreateDirectory(Environment.CurrentDirectory + @"\trade_logs");
+            if (Directory.Exists((string)AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.PROGRAM_ROOT_PATH] + @"\trade_logs") == false)
+                Directory.CreateDirectory((string)AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.PROGRAM_ROOT_PATH] + @"\trade_logs");
 
             if (AAA.DesignPattern.Singleton.SystemParameter.Parameter["InitTrade"] == null)
             {
                 autoTrade.OnMessage(new AAA.Meta.Trade.MessageEvent(OnMessageReceive));
-                autoTrade.AddTradeLogger(new TradeLogger(Environment.CurrentDirectory + @"\trade_logs\autotrade-" + DateTime.Now.ToString("yyyyMMdd") + ".log"));
+                autoTrade.AddTradeLogger(new TradeLogger((string)AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.PROGRAM_ROOT_PATH] + @"\trade_logs\autotrade-" + DateTime.Now.ToString("yyyyMMdd") + ".log"));
                 AAA.DesignPattern.Singleton.SystemParameter.Parameter["InitTrade"] = "Y";
             }
 

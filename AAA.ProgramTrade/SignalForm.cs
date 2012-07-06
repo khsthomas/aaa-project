@@ -37,7 +37,7 @@ namespace AAA.ProgramTrade
 
             try
             {
-                iniReader = new IniReader(Environment.CurrentDirectory + @"\cfg\system.ini");
+                iniReader = new IniReader((string)AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.PROGRAM_ROOT_PATH] + @"\cfg\system.ini");
 
                 //Init SignalCatcher
                 while (tblSignalCatcher.Rows.Count > 0)

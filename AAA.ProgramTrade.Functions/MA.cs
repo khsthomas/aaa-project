@@ -7,13 +7,13 @@ using AAA.Meta.Quote.Data;
 
 namespace AAA.ProgramTrade.Function
 {
-    public class Functions : AbstractFunction
+    public class MA : AbstractFunction
     {
-        public Functions(BarCompression barCompression) : base(barCompression)
+        public MA()
         {
             DisplayName = "MA";
-            VariableNames = new string[] { "SymbolId", "Len" };
-            VariableDescs = new string[] { "商品名稱", "長度"};
+            VariableNames = new string[] { "Transfer Symbol Id", "Len" };
+            VariableDescs = new string[] { "計算後商品名稱", "長度"};
             DefaultValues = new object[] { "", 3 };
         }
 
@@ -22,12 +22,11 @@ namespace AAA.ProgramTrade.Function
             BarRecord barRecord = null;
             try
             {
-                int iLen = (int)Variable("Len");
-                string strSymbolId = (string)Variable("SymbolId");
+                int iLen = (int)Variable("Len");                
                 float fSum = 0;
 
                 for (int i = 0; i < iLen; i++)
-                    fSum += Close(strSymbolId, i);
+                    fSum += Close(BaseSymbolId, i);
 
                 barRecord.V0 = fSum / iLen;
             }
