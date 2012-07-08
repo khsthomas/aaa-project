@@ -44,7 +44,10 @@ namespace AAA.ProgramTrade
 
                 CurrentTime currentTime = new CurrentTime();
                 IDataSource dataSource = new DefaultDataSource();
-                
+
+                currentTime.SessionStartTime = new DateTime(1900, 01, 01, 8, 45, 00);
+                currentTime.SessionEndTime = new DateTime(1900, 01, 01, 13, 45, 00);
+
                 AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.PROGRAM_ROOT_PATH] = Environment.CurrentDirectory;
                 AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.TRADING_RULE] = new DefaultTradingRule();
                 AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.SCHEDULE_MANAGER] = new ScheduleManager();
@@ -199,6 +202,7 @@ namespace AAA.ProgramTrade
             List<BarRecord> lstBarData;
             BarData barData;
             BarCompressionEnum eBarCompression;
+            int iInterval = 1;
             try
             {
                 if (ofdOpenFile.ShowDialog() != DialogResult.OK)
@@ -210,8 +214,9 @@ namespace AAA.ProgramTrade
 
                     strSymbolId = sr.ReadLine().Trim();
                     strDataCompression = sr.ReadLine().Trim();
+                    iInterval = int.Parse(strDataCompression.Split(',')[1]);
                     lstBarData = new List<BarRecord>();
-                    eBarCompression = (BarCompressionEnum)Enum.Parse(typeof(BarCompressionEnum), strDataCompression);
+                    eBarCompression = (BarCompressionEnum)Enum.Parse(typeof(BarCompressionEnum), strDataCompression.Split(',')[0]);
  
                     while ((strLine = sr.ReadLine()) != null)
                     {
@@ -219,6 +224,7 @@ namespace AAA.ProgramTrade
                         barData = new BarData();
                         barData.SymbolId = strSymbolId;
                         barData.BarCompression = eBarCompression;
+                        barData.CompressionInterval = iInterval;
                         barData.BarDateTime = DateTime.Parse(strValues[0]);
                         barData.Open = float.Parse(strValues[1]);
                         barData.High = float.Parse(strValues[2]);

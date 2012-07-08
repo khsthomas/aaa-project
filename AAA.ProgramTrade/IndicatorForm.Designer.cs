@@ -29,13 +29,13 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.cboBaseSymbolId = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.tblParameter = new System.Windows.Forms.DataGridView();
             this.btnLoad = new System.Windows.Forms.Button();
             this.btnRefresh = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.cboIndicator = new System.Windows.Forms.ComboBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.cboBaseSymbolId = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tblParameter)).BeginInit();
             this.SuspendLayout();
@@ -56,6 +56,23 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "指標列表";
             // 
+            // cboBaseSymbolId
+            // 
+            this.cboBaseSymbolId.FormattingEnabled = true;
+            this.cboBaseSymbolId.Location = new System.Drawing.Point(66, 56);
+            this.cboBaseSymbolId.Name = "cboBaseSymbolId";
+            this.cboBaseSymbolId.Size = new System.Drawing.Size(233, 20);
+            this.cboBaseSymbolId.TabIndex = 6;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(7, 59);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(53, 12);
+            this.label2.TabIndex = 5;
+            this.label2.Text = "基礎商品";
+            // 
             // tblParameter
             // 
             this.tblParameter.AllowUserToAddRows = false;
@@ -66,7 +83,6 @@
             this.tblParameter.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.tblParameter.Location = new System.Drawing.Point(6, 84);
             this.tblParameter.Name = "tblParameter";
-            this.tblParameter.ReadOnly = true;
             this.tblParameter.RowHeadersVisible = false;
             this.tblParameter.RowTemplate.Height = 24;
             this.tblParameter.Size = new System.Drawing.Size(583, 105);
@@ -80,6 +96,7 @@
             this.btnLoad.TabIndex = 3;
             this.btnLoad.Text = "指標載入";
             this.btnLoad.UseVisualStyleBackColor = true;
+            this.btnLoad.Click += new System.EventHandler(this.btnLoad_Click);
             // 
             // btnRefresh
             // 
@@ -108,23 +125,6 @@
             this.cboIndicator.Size = new System.Drawing.Size(257, 20);
             this.cboIndicator.TabIndex = 0;
             this.cboIndicator.SelectedIndexChanged += new System.EventHandler(this.cboIndicator_SelectedIndexChanged);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(7, 59);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(53, 12);
-            this.label2.TabIndex = 5;
-            this.label2.Text = "基礎商品";
-            // 
-            // cboBaseSymbolId
-            // 
-            this.cboBaseSymbolId.FormattingEnabled = true;
-            this.cboBaseSymbolId.Location = new System.Drawing.Point(66, 56);
-            this.cboBaseSymbolId.Name = "cboBaseSymbolId";
-            this.cboBaseSymbolId.Size = new System.Drawing.Size(233, 20);
-            this.cboBaseSymbolId.TabIndex = 6;
             // 
             // IndicatorForm
             // 

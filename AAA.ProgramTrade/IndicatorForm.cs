@@ -21,6 +21,7 @@ namespace AAA.ProgramTrade
             InitializeComponent();
             Init();
             LoadIndicator();
+            LoadSymbolId();
         }
 
         private void Init()
@@ -89,6 +90,7 @@ namespace AAA.ProgramTrade
             try
             {
                 LoadIndicator();
+                LoadSymbolId();
             }
             catch (Exception ex)
             {
@@ -115,6 +117,42 @@ namespace AAA.ProgramTrade
                 for(int i = 0; i < strNames.Length; i++)
                     DataGridViewUtil.InsertRow(tblParameter, new object[] {strNames[i], strDescs[i], oValues[i]});
 
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "," + ex.StackTrace);
+            }
+        }
+
+        private void btnLoad_Click(object sender, EventArgs e)
+        {
+            CurrentTime currentTime = (CurrentTime)AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.CURRENT_TIME];
+            IFunction function;
+            int iOriginalInterval;
+            try
+            {                                
+                function = _lstFunction[cboIndicator.SelectedIndex];
+                function.SetCurrentTime(currentTime);
+                function.BaseSymbolId = cboBaseSymbolId.Text;
+                
+                for (int i = 0; i < tblParameter.Rows.Count; i++)
+                {
+                    function.Variable(tblParameter.Rows[i].Cells["ItemName"].Value.ToString(),
+                                     tblParameter.Rows[i].Cells["ItemValue"].Value);
+                }
+
+                iOriginalInterval = currentTime.TimeInterval;
+
+                currentTime.RemoveSymbol(function.Variable("TransferSymbolId").ToString());
+                currentTime.Reset();
+                currentTime.TimeInterval = 60 * function.DataCompression.Interval;
+                while (currentTime.CurrentDateTime.CompareTo(currentTime.DataEndTime) < 0)
+                {
+                    function.Calculate(function.Variable("TransferSymbolId").ToString().Trim() == "" ? null : function.Variable("TransferSymbolId").ToString().Trim());
+                    currentTime.MoveNext();
+                }
+                currentTime.TimeInterval = iOriginalInterval;
+                LoadSymbolId();
             }
             catch (Exception ex)
             {
