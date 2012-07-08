@@ -12,14 +12,14 @@ namespace AAA.ProgramTrade.Functions
         public KD()
         {
             DisplayName = "KD";
-            VariableNames = new string[] { "Transfer Symbol Id", "Len"};
+            VariableNames = new string[] { "TransferSymbolId", "Len"};
             VariableDescs = new string[] { "計算後商品名稱", "長度"};
             DefaultValues = new object[] { "", 9};
         }
 
         public override AAA.Meta.Quote.Data.BarRecord ExecCalculate()
         {
-            BarRecord barRecord = null;
+            BarRecord barRecord = new BarRecord();
             BarRecord previousBar = null;
             try
             {                

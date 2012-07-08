@@ -12,21 +12,30 @@ namespace AAA.ProgramTrade.Function
         public MA()
         {
             DisplayName = "MA";
-            VariableNames = new string[] { "Transfer Symbol Id", "Len" };
+            VariableNames = new string[] { "TransferSymbolId", "Len" };
             VariableDescs = new string[] { "計算後商品名稱", "長度"};
             DefaultValues = new object[] { "", 3 };
         }
 
         public override BarRecord ExecCalculate()
         {
-            BarRecord barRecord = null;
+            BarRecord barRecord = new BarRecord();
+            float fClose;
             try
             {
-                int iLen = (int)Variable("Len");                
+                int iLen = (int)Variable("Len");
                 float fSum = 0;
 
                 for (int i = 0; i < iLen; i++)
-                    fSum += Close(BaseSymbolId, i);
+                {
+                    fClose = Close(BaseSymbolId, i);
+                    if (float.IsNaN(fClose))
+                    {
+                        fSum = 0;
+                        break;
+                    }
+                    fSum += fClose;
+                }
 
                 barRecord.V0 = fSum / iLen;
             }
