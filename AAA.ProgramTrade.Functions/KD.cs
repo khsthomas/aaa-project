@@ -43,12 +43,12 @@ namespace AAA.ProgramTrade.Functions
                 if((previousBar = Bar(1)) == null)
                 {
                     previousBar = new BarRecord();
-                    previousBar.V0 = 50;
-                    previousBar.V1 = 50;
+                    previousBar["K"] = 50;
+                    previousBar["D"] = 50;
                 }
 
-                barRecord.V0 = (float)(previousBar.V0 * (1.0 / 3 * fRSV));
-                barRecord.V1 = (float)(previousBar.V1 * (1.0 / 3 * barRecord.V0));                                   
+                barRecord["K"] = (float)(previousBar["K"] * (1.0 / 3 * fRSV));
+                barRecord["D"] = (float)(previousBar["D"] * (1.0 / 3 * barRecord["K"]));                                   
             }
             catch (Exception ex)
             {

@@ -558,7 +558,7 @@ namespace AAA.ProgramTrade
             }
         }
 
-        private void BuildOrder(AAA.Meta.Trade.Data.OrderInfo orderInfo, SignalInfo signalInfo, StrategyInfo strategyInfo, int iPriceType)
+        private void BuildOrder(AAA.Meta.Trade.Data.OrderInfo orderInfo, AAA.Meta.Trade.Data.SignalInfo signalInfo, StrategyInfo strategyInfo, int iPriceType)
         {
             try
             {                
@@ -590,7 +590,7 @@ namespace AAA.ProgramTrade
                 switch (miMessage.MessageSubject)
                 {
                     case "FilledOrder":
-                        SignalInfo signalInfo = (SignalInfo)miMessage.Message;
+                        AAA.Meta.Trade.Data.SignalInfo signalInfo = (AAA.Meta.Trade.Data.SignalInfo)miMessage.Message;
                         TradeInfo[] tradeInfo = _tradingRule.CreateOrder(signalInfo.Strategy);
                         OrderInfo orderInfo = null;
                         string strSymbolType = "";
