@@ -37,7 +37,7 @@ namespace AAA.ProgramTrade.Function
                     fSum += fClose;
                 }
 
-                barRecord.V0 = fSum / iLen;
+                barRecord["Avg"] = fSum / iLen;
             }
             catch (Exception ex)
             {
