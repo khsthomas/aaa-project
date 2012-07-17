@@ -41,7 +41,9 @@
             this.exitItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataItem = new System.Windows.Forms.ToolStripMenuItem();
             this.offlineDataItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.calculateItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataMonitorItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.reportItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.statusBarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.windowsMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -56,8 +58,7 @@
             this.loginStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.ofdOpenFile = new System.Windows.Forms.OpenFileDialog();
-            this.reportItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.calculateItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.performanceReportItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.SuspendLayout();
@@ -163,12 +164,27 @@
             this.offlineDataItem.Text = "讀入離線資料";
             this.offlineDataItem.Click += new System.EventHandler(this.offlineDataItem_Click);
             // 
+            // calculateItem
+            // 
+            this.calculateItem.Name = "calculateItem";
+            this.calculateItem.Size = new System.Drawing.Size(152, 22);
+            this.calculateItem.Text = "指標載入";
+            this.calculateItem.Click += new System.EventHandler(this.calculateItem_Click);
+            // 
             // dataMonitorItem
             // 
             this.dataMonitorItem.Name = "dataMonitorItem";
             this.dataMonitorItem.Size = new System.Drawing.Size(152, 22);
             this.dataMonitorItem.Text = "資料監控";
             this.dataMonitorItem.Click += new System.EventHandler(this.dataMonitorItem_Click);
+            // 
+            // reportItem
+            // 
+            this.reportItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.performanceReportItem});
+            this.reportItem.Name = "reportItem";
+            this.reportItem.Size = new System.Drawing.Size(81, 20);
+            this.reportItem.Text = "報表(&Report)";
             // 
             // viewMenu
             // 
@@ -269,18 +285,12 @@
             // 
             this.ofdOpenFile.FileName = "openFileDialog1";
             // 
-            // reportItem
+            // performanceReportItem
             // 
-            this.reportItem.Name = "reportItem";
-            this.reportItem.Size = new System.Drawing.Size(81, 20);
-            this.reportItem.Text = "報表(&Report)";
-            // 
-            // calculateItem
-            // 
-            this.calculateItem.Name = "calculateItem";
-            this.calculateItem.Size = new System.Drawing.Size(152, 22);
-            this.calculateItem.Text = "指標載入";
-            this.calculateItem.Click += new System.EventHandler(this.calculateItem_Click);
+            this.performanceReportItem.Name = "performanceReportItem";
+            this.performanceReportItem.Size = new System.Drawing.Size(152, 22);
+            this.performanceReportItem.Text = "績效報表";
+            this.performanceReportItem.Click += new System.EventHandler(this.performanceReportItem_Click);
             // 
             // MainForm
             // 
@@ -333,6 +343,7 @@
         private System.Windows.Forms.ToolStripMenuItem chartItem;
         private System.Windows.Forms.ToolStripMenuItem calculateItem;
         private System.Windows.Forms.ToolStripMenuItem reportItem;
+        private System.Windows.Forms.ToolStripMenuItem performanceReportItem;
     }
 }
 

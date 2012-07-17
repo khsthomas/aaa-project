@@ -267,5 +267,10 @@ namespace AAA.ProgramTrade
         {
             MdiFormUtil.AddChild(this, new IndicatorForm(), false);
         }
+
+        private void performanceReportItem_Click(object sender, EventArgs e)
+        {
+            MdiFormUtil.AddChild(this, new PerformanceReportForm(), false);
+        }
     }
 }
