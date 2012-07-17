@@ -107,7 +107,7 @@
             // 
             this.splContainer.Panel2.Controls.Add(this.tblDataDetail);
             this.splContainer.Size = new System.Drawing.Size(861, 392);
-            this.splContainer.SplitterDistance = 287;
+            this.splContainer.SplitterDistance = 561;
             this.splContainer.TabIndex = 7;
             // 
             // tblSymbolList
@@ -121,7 +121,7 @@
             this.tblSymbolList.ReadOnly = true;
             this.tblSymbolList.RowHeadersVisible = false;
             this.tblSymbolList.RowTemplate.Height = 24;
-            this.tblSymbolList.Size = new System.Drawing.Size(287, 392);
+            this.tblSymbolList.Size = new System.Drawing.Size(561, 392);
             this.tblSymbolList.TabIndex = 1;
             // 
             // tblDataDetail
@@ -135,7 +135,7 @@
             this.tblDataDetail.ReadOnly = true;
             this.tblDataDetail.RowHeadersVisible = false;
             this.tblDataDetail.RowTemplate.Height = 24;
-            this.tblDataDetail.Size = new System.Drawing.Size(570, 392);
+            this.tblDataDetail.Size = new System.Drawing.Size(296, 392);
             this.tblDataDetail.TabIndex = 2;
             // 
             // DataMonitorForm
