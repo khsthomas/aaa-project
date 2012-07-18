@@ -23,9 +23,11 @@ namespace AAA.ProgramTrade.Function
             float fClose;
             try
             {
+                // 取得參數 Len 的值
                 int iLen = (int)Variable("Len");
                 float fSum = 0;
 
+                // 計算收盤價的和
                 for (int i = 0; i < iLen; i++)
                 {
                     fClose = Close(BaseSymbolId, i);
@@ -37,6 +39,7 @@ namespace AAA.ProgramTrade.Function
                     fSum += fClose;
                 }
 
+                // 計算平均值
                 barRecord["MA"] = fSum / iLen;
             }
             catch (Exception ex)

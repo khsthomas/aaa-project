@@ -86,6 +86,10 @@ namespace AAA.ProgramTrade
         {
             try
             {
+                CurrentTime currentTime = (CurrentTime)AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.CURRENT_TIME];
+                currentTime.Reset();
+
+
 
             }
             catch (Exception ex)
