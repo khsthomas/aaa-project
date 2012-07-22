@@ -43,6 +43,7 @@ namespace AAA.ProgramTrade
                 MessageSubject.Instance().Subject.Attach(this);
 
                 CurrentTime currentTime = new CurrentTime();
+                PositionManager positionManager = new PositionManager();
                 IDataSource dataSource = new DefaultDataSource();
 
                 currentTime.SessionStartTime = new DateTime(1900, 01, 01, 8, 45, 00);
@@ -53,6 +54,7 @@ namespace AAA.ProgramTrade
                 AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.SCHEDULE_MANAGER] = new ScheduleManager();
                 AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.DATA_SOURCE] = dataSource;
                 AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.CURRENT_TIME] = currentTime;
+                AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.POSITION_MANAGER] = positionManager;
                 currentTime.DataSource = dataSource;
                 dataSource.Attach(currentTime);
                 currentTime.TimeInterval = 60;

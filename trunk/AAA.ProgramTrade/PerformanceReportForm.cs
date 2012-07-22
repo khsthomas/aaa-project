@@ -14,10 +14,26 @@ namespace AAA.ProgramTrade
 {
     public partial class PerformanceReportForm : Form
     {
+        private ISignal _loadedSignal;
         public PerformanceReportForm()
         {
             InitializeComponent();
+            Init();
             LoadSymbolId();
+        }
+
+        private void Init()
+        {
+            try
+            {
+                tblParameter.Columns.Add("ItemName", "項目");
+                tblParameter.Columns.Add("ItemDesc", "項目描述");
+                tblParameter.Columns.Add("ItemValue", "參數值");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "," + ex.StackTrace);
+            }
         }
 
         private void LoadSymbolId()
@@ -50,7 +66,7 @@ namespace AAA.ProgramTrade
         private void btnBrowse_Click(object sender, EventArgs e)
         {
             List<ISignal> lstSignal;
-            ISignal loadedSignal;
+            //ISignal loadedSignal;
             try
             {
                 if (ofdDllPath.ShowDialog() != DialogResult.OK)
@@ -62,15 +78,15 @@ namespace AAA.ProgramTrade
                 if (lstSignal.Count == 0)
                     return;
 
-                loadedSignal = lstSignal[0];
+                _loadedSignal = lstSignal[0];
 
-                txtStrategyName.Text = loadedSignal.DisplayName;
+                txtStrategyName.Text = _loadedSignal.DisplayName;
 
-                for (int i = 0; i < loadedSignal.VariableNames.Length; i++)
+                for (int i = 0; i < _loadedSignal.VariableNames.Length; i++)
                 {
-                    tblParameter.Rows.Add(new object[] {loadedSignal.VariableNames[i],
-                                                        loadedSignal.VariableDescs[i],
-                                                        loadedSignal.DefaultValues[i]});
+                    tblParameter.Rows.Add(new object[] {_loadedSignal.VariableNames[i],
+                                                        _loadedSignal.VariableDescs[i],
+                                                        _loadedSignal.DefaultValues[i]});
 
                 }
 
@@ -86,9 +102,23 @@ namespace AAA.ProgramTrade
         {
             try
             {
-                CurrentTime currentTime = (CurrentTime)AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.CURRENT_TIME];
-                currentTime.Reset();
+                StrategyManager strategyManager = new StrategyManager();
 
+                for (int i = 0; i < tblParameter.Rows.Count; i++)
+                {
+                    _loadedSignal.DefaultValues[i] = tblParameter.Rows[i].Cells["ItemValue"].Value;
+                    _loadedSignal.BaseSymbolId = cboBaseSymbolId.Text;
+                    _loadedSignal.Variable(tblParameter.Rows[i].Cells["ItemName"].Value.ToString(),
+                                           tblParameter.Rows[i].Cells["ItemValue"].Value);
+                }
+
+                strategyManager.AddSignal(_loadedSignal);
+                strategyManager.CurrentTime = (CurrentTime)AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.CURRENT_TIME];
+                //strategyManager.DataSource = (IDataSource)AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.DATA_SOURCE];
+                strategyManager.PositionManager = (PositionManager)AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.POSITION_MANAGER];
+                strategyManager.PerformanceVarify(60, 
+                                                  strategyManager.CurrentTime.DataSource.DataStartTime(cboBaseSymbolId.Text), 
+                                                  strategyManager.CurrentTime.DataSource.DataEndTime(cboBaseSymbolId.Text));
 
 
             }
