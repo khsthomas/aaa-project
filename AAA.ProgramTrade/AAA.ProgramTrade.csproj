@@ -207,6 +207,12 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="AAA.ProgramTrade.Functions.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="AAA.ProgramTrade.Signal.MACross.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Data\TFHTX-TP-1min.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

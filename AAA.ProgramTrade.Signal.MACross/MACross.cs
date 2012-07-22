@@ -24,21 +24,26 @@ namespace AAA.ProgramTrade.Signal.MACross
             MA slowMA = new MA();
             BarRecord barRecord;
             BarRecord previousBar;
+                        
             try
             {
-                barRecord = new BarRecord();
-                fastMA.BaseSymbolId = BaseSymbolId;                
+                barRecord = new BarRecord();                
+                fastMA.SetCurrentTime(CurrentTime);
+                fastMA.BaseSymbolId = BaseSymbolId;
                 fastMA.Variable("Len", Variable("FastMALen"));
                 barRecord["FastMA"] = fastMA.Calculate()["MA"];
-
-                slowMA.BaseSymbolId = BaseSymbolId;                
+                
+                slowMA.SetCurrentTime(CurrentTime);
+                slowMA.BaseSymbolId = BaseSymbolId;
                 slowMA.Variable("Len", Variable("SlowMALen"));
                 barRecord["SlowMA"] = fastMA.Calculate()["MA"];
 
-                AddBarData(BaseSymbolId, barRecord);
+                AddBarData(DisplayName, barRecord);
 
-                previousBar = Bar(BaseSymbolId, 1);
+                previousBar = Bar(DisplayName, 1);
 
+                if (previousBar == null)
+                    return;
                 // Die Cross
                 if ((previousBar["FastMA"] > barRecord["FastMA"]) &&
                    (previousBar["SlowMA"] < barRecord["SlowMA"]))
