@@ -9,6 +9,8 @@ using System.Windows.Forms;
 using AAA.Base.Util.Reflection;
 using AAA.TradeLanguage;
 using AAA.DataSource;
+using AAA.Meta.Quote.Data;
+using AAA.TradeLanguage.Data;
 
 namespace AAA.ProgramTrade
 {
@@ -29,6 +31,12 @@ namespace AAA.ProgramTrade
                 tblParameter.Columns.Add("ItemName", "項目");
                 tblParameter.Columns.Add("ItemDesc", "項目描述");
                 tblParameter.Columns.Add("ItemValue", "參數值");
+
+                tblSignalHistory.Columns.Add("SignalName", "訊號名稱");                
+                tblSignalHistory.Columns.Add("BarDateTime", "K棒時間");
+                tblSignalHistory.Columns.Add("Direction", "方向");
+                tblSignalHistory.Columns.Add("Price", "價位");
+                tblSignalHistory.Columns.Add("Profit", "損益");
             }
             catch (Exception ex)
             {
@@ -116,10 +124,69 @@ namespace AAA.ProgramTrade
                 strategyManager.CurrentTime = (CurrentTime)AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.CURRENT_TIME];
                 //strategyManager.DataSource = (IDataSource)AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.DATA_SOURCE];
                 strategyManager.PositionManager = (PositionManager)AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.POSITION_MANAGER];
-                strategyManager.PerformanceVarify(60 * 30, 
-                                                  strategyManager.CurrentTime.DataSource.DataStartTime(cboBaseSymbolId.Text), 
-                                                  strategyManager.CurrentTime.DataSource.DataEndTime(cboBaseSymbolId.Text));
 
+                int iTimeInterval = 60;
+                BarCompression barCompression = _loadedSignal.BarCompression(_loadedSignal.BaseSymbolId);
+
+                switch (barCompression.DataCompression)
+                {
+                    case AAA.Meta.Quote.BarCompressionEnum.Min:
+                        iTimeInterval = 60 * barCompression.Interval;
+                        break;
+                    case AAA.Meta.Quote.BarCompressionEnum.Hour:
+                        iTimeInterval = 60 * 60 * barCompression.Interval;
+                        break;
+                    case AAA.Meta.Quote.BarCompressionEnum.Daily:
+                        iTimeInterval = 60 * 60 * 24 * barCompression.Interval;
+                        break;
+                }
+
+                strategyManager.PerformanceVarify(iTimeInterval, 
+                                                  dtStartTime.Value, 
+                                                  dtEndTime.Value);
+
+                while (tblSignalHistory.Rows.Count > 0)
+                    tblSignalHistory.Rows.RemoveAt(0);
+
+                List<SignalRecord> lstSignalRecord;
+                SignalRecord signalRecord;
+                string strOrderDirection;
+                float fProfit = 0;
+
+                lstSignalRecord = strategyManager.TradeRecord(_loadedSignal.DisplayName);
+
+                if (lstSignalRecord == null)
+                {
+                    MessageBox.Show("沒有任何交易資訊可顯示");
+                    return;
+                }
+
+                for (int i = 0; i < lstSignalRecord.Count; i++)
+                {
+                    signalRecord = lstSignalRecord[i];
+
+                    switch (signalRecord.EntryOrderDirection)
+                    {
+                        case OrderDirectionEnum.LongEntry:
+                            fProfit = signalRecord.ExitPrice - signalRecord.EntryPrice;
+                            break;
+                        case OrderDirectionEnum.ShortEntry:
+                            fProfit = -1 * (signalRecord.ExitPrice - signalRecord.EntryPrice);
+                            break;
+                    }
+
+                    tblSignalHistory.Rows.Add(new object[] {signalRecord.EntrySignalName,
+                                                            signalRecord.EntryDateTime,
+                                                            signalRecord.EntryOrderDirection,
+                                                            signalRecord.EntryPrice,
+                                                            fProfit});
+
+                    tblSignalHistory.Rows.Add(new object[] {"",
+                                                            signalRecord.ExitDateTime,
+                                                            signalRecord.ExitOrderDirection,
+                                                            signalRecord.ExitPrice,
+                                                            ""});
+                }
 
             }
             catch (Exception ex)

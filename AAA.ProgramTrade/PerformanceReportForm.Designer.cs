@@ -30,6 +30,7 @@
         {
             this.tabReport = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.btnPerformance = new System.Windows.Forms.Button();
             this.tblSignalHistory = new System.Windows.Forms.DataGridView();
             this.cboBaseSymbolId = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -41,7 +42,10 @@
             this.label1 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.ofdDllPath = new System.Windows.Forms.OpenFileDialog();
-            this.btnPerformance = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.dtStartTime = new System.Windows.Forms.DateTimePicker();
+            this.dtEndTime = new System.Windows.Forms.DateTimePicker();
+            this.label5 = new System.Windows.Forms.Label();
             this.tabReport.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tblSignalHistory)).BeginInit();
@@ -63,6 +67,10 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.dtEndTime);
+            this.tabPage1.Controls.Add(this.label5);
+            this.tabPage1.Controls.Add(this.dtStartTime);
+            this.tabPage1.Controls.Add(this.label4);
             this.tabPage1.Controls.Add(this.btnPerformance);
             this.tabPage1.Controls.Add(this.tblSignalHistory);
             this.tabPage1.Controls.Add(this.cboBaseSymbolId);
@@ -81,6 +89,16 @@
             this.tabPage1.Text = "策略載入";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // btnPerformance
+            // 
+            this.btnPerformance.Location = new System.Drawing.Point(478, 9);
+            this.btnPerformance.Name = "btnPerformance";
+            this.btnPerformance.Size = new System.Drawing.Size(75, 23);
+            this.btnPerformance.TabIndex = 10;
+            this.btnPerformance.Text = "驗證";
+            this.btnPerformance.UseVisualStyleBackColor = true;
+            this.btnPerformance.Click += new System.EventHandler(this.btnPerformance_Click);
+            // 
             // tblSignalHistory
             // 
             this.tblSignalHistory.AllowUserToAddRows = false;
@@ -89,11 +107,11 @@
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.tblSignalHistory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.tblSignalHistory.Location = new System.Drawing.Point(17, 206);
+            this.tblSignalHistory.Location = new System.Drawing.Point(17, 233);
             this.tblSignalHistory.Name = "tblSignalHistory";
             this.tblSignalHistory.RowHeadersVisible = false;
             this.tblSignalHistory.RowTemplate.Height = 24;
-            this.tblSignalHistory.Size = new System.Drawing.Size(600, 172);
+            this.tblSignalHistory.Size = new System.Drawing.Size(600, 145);
             this.tblSignalHistory.TabIndex = 9;
             // 
             // cboBaseSymbolId
@@ -121,11 +139,11 @@
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.tblParameter.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.tblParameter.Location = new System.Drawing.Point(17, 95);
+            this.tblParameter.Location = new System.Drawing.Point(17, 127);
             this.tblParameter.Name = "tblParameter";
             this.tblParameter.RowHeadersVisible = false;
             this.tblParameter.RowTemplate.Height = 24;
-            this.tblParameter.Size = new System.Drawing.Size(600, 105);
+            this.tblParameter.Size = new System.Drawing.Size(600, 100);
             this.tblParameter.TabIndex = 5;
             // 
             // txtStrategyName
@@ -185,15 +203,37 @@
             // 
             this.ofdDllPath.FileName = "openFileDialog1";
             // 
-            // btnPerformance
+            // label4
             // 
-            this.btnPerformance.Location = new System.Drawing.Point(478, 9);
-            this.btnPerformance.Name = "btnPerformance";
-            this.btnPerformance.Size = new System.Drawing.Size(75, 23);
-            this.btnPerformance.TabIndex = 10;
-            this.btnPerformance.Text = "驗證";
-            this.btnPerformance.UseVisualStyleBackColor = true;
-            this.btnPerformance.Click += new System.EventHandler(this.btnPerformance_Click);
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(19, 104);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(53, 12);
+            this.label4.TabIndex = 11;
+            this.label4.Text = "開始時間";
+            // 
+            // dtStartTime
+            // 
+            this.dtStartTime.Location = new System.Drawing.Point(74, 99);
+            this.dtStartTime.Name = "dtStartTime";
+            this.dtStartTime.Size = new System.Drawing.Size(117, 22);
+            this.dtStartTime.TabIndex = 12;
+            // 
+            // dtEndTime
+            // 
+            this.dtEndTime.Location = new System.Drawing.Point(258, 99);
+            this.dtEndTime.Name = "dtEndTime";
+            this.dtEndTime.Size = new System.Drawing.Size(117, 22);
+            this.dtEndTime.TabIndex = 15;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(203, 104);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(53, 12);
+            this.label5.TabIndex = 14;
+            this.label5.Text = "結束時間";
             // 
             // PerformanceReportForm
             // 
@@ -228,5 +268,9 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.OpenFileDialog ofdDllPath;
         private System.Windows.Forms.Button btnPerformance;
+        private System.Windows.Forms.DateTimePicker dtEndTime;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.DateTimePicker dtStartTime;
+        private System.Windows.Forms.Label label4;
     }
 }
