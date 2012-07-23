@@ -116,7 +116,7 @@ namespace AAA.ProgramTrade
                 strategyManager.CurrentTime = (CurrentTime)AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.CURRENT_TIME];
                 //strategyManager.DataSource = (IDataSource)AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.DATA_SOURCE];
                 strategyManager.PositionManager = (PositionManager)AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.POSITION_MANAGER];
-                strategyManager.PerformanceVarify(60, 
+                strategyManager.PerformanceVarify(60 * 30, 
                                                   strategyManager.CurrentTime.DataSource.DataStartTime(cboBaseSymbolId.Text), 
                                                   strategyManager.CurrentTime.DataSource.DataEndTime(cboBaseSymbolId.Text));
 
