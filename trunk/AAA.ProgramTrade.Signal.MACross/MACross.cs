@@ -24,10 +24,15 @@ namespace AAA.ProgramTrade.Signal.MACross
             MA slowMA = new MA();
             BarRecord barRecord;
             BarRecord previousBar;
-                        
+            BarCompression barCompression;             
             try
             {
-                barRecord = new BarRecord();                
+                barRecord = new BarRecord();
+                barCompression = BarCompression(BaseSymbolId);
+                barRecord.BarCompression = barCompression.DataCompression;
+                barRecord.CompressionInterval = barCompression.Interval;
+                barRecord.BarDateTime = Time(BaseSymbolId, 0);
+                
                 fastMA.SetCurrentTime(CurrentTime);
                 fastMA.BaseSymbolId = BaseSymbolId;
                 fastMA.Variable("Len", Variable("FastMALen"));
@@ -36,7 +41,7 @@ namespace AAA.ProgramTrade.Signal.MACross
                 slowMA.SetCurrentTime(CurrentTime);
                 slowMA.BaseSymbolId = BaseSymbolId;
                 slowMA.Variable("Len", Variable("SlowMALen"));
-                barRecord["SlowMA"] = fastMA.Calculate()["MA"];
+                barRecord["SlowMA"] = slowMA.Calculate()["MA"];
 
                 AddBarData(DisplayName, barRecord);
 
@@ -44,13 +49,6 @@ namespace AAA.ProgramTrade.Signal.MACross
 
                 if (previousBar == null)
                     return;
-                // Die Cross
-                if ((previousBar["FastMA"] > barRecord["FastMA"]) &&
-                   (previousBar["SlowMA"] < barRecord["SlowMA"]))
-                {
-                    ShortEntry("SE_MA", PriceTimeTypeEnum.AtNextBarOpen, OrderTypeEnum.MarketOrder, 0);
-                }
-
                 // Die Cross
                 if ((previousBar["FastMA"] > barRecord["FastMA"]) &&
                    (previousBar["SlowMA"] < barRecord["SlowMA"]))
