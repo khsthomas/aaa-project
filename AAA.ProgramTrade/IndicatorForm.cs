@@ -110,8 +110,8 @@ namespace AAA.ProgramTrade
                 while (tblParameter.Rows.Count > 0)
                     tblParameter.Rows.RemoveAt(0);
 
-                strNames = function.VariableNames;
-                strDescs = function.VariableDescs;
+                strNames = function.InputVariableNames;
+                strDescs = function.InputVariableDescs;
                 oValues = function.DefaultValues;
 
                 for(int i = 0; i < strNames.Length; i++)
@@ -137,18 +137,18 @@ namespace AAA.ProgramTrade
                 
                 for (int i = 0; i < tblParameter.Rows.Count; i++)
                 {
-                    function.Variable(tblParameter.Rows[i].Cells["ItemName"].Value.ToString(),
-                                     tblParameter.Rows[i].Cells["ItemValue"].Value);
+                    function.InputVariable(tblParameter.Rows[i].Cells["ItemName"].Value.ToString(),
+                                           tblParameter.Rows[i].Cells["ItemValue"].Value);
                 }
 
                 iOriginalInterval = currentTime.TimeInterval;
 
-                currentTime.RemoveSymbol(function.Variable("TransferSymbolId").ToString());
+                currentTime.RemoveSymbol(function.InputVariable("TransferSymbolId").ToString());
                 currentTime.Reset();
                 currentTime.TimeInterval = 60 * function.DataCompression.Interval;
                 while (currentTime.CurrentDateTime.CompareTo(currentTime.DataEndTime) < 0)
                 {
-                    function.Calculate(function.Variable("TransferSymbolId").ToString().Trim() == "" ? null : function.Variable("TransferSymbolId").ToString().Trim());
+                    function.Calculate(function.InputVariable("TransferSymbolId").ToString().Trim() == "" ? null : function.InputVariable("TransferSymbolId").ToString().Trim());
                     currentTime.MoveNext();
                 }
                 currentTime.TimeInterval = iOriginalInterval;

@@ -12,8 +12,8 @@ namespace AAA.ProgramTrade.Functions
         public KD()
         {
             DisplayName = "KD";
-            VariableNames = new string[] { "TransferSymbolId", "Len"};
-            VariableDescs = new string[] { "計算後商品名稱", "長度"};
+            InputVariableNames = new string[] { "TransferSymbolId", "Len"};
+            InputVariableDescs = new string[] { "計算後商品名稱", "長度" };
             DefaultValues = new object[] { "", 9};
         }
 
@@ -24,7 +24,7 @@ namespace AAA.ProgramTrade.Functions
             try
             {           
                 // 取得參數 Len 的值
-                int iLen = (int)Variable("Len");
+                int iLen = (int)InputVariable("Len");
                 float fRSV;
                 float fHigh;
                 float fLow;

@@ -90,10 +90,10 @@ namespace AAA.ProgramTrade
 
                 txtStrategyName.Text = _loadedSignal.DisplayName;
 
-                for (int i = 0; i < _loadedSignal.VariableNames.Length; i++)
+                for (int i = 0; i < _loadedSignal.InputVariableNames.Length; i++)
                 {
-                    tblParameter.Rows.Add(new object[] {_loadedSignal.VariableNames[i],
-                                                        _loadedSignal.VariableDescs[i],
+                    tblParameter.Rows.Add(new object[] {_loadedSignal.InputVariableNames[i],
+                                                        _loadedSignal.InputVariableDescs[i],
                                                         _loadedSignal.DefaultValues[i]});
 
                 }
@@ -116,8 +116,8 @@ namespace AAA.ProgramTrade
                 {
                     _loadedSignal.DefaultValues[i] = tblParameter.Rows[i].Cells["ItemValue"].Value;
                     _loadedSignal.BaseSymbolId = cboBaseSymbolId.Text;
-                    _loadedSignal.Variable(tblParameter.Rows[i].Cells["ItemName"].Value.ToString(),
-                                           tblParameter.Rows[i].Cells["ItemValue"].Value);
+                    _loadedSignal.InputVariable(tblParameter.Rows[i].Cells["ItemName"].Value.ToString(),
+                                                tblParameter.Rows[i].Cells["ItemValue"].Value);
                 }
 
                 strategyManager.AddSignal(_loadedSignal);
