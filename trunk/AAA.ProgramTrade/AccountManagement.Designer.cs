@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.txtAccountType = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.txtCAPassword = new System.Windows.Forms.TextBox();
             this.label24 = new System.Windows.Forms.Label();
             this.txtCAPath = new System.Windows.Forms.TextBox();
@@ -39,15 +41,18 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.cboMode = new System.Windows.Forms.ComboBox();
-            this.label4 = new System.Windows.Forms.Label();
             this.btnChangeMode = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.cboMode = new System.Windows.Forms.ComboBox();
+            this.btnStartSchedule = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.txtAccountType);
+            this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.txtCAPassword);
             this.groupBox1.Controls.Add(this.label24);
             this.groupBox1.Controls.Add(this.txtCAPath);
@@ -59,10 +64,26 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(200, 152);
+            this.groupBox1.Size = new System.Drawing.Size(200, 177);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "帳號設定";
+            // 
+            // txtAccountType
+            // 
+            this.txtAccountType.Location = new System.Drawing.Point(56, 118);
+            this.txtAccountType.Name = "txtAccountType";
+            this.txtAccountType.Size = new System.Drawing.Size(131, 22);
+            this.txtAccountType.TabIndex = 16;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(7, 121);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(41, 12);
+            this.label5.TabIndex = 15;
+            this.label5.Text = "帳號別";
             // 
             // txtCAPassword
             // 
@@ -99,7 +120,7 @@
             // 
             // btnConnect
             // 
-            this.btnConnect.Location = new System.Drawing.Point(65, 120);
+            this.btnConnect.Location = new System.Drawing.Point(65, 146);
             this.btnConnect.Name = "btnConnect";
             this.btnConnect.Size = new System.Drawing.Size(75, 23);
             this.btnConnect.TabIndex = 4;
@@ -145,29 +166,12 @@
             this.groupBox2.Controls.Add(this.btnChangeMode);
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Controls.Add(this.cboMode);
-            this.groupBox2.Location = new System.Drawing.Point(13, 171);
+            this.groupBox2.Location = new System.Drawing.Point(13, 195);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(200, 81);
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "交易模式";
-            // 
-            // cboMode
-            // 
-            this.cboMode.FormattingEnabled = true;
-            this.cboMode.Location = new System.Drawing.Point(55, 21);
-            this.cboMode.Name = "cboMode";
-            this.cboMode.Size = new System.Drawing.Size(121, 20);
-            this.cboMode.TabIndex = 0;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(6, 24);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(29, 12);
-            this.label4.TabIndex = 1;
-            this.label4.Text = "模式";
             // 
             // btnChangeMode
             // 
@@ -179,13 +183,42 @@
             this.btnChangeMode.UseVisualStyleBackColor = true;
             this.btnChangeMode.Click += new System.EventHandler(this.btnChangeMode_Click);
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(6, 24);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(29, 12);
+            this.label4.TabIndex = 1;
+            this.label4.Text = "模式";
+            // 
+            // cboMode
+            // 
+            this.cboMode.FormattingEnabled = true;
+            this.cboMode.Location = new System.Drawing.Point(55, 21);
+            this.cboMode.Name = "cboMode";
+            this.cboMode.Size = new System.Drawing.Size(121, 20);
+            this.cboMode.TabIndex = 0;
+            // 
+            // btnStartSchedule
+            // 
+            this.btnStartSchedule.Location = new System.Drawing.Point(77, 285);
+            this.btnStartSchedule.Name = "btnStartSchedule";
+            this.btnStartSchedule.Size = new System.Drawing.Size(75, 23);
+            this.btnStartSchedule.TabIndex = 6;
+            this.btnStartSchedule.Text = "啟動排程";
+            this.btnStartSchedule.UseVisualStyleBackColor = true;
+            this.btnStartSchedule.Click += new System.EventHandler(this.btnStartSchedule_Click);
+            // 
             // AccountManagement
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(230, 264);
+            this.ClientSize = new System.Drawing.Size(225, 320);
+            this.Controls.Add(this.btnStartSchedule);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Name = "AccountManagement";
             this.Text = "帳號管理";
             this.groupBox1.ResumeLayout(false);
@@ -212,5 +245,8 @@
         private System.Windows.Forms.Button btnChangeMode;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ComboBox cboMode;
+        private System.Windows.Forms.TextBox txtAccountType;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Button btnStartSchedule;
     }
 }

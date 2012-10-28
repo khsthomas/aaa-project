@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataMerge.cs" />
     <Compile Include="KD.cs" />
     <Compile Include="MA.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -60,6 +61,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>copy $(TargetPath) D:\AAA\Project\AAA.ProgramTrade\libs</PostBuildEvent>
+    <PostBuildEvent>copy $(TargetPath) D:\AAA\Project\AAA.ProgramTrade\libs
+copy $(TargetPath) D:\AAA\Project\AAA.ProgramTrade\bin\Debug\Function</PostBuildEvent>
   </PropertyGroup>
 </Project>

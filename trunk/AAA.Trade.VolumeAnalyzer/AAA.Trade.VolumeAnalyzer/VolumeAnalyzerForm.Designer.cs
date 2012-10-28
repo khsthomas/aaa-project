@@ -72,6 +72,8 @@
             this.txtPeriodVolume = new System.Windows.Forms.TextBox();
             this.label14 = new System.Windows.Forms.Label();
             this.alarmTimer = new System.Windows.Forms.Timer(this.components);
+            this.txtSymbolId = new System.Windows.Forms.TextBox();
+            this.label15 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tblVolume)).BeginInit();
@@ -255,7 +257,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 21);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(848, 326);
+            this.tabPage3.Size = new System.Drawing.Size(906, 326);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "成交量(2)";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -275,7 +277,7 @@
             this.tblVolume1.RowHeadersVisible = false;
             this.tblVolume1.RowTemplate.Height = 24;
             this.tblVolume1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.tblVolume1.Size = new System.Drawing.Size(842, 320);
+            this.tblVolume1.Size = new System.Drawing.Size(900, 320);
             this.tblVolume1.TabIndex = 2;
             // 
             // tabPage2
@@ -284,7 +286,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 21);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(848, 326);
+            this.tabPage2.Size = new System.Drawing.Size(906, 326);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "異常成交量(1)";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -304,7 +306,7 @@
             this.tblAbnormalVolume.RowHeadersVisible = false;
             this.tblAbnormalVolume.RowTemplate.Height = 24;
             this.tblAbnormalVolume.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.tblAbnormalVolume.Size = new System.Drawing.Size(842, 320);
+            this.tblAbnormalVolume.Size = new System.Drawing.Size(900, 320);
             this.tblAbnormalVolume.TabIndex = 1;
             // 
             // tabPage4
@@ -313,7 +315,7 @@
             this.tabPage4.Location = new System.Drawing.Point(4, 21);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(848, 326);
+            this.tabPage4.Size = new System.Drawing.Size(906, 326);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "異常成交量(2)";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -333,7 +335,7 @@
             this.tblAbnormalVolume1.RowHeadersVisible = false;
             this.tblAbnormalVolume1.RowTemplate.Height = 24;
             this.tblAbnormalVolume1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.tblAbnormalVolume1.Size = new System.Drawing.Size(842, 320);
+            this.tblAbnormalVolume1.Size = new System.Drawing.Size(900, 320);
             this.tblAbnormalVolume1.TabIndex = 2;
             // 
             // btnSave
@@ -507,11 +509,30 @@
             this.alarmTimer.Interval = 200;
             this.alarmTimer.Tick += new System.EventHandler(this.alarmTimer_Tick);
             // 
+            // txtSymbolId
+            // 
+            this.txtSymbolId.Location = new System.Drawing.Point(449, 60);
+            this.txtSymbolId.Name = "txtSymbolId";
+            this.txtSymbolId.Size = new System.Drawing.Size(93, 22);
+            this.txtSymbolId.TabIndex = 36;
+            this.txtSymbolId.Text = "TW.TXFI2";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(389, 64);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(53, 12);
+            this.label15.TabIndex = 35;
+            this.label15.Text = "商品名稱";
+            // 
             // VolumeAnalyzerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(927, 439);
+            this.Controls.Add(this.txtSymbolId);
+            this.Controls.Add(this.label15);
             this.Controls.Add(this.txtPeriodVolume);
             this.Controls.Add(this.label14);
             this.Controls.Add(this.txtPeriodAlarmVolume);
@@ -608,6 +629,8 @@
         private System.Windows.Forms.TextBox txtPeriodVolume;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Timer alarmTimer;
+        private System.Windows.Forms.TextBox txtSymbolId;
+        private System.Windows.Forms.Label label15;
     }
 }
 

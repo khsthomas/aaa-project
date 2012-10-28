@@ -37,13 +37,17 @@
             this.autoTradeItem = new System.Windows.Forms.ToolStripMenuItem();
             this.speedOrderItem = new System.Windows.Forms.ToolStripMenuItem();
             this.chartItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.realtimeStrategyItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataItem = new System.Windows.Forms.ToolStripMenuItem();
             this.offlineDataItem = new System.Windows.Forms.ToolStripMenuItem();
             this.calculateItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataMonitorItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.offlineDataFeedItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dataDownloadItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reportItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.performanceReportItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.statusBarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.windowsMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -58,7 +62,6 @@
             this.loginStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.ofdOpenFile = new System.Windows.Forms.OpenFileDialog();
-            this.performanceReportItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.SuspendLayout();
@@ -94,6 +97,7 @@
             this.autoTradeItem,
             this.speedOrderItem,
             this.chartItem,
+            this.realtimeStrategyItem,
             this.toolStripSeparator1,
             this.exitItem});
             this.systemMenu.ImageTransparentColor = System.Drawing.SystemColors.ActiveBorder;
@@ -104,46 +108,54 @@
             // catcherItem
             // 
             this.catcherItem.Name = "catcherItem";
-            this.catcherItem.Size = new System.Drawing.Size(152, 22);
+            this.catcherItem.Size = new System.Drawing.Size(142, 22);
             this.catcherItem.Text = "訊號讀取器";
             this.catcherItem.Click += new System.EventHandler(this.catcherItem_Click);
             // 
             // scheduleItem
             // 
             this.scheduleItem.Name = "scheduleItem";
-            this.scheduleItem.Size = new System.Drawing.Size(152, 22);
+            this.scheduleItem.Size = new System.Drawing.Size(142, 22);
             this.scheduleItem.Text = "工作排程";
+            this.scheduleItem.Click += new System.EventHandler(this.scheduleItem_Click);
             // 
             // autoTradeItem
             // 
             this.autoTradeItem.Name = "autoTradeItem";
-            this.autoTradeItem.Size = new System.Drawing.Size(152, 22);
+            this.autoTradeItem.Size = new System.Drawing.Size(142, 22);
             this.autoTradeItem.Text = "API下單";
             this.autoTradeItem.Click += new System.EventHandler(this.autoTradeItem_Click);
             // 
             // speedOrderItem
             // 
             this.speedOrderItem.Name = "speedOrderItem";
-            this.speedOrderItem.Size = new System.Drawing.Size(152, 22);
+            this.speedOrderItem.Size = new System.Drawing.Size(142, 22);
             this.speedOrderItem.Text = "智慧閃電下單";
             this.speedOrderItem.Click += new System.EventHandler(this.speedOrderItem_Click);
             // 
             // chartItem
             // 
             this.chartItem.Name = "chartItem";
-            this.chartItem.Size = new System.Drawing.Size(152, 22);
+            this.chartItem.Size = new System.Drawing.Size(142, 22);
             this.chartItem.Text = "走勢圖";
             this.chartItem.Click += new System.EventHandler(this.chartItem_Click);
+            // 
+            // realtimeStrategyItem
+            // 
+            this.realtimeStrategyItem.Name = "realtimeStrategyItem";
+            this.realtimeStrategyItem.Size = new System.Drawing.Size(142, 22);
+            this.realtimeStrategyItem.Text = "即時策略";
+            this.realtimeStrategyItem.Click += new System.EventHandler(this.realtimeStrategyItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(139, 6);
             // 
             // exitItem
             // 
             this.exitItem.Name = "exitItem";
-            this.exitItem.Size = new System.Drawing.Size(152, 22);
+            this.exitItem.Size = new System.Drawing.Size(142, 22);
             this.exitItem.Text = "E&xit";
             this.exitItem.Click += new System.EventHandler(this.ExitToolsStripMenuItem_Click);
             // 
@@ -152,7 +164,9 @@
             this.dataItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.offlineDataItem,
             this.calculateItem,
-            this.dataMonitorItem});
+            this.dataMonitorItem,
+            this.offlineDataFeedItem,
+            this.dataDownloadItem});
             this.dataItem.Name = "dataItem";
             this.dataItem.Size = new System.Drawing.Size(70, 20);
             this.dataItem.Text = "資料(&Data)";
@@ -160,23 +174,37 @@
             // offlineDataItem
             // 
             this.offlineDataItem.Name = "offlineDataItem";
-            this.offlineDataItem.Size = new System.Drawing.Size(152, 22);
+            this.offlineDataItem.Size = new System.Drawing.Size(142, 22);
             this.offlineDataItem.Text = "讀入離線資料";
             this.offlineDataItem.Click += new System.EventHandler(this.offlineDataItem_Click);
             // 
             // calculateItem
             // 
             this.calculateItem.Name = "calculateItem";
-            this.calculateItem.Size = new System.Drawing.Size(152, 22);
-            this.calculateItem.Text = "指標載入";
+            this.calculateItem.Size = new System.Drawing.Size(142, 22);
+            this.calculateItem.Text = "資料運算";
             this.calculateItem.Click += new System.EventHandler(this.calculateItem_Click);
             // 
             // dataMonitorItem
             // 
             this.dataMonitorItem.Name = "dataMonitorItem";
-            this.dataMonitorItem.Size = new System.Drawing.Size(152, 22);
+            this.dataMonitorItem.Size = new System.Drawing.Size(142, 22);
             this.dataMonitorItem.Text = "資料監控";
             this.dataMonitorItem.Click += new System.EventHandler(this.dataMonitorItem_Click);
+            // 
+            // offlineDataFeedItem
+            // 
+            this.offlineDataFeedItem.Name = "offlineDataFeedItem";
+            this.offlineDataFeedItem.Size = new System.Drawing.Size(142, 22);
+            this.offlineDataFeedItem.Text = "歷史資料重播";
+            this.offlineDataFeedItem.Click += new System.EventHandler(this.offlineDataFeedItem_Click);
+            // 
+            // dataDownloadItem
+            // 
+            this.dataDownloadItem.Name = "dataDownloadItem";
+            this.dataDownloadItem.Size = new System.Drawing.Size(142, 22);
+            this.dataDownloadItem.Text = "歷史資料下載";
+            this.dataDownloadItem.Click += new System.EventHandler(this.dataDownloadItem_Click);
             // 
             // reportItem
             // 
@@ -185,6 +213,13 @@
             this.reportItem.Name = "reportItem";
             this.reportItem.Size = new System.Drawing.Size(81, 20);
             this.reportItem.Text = "報表(&Report)";
+            // 
+            // performanceReportItem
+            // 
+            this.performanceReportItem.Name = "performanceReportItem";
+            this.performanceReportItem.Size = new System.Drawing.Size(118, 22);
+            this.performanceReportItem.Text = "績效報表";
+            this.performanceReportItem.Click += new System.EventHandler(this.performanceReportItem_Click);
             // 
             // viewMenu
             // 
@@ -285,13 +320,6 @@
             // 
             this.ofdOpenFile.FileName = "openFileDialog1";
             // 
-            // performanceReportItem
-            // 
-            this.performanceReportItem.Name = "performanceReportItem";
-            this.performanceReportItem.Size = new System.Drawing.Size(152, 22);
-            this.performanceReportItem.Text = "績效報表";
-            this.performanceReportItem.Click += new System.EventHandler(this.performanceReportItem_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -303,6 +331,7 @@
             this.MainMenuStrip = this.menuStrip;
             this.Name = "MainForm";
             this.Text = "MainForm";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
             this.statusStrip.ResumeLayout(false);
@@ -344,6 +373,9 @@
         private System.Windows.Forms.ToolStripMenuItem calculateItem;
         private System.Windows.Forms.ToolStripMenuItem reportItem;
         private System.Windows.Forms.ToolStripMenuItem performanceReportItem;
+        private System.Windows.Forms.ToolStripMenuItem offlineDataFeedItem;
+        private System.Windows.Forms.ToolStripMenuItem dataDownloadItem;
+        private System.Windows.Forms.ToolStripMenuItem realtimeStrategyItem;
     }
 }
 

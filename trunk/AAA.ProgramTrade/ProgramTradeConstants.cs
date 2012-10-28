@@ -13,5 +13,8 @@ namespace AAA.ProgramTrade
         public const string SCHEDULE_MANAGER = "ScheduleManager";
         public const string CURRENT_TIME = "CurrentTime";
         public const string POSITION_MANAGER = "PositionManager";
+        public const string STRATEGY_MANAGER = "StrategyManager";
+        public const string SIGNAL_CATCHER = "SignalCatcher";
+        public const string TRACKING_CENTER = "TrackingCenter";
     }
 }

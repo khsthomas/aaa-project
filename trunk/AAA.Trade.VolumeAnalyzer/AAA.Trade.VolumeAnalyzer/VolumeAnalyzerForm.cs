@@ -11,11 +11,44 @@ using NDde.Client;
 using System.Threading;
 using System.IO;
 using System.Runtime.InteropServices;
+using AAA.Meta.Quote.Data;
+using Package;
+using Intelligence;
+using AAA.Base.Util;
 
 namespace AAA.Trade.VolumeAnalyzer
 {
     public partial class VolumeAnalyzerForm : Form
     {
+        private const string HOST = "211.22.59.11";
+        private const ushort PORT = (ushort)8000;
+        private const string ID = "53165402";
+        private const string PASSWORD = "lucky777";
+        private const string TOKEN = "b6eb";
+        private const string SOURCE_ID = "API";
+        private const char AREA = ' ';
+
+        private Intelligence.QuoteCom _quoteCom;
+        private UTF8Encoding _encoding = new System.Text.UTF8Encoding();
+
+
+        private int _iBarVolume = 0;
+        private int _iSecondVolume = 0;
+        private int _iPeriodTotalVolume = 0;
+        private DateTime _dtPreviousMinute = DateTime.Now;
+
+        private List<int> _lstVolume = new List<int>();
+        private List<int> _lstPrice = new List<int>();
+
+        private float _fOpen = float.NaN;
+        private float _fHigh = -float.MaxValue;
+        private float _fLow = float.MaxValue;
+
+        private int _iPreviousSellCount = 0;
+        private int _iPreviousBuyCount = 0;
+
+        private bool _isFirstTime = true;
+
         [DllImport("Kernel32.dll")]
         public static extern bool Beep(UInt32 frequency, UInt32 duration);
 
@@ -50,6 +83,7 @@ namespace AAA.Trade.VolumeAnalyzer
         {
             InitializeComponent();
             Init();
+            InitQuote();
         }
 
         private void Init()
@@ -153,6 +187,13 @@ namespace AAA.Trade.VolumeAnalyzer
             {
                 MessageBox.Show(ex.Message + "," + ex.StackTrace);
             }
+        }
+
+        private void InitQuote()
+        {
+            _quoteCom = new QuoteCom(HOST, PORT, SOURCE_ID, TOKEN);
+            _quoteCom.OnRcvMessage += OnQuoteRcvMessage;
+            _quoteCom.OnGetStatus += OnQuoteGetStatus;
         }
 
         private void LoadEstimateTable(string strTableName)
@@ -646,6 +687,228 @@ namespace AAA.Trade.VolumeAnalyzer
             }
         }
 
+        private void TickReceive(TickData tickData, int iTotalVolume, int iBuyCount, int iSellCount)
+        {
+            int iVolume;            
+            int iTickVolume;            
+            float fPrice;
+            TimeSpan timeSpan;
+            TimeSpan timeSpanNow;
+            object[] oItems;
+            //DateTime dtPreviousMinute = DateTime.Now;
+            DateTime dtNow;                        
+            int iDiffPrice = 0;            
+
+            try
+            {
+
+                iTickVolume = (int)tickData.Volume;
+                fPrice = tickData.Price;
+                _iBarVolume += iTickVolume;
+                dtNow = new DateTime(tickData.Ticks);
+
+
+                if (_isFirstTime)
+                {
+                    _iPreviousBuyCount = iBuyCount;
+                    _iPreviousSellCount = iSellCount;
+                    _iPreviousVolume = iTotalVolume;
+                    _iPeriodTotalVolume = 0;
+                    _isFirstTime = false;
+                }
+
+                _iSecondVolume += iTickVolume;
+                if (dtNow.ToString("HHmmss") != _dtPreviousMinute.ToString("HHmmss"))
+                {
+                    if (_lstVolume.Count < _iPeriodAlarmInterval)
+                    {
+
+                        _iPeriodTotalVolume += _iSecondVolume;
+                    }
+                    else
+                    {
+                        _iPeriodTotalVolume = _iPeriodTotalVolume - _lstVolume[0] + _iSecondVolume;
+                        _lstVolume.RemoveAt(0);
+                        _lstPrice.RemoveAt(0);
+                    }
+
+                    _lstVolume.Add(_iSecondVolume);
+                    _lstPrice.Add((int)fPrice);
+
+                    _iSecondVolume = 0;
+                    iDiffPrice = (int)fPrice - _lstPrice[0];
+                    if (txtPeriodVolume.InvokeRequired)
+                    {
+                        txtPeriodVolume.Invoke((MethodInvoker)delegate()
+                        {
+                            UpdatePeriodVolume(_iPeriodTotalVolume, iDiffPrice, fPrice, _lstPrice[0]);
+                        });
+                    }
+                    else
+                    {
+                        UpdatePeriodVolume(_iPeriodTotalVolume, iDiffPrice, fPrice, _lstPrice[0]);
+                    }
+                }
+
+                _fOpen = float.IsNaN(_fOpen) ? fPrice : _fOpen;
+                _fLow = Math.Min(_fLow, fPrice);
+                _fHigh = Math.Max(_fHigh, fPrice);
+
+                _iDealBuyVolume += (iBuyCount - _iPreviousBuyCount);
+                _iDealSellVolume += (iSellCount - _iPreviousSellCount);
+
+                timeSpan = new TimeSpan(dtNow.Ticks - _dtStartTime.Ticks);
+                timeSpanNow = new TimeSpan(dtNow.Ticks - _dtPreviousMinute.Ticks);
+
+                if (((((int)timeSpan.TotalSeconds) % _iDealBarLen == 0) || (((int)timeSpanNow.TotalSeconds > _iDealBarLen) &&
+                    dtNow > _dtStartTime)) &&
+                    dtNow.ToString("HH:mm") != _dtPreviousMinute.ToString("HH:mm"))
+                {
+                    oItems = new object[] { dtNow.ToString("HH:mm:ss"), 
+                                                _fOpen.ToString(), 
+                                                _fHigh.ToString(), 
+                                                _fLow.ToString(), 
+                                                fPrice.ToString(), 
+                                                _iDealBuyVolume.ToString(), 
+                                                _iDealSellVolume.ToString(), 
+                                                _iBarVolume.ToString(), 
+                                                (_iDealBuyVolume - _iDealSellVolume).ToString(),
+                                                (fPrice - _fOpen).ToString()};
+
+                    if (tblVolume.InvokeRequired)
+                    {
+                        tblVolume.Invoke((MethodInvoker)delegate()
+                        {
+                            UpdateTable(oItems);
+                        });
+                    }
+                    else
+                    {
+                        UpdateTable(oItems);
+                    }
+
+                    oItems = new object[] { dtNow.ToString("HH:mm:ss"), 
+                                                _fOpen.ToString(), 
+                                                _fHigh.ToString(), 
+                                                _fLow.ToString(), 
+                                                fPrice.ToString(), 
+                                                _iDealBuyVolume1.ToString(), 
+                                                _iDealSellVolume1.ToString(), 
+                                                _iBarVolume.ToString(), 
+                                                (_iDealBuyVolume1 - _iDealSellVolume1).ToString(),
+                                                (fPrice - _fOpen).ToString()};
+
+                    if (tblVolume.InvokeRequired)
+                    {
+                        tblVolume.Invoke((MethodInvoker)delegate()
+                        {
+                            UpdateTable1(oItems);
+                        });
+                    }
+                    else
+                    {
+                        UpdateTable1(oItems);
+                    }
+
+                    if (_iBarVolume >= _iAlarmVolume)
+                    {
+                        if (fPrice > _fOpen)
+                            oItems = new object[] {(fPrice - _fOpen).ToString(),
+                                                       (_iDealBuyVolume - _iDealSellVolume).ToString(),
+                                                       fPrice.ToString(),
+                                                       _iBarVolume.ToString(),
+                                                       dtNow.ToString("HH:mm:ss"),
+                                                       "",
+                                                       "",
+                                                       "",
+                                                       ""};
+                        else
+                            oItems = new object[] {"",
+                                                       "",
+                                                       "",
+                                                       "",
+                                                       dtNow.ToString("HH:mm:ss"),
+                                                       _iBarVolume.ToString(),
+                                                       fPrice.ToString(),
+                                                       (_iDealBuyVolume - _iDealSellVolume).ToString(),
+                                                       (fPrice - _fOpen).ToString()};
+
+                        if (tblAbnormalVolume.InvokeRequired)
+                        {
+                            tblAbnormalVolume.Invoke((MethodInvoker)delegate()
+                            {
+                                UpdateAbnormalTable(oItems);
+                            });
+                        }
+                        else
+                        {
+                            UpdateAbnormalTable(oItems);
+                        }
+
+
+                        if (fPrice > _fOpen)
+                            oItems = new object[] {(fPrice - _fOpen).ToString(),
+                                                       (_iDealBuyVolume1 - _iDealSellVolume1).ToString(),
+                                                        fPrice.ToString(),
+                                                       _iBarVolume.ToString(),
+                                                       dtNow.ToString("HH:mm:ss"),
+                                                       "",
+                                                       "",
+                                                       "",
+                                                       ""};
+                        else
+                            oItems = new object[] {"",
+                                                       "",
+                                                       "",
+                                                       "",
+                                                       dtNow.ToString("HH:mm:ss"),
+                                                       _iBarVolume.ToString(),
+                                                       fPrice.ToString(),
+                                                       (_iDealBuyVolume1 - _iDealSellVolume1).ToString(),
+                                                       (fPrice - _fOpen).ToString()};
+
+                        if (tblAbnormalVolume1.InvokeRequired)
+                        {
+                            tblAbnormalVolume1.Invoke((MethodInvoker)delegate()
+                            {
+                                UpdateAbnormalTable1(oItems);
+                            });
+                        }
+                        else
+                        {
+                            UpdateAbnormalTable1(oItems);
+                        }
+
+                    }
+                    _iDealSellVolume = 0;
+                    _iDealBuyVolume = 0;
+                    _fOpen = fPrice;
+                    _fHigh = fPrice;
+                    _fLow = fPrice;
+                    _iBarVolume = 0;
+                    _dtPreviousMinute = dtNow;
+                }
+
+                _context.Post(new SendOrPostCallback(delegate
+                {
+                    UpdateValue(new string[] {fPrice.ToString(),
+                                             iTotalVolume.ToString(),
+                                             _iDealBuyVolume.ToString(),
+                                             _iDealSellVolume.ToString(),
+                                             (fPrice - _fOpen).ToString()
+                                            });
+                }),
+                              null);
+
+                _iPreviousBuyCount = iBuyCount;
+                _iPreviousSellCount = iSellCount;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "," + ex.StackTrace);
+            }
+        }
+
         private void StartMonitor()
         {
             int iVolume;
@@ -924,6 +1187,7 @@ namespace AAA.Trade.VolumeAnalyzer
         {
             try
             {
+/*
                 _ddeClient.Connect();                
                 txtPrice.Text = _ddeClient.Request(_iniReader.GetParam("Price"), 6000);
                 txtVolume.Text = _ddeClient.Request(_iniReader.GetParam("Volume"), 6000);
@@ -931,12 +1195,101 @@ namespace AAA.Trade.VolumeAnalyzer
                 _isSaved = false;
                 _tMonitor = new Thread(new ThreadStart(StartMonitor));
                 _tMonitor.Start();
+ */
+                _isStartMonitor = true;
+                _isSaved = false;
+                _isFirstTime = true;
+
+
+                string strQuotedList = txtSymbolId.Text;
+                _quoteCom.SourceId = SOURCE_ID;
+                _quoteCom.Connect2Quote(HOST, PORT, ID, PASSWORD, AREA, strQuotedList);
+
+
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message + "," + ex.StackTrace);
             }
         }
+
+        #region QuoteCom API 事件
+        private void OnQuoteGetStatus(object sender, COM_STATUS staus, byte[] msg)
+        {
+            QuoteCom com = (QuoteCom)sender;
+            string smsg = null;
+            switch (staus)
+            {
+                case COM_STATUS.LOGIN_READY:
+                    MessageBox.Show(String.Format("LOGIN_READY:[{0}]", _encoding.GetString(msg)));
+                    break;
+                case COM_STATUS.LOGIN_FAIL:
+                    MessageBox.Show(String.Format("LOGIN FAIL:[{0}]", _encoding.GetString(msg)));
+                    break;
+                case COM_STATUS.LOGIN_UNKNOW:
+                    MessageBox.Show(String.Format("LOGIN UNKNOW:[{0}]", _encoding.GetString(msg)));
+                    break;
+                case COM_STATUS.CONNECT_READY:
+                    smsg = "QuoteCom: [" + _encoding.GetString(msg) + "] MyIP=" + _quoteCom.MyIP;
+                    MessageBox.Show(smsg);
+                    break;
+                case COM_STATUS.CONNECT_FAIL:
+                    smsg = _encoding.GetString(msg);
+                    MessageBox.Show("CONNECT_FAIL:" + smsg);
+                    break;
+                case COM_STATUS.DISCONNECTED:
+                    smsg = _encoding.GetString(msg);
+                    MessageBox.Show("DISCONNECTED:" + smsg);
+                    break;
+            }
+            com.Processed();
+        }
+
+        private DateTime ParseTime(uint iTime)
+        {
+            string strTime = StringHelper.FillChar(iTime.ToString(), '0', 8, StringFillTypeEnum.Left);
+            return new DateTime(DateTime.Now.Year,
+                                DateTime.Now.Month,
+                                DateTime.Now.Day,
+                                int.Parse(strTime.Substring(0, 2)),
+                                int.Parse(strTime.Substring(2, 2)),
+                                int.Parse(strTime.Substring(4, 2)),
+                                int.Parse(strTime.Substring(6, 2)) * 10);
+
+        }
+
+        private void OnQuoteRcvMessage(object sender, PackageBase package)
+        {
+            /*
+                        if (package.TOPIC != null)
+                            if (RecoverMap.ContainsKey(package.TOPIC))
+                                RecoverMap[package.TOPIC]++;
+            */
+
+            StringBuilder sb;
+            switch (package.DT)
+            {
+                case (ushort)DT.QUOTE_I020:
+                    PI20020 i20020 = (PI20020)package;
+                    TickData tickData = new TickData();
+                    DateTime tickTime;
+                    string strQuoteInfo = i20020.MatchTime + "," + i20020.Market + "," + i20020.Price + "," + i20020.MatchQuantity + "," + i20020.MatchBuyCnt + "," + i20020.MatchSellCnt;
+
+                    tickTime = ParseTime(i20020.MatchTime);
+                    tickData.Date = tickTime.ToString("yyyy/MM/dd");
+                    tickData.Time = tickTime.ToString("HH:mm:ss.fff");
+                    tickData.Ticks = tickTime.Ticks;
+                    tickData.Price = (float)Convert.ToDouble(i20020.Price);
+                    tickData.Volume = i20020.MatchQuantity;
+                    TickReceive(tickData, i20020.MatchTotalQty, i20020.MatchBuyCnt, i20020.MatchSellCnt);       
+
+
+                    break;
+            }
+        }
+
+
+        #endregion
 
         private void VolumeAnalyzerForm_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -947,6 +1300,12 @@ namespace AAA.Trade.VolumeAnalyzer
                 if(_ddeClient.IsConnected)
                     _ddeClient.Disconnect();
 
+                if (_quoteCom != null)
+                {
+                    _quoteCom.UnsubQuote(txtSymbolId.Text);
+                    _quoteCom.Logout();
+                    _quoteCom.Dispose();
+                }
                 if (MessageBox.Show("是否儲存資料", "Save Confirm", MessageBoxButtons.YesNo) == DialogResult.Yes)
                     SaveRecord(txtDate.Text);
             }
@@ -960,7 +1319,7 @@ namespace AAA.Trade.VolumeAnalyzer
         {
             try
             {
-                _isStartMonitor = false;
+                _isStartMonitor = false;                
             }
             catch (Exception ex)
             {

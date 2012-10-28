@@ -298,6 +298,8 @@ namespace AAA.SPFTrade
 
         public override string QuerySymbolCode(string strSymbolType, string strStrikePrice, string strPubOrCall, string strYear, string strMonth)
         {
+            return SymbolCodeHelper.QuerySymbolCode(strSymbolType, strStrikePrice, strPubOrCall, strYear, strMonth);
+/*
             string strSymbolCode = "";
             string strMonthYear = "";
 
@@ -327,6 +329,7 @@ namespace AAA.SPFTrade
             }
 
             return strSymbolCode;
+ */ 
         }
 
         private void WriteLog(string[] strParams)
@@ -507,6 +510,16 @@ namespace AAA.SPFTrade
             }
             WriteLog(strParams);
             return strMessage;
+        }
+
+        public override object ChangeQuantity(AAA.Meta.Trade.Data.OrderInfo orderInfo)
+        {
+            return "Fail";
+        }
+
+        public override object ChangePrice(AAA.Meta.Trade.Data.OrderInfo orderInfo)
+        {
+            return "Fail";
         }
 
         public override object GetOrderStatus(OrderInfo orderInfo)

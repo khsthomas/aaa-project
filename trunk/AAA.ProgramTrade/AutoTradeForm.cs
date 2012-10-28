@@ -15,6 +15,7 @@ using AAA.DesignPattern.Observer;
 using System.IO;
 using AAA.TradeLanguage;
 using AAA.TradeLanguage.Data;
+using AAA.ProgramTrade.Parser;
 
 namespace AAA.ProgramTrade
 {
@@ -203,8 +204,10 @@ namespace AAA.ProgramTrade
                     strValues = strLine.Split('\t');
                     DataGridViewUtil.InsertRow(tblStrategy, strValues);
                     RestoreStrategy(tblStrategy.Rows.Count - 1);
-                    tradeSymbol = new TradeSymbol();
-                    BuildStrategy(tradeSymbol);
+                    tradeSymbol = SystemHelper.CreateTradeSymbol(strValues);                    
+                    //tradeSymbol = new TradeSymbol();
+                    //BuildStrategy(tradeSymbol);
+                    BuildStrategy();
                     _tradingRule.AddSignalSymbolMapping(txtStrategyName.Text, tradeSymbol);
 /*
                     StrategyInfo strategyInfo = new StrategyInfo();                    
@@ -391,7 +394,14 @@ namespace AAA.ProgramTrade
                     if (strTitles[i] == "未啟用")
                         continue;
 
-                    DataGridViewUtil.InsertRow(tblTodayEquity, new string[] { strTitles[i], double.Parse(dicRecord[strFields[i]]).ToString("0.00") });
+                    try
+                    {
+                        DataGridViewUtil.InsertRow(tblTodayEquity, new string[] { strTitles[i], double.Parse(dicRecord[strFields[i]]).ToString("0.00") });
+                    }
+                    catch
+                    {
+                        DataGridViewUtil.InsertRow(tblTodayEquity, new string[] { strTitles[i], dicRecord[strFields[i]] });
+                    }
                 }
             }
             catch (Exception ex)
@@ -662,13 +672,15 @@ namespace AAA.ProgramTrade
                         Dictionary<string, object> dicReturn;
 
                         dicReturn = (Dictionary<string, object>)miMessage.Message;
+                        if (dicReturn.ContainsKey("name") == false)
+                            break;
 
                         switch (dicReturn["name"].ToString())
                         {
-                            case "QueryTodayEquity":
+                            case "QueryTodayEquity": //當日權益數
 
-                                _dicEquity = dicReturn;
-                                strEquityTypes = (string[])dicReturn["equitytypes"];
+                                _dicEquity = PolarisMessageParser.ParseEquity(dicReturn);
+                                strEquityTypes = (string[])_dicEquity["equitytypes"];
 
                                 while (cboEquityType.Items.Count > 0)
                                     cboEquityType.Items.RemoveAt(0);
@@ -683,8 +695,9 @@ namespace AAA.ProgramTrade
 
                                 break;
 
-                            case "QueryTodayPosition":
+                            case "QueryTodayPosition": //目前庫存
                                 DataGridViewUtil.Clear(tblOpenPosition);
+                                dicReturn = PolarisMessageParser.ParseTodayPosition(dicReturn);
 
                                 iRecordCount = int.Parse(dicReturn["recordcount"].ToString());
 
@@ -700,8 +713,30 @@ namespace AAA.ProgramTrade
                                 }
                                 break;
 
-                            case "QueryOrderListByDiff":
+                            case "QueryOrderListByDiff": //委託回報
                                 DataGridViewUtil.Clear(tblTrust);
+                                dicReturn = PolarisMessageParser.ParseTrustReport(dicReturn);
+
+                                iRecordCount = int.Parse(dicReturn["recordcount"].ToString());
+
+                                for (int i = 0; i < iRecordCount; i++)
+                                {
+                                    dicRecord = (Dictionary<string, string>)dicReturn["record" + i];
+                                    strValues = new string[tblTrust.ColumnCount];
+                                    for (int j = 0; j < strValues.Length; j++)
+                                    {
+                                        strValues[j] = dicRecord[tblTrust.Columns[j].Name].ToString();
+                                    }
+                                    if(tblTrust.ColumnCount > 0)
+                                        DataGridViewUtil.InsertRow(tblTrust, strValues);
+                                }
+
+                                break;
+
+                            case "QueryDealReport": //成交回報
+                                DataGridViewUtil.Clear(tblDeal);
+
+                                dicReturn = PolarisMessageParser.ParseDealReport(dicReturn);
 
                                 iRecordCount = int.Parse(dicReturn["recordcount"].ToString());
 
@@ -717,7 +752,10 @@ namespace AAA.ProgramTrade
                                 }
 
                                 break;
-
+                            case "SendOrder":
+                                //_autoTrade.GetOrderReport(DateTime.Now.ToString("yyyy/MM/dd"), DateTime.Now.ToString("yyyy/MM/dd"));
+                                //MessageBox.Show(dicReturn.ToString());
+                                break;
                         }
 
                         break;
@@ -760,40 +798,53 @@ namespace AAA.ProgramTrade
                                         ? "SE" 
                                         : "LX";
 
-            orderInfo.Year = DateTime.Now.ToString("yyyy");
-            orderInfo.Month = cboManualMonth.Text;
-            orderInfo.SymbolCode = _autoTrade.QuerySymbolCode(cboManualSymbolType.Text, txtManualStrikePrice.Text, cboManualPutOrCall.Text == "買權" ? "C" : "P", orderInfo.Year, orderInfo.Month);
+            orderInfo.Year = cboManualMonth.Text == "近月" ? SymbolUtil.HotContract(DateTime.Now).Year.ToString() : SymbolUtil.NextMonthContract(DateTime.Now).Year.ToString(); ;
+            orderInfo.Month = cboManualMonth.Text == "近月" ? SymbolUtil.HotContract(DateTime.Now).Month.ToString() : SymbolUtil.NextMonthContract(DateTime.Now).Month.ToString(); 
+            orderInfo.SymbolCode = _autoTrade.QuerySymbolCode(cboManualSymbolType.Text, txtManualStrikePrice.Text, cboManualPutOrCall.Text == "買權" ? "C" : cboManualPutOrCall.Text == "賣權" ? "P" : " ", orderInfo.Year, orderInfo.Month);
             orderInfo.IntraDay = chkIntraday.Checked;
-            orderInfo.FilledPrice = (chkIntraday.Checked) ? "M" : txtManualPrice.Text;
+            orderInfo.FilledPrice = (chkMarketPrice.Checked) ? "M" : txtManualPrice.Text;
             orderInfo.FilledVolume = int.Parse(txtManualVol.Text);
+            orderInfo.TSSignalTime = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
+            orderInfo.PutOrCall = cboManualPutOrCall.Text == "買權" ? "C" : cboManualPutOrCall.Text == "賣權" ? "P" : " ";
+            orderInfo.ExercisePrice = txtManualStrikePrice.Text;            
             _autoTrade.SendOrder(orderInfo);
         }
 
         private void btnBuy_Click(object sender, EventArgs e)
         {
+            btnBuy.Enabled = false;
+            btnSell.Enabled = false;
             try
-            {
+            {                
                 SendOrder("Buy");
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message + "," + ex.StackTrace);
             }
+            _autoTrade.GetOrderReport(DateTime.Now.ToString("yyyy/MM/dd"), DateTime.Now.ToString("yyyy/MM/dd"));
+            btnBuy.Enabled = true;
+            btnSell.Enabled = true;
         }
 
         private void btnSell_Click(object sender, EventArgs e)
         {
+            btnBuy.Enabled = false;
+            btnSell.Enabled = false;
             try
             {
-                SendOrder("Sell");
+                SendOrder("Sell");                
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message + "," + ex.StackTrace);
             }
+            _autoTrade.GetOrderReport(DateTime.Now.ToString("yyyy/MM/dd"), DateTime.Now.ToString("yyyy/MM/dd"));
+            btnBuy.Enabled = true;
+            btnSell.Enabled = true;
         }
 
-        private void CancelOrder(string strOrderNo, string strOrderSeq, string strSymbolCode, string strOctType)
+        private void CancelOrder(string strOrderNo, string strOrderSeq, string strSymbolCode, string strOctType, string strTime)
         {
             try
             {
@@ -801,6 +852,7 @@ namespace AAA.ProgramTrade
                 orderInfo.SymbolCode = strSymbolCode;
                 orderInfo.OrderNo = strOrderNo;
                 orderInfo.OrderID = strOrderSeq;
+                orderInfo.TSSignalTime = strTime;
                 switch (strOctType)
                 {
                     case "新倉":
@@ -823,12 +875,13 @@ namespace AAA.ProgramTrade
             }
         }
 
-        private void btnCancelOrder_Click(object sender, EventArgs e)
+        private void btnCancelAll_Click(object sender, EventArgs e)
         {
             string strOrderNo;
             string strOrderSeq;
             string strSymbolCode;
             string strOctType;
+            string strTime;
 
             try
             {
@@ -842,8 +895,8 @@ namespace AAA.ProgramTrade
                     strOrderSeq = tblTrust.Rows[i].Cells["ord_seq"].Value.ToString();
                     strSymbolCode = tblTrust.Rows[i].Cells["code"].Value.ToString();
                     strOctType = tblTrust.Rows[i].Cells["oct"].Value.ToString();
-
-                    CancelOrder(strOrderNo, strOrderSeq, strSymbolCode, strOctType);
+                    strTime = tblTrust.Rows[i].Cells["ocd_time"].Value.ToString();
+                    CancelOrder(strOrderNo, strOrderSeq, strSymbolCode, strOctType, strTime);
                 }
             }
             catch (Exception ex)
@@ -972,7 +1025,8 @@ namespace AAA.ProgramTrade
             return oStrategyInfo;
         }
 */
-        private object[] BuildStrategy(TradeSymbol tradeSymbol)
+        //private object[] BuildStrategy(TradeSymbol tradeSymbol)
+        private object[] BuildStrategy()
         {
             bool isActive;
             string strStrategyName = "";
@@ -984,8 +1038,8 @@ namespace AAA.ProgramTrade
             string strExitSignal = "";
             string strContractType = "";
             string strSlippage = "";
-            string strOrderDirection = "";
-            string strExecutePrice = "";
+            string strOrderDirection = "自動";
+            string strExecutePrice = "自動";
             string strPriceZone = "0";
             object[] oStrategyInfo = null;
             /*
@@ -1015,29 +1069,29 @@ namespace AAA.ProgramTrade
                 strExitSignal = chkExitSignal.Checked ? "Y" : "N";
                 strSlippage = (cboPriceType.Text == "市價單" ? "-1" : txtSlippage.Text);
                 
-                tradeSymbol.IsDayTrade = chkDayTrade.Checked;
-                tradeSymbol.Slippage = float.Parse(strSlippage);
-                tradeSymbol.Volume = int.Parse(strVolume);
+                //tradeSymbol.IsDayTrade = chkDayTrade.Checked;
+                //tradeSymbol.Slippage = float.Parse(strSlippage);
+                //tradeSymbol.Volume = int.Parse(strVolume);
                 
                 switch (strSymbolType)
                 {
                     case "台指":
-                        tradeSymbol.SymbolType = SymbolTypeEnum.Futures;
+                        //tradeSymbol.SymbolType = SymbolTypeEnum.Futures;
                         strContractType = cboFuturesMonth.Text;
                         strSlippage = (cboPriceType.Text == "市價單" ? "-1" : txtSlippage.Text);
                         break;
                     case "小台":
-                        tradeSymbol.SymbolType = SymbolTypeEnum.MiniFutures;
+                        //tradeSymbol.SymbolType = SymbolTypeEnum.MiniFutures;
                         strContractType = cboFuturesMonth.Text;
                         strSlippage = (cboPriceType.Text == "市價單" ? "-1" : txtSlippage.Text);
                         break;
                     case "選擇權買權":
-                        tradeSymbol.SymbolType = SymbolTypeEnum.Call;
+                        //tradeSymbol.SymbolType = SymbolTypeEnum.Call;
                         strContractType = cboOptionsMonth.Text;
                         strSlippage = (cboPriceType.Text == "市價單" ? "-1" : txtOptionsSlippage.Text);
                         break;
                     case "選擇權賣權":
-                        tradeSymbol.SymbolType = SymbolTypeEnum.Put;
+                        //tradeSymbol.SymbolType = SymbolTypeEnum.Put;
                         strContractType = cboOptionsMonth.Text;
                         strSlippage = (cboPriceType.Text == "市價單" ? "-1" : txtOptionsSlippage.Text);
                         break;
@@ -1048,47 +1102,47 @@ namespace AAA.ProgramTrade
                     switch (cboExecutePrice.Text)
                     {
                         case "價平":
-                            tradeSymbol.ExecutePriceType = ExecutePriceTypeEnum.AtTheMoney;                            
+                            //tradeSymbol.ExecutePriceType = ExecutePriceTypeEnum.AtTheMoney;                            
                             break;
                         case "價內":
-                            tradeSymbol.ExecutePriceType = ExecutePriceTypeEnum.InTheMoney;
+                            //tradeSymbol.ExecutePriceType = ExecutePriceTypeEnum.InTheMoney;
                             break;
                         case "價外":
-                            tradeSymbol.ExecutePriceType = ExecutePriceTypeEnum.OutOfTheMoney;
+                            //tradeSymbol.ExecutePriceType = ExecutePriceTypeEnum.OutOfTheMoney;
                             break;
                     }
                     switch (cboOptionsSide.Text)
                     {
                         case "買方":
-                            tradeSymbol.OrderDirection = OrderDirectionEnum.Buy;
+                            //tradeSymbol.OrderDirection = OrderDirectionEnum.Buy;
                             break;
                         case "賣方":
-                            tradeSymbol.OrderDirection = OrderDirectionEnum.Sell;
+                            //tradeSymbol.OrderDirection = OrderDirectionEnum.Sell;
                             break;
                     }
 
                     strExecutePrice = cboExecutePrice.Text;
                     strPriceZone = cboPriceZone.Text;
                     strOrderDirection = cboOptionsSide.Text;
-                    tradeSymbol.ExecutePriceZone = int.Parse(cboPriceZone.Text);
+                    //tradeSymbol.ExecutePriceZone = int.Parse(cboPriceZone.Text);
                 }
 
                 switch (strContractType)
                 {
                     case "近月":
-                        tradeSymbol.ContractType = ContractTypeEnum.Hot;
+                        //tradeSymbol.ContractType = ContractTypeEnum.Hot;
                         break;
                     case "遠月":
-                        tradeSymbol.ContractType = ContractTypeEnum.Next;
+                        //tradeSymbol.ContractType = ContractTypeEnum.Next;
                         break;
                     case "季月1":
-                        tradeSymbol.ContractType = ContractTypeEnum.FirstQ;
+                        //tradeSymbol.ContractType = ContractTypeEnum.FirstQ;
                         break;
                     case "季月2":
-                        tradeSymbol.ContractType = ContractTypeEnum.SecondQ;
+                        //tradeSymbol.ContractType = ContractTypeEnum.SecondQ;
                         break;
                     case "季月3":
-                        tradeSymbol.ContractType = ContractTypeEnum.ThirdQ;
+                        //tradeSymbol.ContractType = ContractTypeEnum.ThirdQ;
                         break;
                 }
 
@@ -1122,9 +1176,13 @@ namespace AAA.ProgramTrade
             try
             {
                 string strStrategyName = txtStrategyName.Text;
-                TradeSymbol tradeSymbol = new TradeSymbol();
-                object[] oStrategyInfo = BuildStrategy(tradeSymbol);
-                
+                //TradeSymbol tradeSymbol = new TradeSymbol();
+                //object[] oStrategyInfo = BuildStrategy(tradeSymbol);
+                TradeSymbol tradeSymbol;
+                object[] oStrategyInfo = BuildStrategy();
+
+                tradeSymbol = SystemHelper.CreateTradeSymbol(oStrategyInfo);
+
                 List<TradeSymbol> lstTradeSymbol = _tradingRule.GetTradeSymbol(strStrategyName);
                 oStrategyInfo[3] = (lstTradeSymbol.Count + 1).ToString();
                 txtSymbolSeq.Text = oStrategyInfo[3].ToString();
@@ -1174,9 +1232,12 @@ namespace AAA.ProgramTrade
                     }
                 }
 
-                TradeSymbol tradeSymbol = lstTradeSymbol[int.Parse(txtSymbolSeq.Text) - 1];
-                object[] oStrategyInfo = BuildStrategy(tradeSymbol);
-                               
+                //TradeSymbol tradeSymbol = lstTradeSymbol[int.Parse(txtSymbolSeq.Text) - 1];
+                //object[] oStrategyInfo = BuildStrategy(tradeSymbol);
+                object[] oStrategyInfo = BuildStrategy();
+                TradeSymbol tradeSymbol = SystemHelper.CreateTradeSymbol(oStrategyInfo);
+                lstTradeSymbol[int.Parse(txtSymbolSeq.Text) - 1] = tradeSymbol;
+
                 DataGridViewUtil.UpdateRow(tblStrategy, new string[] {"Strategy", "SymbolSeq"}, oStrategyInfo);
 /*
                 object[] oStrategyInfo = null;
@@ -1212,7 +1273,9 @@ namespace AAA.ProgramTrade
                 }
 
                 TradeSymbol tradeSymbol = lstTradeSymbol[int.Parse(strSymbolSeq) - 1];
-                object[] oStrategyInfo = BuildStrategy(tradeSymbol);
+                //object[] oStrategyInfo = BuildStrategy(tradeSymbol);
+
+                object[] oStrategyInfo = BuildStrategy();
                 object[] oOldStrategyInfo = null;
                 object[] oNewStrategyInfo = null;
                 DataGridViewUtil.DeleteRow(tblStrategy, new string[] { "Strategy", "SymbolSeq" }, oStrategyInfo);
@@ -1226,8 +1289,10 @@ namespace AAA.ProgramTrade
                     RestoreStrategy(iRowIndex);
 
                     tradeSymbol = lstTradeSymbol[i];                    
-                    oOldStrategyInfo = BuildStrategy(tradeSymbol);                    
-                    oNewStrategyInfo = BuildStrategy(tradeSymbol);
+                    //oOldStrategyInfo = BuildStrategy(tradeSymbol);                    
+                    //oNewStrategyInfo = BuildStrategy(tradeSymbol);
+                    oOldStrategyInfo = BuildStrategy();                    
+                    oNewStrategyInfo = BuildStrategy();
                     oNewStrategyInfo[3] = (i + 1).ToString();
                     DataGridViewUtil.UpdateRow(tblStrategy, new string[] { "Strategy", "SymbolSeq" }, oOldStrategyInfo, oNewStrategyInfo);
                 }
@@ -1428,6 +1493,70 @@ namespace AAA.ProgramTrade
             _tradingRule.ToString();
             ChangeDisplay(tblStrategy.Rows[iRowIndex].Cells["SymbolType"].Value.ToString());
             RestoreStrategy(iRowIndex);
+        }
+
+        private void tblTrust_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                txtOrderNo.Text = tblTrust.Rows[e.RowIndex].Cells["ord_seq"].Value.ToString();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "," + ex.StackTrace);
+            }
+        }
+
+        private void btnChangeQuantity_Click(object sender, EventArgs e)
+        {
+            try
+            {
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "," + ex.StackTrace);
+            }
+        }
+
+        private void btnAllExit_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "," + ex.StackTrace);
+            }
+        }
+
+        private void btnCancelOrder_Click(object sender, EventArgs e)
+        {
+            string strOrderNo;
+            string strOrderSeq;
+            string strSymbolCode;
+            string strOctType;
+            string strTime;
+            try
+            {
+                if(tblTrust.SelectedRows.Count == 0)
+                {
+                    MessageBox.Show("請選擇要刪單的委託單");
+                    return;
+                }
+
+                strOrderNo = tblTrust.Rows[tblTrust.SelectedRows[0].Index].Cells["ord_no"].Value.ToString();
+                strOrderSeq = tblTrust.Rows[tblTrust.SelectedRows[0].Index].Cells["ord_seq"].Value.ToString();
+                strSymbolCode = tblTrust.Rows[tblTrust.SelectedRows[0].Index].Cells["code"].Value.ToString();
+                strOctType = tblTrust.Rows[tblTrust.SelectedRows[0].Index].Cells["oct"].Value.ToString();
+                strTime = tblTrust.Rows[tblTrust.SelectedRows[0].Index].Cells["ord_time"].Value.ToString();
+
+                CancelOrder(strOrderNo, strOrderSeq, strSymbolCode, strOctType, strTime);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "," + ex.StackTrace);
+            }
         }
     }
 }

@@ -170,9 +170,43 @@ namespace AAA.TradingSystem.Indicator
                         lstRedBlack.Add(fRed + fBlack);
 
                         fPreVol1 = (lstVolume.Count > 1) ? lstVolume[lstVolume.Count - 2] : float.NaN;
-                        fPreVol2 = (lstVolume.Count > 2) ? lstVolume[lstVolume.Count - 3] : float.NaN;
-                        fPreVol3 = (lstVolume.Count > 3) ? lstVolume[lstVolume.Count - 4] : float.NaN;
-                        fPreVol5 = (lstVolume.Count > 5) ? lstVolume[lstVolume.Count - 6] : float.NaN;
+
+                        if (lstVolume.Count > 2)
+                        {
+                            fPreVol2 = Math.Max(lstVolume[lstVolume.Count - 2], lstVolume[lstVolume.Count - 3]);
+                        }
+                        else
+                        {
+                            fPreVol2 = float.NaN;
+                        }
+
+                        if (lstVolume.Count > 3)
+                        {
+                            fPreVol3 = lstVolume[lstVolume.Count - 2];
+
+                            for (int j = 1; j < 3; j++)
+                            {
+                                fPreVol3 = Math.Max(fPreVol3, lstVolume[lstVolume.Count - 2 - j]);
+                            }
+                        }
+                        else
+                        {
+                            fPreVol3 = float.NaN;
+                        }
+
+                        if (lstVolume.Count > 5)
+                        {
+                            fPreVol5 = lstVolume[lstVolume.Count - 2];
+
+                            for (int j = 1; j < 5; j++)
+                            {
+                                fPreVol5 = Math.Max(fPreVol5, lstVolume[lstVolume.Count - 2 - j]);
+                            }
+                        }
+                        else
+                        {
+                            fPreVol5 = float.NaN;
+                        }                        
 
                         fRedBlack3 = float.NaN;
 

@@ -44,14 +44,14 @@
             this.tblTask.Location = new System.Drawing.Point(2, 2);
             this.tblTask.Name = "tblTask";
             this.tblTask.RowTemplate.Height = 24;
-            this.tblTask.Size = new System.Drawing.Size(484, 283);
+            this.tblTask.Size = new System.Drawing.Size(580, 358);
             this.tblTask.TabIndex = 0;
             // 
             // ScheduleForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(490, 289);
+            this.ClientSize = new System.Drawing.Size(586, 364);
             this.Controls.Add(this.tblTask);
             this.Name = "ScheduleForm";
             this.Text = "工作排程";

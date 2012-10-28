@@ -32,9 +32,18 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AAA.Base.Util, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="AAA.Meta.Quote, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="NDde, Version=2.1.563.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\ext-lib\NDde.dll</HintPath>
+    </Reference>
+    <Reference Include="Package, Version=1.0.0.7, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\ext-lib\Package.dll</HintPath>
+    </Reference>
+    <Reference Include="QuoteCom, Version=1.0.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\ext-lib\QuoteCom.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">

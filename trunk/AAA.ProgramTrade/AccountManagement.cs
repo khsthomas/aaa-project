@@ -11,6 +11,7 @@ using AAA.Trade;
 using AAA.Meta.Trade.Data;
 using AAA.DesignPattern.Observer;
 using System.IO;
+using AAA.Schedule;
 
 namespace AAA.ProgramTrade
 {
@@ -30,6 +31,7 @@ namespace AAA.ProgramTrade
                 txtPassword.Text = iniReader.GetParam("Account", "Password");
                 txtCAPassword.Text = iniReader.GetParam("Account", "CAPassword");
                 txtCAPath.Text = iniReader.GetParam("Account", "CAPath");
+                txtAccountType.Text = iniReader.GetParam("Account", "AccountType");
                 AAA.DesignPattern.Singleton.SystemParameter.Parameter["Branch"] = iniReader.GetParam("Account", "Branch");
                 AAA.DesignPattern.Singleton.SystemParameter.Parameter["AccountNo"] = iniReader.GetParam("Account", "AccountNo");
 
@@ -40,6 +42,7 @@ namespace AAA.ProgramTrade
                 accountInfo.Password = txtPassword.Text;
                 accountInfo.CAPassword = txtCAPassword.Text;
                 accountInfo.CAPath = txtCAPath.Text;
+                accountInfo.AccountType = txtAccountType.Text;
                 if (AAA.DesignPattern.Singleton.SystemParameter.Parameter["Branch"] != null)
                     accountInfo.Branch = (string)AAA.DesignPattern.Singleton.SystemParameter.Parameter["Branch"];
                 if (AAA.DesignPattern.Singleton.SystemParameter.Parameter["AccountNo"] != null)
@@ -57,6 +60,7 @@ namespace AAA.ProgramTrade
                 txtPassword.Text = autoTrade.AccountInfo.Password;
                 txtCAPassword.Text = autoTrade.AccountInfo.CAPassword;
                 txtCAPath.Text = autoTrade.AccountInfo.CAPath;
+                txtAccountType.Text = accountInfo.AccountType;
             }
 
             // Init Logger
@@ -94,6 +98,7 @@ namespace AAA.ProgramTrade
                         accountInfo.Password = txtPassword.Text;
                         accountInfo.CAPassword = txtCAPassword.Text;
                         accountInfo.CAPath = txtCAPath.Text;
+                        accountInfo.AccountType = txtAccountType.Text;
                         if (AAA.DesignPattern.Singleton.SystemParameter.Parameter["Branch"] != null)
                             accountInfo.Branch = (string)AAA.DesignPattern.Singleton.SystemParameter.Parameter["Branch"];
                         if (AAA.DesignPattern.Singleton.SystemParameter.Parameter["AccountNo"] != null)
@@ -174,6 +179,18 @@ namespace AAA.ProgramTrade
                 messageInfo.Message = dicReturn;
                 messageInfo.MessageTicks = DateTime.Now.Ticks;
                 MessageSubject.Instance().Subject.Notify(messageInfo);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "," + ex.StackTrace);
+            }
+        }
+
+        private void btnStartSchedule_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ((ScheduleManager)AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.SCHEDULE_MANAGER]).Start();
             }
             catch (Exception ex)
             {

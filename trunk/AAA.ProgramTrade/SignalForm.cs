@@ -76,19 +76,22 @@ namespace AAA.ProgramTrade
                 tblOpenPosition.Columns.Add("EntryPrice", "Entry Price");
                 tblOpenPosition.Columns.Add("ExitPrice", "Exit Price");
 
-
                 lstCatcherName = iniReader.GetKey("SignalCatcher");
                 foreach (string strCatcherName in lstCatcherName)
                 {
                     try
                     {
                         strCatcherParams = iniReader.GetParam("SignalCatcher", strCatcherName).Split(',');
-                        signalCatcher = (SignalCatcher)Builder.CreateInstance<SignalCatcher>(strCatcherParams[0], strCatcherParams[1]);
+                        signalCatcher = (SignalCatcher)Builder.CreateInstance<SignalCatcher>(((string)AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.PROGRAM_ROOT_PATH]) + @"\" + strCatcherParams[0], strCatcherParams[1]);
                         signalCatcher.OnFilledOrderEvent += new FilledOrderEvent(FilledOrder);
                         signalCatcher.OnActiveOrderEvent += new ActiveOrderEvent(ActiveOrder);
                         signalCatcher.OnCanceledOrderEvent += new CanceledOrderEvent(CancelOrder);
                         signalCatcher.OnOpenPositionEvent += new OpenPositionEvent(OpenPosition);                        
                         tblSignalCatcher.Rows.Add(new object[] {strCatcherName, signalCatcher.ToString()});
+                        ((List<SignalCatcher>)AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.SIGNAL_CATCHER]).Add(signalCatcher);
+
+                        if (strCatcherName == (string)AAA.DesignPattern.Singleton.SystemParameter.Parameter["ActiveTrackingCenter"])
+                            AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.TRACKING_CENTER] = signalCatcher;
                     }
                     catch (Exception ex)
                     {

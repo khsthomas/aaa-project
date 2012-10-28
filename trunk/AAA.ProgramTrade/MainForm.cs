@@ -15,6 +15,8 @@ using System.IO;
 using AAA.Meta.Quote.Data;
 using AAA.Meta.Quote;
 using AAA.DataSource;
+using AAA.Base.Util.Reflection;
+using AAA.Trade.SignalCatcher;
 
 namespace AAA.ProgramTrade
 {
@@ -31,40 +33,104 @@ namespace AAA.ProgramTrade
         private void Init()
         {
             IniReader iniReader = null;
-            
+            int iScheduleInterval = 100;
             try
             {
                 iniReader = new IniReader(Environment.CurrentDirectory + @"\cfg\system.ini");
                 foreach (string strKey in iniReader.GetKey("System"))
                 {
-                    AAA.DesignPattern.Singleton.SystemParameter.Parameter[strKey] = iniReader.GetParam(strKey);
+                    AAA.DesignPattern.Singleton.SystemParameter.Parameter[strKey] = iniReader.GetParam("System", strKey);
                 }
+
+                iScheduleInterval = int.Parse(iniReader.GetParam("System", "ScheduleInterval", "100"));
 
                 MessageSubject.Instance().Subject.Attach(this);
 
                 CurrentTime currentTime = new CurrentTime();
                 PositionManager positionManager = new PositionManager();
                 IDataSource dataSource = new DefaultDataSource();
+                ScheduleManager scheduleManager = new ScheduleManager();
+                StrategyManager strategyManager = new StrategyManager();
+                
+                scheduleManager.TimerInterval = iScheduleInterval;
+                strategyManager.CurrentTime = currentTime;
+                strategyManager.PositionManager = positionManager;
 
                 currentTime.SessionStartTime = new DateTime(1900, 01, 01, 8, 45, 00);
                 currentTime.SessionEndTime = new DateTime(1900, 01, 01, 13, 45, 00);
+                currentTime.BaseSymbolId = iniReader.GetParam("System", "BaseSymbolId", "TFHTX-TP");
 
                 AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.PROGRAM_ROOT_PATH] = Environment.CurrentDirectory;
                 AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.TRADING_RULE] = new DefaultTradingRule();
-                AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.SCHEDULE_MANAGER] = new ScheduleManager();
+                AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.SCHEDULE_MANAGER] = scheduleManager;
                 AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.DATA_SOURCE] = dataSource;
                 AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.CURRENT_TIME] = currentTime;
                 AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.POSITION_MANAGER] = positionManager;
+                AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.STRATEGY_MANAGER] = strategyManager;
+                AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.SIGNAL_CATCHER] = new List<SignalCatcher>();
                 currentTime.DataSource = dataSource;
-                dataSource.Attach(currentTime);
+                //dataSource.Attach(currentTime);
                 currentTime.TimeInterval = 60;
-                                
+
+                InitTask(Environment.CurrentDirectory + @"\cfg\task.ini");
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message + "," + ex.StackTrace);
             }
 
+        }
+
+        private void InitTask(string strConfigFilename)
+        {
+            ScheduleManager scheduleManager = (ScheduleManager)AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.SCHEDULE_MANAGER];
+            IniReader iniReader = new IniReader(strConfigFilename);
+            ITask task;
+            string strClassname;
+            string strRootPath = (string)AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.PROGRAM_ROOT_PATH];
+            TaskTypeEnum eType;
+            DateTime dtStartTime;            
+            DateTime dtEndTime;
+            int iInterval;
+            
+            try
+            {
+                foreach (string strSection in iniReader.Section)
+                {
+                    try
+                    {
+                        dtEndTime = DateTime.MaxValue;
+                        iInterval = int.MaxValue;
+
+                        strClassname = iniReader.GetParam(strSection, "Classname");
+                        eType = (TaskTypeEnum)Enum.Parse(typeof(TaskTypeEnum), iniReader.GetParam(strSection, "TaskType"));
+                        dtStartTime = DateTime.Parse(DateTime.Now.ToString("yyyy/MM/dd ") + iniReader.GetParam(strSection, "StartTime"));
+
+                        if (eType != TaskTypeEnum.Once)
+                        {
+                            dtEndTime = DateTime.Parse(DateTime.Now.ToString("yyyy/MM/dd ") + iniReader.GetParam(strSection, "EndTime"));
+                            iInterval = int.Parse(iniReader.GetParam(strSection, "Interval")) * 60 * 1000; // Convert to minute
+                        }
+
+                        task = (ITask)Builder.CreateInstance<ITask>(strRootPath + @"\AAA.ProgramTrade.exe", strClassname);
+                        task.TaskName = strSection;
+                        task.StartTime = dtStartTime;
+                        task.EndTime = dtEndTime;
+                        task.Interval = iInterval;
+                        task.TaskType = eType;                        
+                        scheduleManager.AddTask(task);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message + "," + ex.StackTrace);
+                    }
+                }
+//                scheduleManager.Start();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "," + ex.StackTrace);
+            }
         }
 
         private void ShowNewForm(object sender, EventArgs e)
@@ -196,15 +262,6 @@ namespace AAA.ProgramTrade
 
         private void offlineDataItem_Click(object sender, EventArgs e)
         {
-            StreamReader sr = null;
-            string strSymbolId;
-            string strDataCompression;
-            string strLine;
-            string[] strValues;
-            List<BarRecord> lstBarData;
-            BarData barData;
-            BarCompressionEnum eBarCompression;
-            int iInterval = 1;
             try
             {
                 if (ofdOpenFile.ShowDialog() != DialogResult.OK)
@@ -212,35 +269,7 @@ namespace AAA.ProgramTrade
 
                 foreach (string strFilename in ofdOpenFile.FileNames)
                 {
-                    sr = new StreamReader(strFilename);
-
-                    strSymbolId = sr.ReadLine().Trim();
-                    strDataCompression = sr.ReadLine().Trim();
-                    iInterval = int.Parse(strDataCompression.Split(',')[1]);
-                    lstBarData = new List<BarRecord>();
-                    eBarCompression = (BarCompressionEnum)Enum.Parse(typeof(BarCompressionEnum), strDataCompression.Split(',')[0]);
- 
-                    while ((strLine = sr.ReadLine()) != null)
-                    {
-                        strValues = strLine.Split('\t');
-                        barData = new BarData();
-                        barData.SymbolId = strSymbolId;
-                        barData.BarCompression = eBarCompression;
-                        barData.CompressionInterval = iInterval;
-                        barData.BarDateTime = DateTime.Parse(strValues[0]);
-                        barData.Open = float.Parse(strValues[1]);
-                        barData.High = float.Parse(strValues[2]);
-                        barData.Low = float.Parse(strValues[3]);
-                        barData.Close = float.Parse(strValues[4]);
-                        barData.Volume = float.Parse(strValues[5]);
-                        barData.Amount = float.Parse(strValues[6]);
-
-                        lstBarData.Add(barData.ToBarRecord());
-                    }
-
-                    sr.Close();
-
-                    ((IDataSource)AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.DATA_SOURCE]).AddSymbol(strSymbolId, lstBarData);
+                    ProgramUtil.LoadOfflineData(strFilename, true);
                 }
 
             }
@@ -248,11 +277,7 @@ namespace AAA.ProgramTrade
             {
                 MessageBox.Show(ex.Message + "," + ex.StackTrace);
             }
-            finally
-            {
-                if (sr != null)
-                    sr.Close();
-            }
+
         }
 
         private void dataMonitorItem_Click(object sender, EventArgs e)
@@ -262,7 +287,7 @@ namespace AAA.ProgramTrade
 
         private void chartItem_Click(object sender, EventArgs e)
         {
-            MdiFormUtil.AddChild(this, new ChartForm(), false);
+            MdiFormUtil.AddChild(this, new ChartXForm(), false);
         }
 
         private void calculateItem_Click(object sender, EventArgs e)
@@ -273,6 +298,39 @@ namespace AAA.ProgramTrade
         private void performanceReportItem_Click(object sender, EventArgs e)
         {
             MdiFormUtil.AddChild(this, new PerformanceReportForm(), false);
+        }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            try
+            {
+                if(AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.SCHEDULE_MANAGER] != null)
+                    ((ScheduleManager)AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.SCHEDULE_MANAGER]).Stop();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private void offlineDataFeedItem_Click(object sender, EventArgs e)
+        {
+            MdiFormUtil.AddChild(this, new OfflineDataFeedForm(), false);
+        }
+
+        private void dataDownloadItem_Click(object sender, EventArgs e)
+        {
+            MdiFormUtil.AddChild(this, new DataDownloadForm(), false);
+        }
+
+        private void scheduleItem_Click(object sender, EventArgs e)
+        {
+            MdiFormUtil.AddChild(this, new ScheduleForm(), false);
+        }
+
+        private void realtimeStrategyItem_Click(object sender, EventArgs e)
+        {
+            MdiFormUtil.AddChild(this, new RealTimeStrategyForm(), false);
         }
     }
 }
