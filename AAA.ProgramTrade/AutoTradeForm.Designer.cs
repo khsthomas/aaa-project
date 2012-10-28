@@ -30,6 +30,14 @@
         {
             this.tabAPI = new System.Windows.Forms.TabControl();
             this.tabAutoTrade = new System.Windows.Forms.TabPage();
+            this.gbModify = new System.Windows.Forms.GroupBox();
+            this.btnCancelAll = new System.Windows.Forms.Button();
+            this.btnCancelOrder = new System.Windows.Forms.Button();
+            this.btnChangeQuantity = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.txtOrderNo = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
             this.gbOrderStatus = new System.Windows.Forms.GroupBox();
             this.gbDeal = new System.Windows.Forms.GroupBox();
             this.tblDeal = new System.Windows.Forms.DataGridView();
@@ -69,13 +77,12 @@
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnAdd = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.txtSymbolSeq = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
             this.chkExitSignal = new System.Windows.Forms.CheckBox();
-            this.chkIsActive = new System.Windows.Forms.CheckBox();
-            this.txtOrderVolume = new System.Windows.Forms.TextBox();
-            this.label13 = new System.Windows.Forms.Label();
-            this.pnlFutures = new System.Windows.Forms.Panel();
-            this.cboFuturesMonth = new System.Windows.Forms.ComboBox();
             this.pnlOptions = new System.Windows.Forms.Panel();
+            this.cboPriceZone = new System.Windows.Forms.ComboBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.cboOptionsMonth = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.txtOptionsSlippage = new System.Windows.Forms.TextBox();
@@ -84,6 +91,11 @@
             this.label9 = new System.Windows.Forms.Label();
             this.cboOptionsSide = new System.Windows.Forms.ComboBox();
             this.label8 = new System.Windows.Forms.Label();
+            this.chkIsActive = new System.Windows.Forms.CheckBox();
+            this.txtOrderVolume = new System.Windows.Forms.TextBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.pnlFutures = new System.Windows.Forms.Panel();
+            this.cboFuturesMonth = new System.Windows.Forms.ComboBox();
             this.label14 = new System.Windows.Forms.Label();
             this.chkDayTrade = new System.Windows.Forms.CheckBox();
             this.txtSlippage = new System.Windows.Forms.TextBox();
@@ -99,12 +111,9 @@
             this.btnQueryTodayEquity = new System.Windows.Forms.Button();
             this.cboEquityType = new System.Windows.Forms.ComboBox();
             this.tblTodayEquity = new System.Windows.Forms.DataGridView();
-            this.cboPriceZone = new System.Windows.Forms.ComboBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.txtSymbolSeq = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
             this.tabAPI.SuspendLayout();
             this.tabAutoTrade.SuspendLayout();
+            this.gbModify.SuspendLayout();
             this.gbOrderStatus.SuspendLayout();
             this.gbDeal.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tblDeal)).BeginInit();
@@ -116,8 +125,8 @@
             this.gbManual.SuspendLayout();
             this.gbStrategy.SuspendLayout();
             this.panel1.SuspendLayout();
-            this.pnlFutures.SuspendLayout();
             this.pnlOptions.SuspendLayout();
+            this.pnlFutures.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tblStrategy)).BeginInit();
             this.tabEquity.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tblTodayEquity)).BeginInit();
@@ -136,6 +145,7 @@
             // 
             // tabAutoTrade
             // 
+            this.tabAutoTrade.Controls.Add(this.gbModify);
             this.tabAutoTrade.Controls.Add(this.gbOrderStatus);
             this.tabAutoTrade.Controls.Add(this.groupBox2);
             this.tabAutoTrade.Controls.Add(this.gbManual);
@@ -147,6 +157,84 @@
             this.tabAutoTrade.TabIndex = 0;
             this.tabAutoTrade.Text = "程式下單";
             this.tabAutoTrade.UseVisualStyleBackColor = true;
+            // 
+            // gbModify
+            // 
+            this.gbModify.Controls.Add(this.btnCancelAll);
+            this.gbModify.Controls.Add(this.btnCancelOrder);
+            this.gbModify.Controls.Add(this.btnChangeQuantity);
+            this.gbModify.Controls.Add(this.textBox1);
+            this.gbModify.Controls.Add(this.label12);
+            this.gbModify.Controls.Add(this.txtOrderNo);
+            this.gbModify.Controls.Add(this.label11);
+            this.gbModify.Location = new System.Drawing.Point(9, 385);
+            this.gbModify.Name = "gbModify";
+            this.gbModify.Size = new System.Drawing.Size(200, 99);
+            this.gbModify.TabIndex = 6;
+            this.gbModify.TabStop = false;
+            this.gbModify.Text = "改單匣";
+            // 
+            // btnCancelAll
+            // 
+            this.btnCancelAll.Location = new System.Drawing.Point(23, 74);
+            this.btnCancelAll.Name = "btnCancelAll";
+            this.btnCancelAll.Size = new System.Drawing.Size(75, 23);
+            this.btnCancelAll.TabIndex = 25;
+            this.btnCancelAll.Text = "全部刪單";
+            this.btnCancelAll.UseVisualStyleBackColor = true;
+            this.btnCancelAll.Click += new System.EventHandler(this.btnCancelAll_Click);
+            // 
+            // btnCancelOrder
+            // 
+            this.btnCancelOrder.Location = new System.Drawing.Point(109, 74);
+            this.btnCancelOrder.Name = "btnCancelOrder";
+            this.btnCancelOrder.Size = new System.Drawing.Size(75, 23);
+            this.btnCancelOrder.TabIndex = 24;
+            this.btnCancelOrder.Text = "刪單";
+            this.btnCancelOrder.UseVisualStyleBackColor = true;
+            this.btnCancelOrder.Click += new System.EventHandler(this.btnCancelOrder_Click);
+            // 
+            // btnChangeQuantity
+            // 
+            this.btnChangeQuantity.Location = new System.Drawing.Point(113, 45);
+            this.btnChangeQuantity.Name = "btnChangeQuantity";
+            this.btnChangeQuantity.Size = new System.Drawing.Size(75, 23);
+            this.btnChangeQuantity.TabIndex = 23;
+            this.btnChangeQuantity.Text = "減量";
+            this.btnChangeQuantity.UseVisualStyleBackColor = true;
+            this.btnChangeQuantity.Click += new System.EventHandler(this.btnChangeQuantity_Click);
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(46, 47);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(61, 22);
+            this.textBox1.TabIndex = 22;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(11, 50);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(29, 12);
+            this.label12.TabIndex = 21;
+            this.label12.Text = "減量";
+            // 
+            // txtOrderNo
+            // 
+            this.txtOrderNo.Location = new System.Drawing.Point(46, 19);
+            this.txtOrderNo.Name = "txtOrderNo";
+            this.txtOrderNo.Size = new System.Drawing.Size(142, 22);
+            this.txtOrderNo.TabIndex = 20;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(11, 22);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(29, 12);
+            this.label11.TabIndex = 0;
+            this.label11.Text = "單號";
             // 
             // gbOrderStatus
             // 
@@ -188,6 +276,7 @@
             this.tblDeal.ReadOnly = true;
             this.tblDeal.RowHeadersVisible = false;
             this.tblDeal.RowTemplate.Height = 24;
+            this.tblDeal.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.tblDeal.Size = new System.Drawing.Size(472, 111);
             this.tblDeal.TabIndex = 3;
             // 
@@ -217,8 +306,10 @@
             this.tblTrust.ReadOnly = true;
             this.tblTrust.RowHeadersVisible = false;
             this.tblTrust.RowTemplate.Height = 24;
+            this.tblTrust.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.tblTrust.Size = new System.Drawing.Size(472, 145);
             this.tblTrust.TabIndex = 3;
+            this.tblTrust.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.tblTrust_CellContentDoubleClick);
             // 
             // gbOpenPosition
             // 
@@ -245,6 +336,7 @@
             this.tblOpenPosition.ReadOnly = true;
             this.tblOpenPosition.RowHeadersVisible = false;
             this.tblOpenPosition.RowTemplate.Height = 24;
+            this.tblOpenPosition.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.tblOpenPosition.Size = new System.Drawing.Size(472, 121);
             this.tblOpenPosition.TabIndex = 3;
             // 
@@ -290,6 +382,7 @@
             this.btnAllExit.TabIndex = 14;
             this.btnAllExit.Text = "全部平倉";
             this.btnAllExit.UseVisualStyleBackColor = true;
+            this.btnAllExit.Click += new System.EventHandler(this.btnAllExit_Click);
             // 
             // btnStart
             // 
@@ -338,7 +431,7 @@
             this.gbManual.Controls.Add(this.label18);
             this.gbManual.Controls.Add(this.cboManualSymbolType);
             this.gbManual.Controls.Add(this.label17);
-            this.gbManual.Location = new System.Drawing.Point(7, 241);
+            this.gbManual.Location = new System.Drawing.Point(7, 141);
             this.gbManual.Name = "gbManual";
             this.gbManual.Size = new System.Drawing.Size(200, 237);
             this.gbManual.TabIndex = 4;
@@ -584,6 +677,22 @@
             this.panel1.Size = new System.Drawing.Size(486, 163);
             this.panel1.TabIndex = 4;
             // 
+            // txtSymbolSeq
+            // 
+            this.txtSymbolSeq.Location = new System.Drawing.Point(62, 103);
+            this.txtSymbolSeq.Name = "txtSymbolSeq";
+            this.txtSymbolSeq.Size = new System.Drawing.Size(100, 22);
+            this.txtSymbolSeq.TabIndex = 18;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(3, 106);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(41, 12);
+            this.label10.TabIndex = 17;
+            this.label10.Text = "商品序";
+            // 
             // chkExitSignal
             // 
             this.chkExitSignal.AutoSize = true;
@@ -593,53 +702,6 @@
             this.chkExitSignal.TabIndex = 16;
             this.chkExitSignal.Text = "送出平倉訊號";
             this.chkExitSignal.UseVisualStyleBackColor = true;
-            // 
-            // chkIsActive
-            // 
-            this.chkIsActive.AutoSize = true;
-            this.chkIsActive.Location = new System.Drawing.Point(7, 134);
-            this.chkIsActive.Name = "chkIsActive";
-            this.chkIsActive.Size = new System.Drawing.Size(72, 16);
-            this.chkIsActive.TabIndex = 11;
-            this.chkIsActive.Text = "啟動策略";
-            this.chkIsActive.UseVisualStyleBackColor = true;
-            // 
-            // txtOrderVolume
-            // 
-            this.txtOrderVolume.Location = new System.Drawing.Point(62, 78);
-            this.txtOrderVolume.Name = "txtOrderVolume";
-            this.txtOrderVolume.Size = new System.Drawing.Size(100, 22);
-            this.txtOrderVolume.TabIndex = 10;
-            this.txtOrderVolume.Text = "1";
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(3, 81);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(53, 12);
-            this.label13.TabIndex = 9;
-            this.label13.Text = "下單倍數";
-            // 
-            // pnlFutures
-            // 
-            this.pnlFutures.Controls.Add(this.cboFuturesMonth);
-            this.pnlFutures.Controls.Add(this.label14);
-            this.pnlFutures.Controls.Add(this.chkDayTrade);
-            this.pnlFutures.Controls.Add(this.txtSlippage);
-            this.pnlFutures.Controls.Add(this.label7);
-            this.pnlFutures.Location = new System.Drawing.Point(173, 8);
-            this.pnlFutures.Name = "pnlFutures";
-            this.pnlFutures.Size = new System.Drawing.Size(291, 91);
-            this.pnlFutures.TabIndex = 6;
-            // 
-            // cboFuturesMonth
-            // 
-            this.cboFuturesMonth.FormattingEnabled = true;
-            this.cboFuturesMonth.Location = new System.Drawing.Point(41, 33);
-            this.cboFuturesMonth.Name = "cboFuturesMonth";
-            this.cboFuturesMonth.Size = new System.Drawing.Size(100, 20);
-            this.cboFuturesMonth.TabIndex = 7;
             // 
             // pnlOptions
             // 
@@ -657,6 +719,23 @@
             this.pnlOptions.Name = "pnlOptions";
             this.pnlOptions.Size = new System.Drawing.Size(291, 110);
             this.pnlOptions.TabIndex = 15;
+            // 
+            // cboPriceZone
+            // 
+            this.cboPriceZone.FormattingEnabled = true;
+            this.cboPriceZone.Location = new System.Drawing.Point(175, 30);
+            this.cboPriceZone.Name = "cboPriceZone";
+            this.cboPriceZone.Size = new System.Drawing.Size(75, 20);
+            this.cboPriceZone.TabIndex = 13;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(140, 36);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(29, 12);
+            this.label3.TabIndex = 12;
+            this.label3.Text = "檔次";
             // 
             // cboOptionsMonth
             // 
@@ -726,6 +805,53 @@
             this.label8.Size = new System.Drawing.Size(41, 12);
             this.label8.TabIndex = 0;
             this.label8.Text = "買賣別";
+            // 
+            // chkIsActive
+            // 
+            this.chkIsActive.AutoSize = true;
+            this.chkIsActive.Location = new System.Drawing.Point(7, 134);
+            this.chkIsActive.Name = "chkIsActive";
+            this.chkIsActive.Size = new System.Drawing.Size(72, 16);
+            this.chkIsActive.TabIndex = 11;
+            this.chkIsActive.Text = "啟動策略";
+            this.chkIsActive.UseVisualStyleBackColor = true;
+            // 
+            // txtOrderVolume
+            // 
+            this.txtOrderVolume.Location = new System.Drawing.Point(62, 78);
+            this.txtOrderVolume.Name = "txtOrderVolume";
+            this.txtOrderVolume.Size = new System.Drawing.Size(100, 22);
+            this.txtOrderVolume.TabIndex = 10;
+            this.txtOrderVolume.Text = "1";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(3, 81);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(53, 12);
+            this.label13.TabIndex = 9;
+            this.label13.Text = "下單倍數";
+            // 
+            // pnlFutures
+            // 
+            this.pnlFutures.Controls.Add(this.cboFuturesMonth);
+            this.pnlFutures.Controls.Add(this.label14);
+            this.pnlFutures.Controls.Add(this.chkDayTrade);
+            this.pnlFutures.Controls.Add(this.txtSlippage);
+            this.pnlFutures.Controls.Add(this.label7);
+            this.pnlFutures.Location = new System.Drawing.Point(173, 8);
+            this.pnlFutures.Name = "pnlFutures";
+            this.pnlFutures.Size = new System.Drawing.Size(291, 91);
+            this.pnlFutures.TabIndex = 6;
+            // 
+            // cboFuturesMonth
+            // 
+            this.cboFuturesMonth.FormattingEnabled = true;
+            this.cboFuturesMonth.Location = new System.Drawing.Point(41, 33);
+            this.cboFuturesMonth.Name = "cboFuturesMonth";
+            this.cboFuturesMonth.Size = new System.Drawing.Size(100, 20);
+            this.cboFuturesMonth.TabIndex = 7;
             // 
             // label14
             // 
@@ -887,39 +1013,6 @@
             this.tblTodayEquity.Size = new System.Drawing.Size(707, 435);
             this.tblTodayEquity.TabIndex = 2;
             // 
-            // cboPriceZone
-            // 
-            this.cboPriceZone.FormattingEnabled = true;
-            this.cboPriceZone.Location = new System.Drawing.Point(175, 30);
-            this.cboPriceZone.Name = "cboPriceZone";
-            this.cboPriceZone.Size = new System.Drawing.Size(75, 20);
-            this.cboPriceZone.TabIndex = 13;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(140, 36);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(29, 12);
-            this.label3.TabIndex = 12;
-            this.label3.Text = "檔次";
-            // 
-            // txtSymbolSeq
-            // 
-            this.txtSymbolSeq.Location = new System.Drawing.Point(62, 103);
-            this.txtSymbolSeq.Name = "txtSymbolSeq";
-            this.txtSymbolSeq.Size = new System.Drawing.Size(100, 22);
-            this.txtSymbolSeq.TabIndex = 18;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(3, 106);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(41, 12);
-            this.label10.TabIndex = 17;
-            this.label10.Text = "商品序";
-            // 
             // AutoTradeForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -930,6 +1023,8 @@
             this.Text = "API下單";
             this.tabAPI.ResumeLayout(false);
             this.tabAutoTrade.ResumeLayout(false);
+            this.gbModify.ResumeLayout(false);
+            this.gbModify.PerformLayout();
             this.gbOrderStatus.ResumeLayout(false);
             this.gbDeal.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.tblDeal)).EndInit();
@@ -944,10 +1039,10 @@
             this.gbStrategy.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            this.pnlFutures.ResumeLayout(false);
-            this.pnlFutures.PerformLayout();
             this.pnlOptions.ResumeLayout(false);
             this.pnlOptions.PerformLayout();
+            this.pnlFutures.ResumeLayout(false);
+            this.pnlFutures.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tblStrategy)).EndInit();
             this.tabEquity.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.tblTodayEquity)).EndInit();
@@ -1032,6 +1127,14 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txtSymbolSeq;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.GroupBox gbModify;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.TextBox txtOrderNo;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Button btnCancelOrder;
+        private System.Windows.Forms.Button btnChangeQuantity;
+        private System.Windows.Forms.Button btnCancelAll;
 
     }
 }

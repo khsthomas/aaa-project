@@ -42,6 +42,7 @@
     <Reference Include="AAA.Meta.Command, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="AAA.Meta.Quote, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="AAA.Meta.Trade, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="AAA.Polaris, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="AAA.Quote, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="AAA.ResultSet, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="AAA.Schedule, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
@@ -50,6 +51,10 @@
     <Reference Include="AAA.Trade, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="AAA.Trade.SignalCatcher, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="AAA.TradeLanguage, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="Interop.PolarisB2BAPI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ext-lib\Interop.PolarisB2BAPI.dll</HintPath>
+    </Reference>
     <Reference Include="NDde, Version=2.1.563.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\ext-lib\NDde.dll</HintPath>
@@ -84,11 +89,42 @@
     <Compile Include="AutoTradeForm.Designer.cs">
       <DependentUpon>AutoTradeForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ChartUtil.cs" />
+    <Compile Include="ChartXForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChartXForm.Designer.cs">
+      <DependentUpon>ChartXForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ChartForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ChartForm.Designer.cs">
       <DependentUpon>ChartForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Component\StrategyBuilder.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Component\StrategyBuilder.Designer.cs">
+      <DependentUpon>StrategyBuilder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Component\TradeSymbolSettingPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Component\TradeSymbolSettingPanel.Designer.cs">
+      <DependentUpon>TradeSymbolSettingPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataDownloadForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataDownloadForm.Designer.cs">
+      <DependentUpon>DataDownloadForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataExportForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataExportForm.Designer.cs">
+      <DependentUpon>DataExportForm.cs</DependentUpon>
     </Compile>
     <Compile Include="DataMonitorForm.cs">
       <SubType>Form</SubType>
@@ -97,6 +133,13 @@
       <DependentUpon>DataMonitorForm.cs</DependentUpon>
     </Compile>
     <Compile Include="DataSourceResultSet.cs" />
+    <Compile Include="EquitySummaryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EquitySummaryForm.Designer.cs">
+      <DependentUpon>EquitySummaryForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ProgramUtil.cs" />
     <Compile Include="IndicatorForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -109,6 +152,13 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="OfflineDataFeedForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OfflineDataFeedForm.Designer.cs">
+      <DependentUpon>OfflineDataFeedForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Parser\PolarisMessageParser.cs" />
     <Compile Include="PerformanceReportForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -116,7 +166,14 @@
       <DependentUpon>PerformanceReportForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ProgramTradeConstants.cs" />
+    <Compile Include="Quote\DatabaseHistoryQuote.cs" />
     <Compile Include="Quote\PolarisHistoryQuote.cs" />
+    <Compile Include="RealTimeStrategyForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RealTimeStrategyForm.Designer.cs">
+      <DependentUpon>RealTimeStrategyForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ScheduleForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -131,17 +188,38 @@
     <EmbeddedResource Include="AutoTradeForm.resx">
       <DependentUpon>AutoTradeForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ChartXForm.resx">
+      <DependentUpon>ChartXForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ChartForm.resx">
       <DependentUpon>ChartForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Component\StrategyBuilder.resx">
+      <DependentUpon>StrategyBuilder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Component\TradeSymbolSettingPanel.resx">
+      <DependentUpon>TradeSymbolSettingPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataDownloadForm.resx">
+      <DependentUpon>DataDownloadForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataExportForm.resx">
+      <DependentUpon>DataExportForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DataMonitorForm.resx">
       <DependentUpon>DataMonitorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EquitySummaryForm.resx">
+      <DependentUpon>EquitySummaryForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="IndicatorForm.resx">
       <DependentUpon>IndicatorForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OfflineDataFeedForm.resx">
+      <DependentUpon>OfflineDataFeedForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PerformanceReportForm.resx">
       <DependentUpon>PerformanceReportForm.cs</DependentUpon>
@@ -150,6 +228,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RealTimeStrategyForm.resx">
+      <DependentUpon>RealTimeStrategyForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ScheduleForm.resx">
       <DependentUpon>ScheduleForm.cs</DependentUpon>
@@ -164,7 +245,14 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="cfg\chart.ini" />
+    <None Include="cfg\polaris.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="cfg\realtime.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="cfg\realtime_strategy.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="cfg\system.ini">
@@ -195,6 +283,11 @@
       <DependentUpon>SpeedOrderForm.cs</DependentUpon>
     </Compile>
     <Compile Include="SystemHelper.cs" />
+    <Compile Include="Task\AbstractQuoteTask.cs" />
+    <Compile Include="Task\ExecuteStrategy.cs" />
+    <Compile Include="Task\LoadDayData.cs" />
+    <Compile Include="Task\LoadOptionsTheoreticalPrice.cs" />
+    <Compile Include="Task\LoadTradeData.cs" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="ORTCLib">
@@ -213,6 +306,9 @@
     <Content Include="AAA.ProgramTrade.Signal.MACross.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="cfg\quote_symbol_list.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Data\TFHTX-TP-1min.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -228,7 +324,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Function\" />
-    <Folder Include="Task\" />
+    <Folder Include="log\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -36,6 +36,8 @@
             this.splContainer = new System.Windows.Forms.SplitContainer();
             this.tblSymbolList = new System.Windows.Forms.DataGridView();
             this.tblDataDetail = new System.Windows.Forms.DataGridView();
+            this.btnLoadAllData = new System.Windows.Forms.Button();
+            this.btnDataExport = new System.Windows.Forms.Button();
             this.splContainer.Panel1.SuspendLayout();
             this.splContainer.Panel2.SuspendLayout();
             this.splContainer.SuspendLayout();
@@ -56,6 +58,7 @@
             // 
             // txtCurrentTime
             // 
+            this.txtCurrentTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.txtCurrentTime.Location = new System.Drawing.Point(101, 405);
             this.txtCurrentTime.Name = "txtCurrentTime";
             this.txtCurrentTime.ReadOnly = true;
@@ -64,6 +67,7 @@
             // 
             // label1
             // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(13, 410);
             this.label1.Name = "label1";
@@ -73,6 +77,7 @@
             // 
             // btnPrevious
             // 
+            this.btnPrevious.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnPrevious.Location = new System.Drawing.Point(72, 405);
             this.btnPrevious.Name = "btnPrevious";
             this.btnPrevious.Size = new System.Drawing.Size(23, 23);
@@ -83,6 +88,7 @@
             // 
             // btnNext
             // 
+            this.btnNext.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnNext.Location = new System.Drawing.Point(251, 403);
             this.btnNext.Name = "btnNext";
             this.btnNext.Size = new System.Drawing.Size(23, 23);
@@ -123,6 +129,7 @@
             this.tblSymbolList.RowTemplate.Height = 24;
             this.tblSymbolList.Size = new System.Drawing.Size(561, 392);
             this.tblSymbolList.TabIndex = 1;
+            this.tblSymbolList.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.tblSymbolList_CellContentDoubleClick);
             // 
             // tblDataDetail
             // 
@@ -138,11 +145,35 @@
             this.tblDataDetail.Size = new System.Drawing.Size(296, 392);
             this.tblDataDetail.TabIndex = 2;
             // 
+            // btnLoadAllData
+            // 
+            this.btnLoadAllData.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnLoadAllData.Location = new System.Drawing.Point(657, 400);
+            this.btnLoadAllData.Name = "btnLoadAllData";
+            this.btnLoadAllData.Size = new System.Drawing.Size(116, 23);
+            this.btnLoadAllData.TabIndex = 8;
+            this.btnLoadAllData.Text = "載入所有離線資料";
+            this.btnLoadAllData.UseVisualStyleBackColor = true;
+            this.btnLoadAllData.Click += new System.EventHandler(this.btnLoadAllData_Click);
+            // 
+            // btnDataExport
+            // 
+            this.btnDataExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnDataExport.Location = new System.Drawing.Point(567, 400);
+            this.btnDataExport.Name = "btnDataExport";
+            this.btnDataExport.Size = new System.Drawing.Size(84, 23);
+            this.btnDataExport.TabIndex = 9;
+            this.btnDataExport.Text = "資料輸出";
+            this.btnDataExport.UseVisualStyleBackColor = true;
+            this.btnDataExport.Click += new System.EventHandler(this.btnDataExport_Click);
+            // 
             // DataMonitorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(875, 435);
+            this.Controls.Add(this.btnDataExport);
+            this.Controls.Add(this.btnLoadAllData);
             this.Controls.Add(this.splContainer);
             this.Controls.Add(this.btnNext);
             this.Controls.Add(this.btnPrevious);
@@ -171,5 +202,7 @@
         private System.Windows.Forms.SplitContainer splContainer;
         private System.Windows.Forms.DataGridView tblSymbolList;
         private System.Windows.Forms.DataGridView tblDataDetail;
+        private System.Windows.Forms.Button btnLoadAllData;
+        private System.Windows.Forms.Button btnDataExport;
     }
 }

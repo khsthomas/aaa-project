@@ -107,7 +107,7 @@ namespace AAA.WretchPublisher
                         if (WebBrowser.ReadyState == WebBrowserReadyState.Complete)
                         {
                             _iCurrentStep = LOGIN_COMPLETED;
-                            HtmlAction.HrefClick(document, "http://tw.rd.yahoo.com/referurl/wretch/index/turf/login/blog/*http://www.wretch.cc/blog/" + Blogname);
+                            HtmlAction.HrefClick(document, "http://tw.rd.yahoo.com/referurl/wretch/index/turf/login/blog/*http://www.wretch.cc/blog/" + Blogname);                                                            
                         }
                         break;
 
@@ -121,12 +121,12 @@ namespace AAA.WretchPublisher
                     case FILL_BLOG:
                         if (WebBrowser.ReadyState == WebBrowserReadyState.Complete)
                         {
-                           Thread.Sleep(3000);
+                           Thread.Sleep(6000);
                             _iCurrentStep = PUBLISH;
                             HtmlAction.FillTextFieldData(document, "addpost", "title", Title);
                             HtmlAction.FillTextAreaData(document, "addpost", "text", Article);
                             HtmlAction.ClickCheckButton(document, "default_category", null);
-                            Thread.Sleep(3000);
+                            Thread.Sleep(6000);
                             HtmlAction.Submit(document, "addpost", "confirm");                            
                         }
                         break;

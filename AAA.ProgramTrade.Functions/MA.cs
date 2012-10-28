@@ -24,7 +24,8 @@ namespace AAA.ProgramTrade.Function
             try
             {
                 // 取得參數 Len 的值
-                int iLen = (int)InputVariable("Len");
+                //int iLen = (int)InputVariable("Len");
+                int iLen = int.Parse(InputVariable("Len").ToString());
                 float fSum = 0;
 
                 // 計算收盤價的和
