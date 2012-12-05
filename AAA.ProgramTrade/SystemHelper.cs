@@ -35,8 +35,13 @@ namespace AAA.ProgramTrade
 
         public static ITrade CreateTrade()
         {
+            ITrade tradeProgram = new PolarisImp();
+
+            tradeProgram.AddTradeLogger(new TradeLogger(AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.PROGRAM_ROOT_PATH] + @"\logs\Trade_" + DateTime.Now.ToString("yyyyMMdd") + ".log"));
+
+            return tradeProgram;
             //return new SPFTradeImp();
-            return new PolarisImp();    
+            //return new PolarisImp();    
         }
 
         public static TradeSymbol CreateTradeSymbol(object[] oValues)

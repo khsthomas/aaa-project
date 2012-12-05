@@ -24,7 +24,7 @@ namespace AAA.ProgramTrade
             ITrade autoTrade = null;
             AccountInfo accountInfo = null;
 
-            if (AAA.DesignPattern.Singleton.SystemParameter.Parameter["AutoTrade"] == null)
+            if (AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.AUTO_TRADE_PROGRAM] == null)
             {
                 IniReader iniReader = new IniReader((string)AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.PROGRAM_ROOT_PATH] + @"\cfg\system.ini");
                 txtUsername.Text = iniReader.GetParam("Account", "Username");
@@ -49,12 +49,12 @@ namespace AAA.ProgramTrade
                     accountInfo.AccountNo = (string)AAA.DesignPattern.Singleton.SystemParameter.Parameter["AccountNo"];
 
                 autoTrade.InitProgram(accountInfo);
-                AAA.DesignPattern.Singleton.SystemParameter.Parameter["AutoTrade"] = autoTrade;
+                AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.AUTO_TRADE_PROGRAM] = autoTrade;
 
             }
             else
             {
-                autoTrade = (ITrade)AAA.DesignPattern.Singleton.SystemParameter.Parameter["AutoTrade"];
+                autoTrade = (ITrade)AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.AUTO_TRADE_PROGRAM];
 
                 txtUsername.Text = autoTrade.AccountInfo.IdNo;
                 txtPassword.Text = autoTrade.AccountInfo.Password;
@@ -89,7 +89,7 @@ namespace AAA.ProgramTrade
 
                 if (btnConnect.Text == "連線")
                 {
-                    if (AAA.DesignPattern.Singleton.SystemParameter.Parameter["AutoTrade"] == null)
+                    if (AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.AUTO_TRADE_PROGRAM] == null)
                     {
                         autoTrade = SystemHelper.CreateTrade();
                         accountInfo = new AccountInfo();
@@ -105,11 +105,11 @@ namespace AAA.ProgramTrade
                             accountInfo.AccountNo = (string)AAA.DesignPattern.Singleton.SystemParameter.Parameter["AccountNo"];
 
                         autoTrade.InitProgram(accountInfo);
-                        AAA.DesignPattern.Singleton.SystemParameter.Parameter["AutoTrade"] = autoTrade;
+                        AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.AUTO_TRADE_PROGRAM] = autoTrade;
                     }
                     else
                     {
-                        autoTrade = (ITrade)AAA.DesignPattern.Singleton.SystemParameter.Parameter["AutoTrade"];
+                        autoTrade = (ITrade)AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.AUTO_TRADE_PROGRAM];
                     }
 
                     strRC = (string)autoTrade.Login();
@@ -126,7 +126,7 @@ namespace AAA.ProgramTrade
                 }
                 else
                 {
-                    autoTrade = (ITrade)AAA.DesignPattern.Singleton.SystemParameter.Parameter["AutoTrade"];
+                    autoTrade = (ITrade)AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.AUTO_TRADE_PROGRAM];
                     autoTrade.Logout();
 
                     IMessageInfo messageInfo = new MessageInfo();
@@ -145,7 +145,7 @@ namespace AAA.ProgramTrade
 
         private void btnChangeMode_Click(object sender, EventArgs e)
         {
-            if (AAA.DesignPattern.Singleton.SystemParameter.Parameter["AutoTrade"] == null)
+            if (AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.AUTO_TRADE_PROGRAM] == null)
             {
                 MessageBox.Show("請先連線後, 再切換模式");
                 return;
@@ -154,11 +154,11 @@ namespace AAA.ProgramTrade
             switch (cboMode.Text)
             {
                 case "模擬模式":
-                    ((ITrade)AAA.DesignPattern.Singleton.SystemParameter.Parameter["AutoTrade"]).TradeMode = AAA.Meta.Trade.TradeModeEnum.Simulation;
+                    ((ITrade)AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.AUTO_TRADE_PROGRAM]).TradeMode = AAA.Meta.Trade.TradeModeEnum.Simulation;
                     break;
 
                 case "實單模式":
-                    ((ITrade)AAA.DesignPattern.Singleton.SystemParameter.Parameter["AutoTrade"]).TradeMode = AAA.Meta.Trade.TradeModeEnum.Real;
+                    ((ITrade)AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.AUTO_TRADE_PROGRAM]).TradeMode = AAA.Meta.Trade.TradeModeEnum.Real;
                     break;
             }
 

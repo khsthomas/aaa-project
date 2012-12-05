@@ -215,7 +215,7 @@ namespace AAA.ProgramTrade
 
         private void autoTradeItem_Click(object sender, EventArgs e)
         {
-            if (AAA.DesignPattern.Singleton.SystemParameter.Parameter["AutoTrade"] == null)
+            if (AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.AUTO_TRADE_PROGRAM] == null)
             {
                 MessageBox.Show("請先登入系統, 謝謝!!");
                 return;
