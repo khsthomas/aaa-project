@@ -140,9 +140,9 @@ namespace AAA.ProgramTrade
                 _iMinPrice = (int)(Math.Floor(iYsdClosePrice * (1 - _fDiffRatio))); ;
                 _isStartQuote = true;
 
-                if (AAA.DesignPattern.Singleton.SystemParameter.Parameter["AutoTrade"] != null)
+                if (AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.AUTO_TRADE_PROGRAM] != null)
                 {
-                    txtAccount.Text = ((ITrade)AAA.DesignPattern.Singleton.SystemParameter.Parameter["AutoTrade"]).AccountInfo.IdNo;
+                    txtAccount.Text = ((ITrade)AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.AUTO_TRADE_PROGRAM]).AccountInfo.IdNo;
                 }
                 else
                 {
@@ -389,36 +389,36 @@ namespace AAA.ProgramTrade
         private void SendOrder(AAA.Meta.Trade.Data.OrderInfo orderInfo)
         {
             string strMessage;
-            if (AAA.DesignPattern.Singleton.SystemParameter.Parameter["AutoTrade"] == null)
+            if (AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.AUTO_TRADE_PROGRAM] == null)
             {
                 MessageBox.Show("請先登入, 謝謝!!");
                 return;
             }
 
-            strMessage = (string)((ITrade)AAA.DesignPattern.Singleton.SystemParameter.Parameter["AutoTrade"]).SendOrder(orderInfo);
+            strMessage = (string)((ITrade)AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.AUTO_TRADE_PROGRAM]).SendOrder(orderInfo);
 
-            ((ITrade)AAA.DesignPattern.Singleton.SystemParameter.Parameter["AutoTrade"]).GetOrderReport(DateTime.Now.ToString("yyyy/MM/dd") + " 00:00:00", 
-                                                                                                        DateTime.Now.ToString("yyyy/MM/dd") + " 23:59:59");
+            ((ITrade)AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.AUTO_TRADE_PROGRAM]).GetOrderReport(DateTime.Now.ToString("yyyy/MM/dd") + " 00:00:00", 
+                                                                                                                                     DateTime.Now.ToString("yyyy/MM/dd") + " 23:59:59");
         }
 
         private void CancelOrder(AAA.Meta.Trade.Data.OrderInfo orderInfo)
         {
-            if (AAA.DesignPattern.Singleton.SystemParameter.Parameter["AutoTrade"] == null)
+            if (AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.AUTO_TRADE_PROGRAM] == null)
             {
                 MessageBox.Show("請先登入, 謝謝!!");
                 return;
             }
 
-            ((ITrade)AAA.DesignPattern.Singleton.SystemParameter.Parameter["AutoTrade"]).CancelOrder(orderInfo);
+            ((ITrade)AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.AUTO_TRADE_PROGRAM]).CancelOrder(orderInfo);
         }
 
         private void FormatCommonProperty(AAA.Meta.Trade.Data.OrderInfo orderInfo)
         {
-            orderInfo.SymbolCode = ((ITrade)AAA.DesignPattern.Singleton.SystemParameter.Parameter["AutoTrade"]).QuerySymbolCode(cboSymbolType.Text,
-                                                                                                                                cboStrikePrice.Text,
-                                                                                                                                cboPutOrCall.Text,
-                                                                                                                                cboYear.Text,
-                                                                                                                                cboMonth.Text);
+            orderInfo.SymbolCode = ((ITrade)AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.AUTO_TRADE_PROGRAM]).QuerySymbolCode(cboSymbolType.Text,
+                                                                                                                                                             cboStrikePrice.Text,
+                                                                                                                                                             cboPutOrCall.Text,
+                                                                                                                                                             cboYear.Text,
+                                                                                                                                                             cboMonth.Text);
             orderInfo.IntraDay = chkDayTrade.Checked;
         }
 
@@ -428,7 +428,7 @@ namespace AAA.ProgramTrade
 
             try
             {
-                if (AAA.DesignPattern.Singleton.SystemParameter.Parameter["AutoTrade"] == null)
+                if (AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.AUTO_TRADE_PROGRAM] == null)
                 {
                     MessageBox.Show("請先登入, 謝謝!!");
                     return;
@@ -501,9 +501,9 @@ namespace AAA.ProgramTrade
             switch (miMessage.MessageSubject)
             {
                 case "Login":
-                    if (AAA.DesignPattern.Singleton.SystemParameter.Parameter["AutoTrade"] != null)
+                    if (AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.AUTO_TRADE_PROGRAM] != null)
                     {
-                        txtAccount.Text = ((ITrade)AAA.DesignPattern.Singleton.SystemParameter.Parameter["AutoTrade"]).AccountInfo.IdNo;
+                        txtAccount.Text = ((ITrade)AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.AUTO_TRADE_PROGRAM]).AccountInfo.IdNo;
                     }
                     break;
 

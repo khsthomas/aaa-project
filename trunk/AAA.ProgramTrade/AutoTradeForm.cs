@@ -33,8 +33,8 @@ namespace AAA.ProgramTrade
             try
             {
                 _dicStrategy = new Dictionary<string, StrategyInfo>();
-                _autoTrade = (ITrade)AAA.DesignPattern.Singleton.SystemParameter.Parameter["AutoTrade"];
-                _tradingRule = (ITradingRule)AAA.DesignPattern.Singleton.SystemParameter.Parameter["TradingRule"];
+                _autoTrade = (ITrade)AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.AUTO_TRADE_PROGRAM];
+                _tradingRule = (ITradingRule)AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.TRADING_RULE];
                 txtAccount.Text = _autoTrade.AccountInfo.IdNo;
                 btnConnect.Text = _autoTrade.IsConnected()
                                     ? "中斷"
@@ -108,48 +108,7 @@ namespace AAA.ProgramTrade
                 cboOptionsMonth.Items.Add("季月3");
                 cboOptionsMonth.SelectedIndex = 0;
 
-                //策略列表
-                //tblStrategy.Columns.Add("IsActive", "啟動");
-                DataGridViewCheckBoxColumn checkBox = new DataGridViewCheckBoxColumn();
-                checkBox.Name = "啟動";
-                tblStrategy.Columns.Add(checkBox);
-                tblStrategy.Columns.Add("Strategy", "策略名稱");
-                tblStrategy.Columns.Add("SymbolType", "商品別");
-                tblStrategy.Columns.Add("SymbolSeq", "商品序號");
-                tblStrategy.Columns.Add("PriceType", "價格別");
-                tblStrategy.Columns.Add("DayTrade", "當沖");
-                tblStrategy.Columns.Add("Volume", "下單口數");
-                tblStrategy.Columns.Add("ExitSignal", "送出平倉訊號");
-                tblStrategy.Columns.Add("ContractType", "合約別");
-                tblStrategy.Columns.Add("Slippage", "滑價");
-                tblStrategy.Columns.Add("OrderDirection", "買賣別");
-                tblStrategy.Columns.Add("ExecutePrice", "履約價別");
-                tblStrategy.Columns.Add("PriceZone", "檔次");
-
-                //目前部位
-                tblOpenPosition.Columns.Add("code", "商品代碼");
-                tblOpenPosition.Columns.Add("ord_no", "委託書號");
-                tblOpenPosition.Columns.Add("ord_bs", "買賣別");
-                tblOpenPosition.Columns.Add("currency", "幣別");
-                tblOpenPosition.Columns.Add("vol", "口數");
-                tblOpenPosition.Columns.Add("avg_price", "成交均價");
-
-                //委託回報
-                tblTrust.Columns.Add("ord_time", "時間");
-                tblTrust.Columns.Add("type", "商品類別");
-                tblTrust.Columns.Add("code", "商品代碼");
-                tblTrust.Columns.Add("trade_type", "指令別");
-                tblTrust.Columns.Add("trade_class", "交易別");
-                tblTrust.Columns.Add("price", "委託價");
-                tblTrust.Columns.Add("qty", "委託量");
-                tblTrust.Columns.Add("contractprice", "成交價");
-                tblTrust.Columns.Add("contractqty", "成交量");
-                tblTrust.Columns.Add("cancelqty", "刪單量");
-                tblTrust.Columns.Add("errorcode", "訊息代碼");
-                tblTrust.Columns.Add("errormsg", "錯誤訊息");
-                tblTrust.Columns.Add("oct", "倉別");
-                tblTrust.Columns.Add("ord_no", "委託書號");
-                tblTrust.Columns.Add("ord_seq", "網路單號");
+                InitTable();                
 
                 //手動下單匣
                 cboManualSymbolType.Items.Add("台指");
@@ -184,6 +143,52 @@ namespace AAA.ProgramTrade
             }
         }
 
+        private void InitTable()
+        {
+            //策略列表
+            //tblStrategy.Columns.Add("IsActive", "啟動");
+            DataGridViewCheckBoxColumn checkBox = new DataGridViewCheckBoxColumn();
+            checkBox.Name = "啟動";
+            tblStrategy.Columns.Add(checkBox);
+            tblStrategy.Columns.Add("Strategy", "策略名稱");
+            tblStrategy.Columns.Add("SymbolType", "商品別");
+            tblStrategy.Columns.Add("SymbolSeq", "商品序號");
+            tblStrategy.Columns.Add("PriceType", "價格別");
+            tblStrategy.Columns.Add("DayTrade", "當沖");
+            tblStrategy.Columns.Add("Volume", "下單口數");
+            tblStrategy.Columns.Add("ExitSignal", "送出平倉訊號");
+            tblStrategy.Columns.Add("ContractType", "合約別");
+            tblStrategy.Columns.Add("Slippage", "滑價");
+            tblStrategy.Columns.Add("OrderDirection", "買賣別");
+            tblStrategy.Columns.Add("ExecutePrice", "履約價別");
+            tblStrategy.Columns.Add("PriceZone", "檔次");
+
+            //目前部位
+            tblOpenPosition.Columns.Add("code", "商品代碼");
+            tblOpenPosition.Columns.Add("ord_no", "委託書號");
+            tblOpenPosition.Columns.Add("ord_bs", "買賣別");
+            tblOpenPosition.Columns.Add("currency", "幣別");
+            tblOpenPosition.Columns.Add("vol", "口數");
+            tblOpenPosition.Columns.Add("avg_price", "成交均價");
+
+            //委託回報
+            tblTrust.Columns.Add("ord_time", "時間");
+            tblTrust.Columns.Add("type", "商品類別");
+            tblTrust.Columns.Add("code", "商品代碼");
+            tblTrust.Columns.Add("trade_type", "指令別");
+            tblTrust.Columns.Add("trade_class", "交易別");
+            tblTrust.Columns.Add("price", "委託價");
+            tblTrust.Columns.Add("qty", "委託量");
+            tblTrust.Columns.Add("contractprice", "成交價");
+            tblTrust.Columns.Add("contractqty", "成交量");
+            tblTrust.Columns.Add("cancelqty", "刪單量");
+            tblTrust.Columns.Add("errorcode", "訊息代碼");
+            tblTrust.Columns.Add("errormsg", "錯誤訊息");
+            tblTrust.Columns.Add("oct", "倉別");
+            tblTrust.Columns.Add("ord_no", "委託書號");
+            tblTrust.Columns.Add("ord_seq", "網路單號");
+        }
+
         private void InitStrategy()
         {
             StreamReader sr = null;
@@ -198,6 +203,9 @@ namespace AAA.ProgramTrade
                 sr = new StreamReader((string)AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.PROGRAM_ROOT_PATH] + @"\cfg\strategy.cfg", Encoding.Default);
 
                 sr.ReadLine();
+
+                if (tblStrategy.ColumnCount == 0)
+                    InitTable();
 
                 while ((strLine = sr.ReadLine()) != null)
                 {
@@ -597,6 +605,9 @@ namespace AAA.ProgramTrade
             Dictionary<string, string> dicParam;
             try
             {
+                if (tblStrategy.ColumnCount == 0)
+                    InitTable();
+
                 switch (miMessage.MessageSubject)
                 {
                     case "FilledOrder":
@@ -678,6 +689,7 @@ namespace AAA.ProgramTrade
                         switch (dicReturn["name"].ToString())
                         {
                             case "QueryTodayEquity": //當日權益數
+                                DataGridViewUtil.Clear(tblTodayEquity);
 
                                 _dicEquity = PolarisMessageParser.ParseEquity(dicReturn);
                                 strEquityTypes = (string[])_dicEquity["equitytypes"];
@@ -844,29 +856,91 @@ namespace AAA.ProgramTrade
             btnSell.Enabled = true;
         }
 
-        private void CancelOrder(string strOrderNo, string strOrderSeq, string strSymbolCode, string strOctType, string strTime)
+        private void CancelOrder(string strOrderNo, string strOrderSeq, string strSymbolCode, string strOctType, string strTime, 
+                                 string strTradeType, string strTradeClass, string strVolume, string strPrice)
         {
             try
             {
                 AAA.Meta.Trade.Data.OrderInfo orderInfo = new AAA.Meta.Trade.Data.OrderInfo();
-                orderInfo.SymbolCode = strSymbolCode;
+                string[] strSymbolCodes;
+                string strYear = "";
+                string strMonth = "";
+                string strPutOrCall = " ";
+                string strSymbolType = "";
+                string strStrikePrice = "";
+
+                if (strSymbolCode.IndexOf(",") > -1)
+                {
+                    strSymbolCodes = strSymbolCode.Split(',');
+
+                    strYear = strSymbolCodes[1].Substring(0, 4);
+                    strMonth = strSymbolCodes[1].Substring(4, 2);
+                    strStrikePrice = strSymbolCodes[2];
+                    if (strSymbolCodes[0].StartsWith("TXO"))
+                    {
+                        strSymbolType = "選擇權";
+                        strPutOrCall = strSymbolCodes[0].Trim().EndsWith("C") ? "C" : "P";                        
+                    }
+                    else
+                    {
+                        if (strSymbolCode.StartsWith("FITX"))
+                        {
+                            strSymbolType = "台指";
+                        }
+                        else
+                        {
+                            strSymbolType = "小台";
+                        }
+                    }
+                }
+                else
+                {
+                    orderInfo.SymbolCode = strSymbolCode;
+                }
                 orderInfo.OrderNo = strOrderNo;
                 orderInfo.OrderID = strOrderSeq;
                 orderInfo.TSSignalTime = strTime;
+                orderInfo.FilledPrice = strPrice;
+                orderInfo.FilledVolume = int.Parse(strVolume);
+                orderInfo.TSSignalTime = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
+                orderInfo.ExercisePrice = strStrikePrice;
+                orderInfo.PutOrCall = strPutOrCall;
+                orderInfo.Year = strYear;
+                orderInfo.Month = strMonth;
+                orderInfo.OrderType = strTradeType;
+
                 switch (strOctType)
                 {
                     case "新倉":
-                        orderInfo.OrderType = "E";
+                        orderInfo.OrderType = ((strTradeType == "B") ? "LE" : "SE");
                         break;
                     case "平倉":
-                        orderInfo.OrderType = "X";
+                        orderInfo.OrderType = ((strTradeType == "B") ? "SX" : "LX");
                         break;
                     case "自動":
-                        orderInfo.OrderType = " ";
+                        orderInfo.OrderType = strTradeType;
                         break;
 
                 }
-                
+
+                orderInfo.SymbolName = strSymbolType;
+                orderInfo.SymbolCode = _autoTrade.QuerySymbolCode(strSymbolType, 
+                                                                  strStrikePrice, 
+                                                                  strPutOrCall, 
+                                                                  strYear, 
+                                                                  strMonth);
+
+/*
+                orderInfo.Year = cboManualMonth.Text == "近月" ? SymbolUtil.HotContract(DateTime.Now).Year.ToString() : SymbolUtil.NextMonthContract(DateTime.Now).Year.ToString(); ;
+                orderInfo.Month = cboManualMonth.Text == "近月" ? SymbolUtil.HotContract(DateTime.Now).Month.ToString() : SymbolUtil.NextMonthContract(DateTime.Now).Month.ToString();
+                orderInfo.SymbolCode = _autoTrade.QuerySymbolCode(cboManualSymbolType.Text, txtManualStrikePrice.Text, cboManualPutOrCall.Text == "買權" ? "C" : cboManualPutOrCall.Text == "賣權" ? "P" : " ", orderInfo.Year, orderInfo.Month);
+                orderInfo.IntraDay = chkIntraday.Checked;
+                orderInfo.FilledPrice = (chkMarketPrice.Checked) ? "M" : txtManualPrice.Text;
+                orderInfo.FilledVolume = int.Parse(txtManualVol.Text);
+                orderInfo.TSSignalTime = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
+                orderInfo.PutOrCall = cboManualPutOrCall.Text == "買權" ? "C" : cboManualPutOrCall.Text == "賣權" ? "P" : " ";
+                orderInfo.ExercisePrice = txtManualStrikePrice.Text;            
+*/
                 _autoTrade.CancelOrder(orderInfo);
             }
             catch (Exception ex)
@@ -875,6 +949,89 @@ namespace AAA.ProgramTrade
             }
         }
 
+        private void ChangeQuantityOrder(string strOrderNo, string strOrderSeq, string strSymbolCode, string strOctType, string strTime,
+                                         string strTradeType, string strTradeClass, string strVolume, string strPrice)
+        {
+            try
+            {
+                AAA.Meta.Trade.Data.OrderInfo orderInfo = new AAA.Meta.Trade.Data.OrderInfo();
+                string[] strSymbolCodes;
+                string strYear = "";
+                string strMonth = "";
+                string strPutOrCall = " ";
+                string strSymbolType = "";
+                string strStrikePrice = "";
+
+                if (strSymbolCode.IndexOf(",") > -1)
+                {
+                    strSymbolCodes = strSymbolCode.Split(',');
+
+                    strYear = strSymbolCodes[1].Substring(0, 4);
+                    strMonth = strSymbolCodes[1].Substring(4, 2);
+                    strStrikePrice = strSymbolCodes[2];
+                    if (strSymbolCodes[0].StartsWith("TXO"))
+                    {
+                        strSymbolType = "選擇權";
+                        strPutOrCall = strSymbolCodes[0].Trim().EndsWith("C") ? "C" : "P";
+                    }
+                    else
+                    {
+                        if (strSymbolCode.StartsWith("FITX"))
+                        {
+                            strSymbolType = "台指";
+                        }
+                        else
+                        {
+                            strSymbolType = "小台";
+                        }
+                    }
+                }
+                else
+                {
+                    orderInfo.SymbolCode = strSymbolCode;
+                }
+                orderInfo.OrderNo = strOrderNo;
+                orderInfo.OrderID = strOrderSeq;
+                orderInfo.TSSignalTime = strTime;
+                orderInfo.FilledPrice = strPrice;
+                orderInfo.FilledVolume = int.Parse(strVolume);
+                orderInfo.TSSignalTime = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
+                orderInfo.ExercisePrice = strStrikePrice;
+                orderInfo.PutOrCall = strPutOrCall;
+                orderInfo.Year = strYear;
+                orderInfo.Month = strMonth;
+                orderInfo.OrderType = strTradeType;
+
+                switch (strOctType)
+                {
+                    case "新倉":
+                        orderInfo.OrderType = ((strTradeType == "B") ? "LE" : "SE");
+                        break;
+                    case "平倉":
+                        orderInfo.OrderType = ((strTradeType == "B") ? "SX" : "LX");
+                        break;
+                    case "自動":
+                        orderInfo.OrderType = strTradeType;
+                        break;
+
+                }
+
+                orderInfo.SymbolName = strSymbolType;
+                orderInfo.SymbolCode = _autoTrade.QuerySymbolCode(strSymbolType,
+                                                                  strStrikePrice,
+                                                                  strPutOrCall,
+                                                                  strYear,
+                                                                  strMonth);
+
+                _autoTrade.ChangeQuantity(orderInfo);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "," + ex.StackTrace);
+            }        
+        }
+
+
         private void btnCancelAll_Click(object sender, EventArgs e)
         {
             string strOrderNo;
@@ -882,6 +1039,10 @@ namespace AAA.ProgramTrade
             string strSymbolCode;
             string strOctType;
             string strTime;
+            string strVolume;
+            string strPrice;
+            string strTradeClass;
+            string strTradeType;
 
             try
             {
@@ -894,15 +1055,21 @@ namespace AAA.ProgramTrade
                     strOrderNo = tblTrust.Rows[i].Cells["ord_no"].Value.ToString();
                     strOrderSeq = tblTrust.Rows[i].Cells["ord_seq"].Value.ToString();
                     strSymbolCode = tblTrust.Rows[i].Cells["code"].Value.ToString();
-                    strOctType = tblTrust.Rows[i].Cells["oct"].Value.ToString();
+                    strOctType = tblTrust.Rows[i].Cells["oct"].Value.ToString().Trim() == "" ? "自動" : tblTrust.Rows[i].Cells["oct"].Value.ToString();
                     strTime = tblTrust.Rows[i].Cells["ocd_time"].Value.ToString();
-                    CancelOrder(strOrderNo, strOrderSeq, strSymbolCode, strOctType, strTime);
+                    strPrice = tblTrust.Rows[i].Cells["price"].Value.ToString();
+                    strVolume = tblTrust.Rows[i].Cells["qty"].Value.ToString();
+                    strTradeClass = tblTrust.Rows[i].Cells["trade_class"].Value.ToString();
+                    strTradeType = tblTrust.Rows[i].Cells["trade_type"].Value.ToString();
+
+                    CancelOrder(strOrderNo, strOrderSeq, strSymbolCode, strOctType, strTime, strTradeType, strTradeClass, strVolume, strPrice);
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message + "," + ex.StackTrace);
             }
+            _autoTrade.GetOrderReport(DateTime.Now.ToString("yyyy/MM/dd"), DateTime.Now.ToString("yyyy/MM/dd"));
         }
 
         private void btnConnect_Click(object sender, EventArgs e)
@@ -1509,13 +1676,43 @@ namespace AAA.ProgramTrade
 
         private void btnChangeQuantity_Click(object sender, EventArgs e)
         {
+            string strOrderNo;
+            string strOrderSeq;
+            string strSymbolCode;
+            string strOctType;
+            string strTime;
+            string strVolume;
+            string strPrice;
+            string strTradeType;
+            string strTradeClass;
             try
             {
+                if(tblTrust.SelectedRows.Count == 0)
+                {
+                    MessageBox.Show("請選擇要改量的委託單");
+                    return;
+                }
+
+                strOrderNo = tblTrust.Rows[tblTrust.SelectedRows[0].Index].Cells["ord_no"].Value.ToString();
+                strOrderSeq = tblTrust.Rows[tblTrust.SelectedRows[0].Index].Cells["ord_seq"].Value.ToString();
+                strSymbolCode = tblTrust.Rows[tblTrust.SelectedRows[0].Index].Cells["code"].Value.ToString();
+                strOctType = tblTrust.Rows[tblTrust.SelectedRows[0].Index].Cells["oct"].Value.ToString().Trim() == "" 
+                                   ? "自動" 
+                                   : tblTrust.Rows[tblTrust.SelectedRows[0].Index].Cells["oct"].Value.ToString();
+                strTime = tblTrust.Rows[tblTrust.SelectedRows[0].Index].Cells["ord_time"].Value.ToString();
+                strPrice = tblTrust.Rows[tblTrust.SelectedRows[0].Index].Cells["price"].Value.ToString();
+                strVolume = txtChangeQuantity.Text;
+                strTradeClass = tblTrust.Rows[tblTrust.SelectedRows[0].Index].Cells["trade_class"].Value.ToString();
+                strTradeType = tblTrust.Rows[tblTrust.SelectedRows[0].Index].Cells["trade_type"].Value.ToString();
+
+                ChangeQuantityOrder(strOrderNo, strOrderSeq, strSymbolCode, strOctType, strTime, strTradeType, strTradeClass, strVolume, strPrice);
+
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message + "," + ex.StackTrace);
             }
+            _autoTrade.GetOrderReport(DateTime.Now.ToString("yyyy/MM/dd"), DateTime.Now.ToString("yyyy/MM/dd"));
         }
 
         private void btnAllExit_Click(object sender, EventArgs e)
@@ -1537,6 +1734,10 @@ namespace AAA.ProgramTrade
             string strSymbolCode;
             string strOctType;
             string strTime;
+            string strVolume;
+            string strPrice;
+            string strTradeType;
+            string strTradeClass;
             try
             {
                 if(tblTrust.SelectedRows.Count == 0)
@@ -1548,15 +1749,79 @@ namespace AAA.ProgramTrade
                 strOrderNo = tblTrust.Rows[tblTrust.SelectedRows[0].Index].Cells["ord_no"].Value.ToString();
                 strOrderSeq = tblTrust.Rows[tblTrust.SelectedRows[0].Index].Cells["ord_seq"].Value.ToString();
                 strSymbolCode = tblTrust.Rows[tblTrust.SelectedRows[0].Index].Cells["code"].Value.ToString();
-                strOctType = tblTrust.Rows[tblTrust.SelectedRows[0].Index].Cells["oct"].Value.ToString();
+                strOctType = tblTrust.Rows[tblTrust.SelectedRows[0].Index].Cells["oct"].Value.ToString().Trim() == "" 
+                                   ? "自動" 
+                                   : tblTrust.Rows[tblTrust.SelectedRows[0].Index].Cells["oct"].Value.ToString();
                 strTime = tblTrust.Rows[tblTrust.SelectedRows[0].Index].Cells["ord_time"].Value.ToString();
+                strPrice = tblTrust.Rows[tblTrust.SelectedRows[0].Index].Cells["price"].Value.ToString();
+                strVolume = tblTrust.Rows[tblTrust.SelectedRows[0].Index].Cells["qty"].Value.ToString();
+                strTradeClass = tblTrust.Rows[tblTrust.SelectedRows[0].Index].Cells["trade_class"].Value.ToString();
+                strTradeType = tblTrust.Rows[tblTrust.SelectedRows[0].Index].Cells["trade_type"].Value.ToString();
 
-                CancelOrder(strOrderNo, strOrderSeq, strSymbolCode, strOctType, strTime);
+                CancelOrder(strOrderNo, strOrderSeq, strSymbolCode, strOctType, strTime, strTradeType, strTradeClass, strVolume, strPrice);
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message + "," + ex.StackTrace);
             }
+            _autoTrade.GetOrderReport(DateTime.Now.ToString("yyyy/MM/dd"), DateTime.Now.ToString("yyyy/MM/dd"));
         }
+
+        private void SendStockOrder(string strBuyOrSell)
+        {
+            if (_autoTrade.IsConnected() == false)
+            {
+                MessageBox.Show("請先連線, 謝謝!!");
+                return;
+            }
+
+            AAA.Meta.Trade.Data.OrderInfo orderInfo = new AAA.Meta.Trade.Data.OrderInfo();
+            orderInfo.OrderType = (strBuyOrSell == "Buy")
+                                    ? "LE"
+                                    : "SE";
+
+            orderInfo.SymbolCode = txtStockNo.Text;            
+            orderInfo.FilledPrice = txtStockPrice.Text;
+            orderInfo.FilledVolume = int.Parse(txtStockVolume.Text);
+            _autoTrade.SendOrder(orderInfo);
+        }
+
+
+        private void btnStockBuy_Click(object sender, EventArgs e)
+        {
+            btnStockBuy.Enabled = false;
+            btnStockSell.Enabled = false;
+            try
+            {
+                SendStockOrder("Buy");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "," + ex.StackTrace);
+            }
+            _autoTrade.GetOrderReport(DateTime.Now.ToString("yyyy/MM/dd"), DateTime.Now.ToString("yyyy/MM/dd"));
+            btnStockBuy.Enabled = true;
+            btnStockSell.Enabled = true;
+        }
+
+        private void btnStockSell_Click(object sender, EventArgs e)
+        {
+            btnStockBuy.Enabled = false;
+            btnStockSell.Enabled = false;
+            try
+            {
+                SendStockOrder("Sell");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "," + ex.StackTrace);
+            }
+            _autoTrade.GetOrderReport(DateTime.Now.ToString("yyyy/MM/dd"), DateTime.Now.ToString("yyyy/MM/dd"));
+            btnStockBuy.Enabled = true;
+            btnStockSell.Enabled = true;
+        }
+
+
+
     }
 }
