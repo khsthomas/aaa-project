@@ -13,9 +13,11 @@ namespace AAA.TradingSystem.Loader
         public override bool Load(IResultSet resultSet)
         {
             string strDeleteSQL = "DELETE FROM SymbolProfile";
-            string strInsertSQL = "INSERT INTO SymbolProfile(SymbolId, SymbolName, MarketPlace, Industral) VALUES('{0}', '{1}', '{2}', '{3}')";
+            //string strInsertSQL = "INSERT INTO SymbolProfile(SymbolId, SymbolName, MarketPlace, Industral) VALUES('{0}', '{1}', '{2}', '{3}')";
+            string strInsertSQL = "INSERT INTO SymbolProfile(SymbolId, SymbolName, MarketPlace, Industral) VALUES(@SymbolId, @SymbolName, @MarketPlace, @Industral)";
 
             string[] strValues;
+            string[] strFields = { "SymbolId", "SymbolName", "MarketPlace", "Industral" };
             string[] strSymbols;
             try
             {
@@ -35,7 +37,7 @@ namespace AAA.TradingSystem.Loader
                         if(strSymbols[i].Trim() != "")
                             strValues[1] = strSymbols[i].Trim();
                     strValues[2] = resultSet.Cells(3).ToString().Trim();
-                    Database.ExecuteUpdate(strInsertSQL, strValues);
+                    Database.ExecuteUpdate(strInsertSQL, strFields, strValues);
                 }
 
             }

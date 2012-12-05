@@ -106,11 +106,23 @@
     <Compile Include="DataTransferForm.Designer.cs">
       <DependentUpon>DataTransferForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="DaySummaryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DaySummaryForm.Designer.cs">
+      <DependentUpon>DaySummaryForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="DiaryForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="DiaryForm.Designer.cs">
       <DependentUpon>DiaryForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ExcelExportForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ExcelExportForm.Designer.cs">
+      <DependentUpon>ExcelExportForm.cs</DependentUpon>
     </Compile>
     <Compile Include="IndicatorSetup.cs">
       <SubType>Form</SubType>
@@ -175,8 +187,14 @@
     <EmbeddedResource Include="DataTransferForm.resx">
       <DependentUpon>DataTransferForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="DaySummaryForm.resx">
+      <DependentUpon>DaySummaryForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DiaryForm.resx">
       <DependentUpon>DiaryForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ExcelExportForm.resx">
+      <DependentUpon>ExcelExportForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="IndicatorSetup.resx">
       <DependentUpon>IndicatorSetup.cs</DependentUpon>
