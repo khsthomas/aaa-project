@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using AAA.DataLoader;
 using System.IO;
+using AAA.Database;
 
 namespace AAA.TradingSystem.Loader
 {
@@ -100,7 +101,7 @@ namespace AAA.TradingSystem.Loader
                         else
                             strValues[6] = (float.Parse(resultSet.Cells(8).ToString().Trim()) - (resultSet.Cells(9).ToString().Trim() == "－" ? -1.0 : 1.0) * float.Parse(resultSet.Cells(10).ToString().Trim())).ToString(); //PreClose
                     }
-                    catch
+                    catch(Exception ex)
                     {
                         continue;
                     }
@@ -120,7 +121,7 @@ namespace AAA.TradingSystem.Loader
                         {
                             ErrorMessage = Database.ErrorMessage;
                             IsSuccess = false;
-                        }
+                        }                    
                 }
             }
             catch (Exception ex)

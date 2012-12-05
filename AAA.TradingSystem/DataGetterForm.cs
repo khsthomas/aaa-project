@@ -18,6 +18,7 @@ namespace AAA.TradingSystem
 {
     public partial class DataGetterForm : Form
     {
+        private bool _isCompressingDatabase = false;
         public DataGetterForm()
         {
             InitializeComponent();
@@ -62,6 +63,8 @@ namespace AAA.TradingSystem
             string[] strFields;
             List<string> lstField;
             string strReturnMessage;
+            bool needReopen = false;
+
             try
             {
                 btnDownload.Enabled = false;
@@ -71,18 +74,26 @@ namespace AAA.TradingSystem
                 strDatabase = iniReader.GetParam("Calendar", "Database");
                 strUsername = iniReader.GetParam("Calendar", "Username");
                 strPassword = iniReader.GetParam("Calendar", "Password");
-                calendarDatabase.Open(strDatabase.StartsWith(".") ? Environment.CurrentDirectory + strDatabase.Substring(1) : strDatabase,
-                                      strUsername,
-                                      strPassword);
 
-                dataReader = calendarDatabase.ExecuteQuery(iniReader.GetParam("Calendar", "SQLStatement"));
-                
-                while(dataReader.Read())
-                    strStartTime = dataReader[0].ToString();
+                if ((strReturnMessage = Database.DatabaseUtil.CompressAccess(strDatabase.StartsWith(".") ? Environment.CurrentDirectory + strDatabase.Substring(1) : strDatabase,
+                                                                    strPassword)) != null)
+                    if (strReturnMessage != "")
+                        MessageBox.Show(strReturnMessage);
 
                 if (txtStartDate.Text.Trim() != "")
                 {
                     strStartTime = txtStartDate.Text + " 00:00:00";
+                }
+                else
+                {
+                    calendarDatabase.Open(strDatabase.StartsWith(".") ? Environment.CurrentDirectory + strDatabase.Substring(1) : strDatabase,
+                                                          strUsername,
+                                                          strPassword);
+
+                    dataReader = calendarDatabase.ExecuteQuery(iniReader.GetParam("Calendar", "SQLStatement"));
+
+                    while (dataReader.Read())
+                        strStartTime = dataReader[0].ToString();
                 }
 
                 dtNow = DateTime.Now;
@@ -102,7 +113,7 @@ namespace AAA.TradingSystem
 
                 pageDownloader.Path = Environment.CurrentDirectory;
                 pageDownloader.FileType = FileTypeEnum.asc;
-
+                
                 for (int i = 0; i < strWebs.Length; i++)
                 {
                     Application.DoEvents();
@@ -132,6 +143,8 @@ namespace AAA.TradingSystem
                             fileParser.AddParseField(strFields[iField], iniReader.GetParam(strWebs[i], strFields[iField] + "XPath"));
                     }
 
+                    fileParser.Encoding = Encoding.Default;
+
                     lstParameter = new List<DateTime>();
                     if(isHistricalData)
                     {
@@ -143,11 +156,14 @@ namespace AAA.TradingSystem
                         lstParameter.Add(DateTime.Now);
                     }
 
+
                     database = new AccessDatabase();
+                    databaseUpdate = new AccessDatabase();
+                    
                     database.Open(strDatabase.StartsWith(".") ? Environment.CurrentDirectory + strDatabase.Substring(1) : strDatabase,
                                   strUsername,
                                   strPassword);
-                    databaseUpdate = new AccessDatabase();
+                    
                     databaseUpdate.Open(strDatabase.StartsWith(".") ? Environment.CurrentDirectory + strDatabase.Substring(1) : strDatabase,
                                         strUsername,
                                         strPassword);
@@ -160,12 +176,25 @@ namespace AAA.TradingSystem
 
                         foreach(DateTime dateTime in lstParameter)
                         {
+                            if (needReopen)
+                            {
+                                database.Open(strDatabase.StartsWith(".") ? Environment.CurrentDirectory + strDatabase.Substring(1) : strDatabase,
+                                              strUsername,
+                                              strPassword);
+
+                                databaseUpdate.Open(strDatabase.StartsWith(".") ? Environment.CurrentDirectory + strDatabase.Substring(1) : strDatabase,
+                                                    strUsername,
+                                                    strPassword);
+                                needReopen = false;
+                            }
+
                             lstMessage.Items.Add("開始抓取" + dateTime.ToString("yyyy/MM/dd") + "資料");
                             lstMessage.Update();
                             strParsedUrl = strUrl;
                             while (strParsedUrl.IndexOf('{') > -1)
                                 strParsedUrl = pageDownloader.ParseParameter(strParsedUrl, dateTime);
-                            pageDownloader.DownloadPage(strParsedUrl, strFilenames[j]);
+                            
+                            pageDownloader.DownloadPage(strParsedUrl, strFilenames[j], Encoding.Default);
                             
                             if (isParseTable)
                             {
@@ -178,6 +207,7 @@ namespace AAA.TradingSystem
                             {
 
                                 resultSet = new TextResultSet(Environment.CurrentDirectory + @"\" + strFilenames[j].Replace("html", "csv"), false);
+                                //resultSet.Encoding = Encoding.Default;                                
                                 resultSet.IsDoEvents = true;
                                 resultSet.Load();
 
@@ -196,17 +226,31 @@ namespace AAA.TradingSystem
                             }
                             lstMessage.Items.Add(dateTime.ToString("yyyy/MM/dd") + "資料抓取完畢");
                             lstMessage.Update();
+                            if ((strReturnMessage = Database.DatabaseUtil.CompressAccess(strDatabase.StartsWith(".") ? Environment.CurrentDirectory + strDatabase.Substring(1) : strDatabase,
+                                                                                strPassword)) != null)
+                            {
+                                if (strReturnMessage != "")
+                                    MessageBox.Show(strReturnMessage);
+                            }
+                            else
+                            {
+                                needReopen = true;
+                            }
                         }
                     }                                       
                     database.Close();
-                    if((strReturnMessage = Database.DatabaseUtil.CompressAccess(strDatabase.StartsWith(".") ? Environment.CurrentDirectory + strDatabase.Substring(1) : strDatabase,
+                    _isCompressingDatabase = true;
+                    if ((strReturnMessage = Database.DatabaseUtil.CompressAccess(strDatabase.StartsWith(".") ? Environment.CurrentDirectory + strDatabase.Substring(1) : strDatabase,
                                                                                 strPassword)) != null)
-                        MessageBox.Show(strReturnMessage);
+                        if(strReturnMessage != "")
+                            MessageBox.Show(strReturnMessage);
+                    _isCompressingDatabase = false;
                 }
 
-
+                
                 if (chkCalculateIndex.Checked)
                 {
+                    _isCompressingDatabase = true;
                     strHost = iniReader.GetParam("Calculate", "Host");
                     strDatabase = iniReader.GetParam("Calculate", "Database");
                     strUsername = iniReader.GetParam("Calculate", "Username");
@@ -218,6 +262,7 @@ namespace AAA.TradingSystem
                     CalculateIndicator calculateIndicator = new CalculateIndicator(strHost, strDatabase, strUsername, strPassword);
                     calculateIndicator.Calculate();
                     lstMessage.Items.Add("技術指標更新完畢");
+                    _isCompressingDatabase = false;
                 }
                 MessageBox.Show("資料下載成功!");
                 btnDownload.Enabled = true;
@@ -247,12 +292,15 @@ namespace AAA.TradingSystem
 
                 strDatabase = strDatabase.StartsWith(".") ? Environment.CurrentDirectory + strDatabase.Substring(1) : strDatabase;
 
-                database.Open(strDatabase, strUsername, strPassword);
-                strSQL = "DELETE FROM TWSE_Stock_D_Index";
-                database.ExecuteUpdate(strSQL);
-                database.Commit();
-                database.Close();
-
+                if (MessageBox.Show("是否刪除舊資料?", "確認", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    database.Open(strDatabase, strUsername, strPassword);
+                    strSQL = "DELETE FROM TWSE_Stock_D_Index";
+                    database.ExecuteUpdate(strSQL);
+                    database.Commit();
+                    database.Close();
+                }
+                _isCompressingDatabase = true;
                 lstMessage.Items.Add("開始重新計算技術指標");
                 lstMessage.Update();
                 CalculateIndicator calculateIndicator = new CalculateIndicator(strHost, strDatabase, strUsername, strPassword);
@@ -261,6 +309,7 @@ namespace AAA.TradingSystem
                 calculateIndicator.Calculate();
                 lstMessage.Items.Add("計算技術指標計算完畢");
                 lstMessage.Update();
+                _isCompressingDatabase = false;
             }
             catch (Exception ex)
             {
@@ -361,6 +410,16 @@ namespace AAA.TradingSystem
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message + "," + ex.StackTrace);
+            }
+        }
+
+        private void DataGetterForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (_isCompressingDatabase)
+            {
+                MessageBox.Show("資料運算中, 請勿關閉, 謝謝!!");
+                e.Cancel = true;
+                return;
             }
         }
     }

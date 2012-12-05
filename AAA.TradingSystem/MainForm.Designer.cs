@@ -35,15 +35,16 @@
             this.MenuItemJournal = new System.Windows.Forms.ToolStripMenuItem();
             this.dataManagement = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGetter = new System.Windows.Forms.ToolStripMenuItem();
+            this.basicDataGetter = new System.Windows.Forms.ToolStripMenuItem();
             this.dataTransfer = new System.Windows.Forms.ToolStripMenuItem();
             this.dataQuery = new System.Windows.Forms.ToolStripMenuItem();
+            this.dataReport = new System.Windows.Forms.ToolStripMenuItem();
             this.stockCriteria = new System.Windows.Forms.ToolStripMenuItem();
             this.filterStock = new System.Windows.Forms.ToolStripMenuItem();
             this.userDefine = new System.Windows.Forms.ToolStripMenuItem();
             this.userDefineSymbol = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.basicDataGetter = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.SuspendLayout();
@@ -99,7 +100,8 @@
             this.dataGetter,
             this.basicDataGetter,
             this.dataTransfer,
-            this.dataQuery});
+            this.dataQuery,
+            this.dataReport});
             this.dataManagement.Name = "dataManagement";
             this.dataManagement.Size = new System.Drawing.Size(41, 20);
             this.dataManagement.Text = "資料";
@@ -107,14 +109,21 @@
             // dataGetter
             // 
             this.dataGetter.Name = "dataGetter";
-            this.dataGetter.Size = new System.Drawing.Size(152, 22);
+            this.dataGetter.Size = new System.Drawing.Size(142, 22);
             this.dataGetter.Text = "資料抓取";
             this.dataGetter.Click += new System.EventHandler(this.dataGetter_Click);
+            // 
+            // basicDataGetter
+            // 
+            this.basicDataGetter.Name = "basicDataGetter";
+            this.basicDataGetter.Size = new System.Drawing.Size(142, 22);
+            this.basicDataGetter.Text = "基本資料匯入";
+            this.basicDataGetter.Click += new System.EventHandler(this.basicDataGetter_Click);
             // 
             // dataTransfer
             // 
             this.dataTransfer.Name = "dataTransfer";
-            this.dataTransfer.Size = new System.Drawing.Size(152, 22);
+            this.dataTransfer.Size = new System.Drawing.Size(142, 22);
             this.dataTransfer.Text = "資料轉換";
             this.dataTransfer.Visible = false;
             this.dataTransfer.Click += new System.EventHandler(this.dataTransfer_Click);
@@ -122,9 +131,16 @@
             // dataQuery
             // 
             this.dataQuery.Name = "dataQuery";
-            this.dataQuery.Size = new System.Drawing.Size(152, 22);
+            this.dataQuery.Size = new System.Drawing.Size(142, 22);
             this.dataQuery.Text = "資料查詢";
             this.dataQuery.Click += new System.EventHandler(this.dataQuery_Click);
+            // 
+            // dataReport
+            // 
+            this.dataReport.Name = "dataReport";
+            this.dataReport.Size = new System.Drawing.Size(142, 22);
+            this.dataReport.Text = "整合報表";
+            this.dataReport.Click += new System.EventHandler(this.dataReport_Click);
             // 
             // stockCriteria
             // 
@@ -172,13 +188,6 @@
             this.toolStripStatusLabel.Size = new System.Drawing.Size(32, 17);
             this.toolStripStatusLabel.Text = "Status";
             // 
-            // basicDataGetter
-            // 
-            this.basicDataGetter.Name = "basicDataGetter";
-            this.basicDataGetter.Size = new System.Drawing.Size(152, 22);
-            this.basicDataGetter.Text = "基本資料匯入";
-            this.basicDataGetter.Click += new System.EventHandler(this.basicDataGetter_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -217,6 +226,7 @@
         private System.Windows.Forms.ToolStripMenuItem dataTransfer;
         private System.Windows.Forms.ToolStripMenuItem dataQuery;
         private System.Windows.Forms.ToolStripMenuItem basicDataGetter;
+        private System.Windows.Forms.ToolStripMenuItem dataReport;
     }
 }
 

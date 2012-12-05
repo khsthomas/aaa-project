@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using AAA.Forms.Components.Util;
 
 namespace AAA.TradingSystem
 {
@@ -158,6 +159,18 @@ namespace AAA.TradingSystem
                 Form childForm = new BasicDataGetterForm();
                 childForm.MdiParent = this;
                 childForm.Show();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "," + ex.StackTrace);
+            }
+        }
+
+        private void dataReport_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                MdiFormUtil.AddChild(this, new DaySummaryForm(), false);
             }
             catch (Exception ex)
             {
