@@ -10,8 +10,8 @@ using AAA.Meta.Trade;
 
 namespace AAA.Polaris
 {
-    public delegate void MessageReceiveEventHandler(int iMark, uint dwIndex, string strIndex, object oValue);   
-    
+    public delegate void MessageReceiveEventHandler(int iMark, uint dwIndex, string strIndex, object oValue);
+
     public class PolarisImp : AbstractTrade, IDisposable
     {
         private static readonly string MONTH = "ABCDEFGHIJKLMNOPQRSTUVWX";
@@ -26,12 +26,14 @@ namespace AAA.Polaris
         private const string EQUITY = "1468140C";
         private const string DEAL = "1465140C";
         private const string SEND = "1E641416";
+        private const string SEND_STOCK = "1E640A0A";
         private const string REPORT = "1465140B";
 
         private const string GET_POSITION_REPORT = "20.103.20.11";
         private const string TODAY_EQUITY = "20.104.20.12";
         private const string DEAL_REPORT = "20.101.20.12";
         private const string SEND_ORDER = "30.100.20.22";
+        private const string SEND_STOCK_ORDER = "30.100.10.10";
         private const string ORDER_REPORT = "20.101.20.11";
 
         //登入
@@ -72,7 +74,7 @@ namespace AAA.Polaris
         private static int[] REPORT_OUTPUT_PARENT_LEN = { 4 };
         private static string[] REPORT_OUTPUT_PARENT_NAME = { "RecordCount" };
 
-        private static string[] REPORT_OUTPUT_CHILDREN_TYPE = { "string",  "Date", "byte", "string", "string", "int", "int", "string", "string", "int", "int", "string", "string", "string", "string", "int", "int", "int", "int", "Date", "Time", "string", "string", "string", "string", "short", "long", "long", "long", "string"};
+        private static string[] REPORT_OUTPUT_CHILDREN_TYPE = { "string", "Date", "byte", "string", "string", "int", "int", "string", "string", "int", "int", "string", "string", "string", "string", "int", "int", "int", "int", "Date", "Time", "string", "string", "string", "string", "short", "long", "long", "long", "string" };
         private static int[] REPORT_OUTPUT_CHILDREN_LEN = { 22, 4, 1, 20, 7, 4, 4, 1, 7, 4, 4, 1, 1, 1, 10, 4, 4, 4, 4, 4, 5, 10, 78, 5, 1, 2, 8, 8, 8, 1 };
         private static string[] REPORT_OUTPUT_CHILDREN_NAME = { "Account", "TradeDate", "MarketNo", "MarketName", "CommodityID1", "SettlementMonth1", "StrikePrice1", "BuySellKind1", "CommodityID2", "SettlementMonth2", "StrikePrice2", "BuySellKind2", "OpenOffsetKind", "OrderCondition", "OrderPrice", "OrderQty", "AfterQty", "OkQty", "Status", "AcceptDate", "AcceptTime", "ErrorNo", "ErrorMessage", "OrderNo", "ProductType", "Seller", "TotalMatFee", "TotalMatExchTax", "TotalMatPremium", "DayTradeID" };
 
@@ -85,20 +87,34 @@ namespace AAA.Polaris
         private static int[] SEND_ORDER_OUTPUT_CHILDREN_LEN = { 4, 2, 5, 4, 1, 3, 74 };
         private static string[] SEND_ORDER_OUTPUT_CHILDREN_NAME = { "Identify", "ReplyCode", "OrderNo", "TradeDate", "ErrKind", "ErrNo", "Advisory" };
 
+        //股票委託回報-送單
+        private static string[] STOCK_SEND_ORDER_OUTPUT_PARENT_TYPE = { "string", "string", "int" };
+        private static int[] STOCK_SEND_ORDER_OUTPUT_PARENT_LEN = { 4, 50, 4 };
+        private static string[] STOCK_SEND_ORDER_OUTPUT_PARENT_NAME = { "MsgCode", "MsgContent", "RecordCount" };
+
+        private static string[] STOCK_SEND_ORDER_OUTPUT_CHILDREN_TYPE = { "int", "short", "string", "Date", "string", "string", "string" };
+        private static int[] STOCK_SEND_ORDER_OUTPUT_CHILDREN_LEN = { 4, 2, 5, 4, 1, 3, 78 };
+        private static string[] STOCK_SEND_ORDER_OUTPUT_CHILDREN_NAME = { "Identify", "ReplyCode", "OrderNo", "TradeDate", "ErrKind", "ErrNo", "Advisory" };
+
         public event MessageEvent _messageEvent;
 
         private PolarisB2BAPI.PolaisB2BTrader _objB2BApi;
         private PolarisB2BAPI.IPolaisB2BTraderEvents_OnResponseEventHandler _eventHandle = null;
 
         private Dictionary<string, object> _dicReturn;
-
+        //private Dictionary<string, string> _dicOCType;
         private bool _isConnected;
-
+        private List<string> _lstParam;
         private string _strSellerNo = "0";
+
+        public PolarisImp()
+        {
+            //_dicOCType = new Dictionary<string, string>();
+        }
 
         public PolarisB2BAPI.PolaisB2BTrader B2BApi
         {
-            get 
+            get
             {
                 if (_objB2BApi == null)
                 {
@@ -117,7 +133,7 @@ namespace AAA.Polaris
 
                 }
 
-                return _objB2BApi; 
+                return _objB2BApi;
             }
             set
             {
@@ -203,6 +219,9 @@ namespace AAA.Polaris
                 string[] strSeconds;
                 string[] strValues;
 
+                if (_lstParam != null)
+                    _lstParam.Add(strType + "-" + iLength + "-" + strValue);
+
                 switch (strType)
                 {
                     case "short":
@@ -269,6 +288,7 @@ namespace AAA.Polaris
             int iValue = 0;
             long lValue = 0;
             string strValue = "";
+            string strReturnValue = "";
 
             try
             {
@@ -276,42 +296,53 @@ namespace AAA.Polaris
                 {
                     case "short":
                         B2BApi.outMsgGetsmi(ref sValue);
-                        return sValue.ToString();
+                        strReturnValue = sValue.ToString();
+                        break;
 
                     case "byte":
                         B2BApi.outMsgGetByte(ref bValue);
-                        return bValue.ToString();
+                        strReturnValue = bValue.ToString();
+                        break;
 
                     case "int":
                         B2BApi.outMsgGetLong(ref iValue);
-                        return iValue.ToString();
+                        strReturnValue = iValue.ToString();
+                        break;
 
                     case "long":
                         B2BApi.outMsgGetLongLong(ref lValue);
-                        return lValue.ToString();
+                        strReturnValue = lValue.ToString();
+                        break;
 
                     case "Date":
                         B2BApi.outMsgGetDate(ref strValue);
-                        return strValue;
+                        strReturnValue = strValue;
+                        break;
 
                     case "Time":
                         B2BApi.outMsgGetTime(ref strValue);
-                        return strValue;
+                        strReturnValue = strValue;
+                        break;
 
                     case "DateTime":
                         B2BApi.outMsgGetDateTime(ref strValue);
-                        return strValue;
+                        strReturnValue = strValue;
+                        break;
 
                     case "string":
                         B2BApi.outMsgGetStr(ref strValue, iLength);
-                        return Util.FilterBreakChar(strValue);
+                        strReturnValue = Util.FilterBreakChar(strValue);
+                        break;
                 }
+
+                if (_lstParam != null)
+                    _lstParam.Add(strType + "-" + iLength + "-" + strReturnValue);
             }
             catch (Exception ex)
             {
                 return ex.Message + "," + ex.StackTrace;
             }
-            return "";
+            return strReturnValue;
         }
 
         string GenerateHeader(string[] strFields)
@@ -356,6 +387,7 @@ namespace AAA.Polaris
                 int intCheck = B2BApi.outMsgLoad(bValues); //將資料載入元件
                 if (intCheck == 1) //0:失敗 1:成功
                 {
+                    ClearParam();
                     //依元件規格文件依序解出內容值
                     for (int i = 0; i < strOutputParentType.Length; i++)
                     {
@@ -378,6 +410,7 @@ namespace AAA.Polaris
                             dicReturn.Add("Children" + i, dicChildren);
                         }
                     }
+                    WriteLog(_lstParam);
                 }
                 B2BApi.outMsgClear();
             }
@@ -391,7 +424,9 @@ namespace AAA.Polaris
         void objB2BApi_OnResponse(int iMark, uint dwIndex, string strIndex, object Handle, object aryValue)
         {
             string strResult = "";
-            
+            string strValue = "";
+            string[] strAdvisory = null;
+            Dictionary<string, object> dicChild;
             try
             {
                 switch (iMark)
@@ -440,6 +475,16 @@ namespace AAA.Polaris
                                                              REPORT_OUTPUT_PARENT_TYPE, REPORT_OUTPUT_PARENT_LEN, REPORT_OUTPUT_PARENT_NAME,
                                                              REPORT_OUTPUT_CHILDREN_TYPE, REPORT_OUTPUT_CHILDREN_LEN, REPORT_OUTPUT_CHILDREN_NAME,
                                                              null, null, null);
+                                /*
+                                                                for (int i = 0; i < int.Parse(_dicReturn["RecordCount"].ToString()); i++)
+                                                                {
+                                                                    dicChild = (Dictionary<string, object>)_dicReturn["Children" + i];
+                                                                    if (_dicOCType.ContainsKey(dicChild["OrderNo"].ToString()))
+                                                                    {
+                                                                        dicChild["OrderCondition"] = _dicOCType[dicChild["OrderNo"].ToString()].ToString();                                            
+                                                                    }
+                                                                }
+                                */
                                 _dicReturn.Add("name", "QueryOrderListByDiff");
                                 break;
 
@@ -448,33 +493,81 @@ namespace AAA.Polaris
                                                              SEND_ORDER_OUTPUT_PARENT_TYPE, SEND_ORDER_OUTPUT_PARENT_LEN, SEND_ORDER_OUTPUT_PARENT_NAME,
                                                              SEND_ORDER_OUTPUT_CHILDREN_TYPE, SEND_ORDER_OUTPUT_CHILDREN_LEN, SEND_ORDER_OUTPUT_CHILDREN_NAME,
                                                              null, null, null);
+                                /*
+                                                                for (int i = 0; i < int.Parse(_dicReturn["RecordCount"].ToString()); i++)
+                                                                {
+                                                                    dicChild = (Dictionary<string, object>)_dicReturn["Children" + i];
+                                                                    if (dicChild.ContainsKey("Advisory"))
+                                                                    {                                        
+                                                                        strAdvisory = StringHelper.TrimToSingleSpace(dicChild["Advisory"].ToString()).Split(' ');
+                                                                        if(_dicOCType.ContainsKey(dicChild["OrderNo"].ToString()))
+                                                                        {
+                                                                            if(strAdvisory[2] == "新倉" || strAdvisory[2] == "平倉")
+                                                                                _dicOCType[dicChild["OrderNo"].ToString()] = strAdvisory[2];
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            if (strAdvisory[2] == "新倉" || strAdvisory[2] == "平倉")
+                                                                                _dicOCType.Add(dicChild["OrderNo"].ToString(), strAdvisory[2]);
+                                                                        }
+                                                                    }
+                                                                }
+                                 */
                                 _dicReturn.Add("name", "SendOrder");
                                 break;
-/*
-                            case "1"://分戶登入
-                                strResult = funAPISubLogin_Out((byte[])aryValue);
+                            case SEND_STOCK: //委託回報-即時
+                                _dicReturn = ConvertMessage(iMark, dwIndex, strIndex, aryValue,
+                                                             STOCK_SEND_ORDER_OUTPUT_PARENT_TYPE, STOCK_SEND_ORDER_OUTPUT_PARENT_LEN, STOCK_SEND_ORDER_OUTPUT_PARENT_NAME,
+                                                             STOCK_SEND_ORDER_OUTPUT_CHILDREN_TYPE, STOCK_SEND_ORDER_OUTPUT_CHILDREN_LEN, STOCK_SEND_ORDER_OUTPUT_CHILDREN_NAME,
+                                                             null, null, null);
+                                /*
+                                                                for (int i = 0; i < int.Parse(_dicReturn["RecordCount"].ToString()); i++)
+                                                                {
+                                                                    dicChild = (Dictionary<string, object>)_dicReturn["Children" + i];
+                                                                    if (dicChild.ContainsKey("Advisory"))
+                                                                    {                                        
+                                                                        strAdvisory = StringHelper.TrimToSingleSpace(dicChild["Advisory"].ToString()).Split(' ');
+                                                                        if(_dicOCType.ContainsKey(dicChild["OrderNo"].ToString()))
+                                                                        {
+                                                                            if(strAdvisory[2] == "新倉" || strAdvisory[2] == "平倉")
+                                                                                _dicOCType[dicChild["OrderNo"].ToString()] = strAdvisory[2];
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            if (strAdvisory[2] == "新倉" || strAdvisory[2] == "平倉")
+                                                                                _dicOCType.Add(dicChild["OrderNo"].ToString(), strAdvisory[2]);
+                                                                        }
+                                                                    }
+                                                                }
+                                 */
+                                _dicReturn.Add("name", "SendOrder");
                                 break;
-                            case "A00000D"://即時回報
-                                strResult = funGetRealReport_Out((byte[])aryValue);
-                                break;
-                            case "A00000E"://即時回報彙總
-                                strResult = funGetRealReportMerge_Out((byte[])aryValue);
-                                break;
-                            case "147C0A0B"://現貨/期貨分戶設定
-                            case "147C140D":
-                                strResult = funSubAccountSet_Out((byte[])aryValue);
-                                break;
-                            case "1E640A0A": //現貨下單
-                                strResult = funStkOrder_Out((byte[])aryValue);
-                                break;
-                            case "1E641416": //期貨下單
-                            case "1E64140A": //期貨下單
-                                strResult = funFutOrder_Out((byte[])aryValue);
-                                break;
-                            case "32000010"://WatchListAll
-                                strResult = funWatchListAll_Out((byte[])aryValue);
-                                break;
- */ 
+
+                            /*
+                                                        case "1"://分戶登入
+                                                            strResult = funAPISubLogin_Out((byte[])aryValue);
+                                                            break;
+                                                        case "A00000D"://即時回報
+                                                            strResult = funGetRealReport_Out((byte[])aryValue);
+                                                            break;
+                                                        case "A00000E"://即時回報彙總
+                                                            strResult = funGetRealReportMerge_Out((byte[])aryValue);
+                                                            break;
+                                                        case "147C0A0B"://現貨/期貨分戶設定
+                                                        case "147C140D":
+                                                            strResult = funSubAccountSet_Out((byte[])aryValue);
+                                                            break;
+                                                        case "1E640A0A": //現貨下單
+                                                            strResult = funStkOrder_Out((byte[])aryValue);
+                                                            break;
+                                                        case "1E641416": //期貨下單
+                                                        case "1E64140A": //期貨下單
+                                                            strResult = funFutOrder_Out((byte[])aryValue);
+                                                            break;
+                                                        case "32000010"://WatchListAll
+                                                            strResult = funWatchListAll_Out((byte[])aryValue);
+                                                            break;
+                             */
                             default:  //不在表列中的直接呈現訊息
                                 strResult = strIndex + " " + Convert.ToString(aryValue);
                                 break;
@@ -483,17 +576,17 @@ namespace AAA.Polaris
                     case SUBSCRIPE_RESP: //訂閱所回應
                         switch (Convert.ToString(dwIndex, 16).ToUpper())
                         {
-/*
-                            case "C80A0A0A": //即時回報
-                                strResult = funRealReport_Out((byte[])aryValue);
-                                break;
-                            case "C80A0A0B"://即時回報彙總
-                                strResult = funRealReportMerge_Out((byte[])aryValue);
-                                break;
-                            case "D20A460B"://WatchList
-                                strResult = funRealPrice_Out((byte[])aryValue);
-                                break;
- */ 
+                            /*
+                                                        case "C80A0A0A": //即時回報
+                                                            strResult = funRealReport_Out((byte[])aryValue);
+                                                            break;
+                                                        case "C80A0A0B"://即時回報彙總
+                                                            strResult = funRealReportMerge_Out((byte[])aryValue);
+                                                            break;
+                                                        case "D20A460B"://WatchList
+                                                            strResult = funRealPrice_Out((byte[])aryValue);
+                                                            break;
+                             */
                             default:
                                 strResult = Convert.ToString(aryValue);
                                 break;
@@ -533,6 +626,11 @@ namespace AAA.Polaris
             return "Success";
         }
 
+        private void ClearParam()
+        {
+            _lstParam = new List<string>();
+        }
+
         public override object CancelOrder(AAA.Meta.Trade.Data.OrderInfo orderInfo)
         {
             string strMessage = "";
@@ -543,6 +641,25 @@ namespace AAA.Polaris
             int iMultipler = 1000;
             try
             {
+                if (orderInfo.SymbolCode.StartsWith("TXO"))
+                {
+                    strSymbolType = "TXO";
+                    strCallPut = orderInfo.PutOrCall.Substring(0, 1);
+                }
+
+                if (orderInfo.SymbolCode.StartsWith("MXF"))
+                {
+                    strSymbolType = "FIMTX";
+                    strCallPut = "";
+                }
+
+                if (orderInfo.SymbolCode.StartsWith("TXF"))
+                {
+                    strSymbolType = "FITX";
+                    strCallPut = "";
+                }
+
+                ClearParam();
                 // ParentStruct_In
                 ProcessInput("int", 4, "1");    // 下單筆數
 
@@ -551,12 +668,16 @@ namespace AAA.Polaris
                 ProcessInput("string", 22, (_accountInfo.AccountType + _accountInfo.AccountNo).Trim()); // 期貨帳號
                 ProcessInput("short", 2, "04"); // 功能 00:委託單 04:取消 05:改量
                 ProcessInput("string", 6, strSymbolType);   // 商品名稱1
-                ProcessInput("string", 1, strCallPut);  // 買賣權1
-                ProcessInput("int", 4, "0");  // 商品年月1
-                ProcessInput("int", 4, "0");   // 履約價1
-                ProcessInput("int", 4, "0"); // 委託價1
-                ProcessInput("short", 2, "0");   // 委託口數1
-                ProcessInput("string", 1, "");  // 買賣別1
+                ProcessInput("string", 1, orderInfo.PutOrCall);  // 買賣權1
+                ProcessInput("int", 4, orderInfo.Year + ((orderInfo.Month.Length == 1) ? "0" + orderInfo.Month : orderInfo.Month));  // 商品年月1
+                ProcessInput("int", 4, strSymbolType == "TXO" ? (Convert.ToInt32(orderInfo.ExercisePrice) * 1000).ToString() : "0");   // 履約價1
+                ProcessInput("int", 4, (double.Parse(orderInfo.FilledPrice) * iMultipler).ToString("0")); // 委託價1
+                ProcessInput("short", 2, orderInfo.FilledVolume.ToString());   // 委託口數1
+                ProcessInput("string", 1, (orderInfo.OrderType == "B" || orderInfo.OrderType == "S")
+                                            ? orderInfo.OrderType
+                                            : (orderInfo.OrderType == "LE" || orderInfo.OrderType == "SX")
+                                                    ? "B"
+                                                    : "S");  // 買賣別1
 
                 ProcessInput("string", 6, "");   // 商品名稱2
                 ProcessInput("string", 1, "");  // 買賣權2
@@ -574,10 +695,13 @@ namespace AAA.Polaris
                 ProcessInput("Date", 4, orderInfo.TSSignalTime.Split(' ')[0]); // 交易日期
                 ProcessInput("string", 10, ""); // BasketNo
                 ProcessInput("string", 2, "0");
+                WriteLog(_lstParam);
 
-                MessageSend(SEND_ORDER);
-
-                WaitTillCompleted();
+                if (TradeMode == TradeModeEnum.Real)
+                {
+                    MessageSend(SEND_ORDER);
+                    WaitTillCompleted();
+                }
                 return "Success";
             }
             catch (Exception ex)
@@ -586,6 +710,22 @@ namespace AAA.Polaris
             }
             return "Fail";
         }
+
+        private void WriteLog(List<string> lstParam)
+        {
+            string strLog = "";
+            foreach (string strParam in lstParam)
+                strLog += "," + strParam;
+            if (strLog.Length > 0)
+                strLog = strLog.Substring(1);
+
+            foreach (AAA.Logger.Logger logger in Loggers)
+            {
+                logger.Write(this, strLog);
+            }
+
+        }
+
 
         private void MessageSend(string strFunctionCode)
         {
@@ -607,6 +747,7 @@ namespace AAA.Polaris
                 B2BApi.inMsgAddStr((_accountInfo.AccountType + _accountInfo.AccountNo).Trim(), 22); //填入查詢帳號                
 
                 MessageSend(DEAL_REPORT);
+
                 WaitTillCompleted();
             }
             catch (Exception ex)
@@ -626,6 +767,7 @@ namespace AAA.Polaris
                 B2BApi.inMsgAddStr((_accountInfo.AccountType + _accountInfo.AccountNo).Trim(), 22); //填入查詢帳號                
 
                 MessageSend(ORDER_REPORT);
+
                 WaitTillCompleted();
             }
             catch (Exception ex)
@@ -647,6 +789,7 @@ namespace AAA.Polaris
                 B2BApi.inMsgAddLong(1);                           //填入筆數
                 B2BApi.inMsgAddStr((_accountInfo.AccountType + _accountInfo.AccountNo).Trim(), 22); //填入查詢帳號
                 MessageSend(GET_POSITION_REPORT);
+
                 WaitTillCompleted();
             }
             catch (Exception ex)
@@ -664,7 +807,7 @@ namespace AAA.Polaris
                 B2BApi.inMsgAddStr("2", 1);  //填入幣別 1:基幣 2:台幣 3:美金
 
                 MessageSend(TODAY_EQUITY);
-                WaitTillCompleted();               
+                WaitTillCompleted();
             }
             catch (Exception ex)
             {
@@ -683,13 +826,27 @@ namespace AAA.Polaris
 
         public override bool IsConnected()
         {
-            return _isConnected;   
+            return _isConnected;
         }
 
         private void WaitTillCompleted()
         {
             try
             {
+/*
+                if(TradeMode == TradeModeEnum.Simulation)
+                {
+                    try
+                    {
+                        _objB2BApi.OnResponse -= _eventHandle;
+                    }
+                    catch { }
+                    finally
+                    {
+                        _eventHandle = null;
+                    }
+                }
+*/
                 while (_eventHandle != null)
                 {
                     Application.DoEvents();
@@ -705,22 +862,22 @@ namespace AAA.Polaris
         public override object Login()
         {
             try
-            {               
+            {
                 string strLoginAccount = Util.FillSpace(_accountInfo.AccountType + _accountInfo.AccountNo, 22);
                 int iLoginCheckt = B2BApi.Login((int)0, strLoginAccount, _accountInfo.Password);
                 WaitTillCompleted();
-//                AAA.DesignPattern.Singleton.SystemParameter.Parameter["LoginAccounts"] = strLoginAccount;
-/*
-                string strLoginAccount = Util.FillSpace(dicInput["AccountType"] + dicInput["Account"], 22);
+                //                AAA.DesignPattern.Singleton.SystemParameter.Parameter["LoginAccounts"] = strLoginAccount;
+                /*
+                                string strLoginAccount = Util.FillSpace(dicInput["AccountType"] + dicInput["Account"], 22);
 
-                if (SystemVariables.Instance().GetVariable("LoginAccounts") == null)
-                {
-                    SystemVariables.Instance().SetVariable("LoginAccounts", new List<string>());
-                }
+                                if (SystemVariables.Instance().GetVariable("LoginAccounts") == null)
+                                {
+                                    SystemVariables.Instance().SetVariable("LoginAccounts", new List<string>());
+                                }
 
-                if (((List<string>)SystemVariables.Instance().GetVariable("LoginAccounts")).IndexOf(strLoginAccount) < 0)
-                    ((List<string>)SystemVariables.Instance().GetVariable("LoginAccounts")).Add(strLoginAccount);
-*/
+                                if (((List<string>)SystemVariables.Instance().GetVariable("LoginAccounts")).IndexOf(strLoginAccount) < 0)
+                                    ((List<string>)SystemVariables.Instance().GetVariable("LoginAccounts")).Add(strLoginAccount);
+                */
             }
             catch (Exception ex)
             {
@@ -728,8 +885,8 @@ namespace AAA.Polaris
             }
 
             return _dicReturn["MsgCode"] + "," + _dicReturn["MsgContent"] + "\n" +
-                   ((Dictionary<string, object>)_dicReturn["Children0"])["Account"] + "," + 
-                   ((Dictionary<string, object>)_dicReturn["Children0"])["Name"] + "," + 
+                   ((Dictionary<string, object>)_dicReturn["Children0"])["Account"] + "," +
+                   ((Dictionary<string, object>)_dicReturn["Children0"])["Name"] + "," +
                    ((Dictionary<string, object>)_dicReturn["Children0"])["InvestorId"];
         }
 
@@ -758,37 +915,37 @@ namespace AAA.Polaris
         public override string QuerySymbolCode(string strSymbolType, string strStrikePrice, string strPubOrCall, string strYear, string strMonth)
         {
             return SymbolCodeHelper.QuerySymbolCode(strSymbolType, strStrikePrice, strPubOrCall, strYear, strMonth);
-/*
-            string strSymbolCode = "";
-            string strMonthYear = "";
+            /*
+                        string strSymbolCode = "";
+                        string strMonthYear = "";
 
-            int iMonth = NumericHelper.ToInt(strMonth);
+                        int iMonth = NumericHelper.ToInt(strMonth);
 
-            switch (strPubOrCall)
-            {
-                case "P":
-                    strMonthYear = MONTH.Substring(NumericHelper.ToInt(strMonth) - 1 + 12, 1) + strYear.Substring(strYear.Length - 1, 1);
-                    break;
-                default:
-                    strMonthYear = MONTH.Substring(NumericHelper.ToInt(strMonth) - 1, 1) + strYear.Substring(strYear.Length - 1, 1);
-                    break;
-            }
+                        switch (strPubOrCall)
+                        {
+                            case "P":
+                                strMonthYear = MONTH.Substring(NumericHelper.ToInt(strMonth) - 1 + 12, 1) + strYear.Substring(strYear.Length - 1, 1);
+                                break;
+                            default:
+                                strMonthYear = MONTH.Substring(NumericHelper.ToInt(strMonth) - 1, 1) + strYear.Substring(strYear.Length - 1, 1);
+                                break;
+                        }
 
-            switch (strSymbolType)
-            {
-                case "台指":
-                    strSymbolCode = "TXF" + strMonthYear;
-                    break;
-                case "小台":
-                    strSymbolCode = "MXF" + strMonthYear;
-                    break;
-                case "選擇權":
-                    strSymbolCode = "TXO" + StringHelper.FillChar(strStrikePrice, '0', 5, StringFillTypeEnum.Left) + strMonthYear;
-                    break;
-            }
+                        switch (strSymbolType)
+                        {
+                            case "台指":
+                                strSymbolCode = "TXF" + strMonthYear;
+                                break;
+                            case "小台":
+                                strSymbolCode = "MXF" + strMonthYear;
+                                break;
+                            case "選擇權":
+                                strSymbolCode = "TXO" + StringHelper.FillChar(strStrikePrice, '0', 5, StringFillTypeEnum.Left) + strMonthYear;
+                                break;
+                        }
 
-            return strSymbolCode;
- */ 
+                        return strSymbolCode;
+             */
         }
 
         public override object SendOrder(AAA.Meta.Trade.Data.OrderInfo orderInfo)
@@ -799,66 +956,112 @@ namespace AAA.Polaris
             string strSymbolType = "";
             string strCallPut = "";
             int iMultipler = 1000;
+            bool isStock = true;
+            string strFunctionCode = "";
             try
             {
+                
+
                 if (orderInfo.SymbolCode.StartsWith("TXO"))
                 {
                     strSymbolType = "TXO";
                     strCallPut = orderInfo.PutOrCall.Substring(0, 1);
+                    isStock = false;
                 }
 
                 if (orderInfo.SymbolCode.StartsWith("MXF"))
                 {
                     strSymbolType = "FIMTX";
                     strCallPut = "";
+                    isStock = false;
                 }
 
                 if (orderInfo.SymbolCode.StartsWith("TXF"))
                 {
                     strSymbolType = "FITX";
                     strCallPut = "";
+                    isStock = false;
                 }
 
-                // ParentStruct_In
-                ProcessInput("int", 4, "1");    // 下單筆數
+                ClearParam();
 
-                // ChildStruct_In
-                ProcessInput("int", 4, "001");  // 識別碼
-                ProcessInput("string", 22, (_accountInfo.AccountType + _accountInfo.AccountNo).Trim()); // 期貨帳號
-                ProcessInput("short", 2, "00"); // 功能 00:委託單 04:取消 05:改量
-                ProcessInput("string", 6, strSymbolType);   // 商品名稱1
-                ProcessInput("string", 1, strCallPut);  // 買賣權1
-                ProcessInput("int", 4, orderInfo.Year.ToString() + ((orderInfo.Month.Length == 1) ? "0" + orderInfo.Month : orderInfo.Month));  // 商品年月1
-                ProcessInput("int", 4, strSymbolType == "TXO" ? (Convert.ToInt32(orderInfo.ExercisePrice) * 1000).ToString() : "0");   // 履約價1
-                ProcessInput("int", 4, (Convert.ToInt32(orderInfo.FilledPrice) * iMultipler).ToString()); // 委託價1
-                ProcessInput("short", 2, orderInfo.FilledVolume.ToString());   // 委託口數1
-                ProcessInput("string", 1, (orderInfo.OrderType == "LE" ||
-                                           orderInfo.OrderType == "SX") ? "B" : "S");  // 買賣別1
+                if (isStock)
+                {
+                    // ParentStruct_In
+                    ProcessInput("int", 4, "1");    // 下單筆數
+                    // ChildStruct_In
+                    ProcessInput("int", 4, "001");  // 識別碼
+                    ProcessInput("string", 22, (_accountInfo.AccountType + _accountInfo.AccountNo).Trim()); // 期貨帳號
+                    ProcessInput("short", 2, "0"); // 交易市場別 0:一般 2:零股 7:盤後
+                    ProcessInput("short", 2, "00"); // 功能 00:委託單 03:改量 04:取消 07:改價
+                    ProcessInput("string", 1, "0");  // 委託種類 0:現貨 3:融資 4:融券 5:策略性借券賣出 6:權證/ETF借券賣出
+                    ProcessInput("string", 12, orderInfo.SymbolCode);   // 股票代碼
+                    ProcessInput("string", 1, " ");   // 價格種類 H:漲停 -:平盤 L:跌停 " ":限價
+                    ProcessInput("int", 4, (double.Parse(orderInfo.FilledPrice) * 100).ToString("0")); // 委託價格
+                    ProcessInput("int", 4, (orderInfo.FilledVolume).ToString("0")); // 委託股數
+                    ProcessInput("string", 1, (orderInfo.OrderType == "B" || orderInfo.OrderType == "S")
+                                                                ? orderInfo.OrderType
+                                                                : (orderInfo.OrderType == "LE" || orderInfo.OrderType == "SX")
+                                                                        ? "B"
+                                                                        : "S");  // 買賣別
+                    ProcessInput("short", 2, _strSellerNo); // 營業員代碼
+                    ProcessInput("string", 5, "");  // 委託書編號
+                    ProcessInput("Date", 4, orderInfo.TSSignalTime.Split(' ')[0]); // 交易日期
+                    ProcessInput("string", 10, ""); // BasketNo
+                    ProcessInput("string", 2, "0");
+                    WriteLog(_lstParam);
+                    strFunctionCode = SEND_STOCK_ORDER;
+                }
+                else
+                {
+                    // ParentStruct_In
+                    ProcessInput("int", 4, "1");    // 下單筆數
 
-                ProcessInput("string", 6, "");   // 商品名稱2
-                ProcessInput("string", 1, "");  // 買賣權2
-                ProcessInput("int", 4, "0");  // 商品年月2
-                ProcessInput("int", 4, "0");   // 履約價2                
-                ProcessInput("short", 2, "0");   // 委託口數2
-                ProcessInput("string", 1, "");  // 買賣別2
+                    // ChildStruct_In
+                    ProcessInput("int", 4, "001");  // 識別碼
+                    ProcessInput("string", 22, (_accountInfo.AccountType + _accountInfo.AccountNo).Trim()); // 期貨帳號
+                    ProcessInput("short", 2, "00"); // 功能 00:委託單 04:取消 05:改量
+                    ProcessInput("string", 6, strSymbolType);   // 商品名稱1
+                    ProcessInput("string", 1, strCallPut);  // 買賣權1
+                    ProcessInput("int", 4, orderInfo.Year.ToString() + ((orderInfo.Month.Length == 1) ? "0" + orderInfo.Month : orderInfo.Month));  // 商品年月1
+                    ProcessInput("int", 4, strSymbolType == "TXO" ? (Convert.ToInt32(orderInfo.ExercisePrice) * 1000).ToString() : "0");   // 履約價1
+                    ProcessInput("int", 4, (Convert.ToInt32(orderInfo.FilledPrice) * iMultipler).ToString()); // 委託價1
+                    ProcessInput("short", 2, orderInfo.FilledVolume.ToString());   // 委託口數1
+                    ProcessInput("string", 1, (orderInfo.OrderType == "B" || orderInfo.OrderType == "S")
+                                                                ? orderInfo.OrderType
+                                                                : (orderInfo.OrderType == "LE" || orderInfo.OrderType == "SX")
+                                                                        ? "B"
+                                                                        : "S");  // 買賣別1
 
-                ProcessInput("string", 1, strSymbolType == "TXO"
-                                            ? orderInfo.OrderType.EndsWith("E")
-                                                ?   "0"
-                                                :   "1"
-                                            : " "); // 新/平倉碼
-                ProcessInput("string", 1, orderInfo.IntraDay ? "Y" : " ");  // 當沖註記
-                ProcessInput("string", 1, orderInfo.FilledPrice == "M" ? "1" : "2");  // 委託方式
-                ProcessInput("string", 1, ((orderInfo.FilledPrice == "M") || (orderInfo.FilledPrice == "0")) ? "2" : " ");  // 委託條件
-                ProcessInput("short", 2, _strSellerNo); // 營業員代碼
-                ProcessInput("string", 5, "");  // 委託書編號
-                ProcessInput("Date", 4, orderInfo.TSSignalTime.Split(' ')[0]); // 交易日期
-                ProcessInput("string", 10, ""); // BasketNo
-                ProcessInput("string", 2, "0");
+                    ProcessInput("string", 6, "");   // 商品名稱2
+                    ProcessInput("string", 1, "");  // 買賣權2
+                    ProcessInput("int", 4, "0");  // 商品年月2
+                    ProcessInput("int", 4, "0");   // 履約價2                
+                    ProcessInput("short", 2, "0");   // 委託口數2
+                    ProcessInput("string", 1, "");  // 買賣別2
 
-                MessageSend(SEND_ORDER);
+                    ProcessInput("string", 1, strSymbolType == "TXO"
+                                                ? orderInfo.OrderType.EndsWith("E")
+                                                    ? "0"
+                                                    : "1"
+                                                : " "); // 新/平倉碼
+                    ProcessInput("string", 1, orderInfo.IntraDay ? "Y" : " ");  // 當沖註記
+                    ProcessInput("string", 1, orderInfo.FilledPrice == "M" ? "1" : "2");  // 委託方式
+                    ProcessInput("string", 1, ((orderInfo.FilledPrice == "M") || (orderInfo.FilledPrice == "0")) ? "2" : " ");  // 委託條件
+                    ProcessInput("short", 2, _strSellerNo); // 營業員代碼
+                    ProcessInput("string", 5, "");  // 委託書編號
+                    ProcessInput("Date", 4, orderInfo.TSSignalTime.Split(' ')[0]); // 交易日期
+                    ProcessInput("string", 10, ""); // BasketNo
+                    ProcessInput("string", 2, "0");
+                    WriteLog(_lstParam);
+                    strFunctionCode = SEND_ORDER;
+                }
 
-                WaitTillCompleted();
+                if (TradeMode == TradeModeEnum.Real)
+                {
+                    MessageSend(strFunctionCode);
+                    WaitTillCompleted();
+                }
                 return "Success";
             }
             catch (Exception ex)
@@ -896,6 +1099,7 @@ namespace AAA.Polaris
                     strCallPut = "";
                 }
 
+                ClearParam();
                 // ParentStruct_In
                 ProcessInput("int", 4, "1");    // 下單筆數
 
@@ -907,11 +1111,13 @@ namespace AAA.Polaris
                 ProcessInput("string", 1, strCallPut);  // 買賣權1
                 ProcessInput("int", 4, orderInfo.Year.ToString() + ((orderInfo.Month.Length == 1) ? "0" + orderInfo.Month : orderInfo.Month));  // 商品年月1
                 ProcessInput("int", 4, strSymbolType == "TXO" ? (Convert.ToInt32(orderInfo.ExercisePrice) * 1000).ToString() : "0");   // 履約價1
-                ProcessInput("int", 4, (Convert.ToInt32(orderInfo.FilledPrice) * iMultipler).ToString()); // 委託價1
+                ProcessInput("int", 4, (double.Parse(orderInfo.FilledPrice) * iMultipler).ToString("0")); // 委託價1
                 ProcessInput("short", 2, orderInfo.FilledVolume.ToString());   // 委託口數1
-                ProcessInput("string", 1, (orderInfo.OrderType == "LE" ||
-                                           orderInfo.OrderType == "SX") ? "B" : "S");  // 買賣別1
-
+                ProcessInput("string", 1, (orderInfo.OrderType == "B" || orderInfo.OrderType == "S")
+                                                            ? orderInfo.OrderType
+                                                            : (orderInfo.OrderType == "LE" || orderInfo.OrderType == "SX")
+                                                                    ? "B"
+                                                                    : "S");  // 買賣別1
                 ProcessInput("string", 6, "");   // 商品名稱2
                 ProcessInput("string", 1, "");  // 買賣權2
                 ProcessInput("int", 4, "0");  // 商品年月2
@@ -932,10 +1138,13 @@ namespace AAA.Polaris
                 ProcessInput("Date", 4, orderInfo.TSSignalTime.Split(' ')[0]); // 交易日期
                 ProcessInput("string", 10, ""); // BasketNo
                 ProcessInput("string", 2, "0");
+                WriteLog(_lstParam);
 
-                MessageSend(SEND_ORDER);
-
-                WaitTillCompleted();
+                if (TradeMode == TradeModeEnum.Real)
+                {
+                    MessageSend(SEND_ORDER);
+                    WaitTillCompleted();
+                }
                 return "Success";
             }
             catch (Exception ex)
@@ -973,6 +1182,7 @@ namespace AAA.Polaris
                     strCallPut = "";
                 }
 
+                ClearParam();
                 // ParentStruct_In
                 ProcessInput("int", 4, "1");    // 下單筆數
 
@@ -984,10 +1194,13 @@ namespace AAA.Polaris
                 ProcessInput("string", 1, strCallPut);  // 買賣權1
                 ProcessInput("int", 4, orderInfo.Year.ToString() + ((orderInfo.Month.Length == 1) ? "0" + orderInfo.Month : orderInfo.Month));  // 商品年月1
                 ProcessInput("int", 4, strSymbolType == "TXO" ? (Convert.ToInt32(orderInfo.ExercisePrice) * 1000).ToString() : "0");   // 履約價1
-                ProcessInput("int", 4, (Convert.ToInt32(orderInfo.FilledPrice) * iMultipler).ToString()); // 委託價1
+                ProcessInput("int", 4, (double.Parse(orderInfo.FilledPrice) * iMultipler).ToString("0")); // 委託價1
                 ProcessInput("short", 2, orderInfo.FilledVolume.ToString());   // 委託口數1
-                ProcessInput("string", 1, (orderInfo.OrderType == "LE" ||
-                                           orderInfo.OrderType == "SX") ? "B" : "S");  // 買賣別1
+                ProcessInput("string", 1, (orderInfo.OrderType == "B" || orderInfo.OrderType == "S")
+                                                            ? orderInfo.OrderType
+                                                            : (orderInfo.OrderType == "LE" || orderInfo.OrderType == "SX")
+                                                                    ? "B"
+                                                                    : "S");  // 買賣別1
 
                 ProcessInput("string", 6, "");   // 商品名稱2
                 ProcessInput("string", 1, "");  // 買賣權2
@@ -1010,9 +1223,14 @@ namespace AAA.Polaris
                 ProcessInput("string", 10, ""); // BasketNo
                 ProcessInput("string", 2, "0");
 
-                MessageSend(SEND_ORDER);
+                WriteLog(_lstParam);
 
-                WaitTillCompleted();
+                if (TradeMode == TradeModeEnum.Real)
+                {
+                    MessageSend(SEND_ORDER);
+                    WaitTillCompleted();
+                }
+
                 return "Success";
             }
             catch (Exception ex)
@@ -1031,7 +1249,7 @@ namespace AAA.Polaris
 
         public void Dispose()
         {
-            
+
         }
 
         #endregion
