@@ -31,6 +31,7 @@
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.tradingMonitor = new System.Windows.Forms.ToolStripMenuItem();
             this.menuItemKBar = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuItemHappyZone = new System.Windows.Forms.ToolStripMenuItem();
             this.menuItemMarketProfile = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemJournal = new System.Windows.Forms.ToolStripMenuItem();
             this.dataManagement = new System.Windows.Forms.ToolStripMenuItem();
@@ -39,6 +40,7 @@
             this.dataTransfer = new System.Windows.Forms.ToolStripMenuItem();
             this.dataQuery = new System.Windows.Forms.ToolStripMenuItem();
             this.dataReport = new System.Windows.Forms.ToolStripMenuItem();
+            this.dataExport = new System.Windows.Forms.ToolStripMenuItem();
             this.stockCriteria = new System.Windows.Forms.ToolStripMenuItem();
             this.filterStock = new System.Windows.Forms.ToolStripMenuItem();
             this.userDefine = new System.Windows.Forms.ToolStripMenuItem();
@@ -66,6 +68,7 @@
             // 
             this.tradingMonitor.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuItemKBar,
+            this.menuItemHappyZone,
             this.menuItemMarketProfile,
             this.MenuItemJournal});
             this.tradingMonitor.Name = "tradingMonitor";
@@ -75,14 +78,22 @@
             // menuItemKBar
             // 
             this.menuItemKBar.Name = "menuItemKBar";
-            this.menuItemKBar.Size = new System.Drawing.Size(144, 22);
+            this.menuItemKBar.Size = new System.Drawing.Size(152, 22);
             this.menuItemKBar.Text = "K線圖";
+            this.menuItemKBar.Visible = false;
             this.menuItemKBar.Click += new System.EventHandler(this.menuItemKBar_Click);
+            // 
+            // menuItemHappyZone
+            // 
+            this.menuItemHappyZone.Name = "menuItemHappyZone";
+            this.menuItemHappyZone.Size = new System.Drawing.Size(152, 22);
+            this.menuItemHappyZone.Text = "HappyZone 監控";
+            this.menuItemHappyZone.Click += new System.EventHandler(this.menuItemHappyZone_Click);
             // 
             // menuItemMarketProfile
             // 
             this.menuItemMarketProfile.Name = "menuItemMarketProfile";
-            this.menuItemMarketProfile.Size = new System.Drawing.Size(144, 22);
+            this.menuItemMarketProfile.Size = new System.Drawing.Size(152, 22);
             this.menuItemMarketProfile.Text = "Market Profile";
             this.menuItemMarketProfile.Visible = false;
             this.menuItemMarketProfile.Click += new System.EventHandler(this.menuItemMarketProfile_Click);
@@ -90,7 +101,7 @@
             // MenuItemJournal
             // 
             this.MenuItemJournal.Name = "MenuItemJournal";
-            this.MenuItemJournal.Size = new System.Drawing.Size(144, 22);
+            this.MenuItemJournal.Size = new System.Drawing.Size(152, 22);
             this.MenuItemJournal.Text = "Trading Journal";
             this.MenuItemJournal.Visible = false;
             // 
@@ -101,7 +112,8 @@
             this.basicDataGetter,
             this.dataTransfer,
             this.dataQuery,
-            this.dataReport});
+            this.dataReport,
+            this.dataExport});
             this.dataManagement.Name = "dataManagement";
             this.dataManagement.Size = new System.Drawing.Size(41, 20);
             this.dataManagement.Text = "資料";
@@ -118,6 +130,7 @@
             this.basicDataGetter.Name = "basicDataGetter";
             this.basicDataGetter.Size = new System.Drawing.Size(142, 22);
             this.basicDataGetter.Text = "基本資料匯入";
+            this.basicDataGetter.Visible = false;
             this.basicDataGetter.Click += new System.EventHandler(this.basicDataGetter_Click);
             // 
             // dataTransfer
@@ -133,6 +146,7 @@
             this.dataQuery.Name = "dataQuery";
             this.dataQuery.Size = new System.Drawing.Size(142, 22);
             this.dataQuery.Text = "資料查詢";
+            this.dataQuery.Visible = false;
             this.dataQuery.Click += new System.EventHandler(this.dataQuery_Click);
             // 
             // dataReport
@@ -142,6 +156,13 @@
             this.dataReport.Text = "整合報表";
             this.dataReport.Click += new System.EventHandler(this.dataReport_Click);
             // 
+            // dataExport
+            // 
+            this.dataExport.Name = "dataExport";
+            this.dataExport.Size = new System.Drawing.Size(142, 22);
+            this.dataExport.Text = "匯出Excel";
+            this.dataExport.Click += new System.EventHandler(this.dataExport_Click);
+            // 
             // stockCriteria
             // 
             this.stockCriteria.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -149,6 +170,7 @@
             this.stockCriteria.Name = "stockCriteria";
             this.stockCriteria.Size = new System.Drawing.Size(41, 20);
             this.stockCriteria.Text = "選股";
+            this.stockCriteria.Visible = false;
             // 
             // filterStock
             // 
@@ -227,6 +249,8 @@
         private System.Windows.Forms.ToolStripMenuItem dataQuery;
         private System.Windows.Forms.ToolStripMenuItem basicDataGetter;
         private System.Windows.Forms.ToolStripMenuItem dataReport;
+        private System.Windows.Forms.ToolStripMenuItem dataExport;
+        private System.Windows.Forms.ToolStripMenuItem menuItemHappyZone;
     }
 }
 

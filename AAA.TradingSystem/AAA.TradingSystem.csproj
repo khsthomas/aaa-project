@@ -47,6 +47,7 @@
     <Reference Include="AAA.ResultSet, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="AAA.TeeChart, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="AAA.Web, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="AAA.Writer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="Excel, Version=1.3.0.0, Culture=neutral, PublicKeyToken=3efa0c05d8ec0caa">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\ext-lib\Excel.dll</HintPath>
@@ -124,6 +125,18 @@
     <Compile Include="ExcelExportForm.Designer.cs">
       <DependentUpon>ExcelExportForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="HappyZoneDetailForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HappyZoneDetailForm.Designer.cs">
+      <DependentUpon>HappyZoneDetailForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HappyZoneMasterForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HappyZoneMasterForm.Designer.cs">
+      <DependentUpon>HappyZoneMasterForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="IndicatorSetup.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -195,6 +208,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ExcelExportForm.resx">
       <DependentUpon>ExcelExportForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HappyZoneDetailForm.resx">
+      <DependentUpon>HappyZoneDetailForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HappyZoneMasterForm.resx">
+      <DependentUpon>HappyZoneMasterForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="IndicatorSetup.resx">
       <DependentUpon>IndicatorSetup.cs</DependentUpon>
@@ -327,6 +346,9 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="Template\Template.xls">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
@@ -407,6 +429,9 @@
     <Content Include="data\db_dumper_pv_20110515.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="JETCOMP.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="ADODB">
@@ -425,6 +450,12 @@
       <WrapperTool>tlbimp</WrapperTool>
       <Isolated>False</Isolated>
     </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Exports\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
