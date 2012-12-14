@@ -422,5 +422,45 @@ namespace AAA.TradingSystem
                 return;
             }
         }
+
+        private void btnCompress_Click(object sender, EventArgs e)
+        {
+            string strHost;
+            string strDatabase;
+            string strUsername;
+            string strPassword;                        
+            IniReader iniReader = new IniReader(Environment.CurrentDirectory + @"\cfg\system.ini");
+
+            try
+            {
+                strHost = iniReader.GetParam("DataSource", "Host");
+                strDatabase = iniReader.GetParam("DataSource", "Database");
+                strUsername = iniReader.GetParam("DataSource", "Username");
+                strPassword = iniReader.GetParam("DataSource", "Password");
+
+                strDatabase = strDatabase.StartsWith(".") ? Environment.CurrentDirectory + strDatabase.Substring(1) : strDatabase;
+
+                string strReturnMessage = DatabaseUtil.CompressAccess(strDatabase, strPassword);
+                //string strReturnMessage = DatabaseUtil.CompressAccessJetComp(strDatabase, strPassword);
+
+                if (strReturnMessage == null)
+                {
+                    MessageBox.Show("資料檔壓縮完畢");
+                    return;
+                }
+
+                if (strReturnMessage == "")
+                {
+                    MessageBox.Show("資料檔壓縮完畢");
+                    return;
+                }
+
+                MessageBox.Show(strReturnMessage);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "," + ex.StackTrace);
+            }
+        }
     }
 }

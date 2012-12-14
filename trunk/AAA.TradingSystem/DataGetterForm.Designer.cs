@@ -43,6 +43,7 @@
             this.txtDeleteDate = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.btnDelete = new System.Windows.Forms.Button();
+            this.btnCompress = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -159,6 +160,7 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.btnCompress);
             this.groupBox3.Controls.Add(this.txtDeleteDate);
             this.groupBox3.Controls.Add(this.label4);
             this.groupBox3.Controls.Add(this.btnDelete);
@@ -187,13 +189,23 @@
             // 
             // btnDelete
             // 
-            this.btnDelete.Location = new System.Drawing.Point(74, 64);
+            this.btnDelete.Location = new System.Drawing.Point(39, 70);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(75, 23);
             this.btnDelete.TabIndex = 2;
             this.btnDelete.Text = "刪除";
             this.btnDelete.UseVisualStyleBackColor = true;
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+            // 
+            // btnCompress
+            // 
+            this.btnCompress.Location = new System.Drawing.Point(132, 70);
+            this.btnCompress.Name = "btnCompress";
+            this.btnCompress.Size = new System.Drawing.Size(75, 23);
+            this.btnCompress.TabIndex = 5;
+            this.btnCompress.Text = "資料壓縮";
+            this.btnCompress.UseVisualStyleBackColor = true;
+            this.btnCompress.Click += new System.EventHandler(this.btnCompress_Click);
             // 
             // DataGetterForm
             // 
@@ -234,5 +246,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.CheckBox chkCalculateIndex;
+        private System.Windows.Forms.Button btnCompress;
     }
 }

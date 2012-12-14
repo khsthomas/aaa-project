@@ -178,6 +178,30 @@ namespace AAA.TradingSystem
             }
         }
 
+        private void dataExport_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                MdiFormUtil.AddChild(this, new ExcelExportForm(), false);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "," + ex.StackTrace);
+            }
+        }
+
+        private void menuItemHappyZone_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                MdiFormUtil.AddChild(this, new HappyZoneMasterForm(), false);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "," + ex.StackTrace);
+            }
+        }
+
 
     }
 }
