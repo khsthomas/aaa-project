@@ -755,12 +755,12 @@ namespace AAA.ProgramTrade
                                 for (int i = 0; i < iRecordCount; i++)
                                 {
                                     dicRecord = (Dictionary<string, string>)dicReturn["record" + i];
-                                    strValues = new string[tblTrust.ColumnCount];
+                                    strValues = new string[tblDeal.ColumnCount];
                                     for (int j = 0; j < strValues.Length; j++)
                                     {
-                                        strValues[j] = dicRecord[tblTrust.Columns[j].Name].ToString();
+                                        strValues[j] = dicRecord[tblDeal.Columns[j].Name].ToString();
                                     }
-                                    DataGridViewUtil.InsertRow(tblTrust, strValues);
+                                    DataGridViewUtil.InsertRow(tblDeal, strValues);
                                 }
 
                                 break;

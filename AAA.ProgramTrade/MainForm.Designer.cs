@@ -48,6 +48,7 @@
             this.dataDownloadItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reportItem = new System.Windows.Forms.ToolStripMenuItem();
             this.performanceReportItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dailyReportItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.statusBarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.windowsMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -209,7 +210,8 @@
             // reportItem
             // 
             this.reportItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.performanceReportItem});
+            this.performanceReportItem,
+            this.dailyReportItem});
             this.reportItem.Name = "reportItem";
             this.reportItem.Size = new System.Drawing.Size(81, 20);
             this.reportItem.Text = "報表(&Report)";
@@ -217,9 +219,16 @@
             // performanceReportItem
             // 
             this.performanceReportItem.Name = "performanceReportItem";
-            this.performanceReportItem.Size = new System.Drawing.Size(118, 22);
+            this.performanceReportItem.Size = new System.Drawing.Size(152, 22);
             this.performanceReportItem.Text = "績效報表";
             this.performanceReportItem.Click += new System.EventHandler(this.performanceReportItem_Click);
+            // 
+            // dailyReportItem
+            // 
+            this.dailyReportItem.Name = "dailyReportItem";
+            this.dailyReportItem.Size = new System.Drawing.Size(152, 22);
+            this.dailyReportItem.Text = "庫存日報表";
+            this.dailyReportItem.Click += new System.EventHandler(this.dailyReportItem_Click);
             // 
             // viewMenu
             // 
@@ -376,6 +385,7 @@
         private System.Windows.Forms.ToolStripMenuItem offlineDataFeedItem;
         private System.Windows.Forms.ToolStripMenuItem dataDownloadItem;
         private System.Windows.Forms.ToolStripMenuItem realtimeStrategyItem;
+        private System.Windows.Forms.ToolStripMenuItem dailyReportItem;
     }
 }
 

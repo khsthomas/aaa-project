@@ -613,6 +613,10 @@ namespace AAA.ProgramTrade.Quote
                     barRecord["Gamma"] = float.Parse(dicChildren["Gamma"].ToString()) / fMultiple;
                     barRecord["Theta"] = float.Parse(dicChildren["Theta"].ToString()) / fMultiple;
                     barRecord["Vega"] = float.Parse(dicChildren["Vega"].ToString()) / fMultiple;
+                    barRecord["DealPrice"] = float.Parse(dicChildren["DealPrice"].ToString()) / 1000;
+                    barRecord["OpenRefPrice"] = float.Parse(dicChildren["OpenRefPrice"].ToString()) / 1000;
+                    barRecord["UpStopPrice"] = float.Parse(dicChildren["UpStopPrice"].ToString()) / 1000;
+                    barRecord["DownStopPrice"] = float.Parse(dicChildren["DownStopPrice"].ToString()) / 1000;
                     dicDataSource[strSymbolId].Insert(0, barRecord);                    
                 }
             }
@@ -648,18 +652,20 @@ namespace AAA.ProgramTrade.Quote
             dtStartTime = DateTime.Parse(dtStartTime.ToString("yyyy/MM/dd") + " 00:00:00.000");
             DateTime dtCurrentEndTime = DateTime.Parse(dtEndTime.ToString("yyyy/MM/dd") + " 23:59:59.000");
             DateTime dtSettleDate = SymbolUtil.SettleDate(dtCurrentEndTime.Year, dtCurrentEndTime.Month);
+            string strQueryType = strRecordType.Split('_')[0];
+            string strContract = strRecordType.IndexOf('_') > 0 ? strRecordType.Split('_')[1] : "";
             try
             {
-                switch (strRecordType)
+                switch (strQueryType)
                 {
                     case "OptionsTheroreticalPrice":
                         while (dtCurrentEndTime.CompareTo(dtStartTime) >= 0)
                         {
                             int iDayCount = SymbolUtil.TradeDayCountToSettleDay(dtCurrentEndTime);
-                            ContractInfo hotContract = SymbolUtil.HotContract(dtCurrentEndTime);
+                            ContractInfo queryContract = strContract.ToLower() == "next" ? SymbolUtil.NextMonthContract(dtCurrentEndTime) : SymbolUtil.HotContract(dtCurrentEndTime);
                             B2BApi.inMsgClear();
                             ProcessInput("string", 2, strSymbolId);  //類股代碼
-                            ProcessInput("int", 4, (hotContract.Year * 100 + hotContract.Month).ToString());    //交易月份
+                            ProcessInput("int", 4, (queryContract.Year * 100 + queryContract.Month).ToString());    //交易月份
                             ProcessInput("byte", 1, "2");   //參考標的種類 1:大盤 2:期指
                             ProcessInput("byte", 1, "1");   //波動率種類 1.歷史 2.隱含 3.自設
                             ProcessInput("int", 4, SymbolUtil.TradeDayCountToSettleDay(dtCurrentEndTime).ToString()); //剩餘日 - 只計交易日
@@ -767,7 +773,7 @@ namespace AAA.ProgramTrade.Quote
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw new Exception(ex.Message, ex);
             }
             return lstReturn;
         }
