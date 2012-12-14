@@ -28,6 +28,7 @@ namespace AAA.Polaris
         private const string SEND = "1E641416";
         private const string SEND_STOCK = "1E640A0A";
         private const string REPORT = "1465140B";
+        private const string COVER = "1466140B";
 
         private const string GET_POSITION_REPORT = "20.103.20.11";
         private const string TODAY_EQUITY = "20.104.20.12";
@@ -35,7 +36,7 @@ namespace AAA.Polaris
         private const string SEND_ORDER = "30.100.20.22";
         private const string SEND_STOCK_ORDER = "30.100.10.10";
         private const string ORDER_REPORT = "20.101.20.11";
-
+        private const string COVER_REPORT = "20.102.20.11";
         //登入
         private static string[] LOGIN_OUTPUT_PARENT_TYPE = { "string", "string", "int" };
         private static int[] LOGIN_OUTPUT_PARENT_LEN = { 4, 50, 4 };
@@ -95,6 +96,15 @@ namespace AAA.Polaris
         private static string[] STOCK_SEND_ORDER_OUTPUT_CHILDREN_TYPE = { "int", "short", "string", "Date", "string", "string", "string" };
         private static int[] STOCK_SEND_ORDER_OUTPUT_CHILDREN_LEN = { 4, 2, 5, 4, 1, 3, 78 };
         private static string[] STOCK_SEND_ORDER_OUTPUT_CHILDREN_NAME = { "Identify", "ReplyCode", "OrderNo", "TradeDate", "ErrKind", "ErrNo", "Advisory" };
+        
+        //沖銷明細-查詢
+        private static string[] COVER_OUTPUT_PARENT_TYPE = { "int" };
+        private static int[] COVER_OUTPUT_PARENT_LEN = { 4 };
+        private static string[] COVER_OUTPUT_PARENT_NAME = { "RecordCount" };
+
+        private static string[] COVER_OUTPUT_CHILDREN_TYPE = { "string", "Date", "short", "short", "Date", "string", "int", "int", "string", "string", "int", "string", "int", "int", "int", "int", "byte", "string" };
+        private static int[] COVER_OUTPUT_CHILDREN_LEN = { 22, 4, 2, 2, 4, 7, 4, 4, 20, 1, 4, 1, 4, 4, 4, 4, 1, 3 };
+        private static string[] COVER_OUTPUT_CHILDREN_NAME = { "Account", "CoverDate", "CoverSeqNo", "CoverNum", "OriTradeDate", "FutCode", "FutTradeYM1", "StrikeP", "StkName", "BSCL", "MatchP", "SourceCL", "CoverVol", "ProfitMoney", "Fee", "Tax", "ProductType", "CurrencyType"};
 
         public event MessageEvent _messageEvent;
 
@@ -542,6 +552,15 @@ namespace AAA.Polaris
                                  */
                                 _dicReturn.Add("name", "SendOrder");
                                 break;
+
+                            case COVER:
+                                _dicReturn = ConvertMessage(iMark, dwIndex, strIndex, aryValue,
+                                                             COVER_OUTPUT_PARENT_TYPE, COVER_OUTPUT_PARENT_LEN, COVER_OUTPUT_PARENT_NAME,
+                                                             COVER_OUTPUT_CHILDREN_TYPE, COVER_OUTPUT_CHILDREN_LEN, COVER_OUTPUT_CHILDREN_NAME,
+                                                             null, null, null);
+                                _dicReturn.Add("name", "CoverReport");
+                                break;
+
 
                             /*
                                                         case "1"://分戶登入
@@ -1244,6 +1263,30 @@ namespace AAA.Polaris
         {
             throw new NotImplementedException();
         }
+
+        public override object GetCoverReport(string strStartDate, string strEndDate)
+        {
+            try
+            {
+                ProcessInput("Date", 4, strStartDate); // 開始日期
+                ProcessInput("Date", 4, strEndDate); // 結束日期
+                ProcessInput("string", 1, " "); // 商品類別 ' ':全部, '1':期貨, '2':選擇權, '5':可回復平倉
+                ProcessInput("string", 1, " "); // 商品種類 ' ':全部, '1':期貨, '2':選擇權, '5':可回復平倉
+                ProcessInput("int", 4, "1"); // 查詢期貨帳號筆數
+
+                ProcessInput("string", 22, (_accountInfo.AccountType + _accountInfo.AccountNo).Trim()); //填入查詢帳號                
+
+                MessageSend(COVER_REPORT);
+
+                WaitTillCompleted();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "Success";
+        }
+
 
         #region IDisposable Members
 

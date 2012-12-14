@@ -597,6 +597,46 @@ namespace AAA.SPFTrade
 
         }
 
+        public override object GetCoverReport(string strStartDate, string strEndDate)
+        {
+            string strMessage;
+            int iRecCount;
+            string strRecord;
+            string[] strRecords;
+
+            Dictionary<string, object> dicReturn = new Dictionary<string, object>();
+            Dictionary<string, string> dicRecord;
+            
+            strMessage = get_response_log();
+            if (strMessage.Length < MINI_REC_LEN)
+                return "";
+
+            iRecCount = Int32.Parse(strMessage.Substring(TRUST_REC_CNT_START, TRUST_REC_CNT_START_LEN));
+            dicReturn.Add("name", "QueryOrderListByDiff");
+            dicReturn.Add("recordcount", iRecCount.ToString());
+            dicReturn.Add("outputstate", "Success");
+
+            for (int i = 0; i < iRecCount; i++)
+            {
+
+                strRecord = StringHelper.Substring(strMessage, i * TRUST_REC_LEN + TRUST_REC_OFFSET, TRUST_REC_LEN);
+                strRecords = StringHelper.Split(strRecord, TRUST_SPLIT_LENGTH);
+                dicRecord = new Dictionary<string, string>();
+
+                for (int j = 0; j < TRUST_SPLIT_FIELD.Length; j++)
+                    dicRecord.Add(TRUST_SPLIT_FIELD[j], strRecords[j]);
+
+                dicReturn.Add("record" + i, dicRecord);
+            }
+
+
+            if (_messageEvent != null)
+                _messageEvent(dicReturn);
+            return "";
+
+        }
+
+        
         public override object GetOrderReport(string strStartDate, string strEndDate)
         {
             string strMessage;
