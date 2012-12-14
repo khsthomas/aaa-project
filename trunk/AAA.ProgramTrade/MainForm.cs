@@ -305,12 +305,13 @@ namespace AAA.ProgramTrade
             try
             {
                 if(AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.SCHEDULE_MANAGER] != null)
-                    ((ScheduleManager)AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.SCHEDULE_MANAGER]).Stop();
+                    ((ScheduleManager)AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.SCHEDULE_MANAGER]).Stop();                
             }
             catch (Exception ex)
             {
                 throw ex;
             }
+            Application.Exit();
         }
 
         private void offlineDataFeedItem_Click(object sender, EventArgs e)
@@ -331,6 +332,16 @@ namespace AAA.ProgramTrade
         private void realtimeStrategyItem_Click(object sender, EventArgs e)
         {
             MdiFormUtil.AddChild(this, new RealTimeStrategyForm(), false);
+        }
+
+        private void dailyReportItem_Click(object sender, EventArgs e)
+        {
+            if (AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.AUTO_TRADE_PROGRAM] == null)
+            {
+                MessageBox.Show("請先登入系統, 謝謝!!");
+                return;
+            }
+            MdiFormUtil.AddChild(this, new DailyReportForm(), false);
         }
     }
 }

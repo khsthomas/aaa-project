@@ -129,6 +129,7 @@ namespace AAA.ProgramTrade.Parser
                     dicRecord = new Dictionary<string, string>();
                     dicChildren = (Dictionary<string, object>)dicParam["Children" + i];
 
+                    dicRecord.Add("account", dicChildren["Account"].ToString());
                     dicRecord.Add("ord_time", dicChildren["MatchTime"].ToString());
                     dicRecord.Add("type", dicChildren["ProductType"].ToString());
                     dicRecord.Add("code", dicChildren["CommodityID1"].ToString());
@@ -143,7 +144,15 @@ namespace AAA.ProgramTrade.Parser
                     dicRecord.Add("errormsg", "-");
                     dicRecord.Add("oct", "-");
                     dicRecord.Add("ord_no", dicChildren["OrderNo"].ToString());
-                    dicRecord.Add("ord_seq", "0");                    
+                    dicRecord.Add("ord_seq", "0");
+
+                    if (dicRecord["trade_type"].ToLower() == "b")
+                    {
+                        
+                    }
+                    else
+                    {
+                    }
 
                     dicReturn.Add("record" + i, dicRecord);
                 }
@@ -156,6 +165,94 @@ namespace AAA.ProgramTrade.Parser
             }
             return dicReturn;
         }
+
+        public static Dictionary<string, object> ParseCoverReport(Dictionary<string, object> dicParam)
+        {
+            Dictionary<string, object> dicReturn = new Dictionary<string, object>();
+            Dictionary<string, object> dicChildren = new Dictionary<string, object>();
+            Dictionary<string, string> dicRecord;
+            Dictionary<string, List<string>> dicCoverSum = new Dictionary<string, List<string>>();
+            int iRecordCount;
+            double dProfitSum;
+            string strCoverKey;
+            try
+            {
+                dicReturn.Add("recordcount", dicParam["RecordCount"].ToString());
+                iRecordCount = int.Parse(dicParam["RecordCount"].ToString());
+
+                for (int i = 0; i < iRecordCount; i++)
+                {
+                    dicRecord = new Dictionary<string, string>();
+                    dicChildren = (Dictionary<string, object>)dicParam["Children" + i];
+
+                    dicRecord.Add("account", dicChildren["Account"].ToString());
+                    dicRecord.Add("cover_date", dicChildren["CoverDate"].ToString());
+                    dicRecord.Add("cover_seq", dicChildren["CoverSeqNo"].ToString());
+
+                    strCoverKey = dicChildren["Account"].ToString() + "~" + dicChildren["CoverDate"].ToString() + "~" + dicChildren["CoverSeqNo"].ToString();
+
+                    if (dicCoverSum.ContainsKey(strCoverKey) == false)
+                        dicCoverSum.Add(strCoverKey, new List<string>());
+                    dicCoverSum[strCoverKey].Add("record" + i);
+
+                    if(dicChildren["FutCode"].ToString() == "FIMTX" || dicChildren["FutCode"].ToString() == "FITX")
+                    {
+                        dicRecord.Add("code", dicChildren["FutCode"].ToString() + " " + dicChildren["FutTradeYM1"].ToString());
+                    }
+                    if(dicChildren["FutCode"].ToString().StartsWith("TXO"))
+                    {
+                        dicRecord.Add("code", dicChildren["FutCode"].ToString() + " " + dicChildren["FutTradeYM1"].ToString() + " " + (long.Parse(dicChildren["StrikeP"].ToString()) / 1000).ToString("0"));
+                    }
+
+                    dicRecord.Add("ori_trade_date", dicChildren["OriTradeDate"].ToString());
+                    dicRecord.Add("trade_type", dicChildren["BSCL"].ToString());
+
+                    switch (dicChildren["SourceCL"].ToString())
+                    {
+                        case "2":
+                            dicRecord.Add("day_trade", "Y");
+                            dicRecord.Add("source", "-");
+                            break;
+                        case "3":
+                            dicRecord.Add("day_trade", "-");
+                            dicRecord.Add("source", "FIFO");
+                            break;
+                        default:
+                            dicRecord.Add("day_trade", "-");
+                            dicRecord.Add("source", "-");
+                            break;
+                            
+                    }
+
+                    dicRecord.Add("price", (long.Parse(dicChildren["MatchP"].ToString()) / 1000.0).ToString("0.00"));
+                    dicRecord.Add("qty", dicChildren["CoverVol"].ToString());
+                    dicRecord.Add("fee", dicChildren["Fee"].ToString());
+                    dicRecord.Add("tax", dicChildren["Tax"].ToString());
+                    dicRecord.Add("profit", dicChildren["ProfitMoney"].ToString());
+
+                    dicReturn.Add("record" + i, dicRecord);
+                }
+
+                dicReturn.Add("cover_group", dicCoverSum);
+
+                foreach (List<string> lstRecord in dicCoverSum.Values)
+                {
+                    dProfitSum = 0;
+                    foreach (string strKey in lstRecord)
+                        dProfitSum += double.Parse(((Dictionary<string, string>)dicReturn[strKey])["profit"].ToString());
+
+                    foreach (string strKey in lstRecord)
+                        ((Dictionary<string, string>)dicReturn[strKey]).Add("total_profit", dProfitSum.ToString("0.00"));
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return dicReturn;
+        }
+
 
         public static Dictionary<string, object> ParseTrustReport(Dictionary<string, object> dicParam)
         {
