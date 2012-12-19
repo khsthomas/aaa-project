@@ -1,0 +1,75 @@
+﻿.DetailsViewStyle
+{
+	font-size: 13px;
+	color: #666;	
+	border:solid 2px #7B9623;
+	margin:0px;
+    width: 816px;	
+}
+
+
+.DetailsViewStyle th
+{
+	line-height: 22px;  
+	border:solid 0px #7B9623;
+	padding: 5px 4px;	
+}
+
+.DetailsViewStyle td
+{
+	line-height: 22px;  
+	border:solid 0px #7B9623;  
+	padding: 6px 4px 3px 4px;
+	
+}
+
+.DetailsViewStyle tr:hover
+{
+   background-color:#ccf97e;
+}
+
+
+/* 標題 */
+.DetailsViewHeaderStyle
+{
+	background:#7B9623;
+    color:#FFF;
+	font-weight: bold;
+	font-size: 13px;
+	height: 26px;
+	line-height: 26px;
+    text-align: center;
+}
+
+
+/* 欄位標題 */
+.DetailsViewFieldHeaderStyle
+{
+	background: #F0F4EC;  
+	color: #666;
+	text-align: center;
+	height: 22px;
+	line-height: 22px;	
+}
+
+/* 資料列 */
+.DetailsViewRowStyle
+{
+	 background:#F0F4EC; 
+     border-bottom-width:1px;
+     border-bottom-style:solid;
+     border-bottom-color:#7B9623;
+      
+}
+
+/* 偶數資料列 */
+.DetailsViewAlternatingRowStyle
+{
+	 border-bottom-width:1px;
+     border-bottom-style:solid;
+     border-bottom-color:#7B9623; 
+    
+}
+
+
+

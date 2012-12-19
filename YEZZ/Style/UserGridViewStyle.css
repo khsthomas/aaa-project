@@ -1,0 +1,164 @@
+﻿/* 標題 */
+.GridViewTitleStyle
+{
+	margin: 0px auto;
+	background: #7B9623;
+    color: White;    
+	font-weight: bold;
+	font-size: 13px;
+	height: 24px;
+	line-height: 24px;
+	text-align: center;
+	width: 100%;
+}
+/* 主體 */
+.GridViewStyle
+{
+	font-size: 13px;
+	color: #333;
+	border:solid 2px #7B9623;	
+}
+
+.GridViewStyle th
+{
+	line-height: 22px;  
+	border:solid 0px #7B9623;		
+}
+
+.GridViewStyle td
+{
+	line-height: 22px;  
+	border:solid 0px #7B9623;  
+	/*padding: 8px 5px 4px 5px;*/ 
+}
+
+/* 表頭, 表尾  */
+   .GridViewHeaderStyle,
+    .GridViewFooterStyle
+    {
+	    font-size:13px;
+	    height: 24px;
+        line-height: 24px;   
+        background-color:#7B9623;
+        color:#FFF;
+        font-weight:bold;
+        text-align:center;      
+    }
+
+     
+    .GridViewFooterStyle
+    {
+        
+        background-color:#F0F4EC; 
+        border:solid 0px #7B9623; 
+    }
+ 
+   
+    /* 資料列 */
+    .GridViewRowStyle 
+    {/* background: #FFFBD6; #F6F8F3*/
+        background:#F0F4EC;    
+        border-bottom-width:1px;
+        border-bottom-style:solid;
+        border-bottom-color:#7B9623; 
+              
+    }
+    
+    /* 偶數資料列 */
+    .GridViewAlternatingRowStyle 
+    {   
+        /*background:#E4F7C9;*/    
+        border-bottom-width:1px;
+        border-bottom-style:solid;
+        border-bottom-color:#7B9623;
+           
+    }
+    
+    /* 空資料 */
+    .GridViewEmptyDataRowStyle
+    {
+	    border-bottom-width:1px;
+        border-bottom-style:solid;
+        border-bottom-color:#7B9623;
+	    text-align: center;	    
+    }
+
+    /* 分頁列 */
+    .GridViewPagerStyle
+     { 
+       /* background: #F0F4EC; */
+        
+     }
+    
+
+    .GridViewPagerStyle a
+     { 
+        display: inline-block; 
+        margin: 0px 6px 0px 4px; 
+        padding: 4px 8px; 
+        background-color: #FFFFFF; 
+        color: #333333; 
+        border: 1px solid #999999;
+        text-decoration: none; 
+    }
+
+    .GridViewPagerStyle a:hover, .GridViewPagerStyle a:active 
+    { 
+        background-color: #CCCCCC; 
+        color: #000000; 
+        text-decoration: none; 
+    }
+
+    .GridViewPagerStyle span.current 
+    { 
+        display: inline-block; 
+        margin: 0px 6px 0px 4px;  
+        padding: 4px 8px;  
+        background-color: #CCCCCC; 
+        color: #000000; 
+        font-weight: bold; 
+        border: 1px solid #999999;
+    }
+    
+    .GridViewPagerStyle span.disabled 
+    { 
+         display: inline-block;
+         margin: 0px 6px 0px 4px; 
+         padding: 4px 8px; 
+         border: 1px solid #DDDDDD; 
+         color: #AAAAAA; 
+     }
+     
+    .GridViewPagerStyle a:link 
+    { 
+        color: #0066AA; 
+        text-decoration: none
+    } 
+    
+    .GridViewPagerStyle a:visited 
+    { 
+        color: #0066AA; 
+        text-decoration: none
+    } 
+    
+    .GridViewPagerStyle a:active 
+    {
+        color:#FE5302; 
+        text-decoration: none
+    } 
+    
+    .GridViewPagerStyle a:hover 
+    { 
+        color:#FE5302; 
+        text-decoration: none
+    }
+    
+    /* 選取列 */
+    .GridViewSelectedRowStyle
+    {
+	    background: #9dca0a;
+	    font-weight: bold;
+	    color: Navy;
+    }
+
+

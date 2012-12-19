@@ -1,0 +1,115 @@
+﻿/* 彈跳視窗背景 */
+.DialogWindow  
+{
+    /*background:url(../Images/Index/open_bg.jpg) repeat 100% 100%; */
+      
+    background-color: #F0F4EC; 
+   }
+
+/* 彈跳視窗標題 */
+.DialogTitle
+{
+	padding: 6px 0px 0px 15px;
+	font-family:微軟正黑體 新細明體-ExtB;
+	font-weight: bold;
+	height: 20px;
+	font-size: 15px;
+}
+
+/* 彈跳視窗內容 */
+.DialogContent
+{
+	margin: 6px 6px;
+}
+.DialogContent hr  
+{
+    margin-top: 0px;
+    height: -6px;
+    width:80%;
+}
+
+/* 彈跳視窗左邊內容 */
+.DialogLeft
+{
+	float: left;
+	margin-right: 5px;
+	background-color: White;
+}
+
+/* 彈跳視窗右邊內容 */
+.DialogRight
+{
+	float: left;
+	margin-left: 5px;
+	background-color: White;
+}
+
+/* 彈跳視窗按鈕 */
+.DialogButton
+{
+	text-align: center;
+	clear: both;
+	margin :0 auto;
+	padding-top:6px;
+	padding-bottom:6px; 
+}
+
+/* 彈跳查詢輸入區塊 */
+.DialogSearch
+{
+	padding: 5px 10px;
+	font-size: 13px;
+	border: soild 1px black;
+}
+
+
+.DialogSearch .FileLable
+{
+   margin: 0px 16px;
+}
+
+/* 彈跳查詢資料區塊 */
+.DialogData
+{
+	background-color: White;
+}
+
+/* 文字浮水印 */
+.WaterMaskStyle
+{
+	padding-left: 5px;
+	color: #999;
+	border: solid 1px black;
+}
+
+.DialogBackGround
+{
+	background: #DDD;
+	filter: alpha(Opacity=60);
+}
+
+.lbMustMessage
+{
+	font-size: 10pt;
+	color: Red;
+}
+
+/* */
+.DialogSearch .tab_form
+{
+    font-size: 11pt;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.DialogSearch .tab_form .td_header
+{
+    text-align: center;
+    padding-top: 3px;
+    height: 25px;
+}
+.DialogSearch .tab_form .td_control { padding-left: 5px; }
+.DialogSearch .tab_form .td_header_2c { width: 20%; }
+.DialogSearch .tab_form .td_control_2c { width: 30%; }
+
+

@@ -1,0 +1,92 @@
+﻿
+/*資料來源:
+http://www.ezineasp.net/post/ASP-Net-AJAX-Tab-Extender-CSS-Class-Styles.aspx
+
+http://www.dynamicdrive.com/style/csslibrary/item/sliding-doors-tabs-menu/
+*/
+
+/*
+.ajax__tab_header: this CSS class has been associated with tab header container of AJAX TabContainer that wraps all the tabs at the top.
+*/
+ .ajax__customerTab .ajax__tab_header 
+    {
+        font-family: verdana,tahoma,helvetica;
+        font-size: 13px;
+        line-height:22px;
+        border-bottom: 1px solid gray;
+        font-weight:bold;
+       
+    }
+
+/*
+.ajax__tab_outer: this CSS class controls the style of left edge of a tab.
+*/
+ .ajax__customerTab .ajax__tab_outer 
+    {  
+        margin:0;
+        padding:0 0 0 9px;
+       background:url(../Images/Index/tab_left.jpg) no-repeat left top;  
+   
+    /*margin-right: 2px;
+    border-right: solid 1px #666666;
+    border-top: solid 1px #aaaaaa; */
+}
+/*.ajax__tab_inner: this CSS class controls the style of right edge of a tab. */
+/* span */
+ .ajax__customerTab .ajax__tab_inner 
+    {   
+        margin:0 0 -1px -1px;
+        background:url(../Images/Index/tab_right.jpg) no-repeat right top;
+        padding:3px 6px 3px 8px; 
+    }
+    
+/*.ajax__tab_tab: it applies the style to the center portion of a tab containing the text. */
+ .ajax__customerTab .ajax__tab_tab 
+    {
+        height: 13px;
+        padding: 5px;
+        margin: 0;
+        letter-spacing:1px; 
+}
+
+
+
+/*.ajax__tab_hover: this CSS class applies its styles while mouse over state of a tab. */
+.ajax__customerTab .ajax__tab_hover .ajax__tab_outer 
+{
+     background:url(../Images/Index/tab_left.jpg) no-repeat left top;  
+     color :Green;
+}
+
+
+.ajax__customerTab .ajax__tab_hover .ajax__tab_inner 
+{
+    /*background:url(../Images/Index/tab_left.jpg) no-repeat left top;  */
+    background:url(../Images/Index/tab_right.jpg) no-repeat right top;
+    color :Green
+}
+
+.ajax__customerTab .ajax__tab_hover .ajax__tab_tab {
+}
+
+/*.ajax__tab_active: this CSS class applies its styles on the currently selected tab.*/
+.ajax__customerTab .ajax__tab_active .ajax__tab_outer 
+{
+     background:url(../Images/Index/tab_left.jpg) no-repeat left top;  
+     color:Black;
+}
+
+.ajax__customerTab .ajax__tab_active .ajax__tab_inner 
+{
+     background:url(../Images/Index/tab_right.jpg) no-repeat right top;
+     color:Black;
+}
+
+.ajax__customerTab .ajax__tab_active .ajax__tab_tab {
+}
+
+/*.ajax__tab_body: it applies the CSS styles on the TabPanel content container associated with each tab.*/
+.ajax__customerTab .ajax__tab_body {
+    font-family: verdana,tahoma,helvetica;
+    font-size: 13px; 
+}
