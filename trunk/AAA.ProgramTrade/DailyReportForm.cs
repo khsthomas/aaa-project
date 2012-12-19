@@ -227,7 +227,8 @@ namespace AAA.ProgramTrade
         private void btnExport_Click(object sender, EventArgs e)
         {
             string strPath = AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.PROGRAM_ROOT_PATH].ToString() + @"\Summary";
-            ExcelFormat excelFormat;
+            ExcelFormat excelFormat = null;
+            IResultSetGroup resultGroup = new DefaultResultSetGroup();
             DataGridViewResultSet resultSet = null;
             DataGridView[] dataSources = new DataGridView[] { tblOpenPosition, tblEquity, tblTheory, tblDeal, tblEven, tblIndex};
             IWriter excelWriter = new ExcelWriter();
@@ -236,23 +237,26 @@ namespace AAA.ProgramTrade
                 if (Directory.Exists(strPath) == false)
                     Directory.CreateDirectory(strPath);
 
-                excelFormat = new ExcelFormat();
-                excelFormat.IsVisible = true;
-                excelFormat.StartCol = 1;
-                excelFormat.StartRow = 1;
-                excelWriter.IsAppend = true;
-                excelWriter.SourceFile = strPath + @"\Summary_" + DateTime.Now.ToString("yyyyMMdd") + ".xls";
-                excelWriter.TargetFile = strPath + @"\Summary_" + DateTime.Now.ToString("yyyyMMdd") + ".xls";
-                excelFormat.HasColumnName = true;
-
+                excelWriter.IsAppend = false;
+                //excelWriter.SourceFile = strPath + @"\Summary_" + DateTime.Now.ToString("yyyyMMdd") + ".xlsx";
+                excelWriter.SourceFile = "";
+                excelWriter.TargetFile = strPath + @"\Summary_" + DateTime.Now.ToString("yyyyMMdd") + ".xlsx";
+                                
                 for (int i = 0; i < tabFunction.TabCount; i++)
                 {
+                    excelFormat = new ExcelFormat();
+                    excelFormat.IsVisible = true;
+                    excelFormat.StartCol = 1;
+                    excelFormat.StartRow = 1;
+                    excelFormat.HasColumnName = true;
                     excelFormat.WorksheetName = tabFunction.TabPages[i].Text;
                     resultSet = new DataGridViewResultSet(dataSources[i]);
                     resultSet.Load();                    
-                    excelFormat.ColumnNames = resultSet.ColumnNames().ToArray<string>();
-                    excelWriter.Write(resultSet, excelFormat);
+                    excelFormat.ColumnNames = resultSet.ColumnHeaders().ToArray<string>();
+                    resultGroup.AddResultSet(tabFunction.TabPages[i].Text, resultSet, excelFormat);
                 }
+
+                excelWriter.Write((IResultSet)resultGroup, excelFormat);
                 
             }
             catch (Exception ex)

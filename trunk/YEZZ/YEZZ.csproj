@@ -1,0 +1,168 @@
+﻿<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{2851D48F-5DFF-4155-A48D-A38473895D0A}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>YEZZ</RootNamespace>
+    <AssemblyName>YEZZ</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AjaxControlToolkit, Version=3.0.20229.20843, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\AjaxControlToolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web.Extensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Web.Mobile" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Default.aspx" />
+    <Content Include="Project_Column_Info.aspx" />
+    <Content Include="Project_Import_Maintain.aspx" />
+    <Content Include="Project_Layer_Info.aspx" />
+    <Content Include="Project_Report.aspx" />
+    <Content Include="TSAControl\ErrorTextMessage.ascx" />
+    <Content Include="TSAControl\TextBoxExtender.ascx" />
+    <Content Include="Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Database\MsSqlDatabase.cs" />
+    <Compile Include="DataBuilder.cs" />
+    <Compile Include="DataMapping.cs" />
+    <Compile Include="Default.aspx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Model\AbstractDataModel.cs" />
+    <Compile Include="Model\DefaultDataModel.cs" />
+    <Compile Include="Model\IDataModel.cs" />
+    <Compile Include="Model\TB_COLUMN_STATE.cs" />
+    <Compile Include="Model\TB_DISTRICT_MAPPING.cs" />
+    <Compile Include="Model\TB_LAYER_COLOR.cs" />
+    <Compile Include="Model\TB_PROJECT_DOCTOR.cs" />
+    <Compile Include="Model\TB_PROJECT_FORMULA.cs" />
+    <Compile Include="Model\TB_PROJECT_INFO.cs" />
+    <Compile Include="Model\TB_TOWN_DATA.cs" />
+    <Compile Include="Model\TB_VIOLATION_INFO.cs" />
+    <Compile Include="Project_Column_Info.aspx.cs">
+      <DependentUpon>Project_Column_Info.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Project_Column_Info.aspx.designer.cs">
+      <DependentUpon>Project_Column_Info.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Project_Import_Maintain.aspx.cs">
+      <DependentUpon>Project_Import_Maintain.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Project_Import_Maintain.aspx.designer.cs">
+      <DependentUpon>Project_Import_Maintain.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Project_Layer_Info.aspx.cs">
+      <DependentUpon>Project_Layer_Info.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Project_Layer_Info.aspx.designer.cs">
+      <DependentUpon>Project_Layer_Info.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Project_Report.aspx.cs">
+      <DependentUpon>Project_Report.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Project_Report.aspx.designer.cs">
+      <DependentUpon>Project_Report.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SystemConstants.cs" />
+    <Compile Include="TSAControl\ErrorTextMessage.ascx.cs">
+      <DependentUpon>ErrorTextMessage.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TSAControl\ErrorTextMessage.ascx.designer.cs">
+      <DependentUpon>ErrorTextMessage.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="TSAControl\TextBoxExtender.ascx.cs">
+      <DependentUpon>TextBoxExtender.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TSAControl\TextBoxExtender.ascx.designer.cs">
+      <DependentUpon>TextBoxExtender.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="WebHelper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v9.0\WebApplications\Microsoft.WebApplication.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>3129</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>
+          </IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>
