@@ -301,7 +301,7 @@ namespace AAA.TradingSystem.Indicator
                                                 (float)((lstClose[lstClose.Count - 1] == fLowest20) ? 1 : 0),    //27 Lowest20
                                                 (float)((fDiff10 > 0.1 && fVolMA5 > fVolMA20) ? 1 : 0),          //28 Demand20
                                                 (float)((fBias20 > 0) ? 1 : 0),                                  //29 PosBias20
-                                                (float)((fDiff10 < -0.1 && fVolMA5 < fVolMA20) ? 1 : 0),         //30 AntiDemand20
+                                                (float)((fDiff10 < -0.1 && fVolMA5 > fVolMA20) ? 1 : 0),         //30 AntiDemand20
                                                 (float)((fBias20 < 0) ? 1 : 0),                                  //31 NegBias20
                                                 ParseDate(dataReader["ExDate"].ToString()),
                                                 lstSymbolId[i]};
