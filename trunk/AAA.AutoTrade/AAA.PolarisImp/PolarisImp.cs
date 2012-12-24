@@ -7,6 +7,7 @@ using System.Threading;
 using System.Windows.Forms;
 using AAA.Base.Util;
 using AAA.Meta.Trade;
+using System.Runtime.InteropServices;
 
 namespace AAA.Polaris
 {
@@ -839,8 +840,14 @@ namespace AAA.Polaris
         {
             _accountInfo = accountInfo;
             B2BApi.Open();
-            _isConnected = true;
-            return "Success";
+            WaitTillCompleted();
+            Thread.Sleep(1000);
+            _isConnected = (_dicReturn.ContainsKey("ReturnMessage") ? _dicReturn["ReturnMessage"].ToString() == "Is Connected!!" : false);
+            //return _dicReturn["ReturnMessage"];
+            //_isConnected = true;
+            return _isConnected ? "Success" : "Fail";
+            
+            
         }
 
         public override bool IsConnected()
@@ -880,11 +887,13 @@ namespace AAA.Polaris
 
         public override object Login()
         {
+            int iLoginCheck = 0;
             try
             {
                 string strLoginAccount = Util.FillSpace(_accountInfo.AccountType + _accountInfo.AccountNo, 22);
-                int iLoginCheckt = B2BApi.Login((int)0, strLoginAccount, _accountInfo.Password);
+                iLoginCheck = B2BApi.Login((int)0, strLoginAccount, _accountInfo.Password);
                 WaitTillCompleted();
+                
                 //                AAA.DesignPattern.Singleton.SystemParameter.Parameter["LoginAccounts"] = strLoginAccount;
                 /*
                                 string strLoginAccount = Util.FillSpace(dicInput["AccountType"] + dicInput["Account"], 22);
@@ -903,10 +912,12 @@ namespace AAA.Polaris
                 throw ex;
             }
 
-            return _dicReturn["MsgCode"] + "," + _dicReturn["MsgContent"] + "\n" +
-                   ((Dictionary<string, object>)_dicReturn["Children0"])["Account"] + "," +
-                   ((Dictionary<string, object>)_dicReturn["Children0"])["Name"] + "," +
-                   ((Dictionary<string, object>)_dicReturn["Children0"])["InvestorId"];
+            return (iLoginCheck == 1)
+                        ?   "Success\n" + _dicReturn["MsgCode"] + "," + _dicReturn["MsgContent"] + "\n" +
+                            ((Dictionary<string, object>)_dicReturn["Children0"])["Account"] + "," +
+                            ((Dictionary<string, object>)_dicReturn["Children0"])["Name"] + "," +
+                            ((Dictionary<string, object>)_dicReturn["Children0"])["InvestorId"]
+                        : "Fail" + "\n" + _dicReturn["ReturnMessage"];
         }
 
         public override object Logout()
@@ -1292,7 +1303,8 @@ namespace AAA.Polaris
 
         public void Dispose()
         {
-
+            B2BApi.Close();
+            Marshal.ReleaseComObject(B2BApi);
         }
 
         #endregion
