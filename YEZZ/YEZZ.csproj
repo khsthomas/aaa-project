@@ -45,6 +45,7 @@
     <Reference Include="System.Web.Extensions">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -57,16 +58,27 @@
     <Reference Include="System.Web.Mobile" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Components\Calculator.ascx" />
     <Content Include="Default.aspx" />
     <Content Include="Project_Column_Info.aspx" />
     <Content Include="Project_Import_Maintain.aspx" />
     <Content Include="Project_Layer_Info.aspx" />
     <Content Include="Project_Report.aspx" />
+    <Content Include="TSAControl\DateControl.ascx" />
     <Content Include="TSAControl\ErrorTextMessage.ascx" />
     <Content Include="TSAControl\TextBoxExtender.ascx" />
+    <Content Include="TSAControl\TreeViewControl.ascx" />
+    <Content Include="TSAControl\ValidateCode.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Components\Calculator.ascx.cs">
+      <DependentUpon>Calculator.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Components\Calculator.ascx.designer.cs">
+      <DependentUpon>Calculator.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Database\MsSqlDatabase.cs" />
     <Compile Include="DataBuilder.cs" />
     <Compile Include="DataMapping.cs" />
@@ -77,6 +89,7 @@
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
+    <Compile Include="MapControlLibrary.cs" />
     <Compile Include="Model\AbstractDataModel.cs" />
     <Compile Include="Model\DefaultDataModel.cs" />
     <Compile Include="Model\IDataModel.cs" />
@@ -118,6 +131,13 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SystemConstants.cs" />
+    <Compile Include="TSAControl\DateControl.ascx.cs">
+      <DependentUpon>DateControl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TSAControl\DateControl.ascx.designer.cs">
+      <DependentUpon>DateControl.ascx</DependentUpon>
+    </Compile>
     <Compile Include="TSAControl\ErrorTextMessage.ascx.cs">
       <DependentUpon>ErrorTextMessage.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -132,7 +152,34 @@
     <Compile Include="TSAControl\TextBoxExtender.ascx.designer.cs">
       <DependentUpon>TextBoxExtender.ascx</DependentUpon>
     </Compile>
+    <Compile Include="TSAControl\TreeViewControl.ascx.cs">
+      <DependentUpon>TreeViewControl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TSAControl\TreeViewControl.ascx.designer.cs">
+      <DependentUpon>TreeViewControl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="TSAControl\ValidateCode.aspx.cs">
+      <DependentUpon>ValidateCode.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TSAControl\ValidateCode.aspx.designer.cs">
+      <DependentUpon>ValidateCode.aspx</DependentUpon>
+    </Compile>
     <Compile Include="WebHelper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\APPGISMS_20121219\APPGISMS\INFOSERVICE\INFOSERVICE.csproj">
+      <Project>{695AEA39-A7CA-4280-B28E-D871CF5FBCB8}</Project>
+      <Name>INFOSERVICE</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\APPGISMS_20121219\APPGISMS\MapControl\MapControl.csproj">
+      <Project>{EBD82E18-A844-4A68-9266-9ED708AAEEE1}</Project>
+      <Name>MapControl</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -152,7 +199,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>3129</DevelopmentServerPort>
+          <DevelopmentServerPort>1647</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>

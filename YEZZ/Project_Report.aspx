@@ -16,8 +16,10 @@
             <AjaxCTLToolkit:ToolkitScriptManager ID="ScriptManager1" runat="server" />            
             <TSAControl:ErrorMessageControl ID="emcMsg" runat="server" CssClass="txtMessage" />
             <div class="div_button" style="position:absolute; margin:45px 0 0 634px;" >            
-                <asp:Button ID="btnQuery" runat="server" Text="查詢資料"  />
-                <asp:Button ID="btnExpand" runat="server" Text="匯出資料" />
+                <asp:Button ID="btnQuery" runat="server" Text="查詢資料" 
+                    onclick="btnQuery_Click"  />
+                <asp:Button ID="btnExpand" runat="server" Text="匯出資料" 
+                    onclick="btnExpand_Click" />
             </div>
             <div class="div_top_bottom">
               <div class="slidetabsmenu">
@@ -28,7 +30,7 @@
               <asp:UpdatePanel ID="upInput" runat="server" UpdateMode="Conditional">
                     <ContentTemplate>
                         <table class="tab_form" border="0">
-                        <tr>
+                            <tr>
                                 <td class="td_header td_header_2c_title">專案名稱</td>
                                 <td class="td_control td_control_2c">
                                     <asp:DropDownList ID="ddlProjectName" runat="server" AutoPostBack="True" 
@@ -36,17 +38,20 @@
                                 </td>
                                 <td class="td_header td_header_2c_title">公式名稱</td>
                                 <td class="td_control td_control_2c">
-                                    <asp:DropDownList ID="ddlFormulaName" runat="server" />
+                                    <asp:DropDownList ID="ddlFormulaName" runat="server" AutoPostBack="True" 
+                                        onselectedindexchanged="ddlFormulaName_SelectedIndexChanged" />
                                 </td>
                             </tr>
                             <tr>
                                 <td class="td_header td_header_2c_title">年度</td>
                                 <td class="td_control td_control_2c">
-                                    <asp:DropDownList ID="ddlYearly" runat="server" AutoPostBack="True" />
+                                    <asp:DropDownList ID="ddlYearly" runat="server" AutoPostBack="True" 
+                                        onselectedindexchanged="ddlYearly_SelectedIndexChanged" />
                                 </td>
                                 <td class="td_header td_header_2c_title">分區</td>
                                 <td class="td_control td_control_2c">
-                                    <asp:DropDownList ID="ddlArea_Info" runat="server" AutoPostBack="True" />
+                                    <asp:DropDownList ID="ddlArea_Info" runat="server" AutoPostBack="True" 
+                                        onselectedindexchanged="ddlArea_Info_SelectedIndexChanged" />
                                 </td>
                             </tr>
                             <tr>

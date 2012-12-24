@@ -1,0 +1,5 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ReferencePath>D:\AAA\Project\lib\;D:\AAA\Project\ext-lib\</ReferencePath>
+  </PropertyGroup>
+</Project>

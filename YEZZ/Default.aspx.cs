@@ -13,5 +13,19 @@ namespace YEZZ
         {
 
         }
+
+        protected void btnCalculate_Click(object sender, EventArgs e)
+        {
+            mpeCalculator.Show();            
+        }
+
+        protected void btnClose_Click(object sender, EventArgs e)
+        {
+            txtFormula.Text = calculator.FormulaText;
+            txtFormulaValue.Text = calculator.FormulaValue;
+            mpeCalculator.Hide();
+        }
+
+
     }
 }
