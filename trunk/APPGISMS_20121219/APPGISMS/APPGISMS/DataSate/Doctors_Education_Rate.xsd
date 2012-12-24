@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="Doctors_Education_Rate" targetNamespace="http://tempuri.org/Doctors_Education_Rate.xsd" xmlns:mstns="http://tempuri.org/Doctors_Education_Rate.xsd" xmlns="http://tempuri.org/Doctors_Education_Rate.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="Doctors_Education_Rate" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_UserDSName="Doctors_Education_Rate" msprop:Generator_DataSetName="Doctors_Education_Rate" msprop:EnableTableAdapterManager="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="Doctors_Education_Rate.xsd" msprop:Generator_UserTableName="Doctors_Education_Rate.xsd" msprop:Generator_RowDeletedName="_Doctors_Education_Rate_xsdRowDeleted" msprop:Generator_RowChangedName="_Doctors_Education_Rate_xsdRowChanged" msprop:Generator_RowClassName="_Doctors_Education_Rate_xsdRow" msprop:Generator_RowChangingName="_Doctors_Education_Rate_xsdRowChanging" msprop:Generator_RowEvArgName="_Doctors_Education_Rate_xsdRowChangeEvent" msprop:Generator_RowEvHandlerName="_Doctors_Education_Rate_xsdRowChangeEventHandler" msprop:Generator_TableClassName="_Doctors_Education_Rate_xsdDataTable" msprop:Generator_TableVarName="_tableDoctors_Education_Rate_xsd" msprop:Generator_RowDeletingName="_Doctors_Education_Rate_xsdRowDeleting" msprop:Generator_TablePropName="_Doctors_Education_Rate_xsd">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="School_Name" msprop:Generator_UserColumnName="School_Name" msprop:Generator_ColumnVarNameInTable="columnSchool_Name" msprop:Generator_ColumnPropNameInRow="School_Name" msprop:Generator_ColumnPropNameInTable="School_NameColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Doctors_Quantity" msprop:Generator_UserColumnName="Doctors_Quantity" msprop:Generator_ColumnVarNameInTable="columnDoctors_Quantity" msprop:Generator_ColumnPropNameInRow="Doctors_Quantity" msprop:Generator_ColumnPropNameInTable="Doctors_QuantityColumn" type="xs:int" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

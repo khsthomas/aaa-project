@@ -1,0 +1,293 @@
+﻿<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{B2A99D00-9674-4982-962F-4F5240AD7BB3}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>APPGISMS</RootNamespace>
+    <AssemblyName>APPGISMS</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AjaxControlToolkit, Version=3.0.20229.20843, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\AjaxControlToolkit-Framework3.5\SampleWebSite\Bin\AjaxControlToolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="CKEditor.NET, Version=3.6.4.0, Culture=neutral, PublicKeyToken=e379cdf2f8354999, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Users\Administrator\Desktop\GIS更新\Activity_Update\CKEditor.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="CKFinder, Version=2.3.0.2394, Culture=neutral, PublicKeyToken=579e7adc719a1423, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Users\Administrator\Desktop\GIS更新\Activity_Update\CKFinder.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" />
+    <Reference Include="CrystalDecisions.Enterprise.Framework, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" />
+    <Reference Include="CrystalDecisions.Enterprise.InfoStore, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" />
+    <Reference Include="CrystalDecisions.ReportSource, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" />
+    <Reference Include="CrystalDecisions.Shared, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" />
+    <Reference Include="CrystalDecisions.Web, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web.Extensions, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web.Extensions.Design, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Web.Mobile" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="JavaScript\MainScript.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="JavaScript\MapScript.js" />
+    <Content Include="JavaScript\MainActionScript.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="JavaScript\MainMenuGlobalVaribale.js" />
+    <Content Include="JavaScript\MainMenuScript.js" />
+    <Content Include="ManageTool\Hospital_Repeat.aspx" />
+    <Content Include="Report\Distribute_Map.aspx" />
+    <Content Include="UserControl\Announcement.ascx" />
+    <Content Include="UserControl\Hospital_Detail.ascx" />
+    <Content Include="Web.config" />
+    <Content Include="WebServices\GetPositionService.asmx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DataSate\Doctors_Education_Rate1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Doctors_Education_Rate.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="DataSate\Regist_Statistics.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Regist_Statistics.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="DialogControl\Activity_Info_Dialog.ascx.cs">
+      <DependentUpon>Activity_Info_Dialog.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DialogControl\Activity_Info_Dialog.ascx.designer.cs">
+      <DependentUpon>Activity_Info_Dialog.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="DialogControl\Address_Info_Dialog.ascx.cs">
+      <DependentUpon>Address_Info_Dialog.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DialogControl\Address_Info_Dialog.ascx.designer.cs">
+      <DependentUpon>Address_Info_Dialog.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="DialogControl\Dialog.ascx.cs">
+      <DependentUpon>Dialog.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DialogControl\Dialog.ascx.designer.cs">
+      <DependentUpon>Dialog.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="EmailControl.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="CommonClass\CommonEnum.cs" />
+    <Compile Include="CommonClass\CommonMethod.cs" />
+    <Compile Include="CommonClass\LimitValidator.cs" />
+    <Compile Include="MapControlLibrary.cs" />
+    <Compile Include="ManageTool\Hospital_Repeat.aspx.cs">
+      <DependentUpon>Hospital_Repeat.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ManageTool\Hospital_Repeat.aspx.designer.cs">
+      <DependentUpon>Hospital_Repeat.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Report\Distribute_Map.aspx.cs">
+      <DependentUpon>Distribute_Map.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Report\Distribute_Map.aspx.designer.cs">
+      <DependentUpon>Distribute_Map.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl\Activity_List.ascx.cs">
+      <DependentUpon>Activity_List.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UserControl\Activity_List.ascx.designer.cs">
+      <DependentUpon>Activity_List.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl\Announcement.ascx.cs">
+      <DependentUpon>Announcement.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UserControl\Announcement.ascx.designer.cs">
+      <DependentUpon>Announcement.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl\Hospital_Detail.ascx.cs">
+      <DependentUpon>Hospital_Detail.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UserControl\Hospital_Detail.ascx.designer.cs">
+      <DependentUpon>Hospital_Detail.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl\Activ_Announce.ascx.cs">
+      <DependentUpon>Activ_Announce.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UserControl\Activ_Announce.ascx.designer.cs">
+      <DependentUpon>Activ_Announce.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="WebServices\GetPositionService.asmx.cs">
+      <DependentUpon>GetPositionService.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\INFOSERVICE\INFOSERVICE.csproj">
+      <Project>{695AEA39-A7CA-4280-B28E-D871CF5FBCB8}</Project>
+      <Name>INFOSERVICE</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MapControl\MapControl.csproj">
+      <Project>{EBD82E18-A844-4A68-9266-9ED708AAEEE1}</Project>
+      <Name>MapControl</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DataSate\Doctors_Education_Rate.xsc">
+      <DependentUpon>Doctors_Education_Rate.xsd</DependentUpon>
+    </None>
+    <None Include="DataSate\Doctors_Education_Rate.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>Doctors_Education_Rate1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="DataSate\Doctors_Education_Rate.xss">
+      <DependentUpon>Doctors_Education_Rate.xsd</DependentUpon>
+    </None>
+    <None Include="DataSate\Doctors_Statistics_Yearly.xsc">
+      <DependentUpon>Doctors_Statistics_Yearly.xsd</DependentUpon>
+    </None>
+    <None Include="DataSate\Doctors_Statistics_Yearly.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="DataSate\Doctors_Statistics_Yearly.xss">
+      <DependentUpon>Doctors_Statistics_Yearly.xsd</DependentUpon>
+    </None>
+    <None Include="DataSate\Membership_Trans_Dtl.xsc">
+      <DependentUpon>Membership_Trans_Dtl.xsd</DependentUpon>
+    </None>
+    <None Include="DataSate\Membership_Trans_Dtl.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="DataSate\Membership_Trans_Dtl.xss">
+      <DependentUpon>Membership_Trans_Dtl.xsd</DependentUpon>
+    </None>
+    <None Include="DataSate\Membership_Trans_Statistics.xsc">
+      <DependentUpon>Membership_Trans_Statistics.xsd</DependentUpon>
+    </None>
+    <None Include="DataSate\Membership_Trans_Statistics.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="DataSate\Membership_Trans_Statistics.xss">
+      <DependentUpon>Membership_Trans_Statistics.xsd</DependentUpon>
+    </None>
+    <None Include="DataSate\Regist_Statistics.xsc">
+      <DependentUpon>Regist_Statistics.xsd</DependentUpon>
+    </None>
+    <None Include="DataSate\Regist_Statistics.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>Regist_Statistics.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="DataSate\Regist_Statistics.xss">
+      <DependentUpon>Regist_Statistics.xsd</DependentUpon>
+    </None>
+    <Content Include="DialogControl\Activity_Info_Dialog.ascx" />
+    <Content Include="DialogControl\Address_Info_Dialog.ascx" />
+    <Content Include="DialogControl\Dialog.ascx" />
+    <Content Include="Global.asax" />
+    <Content Include="JavaScript\jquery-1.4.2.min.js" />
+    <Content Include="Style\DataListStyle.css" />
+    <Content Include="Style\DetailsViewStyle.css" />
+    <Content Include="Style\DialogStyle.css" />
+    <Content Include="Style\GridViewStyle.css" />
+    <Content Include="Style\LeftRightLoyout.css" />
+    <Content Include="Style\NewCustomerAjax.css" />
+    <Content Include="Style\Newtable_style.css" />
+    <Content Include="Style\New_template_style.css" />
+    <Content Include="Style\SubPageStyle.css" />
+    <Content Include="Style\TopBottomLoyout.css" />
+    <Content Include="Style\UserGridViewStyle.css" />
+    <Content Include="UserControl\Activity_List.ascx" />
+    <Content Include="UserControl\Activ_Announce.ascx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{967B4E0D-AD0C-4609-AB67-0FA40C0206D8}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Upload_File\Distribute_Map\" />
+    <Folder Include="Upload_File\Light_Map\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v9.0\WebApplications\Microsoft.WebApplication.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>60867</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>
+          </IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

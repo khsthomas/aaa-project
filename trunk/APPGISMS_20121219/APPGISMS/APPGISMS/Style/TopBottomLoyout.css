@@ -1,0 +1,111 @@
+﻿/* 標題 */
+.div_top_bottom .sp_title
+{
+	margin: -1px 0;
+	padding: 5px 0;
+    background-color: #7B9623;
+    color: White;
+    font-size: 13px;
+	font-weight: bold;
+	text-align: center;
+	width: 100%;
+	display: block;
+}
+
+/* 頁面主體 */
+.div_top_bottom
+{
+    margin: 6px 14px 0 10px;
+    width: 816px;
+    clear: both;
+    font-size:13px;
+   
+}
+
+.div_top_bottom_tab
+{
+    margin-top: 10px;
+    padding: 0px 5px;
+    clear: both;
+}
+
+.div_top_bottom .br_spance
+{
+   border-right:solid 2px #7B9623; 
+   border-left:solid 2px #7B9623; 
+   height:14px;
+   line-height:14px;
+}
+
+/* 輸入介面 */
+.div_top_bottom .tab_form
+{
+    font-size:13px;
+    border-collapse: collapse;
+    width: 816px;
+    border:solid 2px #7B9623;
+}
+
+.div_top_bottom_tab .tab_form
+{
+    border-collapse: collapse;
+	width: 525px;
+}
+
+.div_top_bottom .tab_form caption {
+	text-align:center;
+	color: White; 
+    background-color: #7B9623;
+	font-weight: bold;
+	font-size: 13px;
+	height: 26px;
+	line-height: 26px;	
+}
+
+.div_top_bottom .tab_form th
+{
+    line-height: 25px;  
+	border:solid 0px #7B9623;
+}
+
+.div_top_bottom .tab_form tr
+{
+    line-height: 22px;  
+    border:solid 1px #7B9623;  
+	padding: 5px 4px 5px 4px; 
+}
+
+.div_top_bottom .tab_form tr .noline
+{
+    line-height: 26px; 
+    height:26px;  
+    border:solid 0px #7B9623;  
+	padding: 5px 4px 5px 4px; 
+}
+
+.div_top_bottom .tab_form td .import
+{
+    color:Red;
+    padding:0 5px 0 3px; 
+}
+
+.div_top_bottom .tab_form .td_header,
+.div_top_bottom_tab .tab_form .td_header
+{
+    text-align: center;
+    padding-top: 3px;
+    height: 25px;
+}
+
+.div_top_bottom .tab_form .td_control, .div_top_bottom_tab .tab_form .td_control { padding-left: 5px; }
+.div_top_bottom .tab_form .td_header_2c, .div_top_bottom_tab .tab_form .td_header_2c { width: 18%; }
+
+.div_top_bottom .tab_form .td_control_2c, .div_top_bottom_tab .tab_form .td_control_2c {
+}
+
+.div_top_bottom .tab_form .tab_form tr td .tr_boreder { border:solid 1px #7B9623; }
+.div_top_bottom .tab_form .td_header_3c { width: 13%; }
+.div_top_bottom .tab_form .td_header_title { width: 13%; background:#F0F4EC;} /*background:#F0F4EC*/
+.div_top_bottom .tab_form .td_header_2c_title { width: 18%; background:#F0F4EC;} /*background:#F0F4EC*/
+.div_top_bottom .tab_form .td_header_2c_Actitle { width: 6%; background:#F0F4EC;} /*background:#F0F4EC*/
+.div_top_bottom .tab_form .td_control_3c { width: 20%; }

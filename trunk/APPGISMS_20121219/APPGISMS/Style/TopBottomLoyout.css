@@ -1,0 +1,60 @@
+﻿/* 標題 */
+.div_top_bottom .sp_title
+{
+	margin: 0px -1px;
+	padding: 5px 0px;
+	border-top: solid 1px #CCC;
+	border-left: solid 1px #CCC;
+	border-right: solid 1px #CCC;
+    background-color: #990000;
+    color: White;
+    font-size: 12pt;
+	font-weight: bold;
+	text-align: center;
+	width: 100%;
+	display: block;
+}
+
+/* 頁面主體 */
+.div_top_bottom
+{
+    margin-top: 10px;
+    padding: 0px 5px;
+    width: 90%;
+    clear: both;
+}
+.div_top_bottom_tab
+{
+    margin-top: 10px;
+    padding: 0px 5px;
+    clear: both;
+}
+
+/* 輸入介面 */
+.div_top_bottom .tab_form
+{
+    font-size: 11pt;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.div_top_bottom_tab .tab_form
+{
+    font-size: 11pt;
+    border-collapse: collapse;
+	width: 525px;
+}
+
+.div_top_bottom .tab_form .td_header,
+.div_top_bottom_tab .tab_form .td_header
+{
+    text-align: center;
+    padding-top: 3px;
+    height: 25px;
+}
+.div_top_bottom .tab_form .td_control, .div_top_bottom_tab .tab_form .td_control { padding-left: 5px; }
+.div_top_bottom .tab_form .td_header_2c, .div_top_bottom_tab .tab_form .td_header_2c { width: 20%; }
+.div_top_bottom .tab_form .td_control_2c, .div_top_bottom_tab .tab_form .td_control_2c { width: 30%; }
+
+.div_top_bottom .tab_form .td_header_3c { width: 13%; }
+.div_top_bottom .tab_form .td_control_3c { width: 20%; }

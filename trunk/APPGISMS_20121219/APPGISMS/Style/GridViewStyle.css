@@ -1,0 +1,49 @@
+﻿.GridViewStyle
+{
+	font-size: 11pt;
+	color: #333;
+}
+
+.GridViewHeaderStyle
+{
+	background: #900;
+	font-weight: bold;
+	color: White;
+}
+
+.GridViewRowStyle
+{
+	background: #FFFBD6;
+	color: #333;
+}
+
+.GridViewAlternatingRowStyle
+{
+	background: #FFF;
+}
+
+.GridViewEmptyDataRowStyle
+{
+	border: solid 1px #999;
+	text-align: center;
+}
+
+.GridViewPagerStyle
+{
+	background: #FC6;
+	color: #333;
+}
+
+.GridViewSelectedRowStyle
+{
+	background: #FC6;
+	font-weight: bold;
+	color: Navy;
+}
+
+.GridViewFooterStyle
+{
+	background: #900;
+	font-weight: bold;
+	color: White;
+}

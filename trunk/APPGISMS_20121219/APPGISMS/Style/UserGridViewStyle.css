@@ -1,0 +1,54 @@
+﻿/* 標題 */
+.GridViewTitleStyle
+{
+	margin: 0px auto;
+	padding: 5px 0px;
+    background: #900;
+    color: White;
+	font-weight: bold;
+	font-size: 12pt;
+	height: 20px;
+	line-height: 20px;
+	text-align: center;
+	width: 95%;
+}
+
+/* 主體 */
+.GridViewStyle
+{
+	font-size: 10pt;
+	color: #333;
+}
+
+/* 表頭, 表尾 */
+.GridViewHeaderStyle,
+.GridViewFooterStyle
+{
+	background: #900;
+	font-weight: bold;
+	color: White;
+	height: 20px;
+	line-height: 20px;
+}
+/* 資料列 */
+.GridViewRowStyle { background: #FFFBD6; }
+/* 偶數資料列 */
+.GridViewAlternatingRowStyle { background: #FFF; }
+
+/* 空資料 */
+.GridViewEmptyDataRowStyle
+{
+	border: solid 1px #999;
+	text-align: center;
+}
+
+/* 分頁列 */
+.GridViewPagerStyle { background: #FC6; }
+
+/* 選取列 */
+.GridViewSelectedRowStyle
+{
+	background: #FC6;
+	font-weight: bold;
+	color: Navy;
+}

@@ -1,0 +1,40 @@
+﻿/* 頁面主體 */
+.div_left_right
+{
+    /*border: 1px solid red;*/
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 0px;
+    float:left;
+}
+.div_left { margin-left: 40px;}
+.div_right {margin-left: 40px;}
+
+.div_left_right .tab_form
+{
+    font-size: 11pt;
+    border-collapse: collapse;
+    width: 100%;
+}
+.div_left_right .tab_form th
+{
+    background: #900;
+    color: White;
+	font-weight: bold;
+	line-height: 25px;
+	height: 25px;
+	text-align: center;
+}
+.div_left_right .tab_form td
+{
+	line-height: 25px;
+	height: 25px;
+}
+.div_left_right .tab_form .td_header
+{
+	background: #FFEAB4;
+    text-align: center;
+    width: 150px;
+}
+.div_left_right .tab_form .td_control { padding-left: 5px; }
+.div_left_right .tab_form .td_control_item { background: #FFFBD6; }
