@@ -1,0 +1,155 @@
+﻿body
+{
+    margin: 0px;
+    padding: 0px;
+}
+
+a:link, a:visited, a:hover, a:active
+{
+    text-decoration: none;
+}
+
+/* 頁面標題 */
+h2
+{
+    font-family: 標楷體;
+    margin: 0px;
+    padding-top: 11px;
+    padding-left: 25px;
+    text-align: left;
+    height: 40px;
+}
+
+/* 頁面訊息 */
+.txtMessage
+{
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 300px;
+    height: 40px;
+}
+
+/* 頁面按鈕 */
+.div_button
+{
+    padding: 5px;
+}
+
+/* 頁面主體 */
+.div_top_bottom
+{
+    margin-top: 10px;
+    padding: 0px 5px;
+    width: 90%;
+    clear: both;
+}
+.div_border{ border: solid 1px #CCC; }
+.div_left_right
+{
+    margin-top: 10px;
+    padding: 0px;
+    float:left;
+    /*overflow: auto;*/
+}
+.div_left
+{
+	margin-left: 10px;
+}
+.div_right
+{
+	margin-left: 20px;
+}
+
+/* 頁籤內主體 */
+.div_top_bottom_tab
+{
+    margin: 10px 5px;
+    width: 95%;
+}
+.div_move
+{
+    padding: 0px;
+    float:left;
+}
+.div_move_left_right
+{
+	width: 440px;
+	height: 300px;
+}
+.div_move_button
+{
+	text-align: center;
+	padding-top: 110px;
+	width: 40px;
+	height: 190px;
+}
+
+/* 輸入介面 */
+.tab_form
+{
+    font-size: 11pt;
+    border-collapse: collapse;
+    width: 100%;
+}
+.tab_form .td_header
+{
+    text-align: center;
+    padding-top: 3px;
+    height: 25px;
+    width: 150px;
+}
+.tab_form .td_control { padding-left: 5px; }
+.tab_form .td_header_2c { width: 20%; }
+.tab_form .td_control_2c { width: 30%; }
+
+/* GridView標題 */
+.sp_title
+{
+	margin: 0px -1px;
+	padding: 5px 0px;
+	border-top: solid 1px #CCC;
+	border-left: solid 1px #CCC;
+	border-right: solid 1px #CCC;
+	font-weight: bold;
+	text-align: center;
+	width: 100%;
+	display: block;
+}
+
+/* 區塊 */
+fieldset
+{
+	margin: 5px;
+	padding: 0px 15px 10px 15px;
+	border: solid 1px #CCC;
+	width: 97%;
+}
+
+/*表單按鈕*/
+.div_button_form
+{
+    text-align: center;
+    width: 80%;
+    height: 30px;
+}
+.tab_button_form
+{
+    margin: 0px auto;
+    border-collapse: collapse;
+    font-size: 10pt;
+    width: 500px;
+}
+.td_button_header
+{
+	width:100px;
+	text-align: right;
+}
+.td_button_content { text-align: left; }
+
+/* 必填/必選 */
+.lbMustMessage
+{
+	font-size: 10pt;
+	color: Red;
+}

@@ -1,0 +1,414 @@
+﻿
+body
+{
+   margin: 0px;
+   padding: 0px;
+   font-family: Arial,Verdana, Helvetica, sans-serif,Georgia;
+   font-size:13px;
+   line-height:16px;
+   color:#666;
+   overflow-x: hidden;
+   overflow-y: auto; 
+}
+
+ a
+ {
+   color:#666;text-decoration:none;
+ }
+  
+ a:hover
+ {
+   color:#FE5302;text-decoration:none;
+ }
+    
+    /*http://css-tricks.com/examples/hrs/     */
+/* Gradient transparent - color - transparent */
+		
+hr {
+    border: 0;
+    height: 1px;
+    width:810px;
+    background-position:center;
+    background: #333;
+    background-image: -webkit-linear-gradient(left, #ccc, #333, #ccc); 
+    background-image:    -moz-linear-gradient(left, #ccc, #333, #ccc); 
+    background-image:     -ms-linear-gradient(left, #ccc, #333, #ccc); 
+    background-image:      -o-linear-gradient(left, #ccc, #333, #ccc);   
+    /*background-image: -webkit-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0)); 
+    background-image:    -moz-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0)); 
+    background-image:     -ms-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0)); 
+    background-image:      -o-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0)); */
+}
+
+/* 頁面標題 */
+h2
+{
+    margin: 0px;
+    padding-top: 3px;
+    text-align: left;
+    height: 40px;
+    padding-left:18px;
+    font-size:16px;
+    font-weight:bolder;        
+    line-height :40px; 
+    color : #7B9623;
+    float:left;      
+}
+
+/* 頁面訊息 */
+.txtMessage
+{
+    margin-top:4px;    
+    float:right;
+    width: 320px;
+    height: 42px;
+    margin-right:30px; 
+    margin-bottom:5px;    
+}
+
+/* 頁面按鈕 */
+.div_button
+{  
+    clear:both;
+    padding: 15px 0px 5px 5px;
+    margin-right :25px;
+    float:right;
+    /*position:absolute*/
+    /*若指定float的位置, 則建議用相對*/
+    /*position:relative*/
+}
+
+/* 必要欄位訊息 */
+.lbMustMessage
+{
+	font-size: 10pt;
+	color: Red;
+}
+
+
+ /*頁籤標題 */   
+.slidetabsmenu {
+float:left;
+width:820px;
+font-size:13px;
+line-height:normal;
+line-height:22px;
+margin:0px;
+}
+
+* html .slidetabsmenu{ /*IE only. Add 1em spacing between menu and rest of content*/
+margin-bottom: 1em;
+}
+
+.slidetabsmenu ul
+{
+ font-family: verdana,tahoma,helvetica;   
+list-style-type: none;
+margin:0;
+ padding: 0;
+ letter-spacing:1px; 
+ list-style:none;
+
+}
+
+.slidetabsmenu li{
+display:inline;
+margin:0;
+padding:0;
+}
+
+.slidetabsmenu a {
+float:left;
+background:url(../Images/Index/tab_left.jpg) no-repeat left top;
+margin:0;
+padding:0 0 0 9px;
+text-decoration:none;
+}
+
+.slidetabsmenu a span {
+float:left;
+display:block;
+background:url(../Images/Index/tab_right.jpg) no-repeat right top;
+/*padding:8px 6px 3px 6px;  */
+padding:8px 6px 0px 0px; 
+font-weight:bold;
+margin:0 0 -2px -1px;  
+}
+
+/* Commented Backslash Hack hides rule from IE5-Mac \*/
+.slidetabsmenu a span {float:none;}
+/* End IE5-Mac hack */
+
+.slidetabsmenu a:hover span {
+color :Green;
+}
+
+
+.slidetabsmenu a:hover {
+background:url(../Images/Index/tab_left.jpg) no-repeat left top;
+color :Green;
+}
+
+.slidetabsmenu a:hover span {
+background:url(../Images/Index/tab_right.jpg) no-repeat right top;
+
+}
+
+
+
+/**/
+.MessageBlack
+{
+	padding-left: 10px;
+	font-size: 10pt;
+}
+ .MainPage
+    {
+        float:left;
+        padding-bottom:0px;
+        width:850px;
+        background-color:#FFF;
+    }
+    
+/*查詢條件區塊*/
+    .QueryBlack 
+    {
+        float:left;
+        width:850px;        
+        /*background-image:url('../Images/Index/selectbg.jpg');*/
+        background-color:#8eb639; 
+        height:41px;    
+        line-height :41px;
+        font-family:Arial;     
+        margin-top:1px;        
+    
+     }
+    
+     /*查詢-功能標題*/
+    .QueryBlack .spantitle
+    {
+       padding-left:28px;
+       padding-right:70px;       
+       font-size:16px;
+       font-weight:bolder;        
+       line-height :41px;
+       color:White;
+       
+    }
+    
+    
+     /*查詢-功能查詢之間的間距*/
+    .QueryBlack .spanblack
+    {
+       padding:0 6px 0 6px;
+    } 
+    
+    /*查詢-功能查詢之間的間距*/
+     .QueryBlack .spanblackS
+    {
+       padding:0 10px 0 10px;
+    } 
+    
+    /*查詢的結果區塊*/
+    .QueryResult
+    {
+        float:left;
+        width:422px;
+    }     
+         
+    /*查詢清單區塊*/
+    /*依權限呈現可查詢功能*/  
+     .QueryList_P
+    {
+        float:left;
+        padding:15px 3px 0 3px;
+        width:414px;
+    }  
+    
+    /*依查詢呈現畫面*/     
+    .QueryList_C
+    {
+        margin:15px 0 0 6px;
+        float:left;
+        width:388px;
+        border:solid 2px #7B9623;
+    }
+    
+  /* .line
+   {  
+       border-bottom:1px solid gray;
+       margin-top:14px;      
+   }*/
+     
+     
+    /*依查詢的結果_標題*/
+    .ResultTitle
+    {
+        padding:8px 0 6px 11px;
+        font-family:微軟正黑體, Terminal;
+        font-size:14px;
+        background-color:#7B9623;
+        color:#FFF;
+        font-weight:bold;        
+    }
+    /*依查詢的結果_Item標題*/
+    .Result_itemTitle /*ha3a*/
+    {
+        padding:10px 0 0 18px;
+        font-size:14px;
+        background-color:#F0F4EC;
+        height:22px;
+        color:#666;
+    }
+    
+    /*依查詢的結果_ItemList*/    
+    .Result_itemList  /*w3a*/
+    {
+        padding:10px 0 0 18px;
+        font-size:13px;
+        line-height:18px;      
+    }
+    
+    /*地圖區塊*/
+    .MapBlack
+    {
+        float:right;
+        margin-top:15px;
+        width:424px;
+        height:600px; 
+     }
+   
+
+/*地圖控制*/
+.MapControl
+{
+	clear:both; 
+	position: absolute;
+	top: 16%;
+	left: 432px;
+}
+
+
+
+/* 文件浮水印 */
+.WaterMaskStyle
+{
+	padding-left: 5px;
+	color: #999;
+	border: solid 1px black;
+}
+
+
+/*會員註冊*/
+    .direction
+    {
+        padding: 0 6px; 
+        width:626px;
+        letter-spacing:1px; 
+        color:#0099CC; 
+        font-size :13px;       
+    }
+    
+     .direction p
+     {
+         padding-left:6px;
+         padding-top:0px;
+         font-weight:normal;
+      }
+      
+     .direction h1
+     {
+        background-color:Transparent;
+        font-family: 微軟正黑體, 標楷體, Georgia, "Times New Roman", Times, serif;
+        font-size:140%;
+        font-weight:bolder; 
+        letter-spacing:3px;
+        color:#0099CC; 
+        padding-left:6px;
+         margin-bottom:12px; 
+     }
+     
+     .direction h3
+     {
+       font-size:140%; 
+       font-weight:bolder; 
+       font-family: 微軟正黑體, 標楷體, Georgia, "Times New Roman", Times, serif;
+       background-color:Transparent;
+       padding: 0 6px; 
+       margin-top:15px;
+       margin-bottom:15px; 
+       text-align:center;
+       letter-spacing:5px;         
+     }
+     
+     /*文件-細項說明*/
+      .direction .condition
+     { 
+       padding:0;
+       font-size:13px;
+       color:#666;
+     }
+     
+     .direction .condition p
+     {
+        margin:0px;
+         padding-left:30px;
+         padding-bottom:8px;
+         font-weight:normal; 
+             
+      }
+     
+     .direction ul
+     { 
+       font-weight:normal; 
+       padding-left:5px;
+       padding-bottom:6px;
+       margin:0px;
+       list-style:none;
+     }
+     
+     .direction li
+     {padding:0px; margin:0px; padding-left:27px;}
+     
+     .directiont  ul.style, #direction li.style{padding-left:39px; text-indent:39px;} 
+     .directiont ul.style1, #direction li.style1{padding-left:59px; text-indent:59px;} 
+
+ /*會員註冊表單*/
+.datatable {	
+	border:1px solid #004fa2;
+	margin:0px auto 20px auto;
+	background: #fff;	
+	border-collapse: collapse;
+	font: 13px Arial, Verdana, Helvetica,sans-serif;
+	text-align:center;	
+}
+
+.datatable1 caption {
+	font: bold 14px Arial, Verdana, Helvetica, Times, sans-serif;
+	text-align:center;
+	background-color: #fff;
+	color: #004fa2;
+	padding-top: 12px;
+	padding-bottom: 1px;
+	padding-left:29px;
+}
+.datatable1 th {
+	padding:5px 5px 5px 5px;
+	color: #004fa2;
+	text-align:center;
+	border:2px solid #7B9623;
+	background-color:#dddbdb;
+	font: bold 14px Arial, Verdana, Helvetica,sans-serif;
+	text-transform: uppercase;	
+}
+.datatable1 th.nobg{color: #000;background-color:#FFFFFF; font: bold 14px Arial, Verdana, Helvetica,sans-serif; vertical-align:middle;border:1px solid #004fa2;}
+.datatable1 td{color:#000;text-align:center; vertical-align:middle;padding:0;border:1px solid #7B9623;}
+.datatable1 td.noline{color:#000;text-align:center; vertical-align:middle;padding:0 5px 0 5px;border:1px solid #fff;}
+.datatable1 td.left{text-align:left; vertical-align:top;border:1px solid #7B9623;padding:0 5px 0 3px;}
+.datatable1 td.middle{text-align:left; vertical-align:middle;border:1px solid #7B9623;padding:0 5px 0 3px;}
+.datatable1 tr.altrow {
+	background-color: #DFE7F2;
+	color: #000000;
+}
+.datatable1 th.altrow{color: #000;background-color:#DFE7F2; font: bold 14px Arial, Verdana, Helvetica,sans-serif; vertical-align:middle;border:1px solid #004fa2;}
+

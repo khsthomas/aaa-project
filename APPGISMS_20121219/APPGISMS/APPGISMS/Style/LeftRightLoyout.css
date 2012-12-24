@@ -1,0 +1,61 @@
+﻿
+.div_left_right
+{
+     
+}
+/* 頁面主體 */
+.div_left_right .left
+{
+    float:left;
+    width:426px;
+    padding:0;
+    margin :0; 
+}
+
+.div_left_right .right
+ {
+     float:right;
+     width:374px;     
+     margin-right:12px;
+ }       
+        
+.div_left_right .tab_form
+{
+    font-size: 13px;
+    border:solid 2px #7B9623;
+    padding:15px 4px 0 4px;
+    width:392px;
+    border-collapse: collapse;       
+}
+
+.div_left_right .tab_form th
+{
+    color: White;
+	font-weight: bold;
+	line-height: 25px;
+	height: 25px;
+	text-align: center;
+	border:solid 0px #7B9623;
+}
+.div_left_right .tab_form td
+{
+	line-height: 25px;
+	height: 25px;
+}
+.div_left_right .tab_form tr
+{
+   line-height: 25px;  
+	border:solid 1px #7B9623;  
+	/*padding: 8px 5px 4px 5px;*/ 
+}
+
+.div_left_right .tab_form .td_header
+{
+	background:#F0F4EC;
+    text-align: center;
+    width: 150px;
+    padding-top: 3px;
+    height: 25px;
+}
+.div_left_right .tab_form .td_control { padding-left: 5px; }
+.div_left_right .tab_form .td_control_item { background: #FFFBD6; }

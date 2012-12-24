@@ -1,0 +1,113 @@
+﻿/* 彈跳視窗背景 */
+.DialogWindow { background-color: #FFEAB4; }
+
+/* 彈跳視窗標題 */
+.DialogTitle
+{
+	padding: 6px 0px 0px 15px;
+	font-family: 標楷體;
+	font-weight: bold;
+	height: 20px;
+	font-size: 14pt;
+}
+
+/* 彈跳視窗內容 */
+.DialogContent
+{
+	margin: 10px 10px;
+}
+.DialogContent hr { margin-top: 0px; }
+
+/* 彈跳視窗左邊內容 */
+.DialogLeft
+{
+	float: left;
+	margin-right: 5px;
+	background-color: White;
+}
+
+/* 彈跳視窗左邊樹狀結構 */
+.DialogTree
+{
+	padding: 10px;
+	border: solid 1px #999;
+}
+
+/* 彈跳視窗中間內容 */
+.DialogMiddle
+{
+	float: left;
+	position: relative;
+	top: 144px;
+}
+
+/* 彈跳視窗右邊內容 */
+.DialogRight
+{
+	float: left;
+	margin-left: 5px;
+	background-color: White;
+}
+
+/* 彈跳視窗按鈕 */
+.DialogButton
+{
+	text-align: center;
+	clear: both;
+}
+
+/* 彈跳查詢輸入區塊 */
+.DialogSearch
+{
+	padding: 5px 10px;
+	font-size: 10pt;
+	border: soild 1px black;
+}
+
+/* 彈跳查詢資料區塊 */
+.DialogData
+{
+	background-color: #FFEAB4;
+}
+
+/* 文字浮水印 */
+.WaterMaskStyle
+{
+	padding-left: 5px;
+	color: #999;
+	border: solid 1px black;
+}
+
+/* 背景設定 */
+.DialogBackGround
+{
+	background: #DDD;
+	filter: alpha(Opacity=60);
+}
+
+/* 內容標題區 */
+.div_title
+{
+    padding-top: 3px;
+    border-top: solid 1px #CCC;
+    border-left: solid 1px #CCC;
+    border-right: solid 1px #888;
+    background-color: #990000;
+    font-weight: bold;
+    color: White;
+    text-align: center;
+    height: 22px;
+}
+
+/* 右邊清單初始狀態 */
+.pan_Init
+{
+    padding-top: 5px;
+    border-top: solid 1px #CCC;
+    border-left: solid 1px #CCC;
+    border-bottom: solid 1px #888;
+    border-right: solid 1px #888;
+    font-size: 10pt;
+    text-align: center;
+    height: 20px;
+}

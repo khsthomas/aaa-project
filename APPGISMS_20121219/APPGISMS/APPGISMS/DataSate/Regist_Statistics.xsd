@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="Regist_Statistics" targetNamespace="http://tempuri.org/Regist_Statistics.xsd" xmlns:mstns="http://tempuri.org/Regist_Statistics.xsd" xmlns="http://tempuri.org/Regist_Statistics.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="Regist_Statistics" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_UserDSName="Regist_Statistics" msprop:Generator_DataSetName="Regist_Statistics" msprop:EnableTableAdapterManager="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="FUN_REGIS_REPORT" msprop:Generator_UserTableName="FUN_REGIS_REPORT" msprop:Generator_RowDeletedName="FUN_REGIS_REPORTRowDeleted" msprop:Generator_RowChangedName="FUN_REGIS_REPORTRowChanged" msprop:Generator_RowClassName="FUN_REGIS_REPORTRow" msprop:Generator_RowChangingName="FUN_REGIS_REPORTRowChanging" msprop:Generator_RowEvArgName="FUN_REGIS_REPORTRowChangeEvent" msprop:Generator_RowEvHandlerName="FUN_REGIS_REPORTRowChangeEventHandler" msprop:Generator_TableClassName="FUN_REGIS_REPORTDataTable" msprop:Generator_TableVarName="tableFUN_REGIS_REPORT" msprop:Generator_RowDeletingName="FUN_REGIS_REPORTRowDeleting" msprop:Generator_TablePropName="FUN_REGIS_REPORT">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="DATA_TYPE" msprop:Generator_UserColumnName="DATA_TYPE" msprop:Generator_ColumnPropNameInRow="DATA_TYPE" msprop:Generator_ColumnVarNameInTable="columnDATA_TYPE" msprop:Generator_ColumnPropNameInTable="DATA_TYPEColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="DOCTOR_NUM" msprop:Generator_UserColumnName="DOCTOR_NUM" msprop:Generator_ColumnPropNameInRow="DOCTOR_NUM" msprop:Generator_ColumnVarNameInTable="columnDOCTOR_NUM" msprop:Generator_ColumnPropNameInTable="DOCTOR_NUMColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="ASS_NAME" msdata:AutoIncrementSeed="2" msprop:Generator_UserColumnName="ASS_NAME" msprop:Generator_ColumnPropNameInRow="ASS_NAME" msprop:Generator_ColumnVarNameInTable="columnASS_NAME" msprop:Generator_ColumnPropNameInTable="ASS_NAMEColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="ASS_REGIS_NUM" msdata:AutoIncrementSeed="2" msprop:Generator_UserColumnName="ASS_REGIS_NUM" msprop:Generator_ColumnPropNameInRow="ASS_REGIS_NUM" msprop:Generator_ColumnVarNameInTable="columnASS_REGIS_NUM" msprop:Generator_ColumnPropNameInTable="ASS_REGIS_NUMColumn" type="xs:int" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
