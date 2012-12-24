@@ -343,5 +343,15 @@ namespace AAA.ProgramTrade
             }
             MdiFormUtil.AddChild(this, new DailyReportForm(), false);
         }
+
+        private void futuresAPIMenu_Click(object sender, EventArgs e)
+        {
+            if (AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.AUTO_TRADE_PROGRAM] == null)
+            {
+                MessageBox.Show("請先登入系統, 謝謝!!");
+                return;
+            }
+            MdiFormUtil.AddChild(this, new APIFuturesForm(), false);
+        }
     }
 }
