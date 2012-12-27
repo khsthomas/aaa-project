@@ -7,25 +7,17 @@ namespace AAA.TradeAPI.Polaris
 {
     public class PolarisStructure
     {
-        private const string INVENTORY_RETUTN_CODE = "";
-        private static string[] INVENTORY_OUTPUT_PARENT_TYPE = { "int" };
-        private static int[] INVENTORY_OUTPUT_PARENT_LEN = { 4 };
-        private static string[] INVENTORY_OUTPUT_PARENT_NAME = { "RecordCount" };
-
-        private static string[] INVENTORY_OUTPUT_CHILDREN_TYPE = { "string", "string", "string", "string", "int", "long", "string", "string", "int", "int", "string", "string", "int", "int", "int", "int", "string", "string", "string", "string", "string", "string", "byte", "string", "byte", "string", "byte", "string", "byte", "string" };
-        private static int[] INVENTORY_OUTPUT_CHILDREN_LEN = { 22, 1, 20, 1, 4, 8, 6, 1, 4, 4, 6, 1, 4, 4, 4, 4, 3, 1, 1, 1, 1, 1, 1, 12, 1, 12, 1, 12, 1, 12 };
-        private static string[] INVENTORY_OUTPUT_CHILDREN_NAME = { "Account", "Kind", "Trid", "BS", "Qty", "Amount", "CommodityID1", "CallPut1", "SettlementMonth1", "StrikePrice1", "CommodityID2", "CallPut2", "SettlementMonth2", "StrikePrice2", "Fee", "Tax", "CurrencyType", "DayTradeID", "BS1", "BS2", "ProdKind1", "ProdKind2", "MarketNo1", "StockCode1", "MarketNo2", "StockCode2", "BelongMarketNo1", "BelongStockCode1", "BelongMarketNo2", "BelongStockCode2" };
-
         public const int INPUT_PARENT = 0;
         public const int INPUT_CHILDREN = 1;
         public const int OUTPUT_PARENT = 2;
         public const int OUTPUT_CHILDREN = 3;
         public const int OUTPUT_GRAND_CHILDREN = 4;
 
-        protected string _strApiId;
-        protected string _strApiIdHex;
-        protected string _strClientName;
-        protected bool _needWaitTillCompleted = true;
+        private string _strApiId;
+        private string _strApiIdHex;
+        private string _strClientName;
+		private string _strDisplayName;
+        private bool _needWaitTillCompleted = true;
 
         //Input Structure
         private List<string> _lstInputParentType;
@@ -75,21 +67,31 @@ namespace AAA.TradeAPI.Polaris
         public string ApiId
         {
             get { return _strApiId; }
+			protected set { _strApiId = value; }
         }
 
         public string ApiIdHex
         {
             get { return _strApiIdHex; }
+			protected set { _strApiIdHex = value; }
         }
 
         public string ClientName
         {
             get { return _strClientName; }
+			protected set { _strClientName = value; }
         }
 
+		public string DisplayName
+        {
+            get { return _strDisplayName; }
+			protected set { _strDisplayName = value; }
+        }
+		
         public bool NeedWaitToCompleted
         {
             get { return _needWaitTillCompleted; }
+			protected set { _needWaitTillCompleted = value; }
         }
 
         public string[] GetNames(int iType)

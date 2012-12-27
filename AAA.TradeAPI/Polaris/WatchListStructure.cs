@@ -9,10 +9,11 @@ namespace AAA.TradeAPI.Polaris
     {
         public WatchListStructure()
         {
-            _strApiId = "210.10.70.11";
-            _strApiIdHex = "D20A460B";
-            _strClientName = "SBWatchList";
-
+            ApiId = "210.10.70.11";
+            ApiIdHex = "D20A460B";
+            ClientName = "SBWatchList";
+			DisplayName = "WatchList行情資料";
+			
             AddParam(PolarisStructure.INPUT_PARENT, "Count", "int", 4);
             AddParam(PolarisStructure.INPUT_CHILDREN, "Key", "string", 22);
 

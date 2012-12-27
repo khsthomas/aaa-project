@@ -9,9 +9,11 @@ namespace AAA.TradeAPI.Polaris
     {
         public LoginStructure()
         {
-            _strApiId = "0";
-            _strApiIdHex = "0";
-            _strClientName = "Login";
+            ApiId = "0";
+            ApiIdHex = "0";
+            ClientName = "Login";
+			DisplayName = "登入";
+			
             AddParam(PolarisStructure.OUTPUT_PARENT, "MsgCode", "string", 4);
             AddParam(PolarisStructure.OUTPUT_PARENT, "MsgContent", "string", 50);
             AddParam(PolarisStructure.OUTPUT_PARENT, "RecordCount", "int", 4);
