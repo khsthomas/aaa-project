@@ -9,10 +9,11 @@ namespace AAA.TradeAPI.Polaris
     {
         public EquityStructure()
         {
-            _strApiId = "20.104.20.12";
-            _strApiIdHex = "1468140C";
-            _strClientName = "QueryTodayEquity";
-
+            ApiId = "20.104.20.12";
+            ApiIdHex = "1468140C";
+            ClientName = "QueryTodayEquity";
+			DisplayName = "期貨權益查詢";
+			
             AddParam(PolarisStructure.INPUT_PARENT, "AccountInfo", "string", 22);
             AddParam(PolarisStructure.INPUT_PARENT, "CurrencyType", "string", 1);
 
