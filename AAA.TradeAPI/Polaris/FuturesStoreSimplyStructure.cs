@@ -5,9 +5,9 @@ using System.Text;
 
 namespace AAA.TradeAPI.Polaris
 {
-    public class FuturesStoreClassifyStructure : PolarisStructure
+    public class FuturesStoreSimplyStructure : PolarisStructure
     {
-        public FuturesStoreClassifyStructure()
+        public FuturesStoreSimplyStructure()
         {
             ApiId = "20.103.20.15";
             ApiIdHex = "1467140F";

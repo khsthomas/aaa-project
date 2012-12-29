@@ -557,7 +557,7 @@ namespace AAA.TradeAPI.Polaris
                 _messageEvent(_dicReturn);
         }
 
-        public void MessageSend(string strFunctionCode, Dictionary<string, string> dicValue)
+        public void MessageSend(string strFunctionCode, Dictionary<string, object> dicValue)
         {
             try
             {
@@ -568,6 +568,8 @@ namespace AAA.TradeAPI.Polaris
                 string[] strNames;
                 string[] strTypes;
                 int[] iLens;
+                int iRowCount = 0;
+                Dictionary<string, string> dicChildren;
 
                 if ((strNames = polarisStructure.GetNames(PolarisStructure.INPUT_PARENT)) != null)
                 {
@@ -575,7 +577,24 @@ namespace AAA.TradeAPI.Polaris
                     iLens = polarisStructure.GetLens(PolarisStructure.INPUT_PARENT);
 
                     for (int i = 0; i < strNames.Length; i++)
-                        ProcessInput(strTypes[i], iLens[i], dicValue[strNames[i]]);
+                    {
+                        ProcessInput(strTypes[i], iLens[i], (string)dicValue[strNames[i]]);
+                        if(strNames[i] == "Count")
+                            iRowCount = int.Parse((string)dicValue[strNames[i]]);
+                    }
+                }
+
+                if ((strNames = polarisStructure.GetNames(PolarisStructure.INPUT_CHILDREN)) != null)
+                {
+                    strTypes = polarisStructure.GetTypes(PolarisStructure.INPUT_CHILDREN);
+                    iLens = polarisStructure.GetLens(PolarisStructure.INPUT_CHILDREN);
+
+                    for (int i = 0; i < iRowCount; i++)
+                    {
+                        dicChildren = (Dictionary<string, string>)dicValue["Children" + i];
+                        for (int j = 0; j < strNames.Length; j++)
+                            ProcessInput(strTypes[j], iLens[j], (string)dicChildren[strNames[j]]);
+                    }
                 }
 
                 B2BApi.inMsgSend(strFunctionCode, (uint)0, (_accountInfo.AccountType + _accountInfo.AccountNo).Trim(), true);
