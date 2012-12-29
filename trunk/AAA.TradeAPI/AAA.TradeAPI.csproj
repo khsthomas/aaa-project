@@ -48,9 +48,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Polaris\EquityStructure.cs" />
+    <Compile Include="Polaris\FuturesHistoryCoverReportStructure.cs" />
+    <Compile Include="Polaris\FuturesHistoryReportStructure.cs" />
+    <Compile Include="Polaris\FuturesMATReportStructure.cs" />
+    <Compile Include="Polaris\FuturesOrderReportStructure.cs" />
+    <Compile Include="Polaris\FuturesOrderStructure.cs" />
+    <Compile Include="Polaris\FuturesStoreClassifyStructure.cs" />
+    <Compile Include="Polaris\FuturesStoreSimplyStructure.cs" />
+    <Compile Include="Polaris\FuturesTradeReportStructure.cs" />
+    <Compile Include="Polaris\KLineStructure.cs" />
     <Compile Include="Polaris\PolarisBase.cs" />
     <Compile Include="Polaris\LoginStructure.cs" />
     <Compile Include="Polaris\PolarisStructure.cs" />
+    <Compile Include="Polaris\RealReport3Structure.cs" />
+    <Compile Include="Polaris\RealReportMerge3Structure.cs" />
+    <Compile Include="Polaris\StockAverageStructure.cs" />
+    <Compile Include="Polaris\WatchListAllStructure.cs" />
     <Compile Include="Polaris\WatchListStructure.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Polaris\Util.cs" />

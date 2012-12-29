@@ -9,9 +9,9 @@ namespace AAA.TradeAPI.Polaris
     {
         public KLineStructure()
         {
-            _strApiId = "50.0.0.40";
-            _strApiIdHex = "32000028";
-            _strClientName = "QueryKLine";
+            ApiId = "50.0.0.40";
+            ApiIdHex = "32000028";
+            ClientName = "QueryKLine";
 
             AddParam(PolarisStructure.INPUT_PARENT, "KLineKind", "byte", 1);
             AddParam(PolarisStructure.INPUT_PARENT, "CustomValue", "short", 2);
