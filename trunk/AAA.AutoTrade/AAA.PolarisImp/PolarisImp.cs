@@ -21,6 +21,9 @@ namespace AAA.Polaris
         private const int RQRP_RESP = 1;
         private const int SUBSCRIPE_RESP = 2;
 
+        private const int CONNECTED = 1;
+        private const int DISCONNECTED = 2;
+
         private const string INTEGRATE_LOGIN = "0";
         private const string SUB_ACCOUNT_LOGIN = "1";
         private const string INVENTORY = "1467140B";
@@ -443,9 +446,31 @@ namespace AAA.Polaris
                 switch (iMark)
                 {
                     case SYSTEM_RESP: //系統回應
-                        strResult = Convert.ToString(aryValue);
-                        _dicReturn = new Dictionary<string, object>();
-                        _dicReturn.Add("ReturnMessage", strResult);
+                        switch (dwIndex)
+                        {
+                            case CONNECTED:
+                                strResult = Convert.ToString(aryValue);
+                                _dicReturn = new Dictionary<string, object>();
+                                _dicReturn.Add("ReturnMessage", strResult);
+                                _isConnected = true;
+                                System.Timers.Timer timer = new System.Timers.Timer();
+                                timer.Interval = 2000;
+                                timer.Elapsed += new System.Timers.ElapsedEventHandler(timer_Elapsed);
+                                timer.Enabled = true;
+                                timer.Start();
+                                break;
+                            case DISCONNECTED:
+                                _isConnected = false;
+                                if (IsAutoReconnect)
+                                    InitProgram(_accountInfo);
+                                break;
+                            default:
+                                strResult = Convert.ToString(aryValue);
+                                _dicReturn = new Dictionary<string, object>();
+                                _dicReturn.Add("ReturnMessage", strResult);
+                                break;
+                        }
+                        
                         break;
                     case RQRP_RESP: //代表為RQ/RP 所回應的
                         switch (Convert.ToString(dwIndex, 16).ToUpper())
@@ -639,6 +664,14 @@ namespace AAA.Polaris
             }
             if (_messageEvent != null)
                 _messageEvent(_dicReturn);
+        }
+
+        void timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            if (IsAutoReconnect)
+                Login();
+            ((System.Timers.Timer)sender).Stop();
+            ((System.Timers.Timer)sender).Enabled = false;
         }
 
         public override object CA()
@@ -840,9 +873,8 @@ namespace AAA.Polaris
         {
             _accountInfo = accountInfo;
             B2BApi.Open();
-            WaitTillCompleted();
-            Thread.Sleep(1000);
-            _isConnected = (_dicReturn.ContainsKey("ReturnMessage") ? _dicReturn["ReturnMessage"].ToString() == "Is Connected!!" : false);
+            WaitTillCompleted();            
+            //_isConnected = (_dicReturn.ContainsKey("ReturnMessage") ? _dicReturn["ReturnMessage"].ToString() == "Is Connected!!" : false);
             //return _dicReturn["ReturnMessage"];
             //_isConnected = true;
             return _isConnected ? "Success" : "Fail";
