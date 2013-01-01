@@ -11,6 +11,15 @@ namespace AAA.TradeAPI.Polaris
 {
     public class PolarisBase
     {
+        public const string RETURN_MESSAGE = "ReturnMessage";
+        public const string SUCCESS_RETURN_MESSAGE = "Success";
+
+
+        private const int CONNECTED = 1;
+        private const int DISCONNECTED = 2;
+        private const int NOT_LOGIN = 3;
+        private const int NOT_CONNECTED = 5;
+
         private const int SYSTEM_RESP = 0;
         private const int RQRP_RESP = 1;
         private const int SUBSCRIPE_RESP = 2;
@@ -104,6 +113,7 @@ namespace AAA.TradeAPI.Polaris
 
         private event MessageEvent _messageEvent;
 
+        private System.Timers.Timer _timer;
 
         private PolarisB2BAPI.PolaisB2BTrader _objB2BApi;
         private PolarisB2BAPI.IPolaisB2BTraderEvents_OnResponseEventHandler _eventHandle = null;
@@ -115,6 +125,7 @@ namespace AAA.TradeAPI.Polaris
 
         private Dictionary<string, PolarisStructure> _dicStructure;
         private Dictionary<string, string> _dicHexMapping;
+        private int _iMaxWaitCount = 20;
 
         protected AccountInfo _accountInfo;
 
@@ -122,6 +133,8 @@ namespace AAA.TradeAPI.Polaris
         {
             _dicHexMapping = new Dictionary<string, string>();
             _dicStructure = new Dictionary<string, PolarisStructure>();
+            _timer = new System.Timers.Timer();
+            _timer.Elapsed += new System.Timers.ElapsedEventHandler(_timer_Elapsed);
 
             AddMessageStructure(new LoginStructure());
         }
@@ -138,6 +151,18 @@ namespace AAA.TradeAPI.Polaris
                 _dicStructure.Add(messageStructure.ApiId, messageStructure);
                 _dicHexMapping.Add(messageStructure.ApiIdHex, messageStructure.ApiId);
             }
+        }
+
+        public int MaxWaitCount
+        {
+            private get { return _iMaxWaitCount; }
+            set { _iMaxWaitCount = value; }
+        }
+
+        public bool IsConnected
+        {
+            get { return _isConnected; }
+            private set { _isConnected = value; }
         }
 
         public PolarisStructure GetMessageStructure(string strApiId)
@@ -488,28 +513,48 @@ namespace AAA.TradeAPI.Polaris
                 {
                     case SYSTEM_RESP: //系統回應
                         strResult = Convert.ToString(aryValue);
+                        switch (dwIndex)
+                        {
+                            case CONNECTED:
+                                _timer.Interval = 2000;
+                                _timer.Enabled = true;
+                                IsConnected = true;
+                                strResult = SUCCESS_RETURN_MESSAGE;
+                                break;
+                            case DISCONNECTED:
+                                IsConnected = false;
+                                break;
+                            case NOT_CONNECTED:                                
+                                IsConnected = false;
+                                break;
+                            default:
+                                IsConnected = false;
+                                break;
+                        }
+                        
                         _dicReturn = new Dictionary<string, object>();
-                        _dicReturn.Add("ReturnMessage", strResult);
+                        _dicReturn.Add(RETURN_MESSAGE, strResult);
                         break;
+
                     case RQRP_RESP: //代表為RQ/RP 所回應的
                     case SUBSCRIPE_RESP: //訂閱所回應
-                        strMessageHexId = Convert.ToString(dwIndex, 16).ToUpper();
-
-                        if (_dicHexMapping.ContainsKey(strMessageHexId) == false)
+                        if (dwIndex == NOT_LOGIN)
                         {
                             _dicReturn = new Dictionary<string, object>();
-                            _dicReturn.Add("ReturnMessage", "該ID(" + strMessageHexId + ")不存在");
+                            _dicReturn.Add(RETURN_MESSAGE, Convert.ToString(aryValue));
                             break;
                         }
 
-                        if (_dicStructure.ContainsKey(_dicHexMapping[strMessageHexId]) == false)
+                        strIndex = strIndex == null ? dwIndex.ToString() : strIndex;
+
+                        if (_dicStructure.ContainsKey(strIndex) == false)
                         {
                             _dicReturn = new Dictionary<string, object>();
-                            _dicReturn.Add("ReturnMessage", "該ID(" + strMessageHexId + ")的訊息結構不存在");
+                            _dicReturn.Add(RETURN_MESSAGE, "該ID(" + strIndex + ")的訊息結構不存在, " + Convert.ToString(aryValue));
                             break;
                         }
 
-                        polarisStructure = _dicStructure[_dicHexMapping[strMessageHexId]];
+                        polarisStructure = _dicStructure[strIndex];
                         _dicReturn = ConvertMessage(iMark, dwIndex, strIndex, aryValue,
                                                     polarisStructure.GetTypes(PolarisStructure.OUTPUT_PARENT), 
                                                     polarisStructure.GetLens(PolarisStructure.OUTPUT_PARENT), 
@@ -527,19 +572,20 @@ namespace AAA.TradeAPI.Polaris
                             else
                                 _dicReturn.Add("name", polarisStructure.ClientName);
                         }
+                        _dicReturn.Add(RETURN_MESSAGE, SUCCESS_RETURN_MESSAGE);
                         break;
 
                     default:
                         strResult = Convert.ToString(aryValue);
                         _dicReturn = new Dictionary<string, object>();
-                        _dicReturn.Add("ReturnMessage", strResult);
+                        _dicReturn.Add(RETURN_MESSAGE, strResult);
                         break;
                 }
 
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw;
             }
             finally
             {
@@ -555,6 +601,11 @@ namespace AAA.TradeAPI.Polaris
             }
             if (_messageEvent != null)
                 _messageEvent(_dicReturn);
+        }
+
+        void _timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {            
+            ((System.Timers.Timer)sender).Enabled = false;
         }
 
         public void MessageSend(string strFunctionCode, Dictionary<string, object> dicValue)
@@ -598,10 +649,11 @@ namespace AAA.TradeAPI.Polaris
                 }
 
                 B2BApi.inMsgSend(strFunctionCode, (uint)0, (_accountInfo.AccountType + _accountInfo.AccountNo).Trim(), true);
+
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw;
             }
         }
 
@@ -610,29 +662,30 @@ namespace AAA.TradeAPI.Polaris
             _accountInfo = accountInfo;
             B2BApi.Open();
             WaitTillCompleted();
-            Thread.Sleep(1000);
-            _isConnected = (_dicReturn.ContainsKey("ReturnMessage") ? _dicReturn["ReturnMessage"].ToString() == "Is Connected!!" : false);
+            //_isConnected = (_dicReturn.ContainsKey("ReturnMessage") ? _dicReturn["ReturnMessage"].ToString() == "Is Connected!!" : false);
             return _isConnected ? "Success" : "Fail";
-        }
-
-        public bool IsConnected()
-        {
-            return _isConnected;
         }
 
         private void WaitTillCompleted()
         {
             try
             {
-                while (_eventHandle != null)
+                int iWaitCount = 0;
+                while ((_eventHandle != null) && (iWaitCount < MaxWaitCount))
                 {
                     Application.DoEvents();
                     Thread.Sleep(10);
+                    iWaitCount++;
+                }
+                if (iWaitCount > MaxWaitCount)
+                {
+                    _dicReturn = new Dictionary<string, object>();
+                    _dicReturn.Add(RETURN_MESSAGE, "Exceed max wait count!!");
                 }
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw;
             }
         }
 
@@ -653,7 +706,7 @@ namespace AAA.TradeAPI.Polaris
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw;
             }
             return "Fail";
         }
@@ -669,7 +722,7 @@ namespace AAA.TradeAPI.Polaris
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw;
             }
 
             return (iLoginCheck == 1)
