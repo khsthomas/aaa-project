@@ -30,6 +30,12 @@
         {
             this.tabReport = new System.Windows.Forms.TabControl();
             this.pnlStrategy = new System.Windows.Forms.TabPage();
+            this.txtCommission = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.txtTaxRate = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.txtPointMultiple = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
             this.btnDrawChart = new System.Windows.Forms.Button();
             this.dtEndTime = new System.Windows.Forms.DateTimePicker();
             this.label5 = new System.Windows.Forms.Label();
@@ -55,17 +61,12 @@
             this.tblFilled = new System.Windows.Forms.DataGridView();
             this.pnlCanceled = new System.Windows.Forms.TabPage();
             this.tblCanceled = new System.Windows.Forms.DataGridView();
+            this.pnlEquity = new System.Windows.Forms.TabPage();
+            this.pnlReport = new System.Windows.Forms.TabPage();
+            this.tblReport = new System.Windows.Forms.DataGridView();
             this.pnlChart = new System.Windows.Forms.TabPage();
             this.cpChart = new AAA.Chart.Component.ChartPane();
             this.ofdDllPath = new System.Windows.Forms.OpenFileDialog();
-            this.txtPointMultiple = new System.Windows.Forms.TextBox();
-            this.label8 = new System.Windows.Forms.Label();
-            this.txtTaxRate = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.txtCommission = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.pnlReport = new System.Windows.Forms.TabPage();
-            this.tblReport = new System.Windows.Forms.DataGridView();
             this.tabReport.SuspendLayout();
             this.pnlStrategy.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tblSignalHistory)).BeginInit();
@@ -80,9 +81,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.tblFilled)).BeginInit();
             this.pnlCanceled.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tblCanceled)).BeginInit();
-            this.pnlChart.SuspendLayout();
             this.pnlReport.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tblReport)).BeginInit();
+            this.pnlChart.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabReport
@@ -131,6 +132,57 @@
             this.pnlStrategy.Text = "策略載入";
             this.pnlStrategy.UseVisualStyleBackColor = true;
             this.pnlStrategy.Click += new System.EventHandler(this.pnlStrategy_Click);
+            // 
+            // txtCommission
+            // 
+            this.txtCommission.Location = new System.Drawing.Point(459, 94);
+            this.txtCommission.Name = "txtCommission";
+            this.txtCommission.Size = new System.Drawing.Size(55, 22);
+            this.txtCommission.TabIndex = 26;
+            this.txtCommission.Text = "45";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(404, 98);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(41, 12);
+            this.label7.TabIndex = 25;
+            this.label7.Text = "手績費";
+            // 
+            // txtTaxRate
+            // 
+            this.txtTaxRate.Location = new System.Drawing.Point(459, 67);
+            this.txtTaxRate.Name = "txtTaxRate";
+            this.txtTaxRate.Size = new System.Drawing.Size(55, 22);
+            this.txtTaxRate.TabIndex = 24;
+            this.txtTaxRate.Text = "0.00004";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(404, 71);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(53, 12);
+            this.label6.TabIndex = 23;
+            this.label6.Text = "交易稅率";
+            // 
+            // txtPointMultiple
+            // 
+            this.txtPointMultiple.Location = new System.Drawing.Point(459, 40);
+            this.txtPointMultiple.Name = "txtPointMultiple";
+            this.txtPointMultiple.Size = new System.Drawing.Size(55, 22);
+            this.txtPointMultiple.TabIndex = 22;
+            this.txtPointMultiple.Text = "200";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(404, 44);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(53, 12);
+            this.label8.TabIndex = 21;
+            this.label8.Text = "契約乖數";
             // 
             // btnDrawChart
             // 
@@ -294,6 +346,7 @@
             this.tabTrackingCenter.Controls.Add(this.pnlActive);
             this.tabTrackingCenter.Controls.Add(this.pnlFilled);
             this.tabTrackingCenter.Controls.Add(this.pnlCanceled);
+            this.tabTrackingCenter.Controls.Add(this.pnlEquity);
             this.tabTrackingCenter.Location = new System.Drawing.Point(7, 7);
             this.tabTrackingCenter.Name = "tabTrackingCenter";
             this.tabTrackingCenter.SelectedIndex = 0;
@@ -406,80 +459,14 @@
             this.tblCanceled.Size = new System.Drawing.Size(612, 343);
             this.tblCanceled.TabIndex = 1;
             // 
-            // pnlChart
+            // pnlEquity
             // 
-            this.pnlChart.Controls.Add(this.cpChart);
-            this.pnlChart.Location = new System.Drawing.Point(4, 21);
-            this.pnlChart.Name = "pnlChart";
-            this.pnlChart.Size = new System.Drawing.Size(633, 384);
-            this.pnlChart.TabIndex = 2;
-            this.pnlChart.Text = "走勢圖";
-            this.pnlChart.UseVisualStyleBackColor = true;
-            // 
-            // cpChart
-            // 
-            this.cpChart.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.cpChart.Location = new System.Drawing.Point(5, 3);
-            this.cpChart.Name = "cpChart";
-            this.cpChart.Size = new System.Drawing.Size(622, 378);
-            this.cpChart.TabIndex = 0;
-            // 
-            // ofdDllPath
-            // 
-            this.ofdDllPath.FileName = "openFileDialog1";
-            // 
-            // txtPointMultiple
-            // 
-            this.txtPointMultiple.Location = new System.Drawing.Point(459, 40);
-            this.txtPointMultiple.Name = "txtPointMultiple";
-            this.txtPointMultiple.Size = new System.Drawing.Size(55, 22);
-            this.txtPointMultiple.TabIndex = 22;
-            this.txtPointMultiple.Text = "200";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(404, 44);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(53, 12);
-            this.label8.TabIndex = 21;
-            this.label8.Text = "契約乖數";
-            // 
-            // txtTaxRate
-            // 
-            this.txtTaxRate.Location = new System.Drawing.Point(459, 67);
-            this.txtTaxRate.Name = "txtTaxRate";
-            this.txtTaxRate.Size = new System.Drawing.Size(55, 22);
-            this.txtTaxRate.TabIndex = 24;
-            this.txtTaxRate.Text = "0.00004";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(404, 71);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(53, 12);
-            this.label6.TabIndex = 23;
-            this.label6.Text = "交易稅率";
-            // 
-            // txtCommission
-            // 
-            this.txtCommission.Location = new System.Drawing.Point(459, 94);
-            this.txtCommission.Name = "txtCommission";
-            this.txtCommission.Size = new System.Drawing.Size(55, 22);
-            this.txtCommission.TabIndex = 26;
-            this.txtCommission.Text = "45";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(404, 98);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(41, 12);
-            this.label7.TabIndex = 25;
-            this.label7.Text = "手績費";
+            this.pnlEquity.Location = new System.Drawing.Point(4, 21);
+            this.pnlEquity.Name = "pnlEquity";
+            this.pnlEquity.Size = new System.Drawing.Size(615, 349);
+            this.pnlEquity.TabIndex = 4;
+            this.pnlEquity.Text = "市值變化表";
+            this.pnlEquity.UseVisualStyleBackColor = true;
             // 
             // pnlReport
             // 
@@ -506,6 +493,30 @@
             this.tblReport.Size = new System.Drawing.Size(622, 378);
             this.tblReport.TabIndex = 6;
             // 
+            // pnlChart
+            // 
+            this.pnlChart.Controls.Add(this.cpChart);
+            this.pnlChart.Location = new System.Drawing.Point(4, 21);
+            this.pnlChart.Name = "pnlChart";
+            this.pnlChart.Size = new System.Drawing.Size(633, 384);
+            this.pnlChart.TabIndex = 2;
+            this.pnlChart.Text = "走勢圖";
+            this.pnlChart.UseVisualStyleBackColor = true;
+            // 
+            // cpChart
+            // 
+            this.cpChart.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.cpChart.Location = new System.Drawing.Point(5, 3);
+            this.cpChart.Name = "cpChart";
+            this.cpChart.Size = new System.Drawing.Size(622, 378);
+            this.cpChart.TabIndex = 0;
+            // 
+            // ofdDllPath
+            // 
+            this.ofdDllPath.FileName = "openFileDialog1";
+            // 
             // PerformanceReportForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -529,9 +540,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.tblFilled)).EndInit();
             this.pnlCanceled.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.tblCanceled)).EndInit();
-            this.pnlChart.ResumeLayout(false);
             this.pnlReport.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.tblReport)).EndInit();
+            this.pnlChart.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -576,5 +587,6 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TabPage pnlReport;
         private System.Windows.Forms.DataGridView tblReport;
+        private System.Windows.Forms.TabPage pnlEquity;
     }
 }

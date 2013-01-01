@@ -7,6 +7,7 @@ namespace AAA.ProgramTrade
 {
     public class ProgramTradeConstants
     {
+        public const string ACCOUNT_INFO = "AccountInfo";
         public const string AUTO_TRADE_PROGRAM = "AutoTrade";
         public const string PROGRAM_ROOT_PATH = "ProgramRootPath";
         public const string DATA_SOURCE = "DataSource";

@@ -16,6 +16,7 @@ using AAA.DesignPattern.Observer;
 using AAA.Chart.Component;
 using AAA.Chart.Indicator;
 
+
 namespace AAA.ProgramTrade
 {
     public partial class PerformanceReportForm : Form, IObserver
@@ -70,6 +71,7 @@ namespace AAA.ProgramTrade
                 tblFilled.Columns.Add("Volume", "口數");
                 tblFilled.Columns.Add("DealPrice", "成交價格");
                 tblFilled.Columns.Add("ExecutePriceType", "履約價別");
+                tblFilled.Columns.Add("PositionEquity", "部位市值");
                 tblFilled.Columns.Add("PositionId", "部位序號");
 
                 tblReport.Columns.Add("Item", "項目");
@@ -405,7 +407,8 @@ namespace AAA.ProgramTrade
         public void Update(object oSource, IMessageInfo miMessage)
         {
             SignalInfo signalInfo;
-            
+            QuoteUtil quoteUtil = new QuoteUtil();
+            quoteUtil.DataDirectory = AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.PROGRAM_ROOT_PATH] + @"\Export";
             try
             {
                 switch (miMessage.MessageSubject)
@@ -424,9 +427,10 @@ namespace AAA.ProgramTrade
                         signalInfo = (SignalInfo)miMessage.Message;
                         
                         if(_dicTradeInfo.ContainsKey(signalInfo.PositionId))
-                        {
+                        {                            
                             foreach(TradeInfo tradeInfo in _dicTradeInfo[signalInfo.PositionId])
                             {
+                                tradeInfo.Price = quoteUtil.GetClosePrice(tradeInfo.SymbolName + "_" + tradeInfo.Year + "_" + tradeInfo.Month + "_" + tradeInfo.ExecutePrice, signalInfo.TimePlaced.ToString("yyyy/MM/dd HH:mm:ss"));
                                 DataGridViewUtil.InsertRow(tblFilled,
                                                            new object[] {signalInfo.SignalName,
                                                                      signalInfo.OrderDirection,
@@ -440,6 +444,7 @@ namespace AAA.ProgramTrade
                                                                      tradeInfo.Volume.ToString(),
                                                                      tradeInfo.Price.ToString(),
                                                                      tradeInfo.ExecutePrice.ToString(),
+                                                                     (tradeInfo.Volume * tradeInfo.Price * 50).ToString(), 
                                                                      signalInfo.PositionId});
 
                             }
@@ -452,7 +457,8 @@ namespace AAA.ProgramTrade
                             TradeInfo[] tradeInfos = _tradingRule.CreateOrder(signalInfo.SignalGroupName);
                             _dicTradeInfo.Add(signalInfo.PositionId, new List<TradeInfo>());
                             foreach (TradeInfo tradeInfo in tradeInfos)
-                            {                                                        
+                            {
+                                tradeInfo.Price = quoteUtil.GetClosePrice(tradeInfo.SymbolName + "_" + tradeInfo.Year + "_" + tradeInfo.Month + "_" + tradeInfo.ExecutePrice, signalInfo.TimePlaced.ToString("yyyy/MM/dd HH:mm:ss"));
                                 DataGridViewUtil.InsertRow(tblFilled,
                                                            new object[] {signalInfo.SignalName,
                                                                      signalInfo.OrderDirection,
@@ -466,6 +472,7 @@ namespace AAA.ProgramTrade
                                                                      tradeInfo.Volume.ToString(),
                                                                      tradeInfo.Price.ToString(),
                                                                      tradeInfo.ExecutePrice.ToString(),
+                                                                     (tradeInfo.Volume * tradeInfo.Price * 50).ToString(), 
                                                                      signalInfo.PositionId});
                                 _dicTradeInfo[signalInfo.PositionId].Add(tradeInfo);
                             }
@@ -516,14 +523,25 @@ namespace AAA.ProgramTrade
                     MessageBox.Show("查無此商品資料");
                     return;
                 }
-
-                ChartUtil.FillRecord(cboBaseSymbolId.Text, cpChart, lstBarRecord, dtStartTime.Value, dtEndTime.Value);
-
+                
                 cpChart.ChartContainer.RemoveAllChart();
-
+                ChartUtil.FillRecord(cboBaseSymbolId.Text, cpChart, lstBarRecord, dtStartTime.Value, dtEndTime.Value);
                 InitChart();
+                cpChart.ClearExtraInfo();
 
-                //cpChart.Chart.PaintChart();
+                if (tblSignalHistory.Rows.Count > 0)
+                {
+                    for (int i = 0; i < tblSignalHistory.Rows.Count; i++)
+                    {
+                        cpChart.AddExtraInfo(DateTime.Parse(tblSignalHistory.Rows[i].Cells["BarDateTime"].Value.ToString()),
+                                             new AAA.Chart.Data.ExtraInfo(tblSignalHistory.Rows[i].Cells["SignalName"].Value.ToString() == "" 
+                                                                            ? tblSignalHistory.Rows[i - 1].Cells["SignalName"].Value.ToString()
+                                                                            : tblSignalHistory.Rows[i].Cells["SignalName"].Value.ToString(),
+                                                                          tblSignalHistory.Rows[i].Cells["Direction"].Value.ToString() + "," +
+                                                                          tblSignalHistory.Rows[i].Cells["Price"].Value.ToString()));
+                    }
+                }
+
             }
             catch (Exception ex)
             {

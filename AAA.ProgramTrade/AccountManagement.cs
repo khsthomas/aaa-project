@@ -47,10 +47,10 @@ namespace AAA.ProgramTrade
                     accountInfo.Branch = (string)AAA.DesignPattern.Singleton.SystemParameter.Parameter["Branch"];
                 if (AAA.DesignPattern.Singleton.SystemParameter.Parameter["AccountNo"] != null)
                     accountInfo.AccountNo = (string)AAA.DesignPattern.Singleton.SystemParameter.Parameter["AccountNo"];
-
+                
                 autoTrade.InitProgram(accountInfo);
                 AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.AUTO_TRADE_PROGRAM] = autoTrade;
-
+                AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.ACCOUNT_INFO] = accountInfo;
             }
             else
             {
