@@ -15,9 +15,11 @@ namespace AAA.ProgramTrade
         }
 
         public static void FillRecord(string strSymbolId, ChartPane cpChart, List<BarRecord> lstBarRecord, DateTime dtStartTime, DateTime dtEndTime)
-        {            
-            AAA.Meta.Chart.Data.BarData barData = new AAA.Meta.Chart.Data.BarData();
-
+        {
+            AAA.Meta.Chart.Data.BarData barData = lstBarRecord.Count > 0
+                                                    ?   new AAA.Meta.Chart.Data.BarData(lstBarRecord[0].BarCompression)
+                                                    :   new AAA.Meta.Chart.Data.BarData();
+            
             for (int i = 0; i < lstBarRecord.Count; i++)
             {
                 if ((lstBarRecord[i].BarDateTime < dtStartTime) ||

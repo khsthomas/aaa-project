@@ -204,6 +204,7 @@
       <DependentUpon>PerformanceReportForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ProgramTradeConstants.cs" />
+    <Compile Include="QuoteUtil.cs" />
     <Compile Include="Quote\DatabaseHistoryQuote.cs" />
     <Compile Include="Quote\PolarisHistoryQuote.cs" />
     <Compile Include="RealTimeStrategyForm.cs">

@@ -346,9 +346,9 @@ namespace AAA.ProgramTrade
 
         private void futuresAPIMenu_Click(object sender, EventArgs e)
         {
-            if (AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.AUTO_TRADE_PROGRAM] == null)
+            if (AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.ACCOUNT_INFO] == null)
             {
-                MessageBox.Show("請先登入系統, 謝謝!!");
+                MessageBox.Show("請先點選登入, 以讀取帳號資料, 謝謝!!");
                 return;
             }
             MdiFormUtil.AddChild(this, new APIFuturesForm(), false);
