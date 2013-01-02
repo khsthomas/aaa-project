@@ -19,9 +19,25 @@ namespace AAA.TradeAPI.Polaris
 
             AddParam(PolarisStructure.OUTPUT_PARENT, "MarketNo", "byte", 1);
             AddParam(PolarisStructure.OUTPUT_PARENT, "IndextNo", "string", 12);
-            AddParam(PolarisStructure.OUTPUT_PARENT, "StkCode", "string", 12);
-            AddParam(PolarisStructure.OUTPUT_PARENT, "IndexFlag", "byte", 1);
-            AddParam(PolarisStructure.OUTPUT_PARENT, "Value", "int", 4);
+            AddParam(PolarisStructure.OUTPUT_PARENT, "OpenTime", "short", 2);
+            AddParam(PolarisStructure.OUTPUT_PARENT, "CloseTime", "short", 2);
+            AddParam(PolarisStructure.OUTPUT_PARENT, "IndexOpenRefPrice", "int", 4);
+			AddParam(PolarisStructure.OUTPUT_PARENT, "IndexDecimal", "short", 2);
+			AddParam(PolarisStructure.OUTPUT_PARENT, "RecordCount", "int", 4);
+			
+			AddParam(PolarisStructure.OUTPUT_CHILDREN, "SerialNo", "int", 4);
+			AddParam(PolarisStructure.OUTPUT_CHILDREN, "Time", "string", 5);
+			AddParam(PolarisStructure.OUTPUT_CHILDREN, "Index", "int", 4);
+			AddParam(PolarisStructure.OUTPUT_CHILDREN, "DealAmt", "int", 4);
+			AddParam(PolarisStructure.OUTPUT_CHILDREN, "BuyVol", "int", 4);
+			AddParam(PolarisStructure.OUTPUT_CHILDREN, "BuyCount", "int", 4);
+			AddParam(PolarisStructure.OUTPUT_CHILDREN, "SellVol", "int", 4);
+			AddParam(PolarisStructure.OUTPUT_CHILDREN, "SellCount", "int", 4);
+			AddParam(PolarisStructure.OUTPUT_CHILDREN, "DealVol", "int", 4);
+			AddParam(PolarisStructure.OUTPUT_CHILDREN, "DealCount", "int", 4);
+			AddParam(PolarisStructure.OUTPUT_CHILDREN, "Up", "int", 4);
+			AddParam(PolarisStructure.OUTPUT_CHILDREN, "Down", "int", 4);
+			AddParam(PolarisStructure.OUTPUT_CHILDREN, "Equal", "int", 4);
         }
     }
 }
