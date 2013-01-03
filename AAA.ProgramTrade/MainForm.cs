@@ -346,12 +346,19 @@ namespace AAA.ProgramTrade
 
         private void futuresAPIMenu_Click(object sender, EventArgs e)
         {
+/*
             if (AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.ACCOUNT_INFO] == null)
             {
                 MessageBox.Show("請先點選登入, 以讀取帳號資料, 謝謝!!");
                 return;
             }
-            MdiFormUtil.AddChild(this, new APIFuturesForm(), false);
+ */ 
+            MdiFormUtil.AddChild(this, new APIFuturesForm(APIFuturesForm.FUTURES), false);
+        }
+
+        private void stockAPIMenu_Click(object sender, EventArgs e)
+        {
+            MdiFormUtil.AddChild(this, new APIFuturesForm(APIFuturesForm.STOCK), false);
         }
     }
 }

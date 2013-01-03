@@ -49,6 +49,8 @@
             this.reportItem = new System.Windows.Forms.ToolStripMenuItem();
             this.performanceReportItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dailyReportItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.platformMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.futuresAPIMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.viewMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.statusBarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.windowsMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -63,8 +65,7 @@
             this.loginStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.ofdOpenFile = new System.Windows.Forms.OpenFileDialog();
-            this.platformMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.futuresAPIMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.stockAPIMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.SuspendLayout();
@@ -233,6 +234,22 @@
             this.dailyReportItem.Text = "庫存日報表";
             this.dailyReportItem.Click += new System.EventHandler(this.dailyReportItem_Click);
             // 
+            // platformMenu
+            // 
+            this.platformMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.futuresAPIMenu,
+            this.stockAPIMenu});
+            this.platformMenu.Name = "platformMenu";
+            this.platformMenu.Size = new System.Drawing.Size(107, 20);
+            this.platformMenu.Text = "API測試(&Platform)";
+            // 
+            // futuresAPIMenu
+            // 
+            this.futuresAPIMenu.Name = "futuresAPIMenu";
+            this.futuresAPIMenu.Size = new System.Drawing.Size(152, 22);
+            this.futuresAPIMenu.Text = "Futures API";
+            this.futuresAPIMenu.Click += new System.EventHandler(this.futuresAPIMenu_Click);
+            // 
             // viewMenu
             // 
             this.viewMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -332,20 +349,12 @@
             // 
             this.ofdOpenFile.FileName = "openFileDialog1";
             // 
-            // platformMenu
+            // stockAPIMenu
             // 
-            this.platformMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.futuresAPIMenu});
-            this.platformMenu.Name = "platformMenu";
-            this.platformMenu.Size = new System.Drawing.Size(107, 20);
-            this.platformMenu.Text = "API測試(&Platform)";
-            // 
-            // futuresAPIMenu
-            // 
-            this.futuresAPIMenu.Name = "futuresAPIMenu";
-            this.futuresAPIMenu.Size = new System.Drawing.Size(152, 22);
-            this.futuresAPIMenu.Text = "Futures API";
-            this.futuresAPIMenu.Click += new System.EventHandler(this.futuresAPIMenu_Click);
+            this.stockAPIMenu.Name = "stockAPIMenu";
+            this.stockAPIMenu.Size = new System.Drawing.Size(152, 22);
+            this.stockAPIMenu.Text = "Stock API";
+            this.stockAPIMenu.Click += new System.EventHandler(this.stockAPIMenu_Click);
             // 
             // MainForm
             // 
@@ -406,6 +415,7 @@
         private System.Windows.Forms.ToolStripMenuItem dailyReportItem;
         private System.Windows.Forms.ToolStripMenuItem platformMenu;
         private System.Windows.Forms.ToolStripMenuItem futuresAPIMenu;
+        private System.Windows.Forms.ToolStripMenuItem stockAPIMenu;
     }
 }
 

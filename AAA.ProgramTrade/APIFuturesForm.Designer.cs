@@ -39,6 +39,12 @@
             this.tblInputParent = new System.Windows.Forms.DataGridView();
             this.lstLog = new System.Windows.Forms.ListBox();
             this.tabFunction = new System.Windows.Forms.TabControl();
+            this.label1 = new System.Windows.Forms.Label();
+            this.txtAccount = new System.Windows.Forms.TextBox();
+            this.txtAccountType = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txtPassword = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tblOutputGrandChildren)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tblOutputChildren)).BeginInit();
@@ -72,9 +78,9 @@
             this.groupBox2.Controls.Add(this.tblOutputGrandChildren);
             this.groupBox2.Controls.Add(this.tblOutputChildren);
             this.groupBox2.Controls.Add(this.tblOutputParent);
-            this.groupBox2.Location = new System.Drawing.Point(513, 33);
+            this.groupBox2.Location = new System.Drawing.Point(513, 65);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(488, 430);
+            this.groupBox2.Size = new System.Drawing.Size(488, 401);
             this.groupBox2.TabIndex = 10;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Output";
@@ -89,7 +95,7 @@
             this.tblOutputGrandChildren.Name = "tblOutputGrandChildren";
             this.tblOutputGrandChildren.RowHeadersVisible = false;
             this.tblOutputGrandChildren.RowTemplate.Height = 24;
-            this.tblOutputGrandChildren.Size = new System.Drawing.Size(476, 116);
+            this.tblOutputGrandChildren.Size = new System.Drawing.Size(476, 86);
             this.tblOutputGrandChildren.TabIndex = 3;
             // 
             // tblOutputChildren
@@ -122,9 +128,9 @@
             // 
             this.groupBox1.Controls.Add(this.tblInputChildren);
             this.groupBox1.Controls.Add(this.tblInputParent);
-            this.groupBox1.Location = new System.Drawing.Point(4, 33);
+            this.groupBox1.Location = new System.Drawing.Point(4, 65);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(488, 430);
+            this.groupBox1.Size = new System.Drawing.Size(488, 401);
             this.groupBox1.TabIndex = 9;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Input";
@@ -140,7 +146,7 @@
             this.tblInputChildren.Name = "tblInputChildren";
             this.tblInputChildren.RowHeadersVisible = false;
             this.tblInputChildren.RowTemplate.Height = 24;
-            this.tblInputChildren.Size = new System.Drawing.Size(476, 196);
+            this.tblInputChildren.Size = new System.Drawing.Size(476, 166);
             this.tblInputChildren.TabIndex = 1;
             // 
             // tblInputParent
@@ -172,18 +178,72 @@
             // 
             // tabFunction
             // 
-            this.tabFunction.Location = new System.Drawing.Point(12, -2);
+            this.tabFunction.Location = new System.Drawing.Point(12, 30);
             this.tabFunction.Name = "tabFunction";
             this.tabFunction.SelectedIndex = 0;
             this.tabFunction.Size = new System.Drawing.Size(989, 29);
             this.tabFunction.TabIndex = 13;
             this.tabFunction.SelectedIndexChanged += new System.EventHandler(this.tabFunction_SelectedIndexChanged);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(12, 9);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(29, 12);
+            this.label1.TabIndex = 14;
+            this.label1.Text = "帳號";
+            // 
+            // txtAccount
+            // 
+            this.txtAccount.Location = new System.Drawing.Point(47, 6);
+            this.txtAccount.Name = "txtAccount";
+            this.txtAccount.Size = new System.Drawing.Size(164, 22);
+            this.txtAccount.TabIndex = 15;
+            // 
+            // txtAccountType
+            // 
+            this.txtAccountType.Location = new System.Drawing.Point(259, 6);
+            this.txtAccountType.Name = "txtAccountType";
+            this.txtAccountType.Size = new System.Drawing.Size(40, 22);
+            this.txtAccountType.TabIndex = 17;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(224, 9);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(29, 12);
+            this.label2.TabIndex = 16;
+            this.label2.Text = "類別";
+            // 
+            // txtPassword
+            // 
+            this.txtPassword.Location = new System.Drawing.Point(340, 6);
+            this.txtPassword.Name = "txtPassword";
+            this.txtPassword.Size = new System.Drawing.Size(164, 22);
+            this.txtPassword.TabIndex = 19;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(305, 9);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(29, 12);
+            this.label3.TabIndex = 18;
+            this.label3.Text = "密碼";
+            // 
             // APIFuturesForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1005, 599);
+            this.Controls.Add(this.txtPassword);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.txtAccountType);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.txtAccount);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.tabFunction);
             this.Controls.Add(this.btnSaveLog);
             this.Controls.Add(this.btnSend);
@@ -200,6 +260,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.tblInputChildren)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tblInputParent)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -216,5 +277,11 @@
         private System.Windows.Forms.TabControl tabFunction;
         private System.Windows.Forms.DataGridView tblOutputGrandChildren;
         private System.Windows.Forms.DataGridView tblInputChildren;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox txtAccount;
+        private System.Windows.Forms.TextBox txtAccountType;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox txtPassword;
+        private System.Windows.Forms.Label label3;
     }
 }
