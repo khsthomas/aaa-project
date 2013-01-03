@@ -14,12 +14,15 @@ namespace AAA.ProgramTrade
 {
     public partial class APIFuturesForm : Form
     {
+        public const int FUTURES = 0;
+        public const int STOCK = 1;
+
         private PolarisBase _polarisBase;
         private AccountInfo _accountInfo;
 
         private Dictionary<string, Dictionary<string, object>> _dicExecuteResult;
 
-        public APIFuturesForm()
+        public APIFuturesForm(int iType)
         {
             InitializeComponent();
 
@@ -29,29 +32,48 @@ namespace AAA.ProgramTrade
             {
                 PolarisStructure structure;
 
-                _accountInfo = ((AccountInfo)AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.ACCOUNT_INFO]);
+                //_accountInfo = ((AccountInfo)AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.ACCOUNT_INFO]);                
                 _polarisBase = new PolarisBase();
                 _polarisBase.OnMessage(new AAA.Meta.Trade.MessageEvent(OnMessageReceive));
-
-                _polarisBase.InitProgram(_accountInfo);
+                
                 //_polarisBase.Login();
 
                 AddStructure(new LoginStructure());
-                AddStructure(new EquityStructure());                
-                AddStructure(new FuturesHistoryCoverReportStructure());
-                AddStructure(new FuturesHistoryReportStructure());
-                AddStructure(new FuturesMATReportStructure());
-                AddStructure(new FuturesOrderReportStructure());
-                AddStructure(new FuturesOrderStructure());
-                AddStructure(new FuturesStoreClassifyStructure());
-                AddStructure(new FuturesStoreSimplyStructure());
-                AddStructure(new FuturesTradeReportStructure());
-                AddStructure(new KLineStructure());
-                AddStructure(new RealReport3Structure());
-                AddStructure(new RealReportMerge3Structure());
-                AddStructure(new StockAverageStructure());
-                AddStructure(new WatchListStructure());
-                AddStructure(new WatchListAllStructure());
+                if(iType == FUTURES)
+                {
+                    AddStructure(new EquityStructure());     
+                    AddStructure(new EstimateAmountStructure());
+                    AddStructure(new EstimateVolTickStructure());                
+                    AddStructure(new FixedWatchListStructure());                
+                    AddStructure(new FuturesHistoryCoverReportStructure());
+                    AddStructure(new FuturesHistoryReportStructure());
+                    AddStructure(new FuturesMATReportStructure());
+                    AddStructure(new FuturesOrderReportStructure());
+                    AddStructure(new FuturesOrderStructure());
+                    AddStructure(new FuturesStoreClassifyStructure());
+                    AddStructure(new FuturesStoreSimplyStructure());
+                    AddStructure(new FuturesTradeReportStructure());
+                    AddStructure(new IndexClassHistoryStructure());
+                    AddStructure(new IndustryStockListStructure());     
+                    AddStructure(new KLineStructure());
+                    AddStructure(new OptionsRiskTickStructure());
+                    AddStructure(new OptionsTheoreticalPriceStructure());     
+                    AddStructure(new RealReport3Structure());
+                    AddStructure(new RealReportMerge3Structure());
+                    AddStructure(new StockAverageStructure());
+                    AddStructure(new WatchListStructure());
+                    AddStructure(new WatchListAllStructure());
+                }
+                else
+                {
+                    AddStructure(new RealReportStructure());
+                    AddStructure(new RealReportMergeStructure());
+                    AddStructure(new StockOrderReportStructure());
+                    AddStructure(new StockOrderStructure());
+                    AddStructure(new StockRealReportStructure());
+                    AddStructure(new StockRealTimeReportStructure());
+                    AddStructure(new StockStoreSummaryStructure());
+                }
 
                 tabFunction.SelectedIndex = 0;
 
@@ -252,6 +274,22 @@ namespace AAA.ProgramTrade
 
             if (structure == null)
                 return;
+
+            if (structure.ClientName == "Open")
+            {
+                _accountInfo = new AccountInfo();
+                _accountInfo.AccountNo = txtAccount.Text;
+                _accountInfo.Password = txtAccountType.Text;
+                _accountInfo.AccountType = txtAccountType.Text;
+                _polarisBase.InitProgram(_accountInfo);
+                return;
+            }
+
+            if (_accountInfo == null)
+            {
+                MessageBox.Show("請先開啟連線, 謝謝!!");
+                return;
+            }
 
             if (structure.ClientName == "Login")
             {
