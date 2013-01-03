@@ -48,6 +48,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Polaris\EquityStructure.cs" />
+    <Compile Include="Polaris\EstimateAmountStructure.cs" />
+    <Compile Include="Polaris\EstimateVolTickStructure.cs" />
+    <Compile Include="Polaris\FixedWatchListStructure.cs" />
     <Compile Include="Polaris\FuturesHistoryCoverReportStructure.cs" />
     <Compile Include="Polaris\FuturesHistoryReportStructure.cs" />
     <Compile Include="Polaris\FuturesMATReportStructure.cs" />
@@ -56,13 +59,29 @@
     <Compile Include="Polaris\FuturesStoreClassifyStructure.cs" />
     <Compile Include="Polaris\FuturesStoreSimplyStructure.cs" />
     <Compile Include="Polaris\FuturesTradeReportStructure.cs" />
+    <Compile Include="Polaris\IndexClassHistoryStructure.cs" />
+    <Compile Include="Polaris\IndustryStockListStructure.cs" />
     <Compile Include="Polaris\KLineStructure.cs" />
+    <Compile Include="Polaris\OpenStructure.cs" />
+    <Compile Include="Polaris\OptionsRiskTickStructure.cs" />
+    <Compile Include="Polaris\OptionsTheoreticalPriceStructure.cs" />
     <Compile Include="Polaris\PolarisBase.cs" />
     <Compile Include="Polaris\LoginStructure.cs" />
     <Compile Include="Polaris\PolarisStructure.cs" />
     <Compile Include="Polaris\RealReport3Structure.cs" />
     <Compile Include="Polaris\RealReportMerge3Structure.cs" />
+    <Compile Include="Polaris\RealReportMergeStructure.cs" />
+    <Compile Include="Polaris\RealReportStructure.cs" />
     <Compile Include="Polaris\StockAverageStructure.cs" />
+    <Compile Include="Polaris\StockFiveTickStructure.cs" />
+    <Compile Include="Polaris\StockHistoryReportStructure.cs" />
+    <Compile Include="Polaris\StockOrderReportStructure.cs" />
+    <Compile Include="Polaris\StockOrderStructure.cs" />
+    <Compile Include="Polaris\StockRealReportStructure.cs" />
+    <Compile Include="Polaris\StockRealTimeReportStructure.cs" />
+    <Compile Include="Polaris\StockStoreSummaryStructure.cs" />
+    <Compile Include="Polaris\StockTenTickStructure.cs" />
+    <Compile Include="Polaris\StockTradeReportStructure.cs" />
     <Compile Include="Polaris\WatchListAllStructure.cs" />
     <Compile Include="Polaris\WatchListStructure.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

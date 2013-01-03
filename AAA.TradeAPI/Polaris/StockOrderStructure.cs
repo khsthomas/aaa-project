@@ -7,7 +7,7 @@ namespace AAA.TradeAPI.Polaris
 {
     public class StockOrderStructure : PolarisStructure
     {
-        public SticjOrderStructure()
+        public StockOrderStructure()
         {
             ApiId = "30.100.10.10";
             ApiIdHex = "1E640A0A";

@@ -5,9 +5,9 @@ using System.Text;
 
 namespace AAA.TradeAPI.Polaris
 {
-    public class OptionsRiskTickStructure : PolarisStructure
+    public class OpenStructure : PolarisStructure
     {
-        public OptionsRiskTickStructure()
+        public OpenStructure()
         {
             ApiId = "210.10.40.11";
             ApiIdHex = "D20A280B";
