@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Polaris\LogoutStructure.cs" />
     <Compile Include="Polaris\EquityStructure.cs" />
     <Compile Include="Polaris\EstimateAmountStructure.cs" />
     <Compile Include="Polaris\EstimateVolTickStructure.cs" />
