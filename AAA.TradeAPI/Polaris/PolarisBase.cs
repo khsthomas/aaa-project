@@ -517,9 +517,9 @@ namespace AAA.TradeAPI.Polaris
                         {
                             case CONNECTED:
                                 _timer.Interval = 2000;
-                                _timer.Enabled = true;
+//                                _timer.Enabled = true;
                                 IsConnected = true;
-                                strResult = SUCCESS_RETURN_MESSAGE;
+                                //strResult = SUCCESS_RETURN_MESSAGE;
                                 break;
                             case DISCONNECTED:
                                 IsConnected = false;
@@ -699,6 +699,7 @@ namespace AAA.TradeAPI.Polaris
             try
             {
                 B2BApi.Logout((_accountInfo.AccountType + _accountInfo.AccountNo).Trim());
+                WaitTillCompleted();
                 B2BApi.Close();
                 WaitTillCompleted();
                 _isConnected = false;
@@ -725,11 +726,13 @@ namespace AAA.TradeAPI.Polaris
                 throw;
             }
 
-            return (iLoginCheck == 1)
-                        ? "Success\n" + _dicReturn["MsgCode"] + "," + _dicReturn["MsgContent"] + "\n" +
-                            ((Dictionary<string, object>)_dicReturn["Children0"])["Account"] + "," +
-                            ((Dictionary<string, object>)_dicReturn["Children0"])["Name"] + "," +
-                            ((Dictionary<string, object>)_dicReturn["Children0"])["InvestorId"]
+            return ((iLoginCheck == 1) && _dicReturn.ContainsKey("MsgCode"))
+                        ?   _dicReturn["MsgCode"] != "0001"
+                                ?   "Fail\n" + _dicReturn["MsgCode"] + "," + _dicReturn["MsgContent"]
+                                :   "Success\n" + _dicReturn["MsgCode"] + "," + _dicReturn["MsgContent"] + "\n" +
+                                    ((Dictionary<string, object>)_dicReturn["Children0"])["Account"] + "," +
+                                    ((Dictionary<string, object>)_dicReturn["Children0"])["Name"] + "," +
+                                    ((Dictionary<string, object>)_dicReturn["Children0"])["InvestorId"]
                         : "Fail" + "\n" + _dicReturn["ReturnMessage"];
         }
 
