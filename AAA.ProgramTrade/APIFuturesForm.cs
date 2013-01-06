@@ -38,9 +38,11 @@ namespace AAA.ProgramTrade
                 
                 //_polarisBase.Login();
 
-                AddStructure(new LoginStructure());
+                AddStructure(new OpenStructure());
+                AddStructure(new LoginStructure());                
                 if(iType == FUTURES)
                 {
+                    Text = "期貨API測試";
                     AddStructure(new EquityStructure());     
                     AddStructure(new EstimateAmountStructure());
                     AddStructure(new EstimateVolTickStructure());                
@@ -66,6 +68,7 @@ namespace AAA.ProgramTrade
                 }
                 else
                 {
+                    Text = "股票API測試";
                     AddStructure(new RealReportStructure());
                     AddStructure(new RealReportMergeStructure());
                     AddStructure(new StockOrderReportStructure());
@@ -74,6 +77,7 @@ namespace AAA.ProgramTrade
                     AddStructure(new StockRealTimeReportStructure());
                     AddStructure(new StockStoreSummaryStructure());
                 }
+                AddStructure(new LogoutStructure());
 
                 tabFunction.SelectedIndex = 0;
 
@@ -169,6 +173,9 @@ namespace AAA.ProgramTrade
         {
             tabFunction.Enabled = true;
 
+            if (dicReturn.ContainsKey("ReturnText"))
+                lstLog.Items.Add(dicReturn["ReturnText"]);
+
             if (dicReturn[PolarisBase.RETURN_MESSAGE].ToString() != PolarisBase.SUCCESS_RETURN_MESSAGE)
             {
                 MessageBox.Show(dicReturn[PolarisBase.RETURN_MESSAGE].ToString());
@@ -188,6 +195,9 @@ namespace AAA.ProgramTrade
             {
                 _dicExecuteResult.Add(strFunctionCode, dicReturn);
             }
+
+            if (dicReturn.ContainsKey("ReturnText"))
+                lstLog.Items.Add(dicReturn["ReturnText"]);
         }
 
         public void ClearTables()
@@ -279,7 +289,7 @@ namespace AAA.ProgramTrade
             {
                 _accountInfo = new AccountInfo();
                 _accountInfo.AccountNo = txtAccount.Text;
-                _accountInfo.Password = txtAccountType.Text;
+                _accountInfo.Password = txtPassword.Text;
                 _accountInfo.AccountType = txtAccountType.Text;
                 _polarisBase.InitProgram(_accountInfo);
                 return;
@@ -294,6 +304,12 @@ namespace AAA.ProgramTrade
             if (structure.ClientName == "Login")
             {
                 _polarisBase.Login();
+                return;
+            }
+
+            if (structure.ClientName == "Logout")
+            {
+                _polarisBase.Logout();
                 return;
             }
 
@@ -332,10 +348,10 @@ namespace AAA.ProgramTrade
                 if (e.KeyCode != Keys.Return)
                     return;
                 
-                if (tblInputParent.Rows[tblInputParent.CurrentRow.Index - 1].Cells[0].Value.ToString() != "Count")
+                if (tblInputParent.Rows[tblInputParent.CurrentRow.Index].Cells[0].Value.ToString() != "Count")
                     return;
 
-                int iRowCount = int.Parse(tblInputParent.Rows[tblInputParent.CurrentRow.Index - 1].Cells[2].Value.ToString());
+                int iRowCount = int.Parse(tblInputParent.Rows[tblInputParent.CurrentRow.Index].Cells[2].Value.ToString());
 
                 while (tblInputChildren.Rows.Count < iRowCount + 1)
                     tblInputChildren.Rows.Add();
