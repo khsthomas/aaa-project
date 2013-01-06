@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.btnSaveLog = new System.Windows.Forms.Button();
             this.btnSend = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.tblOutputGrandChildren = new System.Windows.Forms.DataGridView();
@@ -53,15 +52,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.tblInputChildren)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tblInputParent)).BeginInit();
             this.SuspendLayout();
-            // 
-            // btnSaveLog
-            // 
-            this.btnSaveLog.Location = new System.Drawing.Point(678, 469);
-            this.btnSaveLog.Name = "btnSaveLog";
-            this.btnSaveLog.Size = new System.Drawing.Size(75, 23);
-            this.btnSaveLog.TabIndex = 12;
-            this.btnSaveLog.Text = "Save Log";
-            this.btnSaveLog.UseVisualStyleBackColor = true;
             // 
             // btnSend
             // 
@@ -245,7 +235,6 @@
             this.Controls.Add(this.txtAccount);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.tabFunction);
-            this.Controls.Add(this.btnSaveLog);
             this.Controls.Add(this.btnSend);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -266,7 +255,6 @@
 
         #endregion
 
-        private System.Windows.Forms.Button btnSaveLog;
         private System.Windows.Forms.Button btnSend;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.DataGridView tblOutputChildren;
