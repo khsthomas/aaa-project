@@ -483,6 +483,7 @@ namespace AAA.TradeAPI.Polaris
                                     strValue = ProcessOutput(strOutputGrandChildrenType[l], iOutputGrandChildrenLen[l]);                                    
                                     AddValue(dicGrandChiildren, strOutputGrandChildrenName[l], strValue);
                                 }
+                                dicChildren.Add("GrandChildren" + k, dicGrandChiildren);
                             }
 
                         }
