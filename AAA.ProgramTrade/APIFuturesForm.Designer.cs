@@ -55,6 +55,8 @@
             // 
             // btnSend
             // 
+            this.btnSend.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSend.Location = new System.Drawing.Point(759, 469);
             this.btnSend.Name = "btnSend";
             this.btnSend.Size = new System.Drawing.Size(75, 23);
@@ -65,6 +67,9 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox2.Controls.Add(this.tblOutputGrandChildren);
             this.groupBox2.Controls.Add(this.tblOutputChildren);
             this.groupBox2.Controls.Add(this.tblOutputParent);
@@ -80,6 +85,9 @@
             this.tblOutputGrandChildren.AllowUserToAddRows = false;
             this.tblOutputGrandChildren.AllowUserToDeleteRows = false;
             this.tblOutputGrandChildren.AllowUserToResizeRows = false;
+            this.tblOutputGrandChildren.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.tblOutputGrandChildren.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.tblOutputGrandChildren.Location = new System.Drawing.Point(6, 308);
             this.tblOutputGrandChildren.Name = "tblOutputGrandChildren";
@@ -93,6 +101,8 @@
             this.tblOutputChildren.AllowUserToAddRows = false;
             this.tblOutputChildren.AllowUserToDeleteRows = false;
             this.tblOutputChildren.AllowUserToResizeRows = false;
+            this.tblOutputChildren.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.tblOutputChildren.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.tblOutputChildren.Location = new System.Drawing.Point(6, 165);
             this.tblOutputChildren.Name = "tblOutputChildren";
@@ -100,12 +110,15 @@
             this.tblOutputChildren.RowTemplate.Height = 24;
             this.tblOutputChildren.Size = new System.Drawing.Size(476, 137);
             this.tblOutputChildren.TabIndex = 2;
+            this.tblOutputChildren.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.tblOutputChildren_CellDoubleClick);
             // 
             // tblOutputParent
             // 
             this.tblOutputParent.AllowUserToAddRows = false;
             this.tblOutputParent.AllowUserToDeleteRows = false;
             this.tblOutputParent.AllowUserToResizeRows = false;
+            this.tblOutputParent.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.tblOutputParent.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.tblOutputParent.Location = new System.Drawing.Point(6, 21);
             this.tblOutputParent.Name = "tblOutputParent";
@@ -116,6 +129,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)));
             this.groupBox1.Controls.Add(this.tblInputChildren);
             this.groupBox1.Controls.Add(this.tblInputParent);
             this.groupBox1.Location = new System.Drawing.Point(4, 65);
@@ -156,8 +171,7 @@
             // 
             // lstLog
             // 
-            this.lstLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
+            this.lstLog.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.lstLog.FormattingEnabled = true;
             this.lstLog.ItemHeight = 12;
@@ -168,6 +182,8 @@
             // 
             // tabFunction
             // 
+            this.tabFunction.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.tabFunction.Location = new System.Drawing.Point(12, 30);
             this.tabFunction.Name = "tabFunction";
             this.tabFunction.SelectedIndex = 0;
