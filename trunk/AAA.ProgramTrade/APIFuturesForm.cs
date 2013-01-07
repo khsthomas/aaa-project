@@ -346,8 +346,8 @@ namespace AAA.ProgramTrade
             try
             {
                 if (e.KeyCode != Keys.Return)
-                    return;
-                
+                    return;                
+
                 if (tblInputParent.Rows[tblInputParent.CurrentRow.Index].Cells[0].Value.ToString() != "Count")
                     return;
 
@@ -365,6 +365,37 @@ namespace AAA.ProgramTrade
                         }
                         break;
                     }
+            }
+            catch (Exception ex)
+            {
+                //MessageBox.Show(ex.Message + "," + ex.StackTrace);
+            }
+        }
+
+        private void tblOutputChildren_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                string strFunctionCode = ParseFunctionCode(tabFunction.TabPages[tabFunction.SelectedIndex].Text);
+                PolarisStructure structure = _polarisBase.GetMessageStructure(strFunctionCode);                
+
+                if (structure.GetNames(PolarisStructure.OUTPUT_GRAND_CHILDREN) == null)
+                return;
+
+                if (!_dicExecuteResult.ContainsKey(strFunctionCode))
+                    return;
+
+                Dictionary<string, object> dicReturn = _dicExecuteResult[strFunctionCode];
+
+                if (!dicReturn.ContainsKey("Children" + (e.RowIndex - 1)))
+                    return;
+
+                dicReturn = (Dictionary<string, object>)dicReturn["Children" + (e.RowIndex - 1)];
+
+                FillChildrenTable(tblOutputGrandChildren, dicReturn,  "DataCount",
+                                  "GrandChildren",
+                                  structure.GetNames(PolarisStructure.OUTPUT_GRAND_CHILDREN), structure.GetTypes(PolarisStructure.OUTPUT_GRAND_CHILDREN));
+            
             }
             catch (Exception ex)
             {
