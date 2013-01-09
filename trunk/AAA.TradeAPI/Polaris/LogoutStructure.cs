@@ -9,8 +9,8 @@ namespace AAA.TradeAPI.Polaris
     {
         public LogoutStructure()
         {
-            ApiId = "000";
-            ApiIdHex = "000";
+            ApiId = "10";
+            ApiIdHex = "10";
             ClientName = "Logout";
             DisplayName = "登出";
 

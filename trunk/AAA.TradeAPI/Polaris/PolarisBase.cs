@@ -42,6 +42,7 @@ namespace AAA.TradeAPI.Polaris
         private const string SEND_STOCK_ORDER = "30.100.10.10";
         private const string ORDER_REPORT = "20.101.20.11";
         private const string COVER_REPORT = "20.102.20.11";
+/*
         //登入
         private static string[] LOGIN_OUTPUT_PARENT_TYPE = { "string", "string", "int" };
         private static int[] LOGIN_OUTPUT_PARENT_LEN = { 4, 50, 4 };
@@ -110,7 +111,7 @@ namespace AAA.TradeAPI.Polaris
         private static string[] COVER_OUTPUT_CHILDREN_TYPE = { "string", "Date", "short", "short", "Date", "string", "int", "int", "string", "string", "int", "string", "int", "int", "int", "int", "byte", "string" };
         private static int[] COVER_OUTPUT_CHILDREN_LEN = { 22, 4, 2, 2, 4, 7, 4, 4, 20, 1, 4, 1, 4, 4, 4, 4, 1, 3 };
         private static string[] COVER_OUTPUT_CHILDREN_NAME = { "Account", "CoverDate", "CoverSeqNo", "CoverNum", "OriTradeDate", "FutCode", "FutTradeYM1", "StrikeP", "StkName", "BSCL", "MatchP", "SourceCL", "CoverVol", "ProfitMoney", "Fee", "Tax", "ProductType", "CurrencyType" };
-
+*/
         private event MessageEvent _messageEvent;
 
         private System.Timers.Timer _timer;
@@ -125,9 +126,10 @@ namespace AAA.TradeAPI.Polaris
 
         private Dictionary<string, PolarisStructure> _dicStructure;
         private Dictionary<string, string> _dicHexMapping;
+        
         private int _iMaxWaitCount = 20;
 
-        protected AccountInfo _accountInfo;
+        protected AccountInfo _accountInfo;                
 
         public PolarisBase()
         {
@@ -259,13 +261,16 @@ namespace AAA.TradeAPI.Polaris
                 dicData.Add(strKey, bValue.ToString());
         }
 
-        string GenerateHeader(string[] strFields)
+        string GenerateHeader(string[] strFields, string[] strSwichFields)
         {
             string strHeader = "";
             try
             {
                 for (int i = 0; i < strFields.Length; i++)
                     strHeader += "," + strFields[i];
+
+                for (int i = 0; i < strSwichFields.Length; i++)
+                    strHeader += "," + strSwichFields[i];
             }
             catch (Exception ex)
             {
@@ -427,7 +432,8 @@ namespace AAA.TradeAPI.Polaris
         private Dictionary<string, object> ConvertMessage(int iMark, uint dwIndex, string strIndex, object oValue,
                                                          string[] strOutputParentType, int[] iOutputParentLen, string[] strOutputParentName,
                                                          string[] strOutputChildrenType, int[] iOutputChildrenLen, string[] strOutputChildrenName,
-                                                         string[] strOutputGrandChildrenType, int[] iOutputGrandChildrenLen, string[] strOutputGrandChildrenName)
+                                                         string[] strOutputGrandChildrenType, int[] iOutputGrandChildrenLen, string[] strOutputGrandChildrenName,
+                                                         PolarisStructure structure)
         {
             Dictionary<string, object> dicReturn = new Dictionary<string, object>();
             Dictionary<string, object> dicChildren;
@@ -435,6 +441,9 @@ namespace AAA.TradeAPI.Polaris
 
             byte[] bValues = null;
             string strValue;
+            string[] strSwitchNames = null;
+            string[] strSwitchTypes = null;
+            int[] iSwitchLens = null;
 
             try
             {
@@ -455,16 +464,38 @@ namespace AAA.TradeAPI.Polaris
                 {
 //                    ClearParam();
                     //依元件規格文件依序解出內容值
+                    strSwitchNames = null;
+                    strSwitchTypes = null;
+                    iSwitchLens = null;
+
                     for (int i = 0; i < strOutputParentType.Length; i++)
                     {
+                        
+                        
                         strValue = ProcessOutput(strOutputParentType[i], iOutputParentLen[i]);
                         AddValue(dicReturn, strOutputParentName[i], strValue);
+                        if (!structure.IsSwitchField(PolarisStructure.OUTPUT_PARENT, strOutputParentName[i]))
+                            continue;
+
+                        strSwitchNames = structure.GetSwitchName(PolarisStructure.OUTPUT_PARENT, strOutputParentName[i], strValue);
+                        strSwitchTypes = structure.GetSwitchType(PolarisStructure.OUTPUT_PARENT, strOutputParentName[i], strValue);
+                        iSwitchLens = structure.GetSwitchLen(PolarisStructure.OUTPUT_PARENT, strOutputParentName[i], strValue);
+
+                        for (int j = 0; j < strSwitchNames.Length; j++)
+                        {
+                            strValue = ProcessOutput(strSwitchTypes[j], iSwitchLens[j]);
+                            AddValue(dicReturn, strSwitchNames[j], strValue);
+                        }
                     }
 
-                    dicReturn.Add("Header", GenerateHeader(strOutputParentName));
+                    dicReturn.Add("Header", GenerateHeader(strOutputParentName, strSwitchNames == null ? new string[0] : strSwitchNames));
 
                     if (strOutputChildrenName != null)
                     {
+                        strSwitchNames = null;
+                        strSwitchTypes = null;
+                        iSwitchLens = null;
+
                         for (int i = 0; i < int.Parse(dicReturn["RecordCount"].ToString()); i++)
                         {
                             dicChildren = new Dictionary<string, object>();
@@ -472,9 +503,26 @@ namespace AAA.TradeAPI.Polaris
                             {
                                 strValue = ProcessOutput(strOutputChildrenType[j], iOutputChildrenLen[j]);
                                 AddValue(dicChildren, strOutputChildrenName[j], strValue);
+
+                                if (!structure.IsSwitchField(PolarisStructure.OUTPUT_CHILDREN, strOutputChildrenName[j]))
+                                    continue;
+
+                                strSwitchNames = structure.GetSwitchName(PolarisStructure.OUTPUT_CHILDREN, strOutputChildrenName[j], strValue);
+                                strSwitchTypes = structure.GetSwitchType(PolarisStructure.OUTPUT_CHILDREN, strOutputChildrenName[j], strValue);
+                                iSwitchLens = structure.GetSwitchLen(PolarisStructure.OUTPUT_CHILDREN, strOutputChildrenName[j], strValue);
+
+                                for (int k = 0; k < strSwitchNames.Length; k++)
+                                {
+                                    strValue = ProcessOutput(strSwitchTypes[k], iSwitchLens[k]);
+                                    AddValue(dicChildren, strSwitchNames[k], strValue);
+                                }
                             }
                             dicReturn.Add("Children" + i, dicChildren);
+                            dicReturn.Add("ChildrenHeader" + i, GenerateHeader(strOutputChildrenName, strSwitchNames == null ? new string[0] : strSwitchNames));
 
+                            strSwitchNames = null;
+                            strSwitchTypes = null;
+                            iSwitchLens = null;
                             for (int k = 0; k < int.Parse(dicChildren["DataCount"].ToString()); k++)
                             {
                                 dicGrandChiildren = new Dictionary<string, object>();
@@ -482,10 +530,23 @@ namespace AAA.TradeAPI.Polaris
                                 {
                                     strValue = ProcessOutput(strOutputGrandChildrenType[l], iOutputGrandChildrenLen[l]);                                    
                                     AddValue(dicGrandChiildren, strOutputGrandChildrenName[l], strValue);
+
+                                    if (!structure.IsSwitchField(PolarisStructure.OUTPUT_GRAND_CHILDREN, strOutputGrandChildrenName[l]))
+                                        continue;
+
+                                    strSwitchNames = structure.GetSwitchName(PolarisStructure.OUTPUT_GRAND_CHILDREN, strOutputGrandChildrenName[l], strValue);
+                                    strSwitchTypes = structure.GetSwitchType(PolarisStructure.OUTPUT_GRAND_CHILDREN, strOutputGrandChildrenName[l], strValue);
+                                    iSwitchLens = structure.GetSwitchLen(PolarisStructure.OUTPUT_GRAND_CHILDREN, strOutputGrandChildrenName[l], strValue);
+
+                                    for (int m = 0; m < strSwitchNames.Length; m++)
+                                    {
+                                        strValue = ProcessOutput(strSwitchTypes[m], iSwitchLens[m]);
+                                        AddValue(dicChildren, strSwitchNames[m], strValue);
+                                    }
                                 }
                                 dicChildren.Add("GrandChildren" + k, dicGrandChiildren);
-                            }
-
+                                dicChildren.Add("GrandChildrenHeader" + k, GenerateHeader(strOutputGrandChildrenName, strSwitchNames == null ? new string[0] : strSwitchNames));
+                            }                            
                         }
                     }
 //                    WriteLog(_lstParam);
@@ -565,7 +626,8 @@ namespace AAA.TradeAPI.Polaris
                                                     polarisStructure.GetNames(PolarisStructure.OUTPUT_CHILDREN),
                                                     polarisStructure.GetTypes(PolarisStructure.OUTPUT_GRAND_CHILDREN),
                                                     polarisStructure.GetLens(PolarisStructure.OUTPUT_GRAND_CHILDREN),
-                                                    polarisStructure.GetNames(PolarisStructure.OUTPUT_GRAND_CHILDREN));
+                                                    polarisStructure.GetNames(PolarisStructure.OUTPUT_GRAND_CHILDREN),
+                                                    polarisStructure);
                         if (polarisStructure.ClientName != null)
                         {
                             if (_dicReturn.ContainsKey(polarisStructure.ClientName))
