@@ -29,6 +29,7 @@ namespace AAA.IntellectOrder
             _polarisBase.AddMessageStructure(new LoginStructure());
             _polarisBase.AddMessageStructure(new LogoutStructure());
             _polarisBase.AddMessageStructure(_tickStructure);
+            Text = "";
             InitTable();
         }
 
@@ -80,13 +81,16 @@ namespace AAA.IntellectOrder
                 if (dicReturn.ContainsKey("name") == false)
                     return;
 
-                if (dicReturn["name"] == "Login")
+                if (dicReturn["name"].ToString() == "Login")
                 {
-                    //tQuote.Enabled = true;
+                    Text = "Login-" + ((Dictionary<string, object>)dicReturn["Children0"])["Name"].ToString();
+                    tQuote.Interval = 1000;
+                    tQuote.Enabled = true;
+//                    Quote();
                     return;
                 }
 
-                if (dicReturn["name"] != _tickStructure.ClientName)
+                if (dicReturn["name"].ToString() != _tickStructure.ClientName)
                     return;
 
                 if (int.Parse(dicReturn["RecordCount"].ToString()) == 0)
@@ -94,20 +98,22 @@ namespace AAA.IntellectOrder
 
                 Dictionary<string, object> dicChildren;
                 object[] oRowValues;
+                float fDecimal;
                 for (int i = 0; i < int.Parse(dicReturn["RecordCount"].ToString()); i++)
                 {
                     dicChildren = (Dictionary<string, object>)dicReturn["Children" + i];
+                    fDecimal = (float)Math.Pow(10, int.Parse(dicChildren["Decimal"].ToString()));
                     oRowValues = new object[] { dicChildren["StockCode"],
-                                                dicChildren["BPrice1"],
-                                                dicChildren["BPrice2"],
-                                                dicChildren["BPrice3"],
-                                                dicChildren["BPrice4"],
-                                                dicChildren["BPrice5"],
-                                                dicChildren["SPrice1"],
-                                                dicChildren["SPrice2"],
-                                                dicChildren["SPrice3"],
-                                                dicChildren["SPrice4"],
-                                                dicChildren["SPrice5"],
+                                                (float.Parse(dicChildren["BPrice1"].ToString()) / fDecimal).ToString("0.00"),
+                                                (float.Parse(dicChildren["BPrice2"].ToString()) / fDecimal).ToString("0.00"),
+                                                (float.Parse(dicChildren["BPrice3"].ToString()) / fDecimal).ToString("0.00"),
+                                                (float.Parse(dicChildren["BPrice4"].ToString()) / fDecimal).ToString("0.00"),
+                                                (float.Parse(dicChildren["BPrice5"].ToString()) / fDecimal).ToString("0.00"),
+                                                (float.Parse(dicChildren["SPrice1"].ToString()) / fDecimal).ToString("0.00"),
+                                                (float.Parse(dicChildren["SPrice2"].ToString()) / fDecimal).ToString("0.00"),
+                                                (float.Parse(dicChildren["SPrice3"].ToString()) / fDecimal).ToString("0.00"),
+                                                (float.Parse(dicChildren["SPrice4"].ToString()) / fDecimal).ToString("0.00"),
+                                                (float.Parse(dicChildren["SPrice5"].ToString()) / fDecimal).ToString("0.00"),
                                                 dicChildren["BVol1"],
                                                 dicChildren["BVol2"],
                                                 dicChildren["BVol3"],
@@ -137,7 +143,7 @@ namespace AAA.IntellectOrder
             }
         }
 
-        private void tQuote_Tick(object sender, EventArgs e)
+        private void Quote()
         {
             Dictionary<string, object> dicValue = new Dictionary<string, object>();
             Dictionary<string, string> dicSymbol;
@@ -146,17 +152,33 @@ namespace AAA.IntellectOrder
             dicValue.Add("Count", "1");
             dicSymbol = new Dictionary<string, string>();
             dicSymbol.Add("MarketNo", strValues[0]);
-            dicSymbol.Add("StockCode", strValues[0]);
+            dicSymbol.Add("StockCode", strValues[1]);
 
             dicValue.Add("Children0", dicSymbol);
 
             _polarisBase.MessageSend(_tickStructure.ApiId, dicValue);
+
+        }
+
+        private void tQuote_Tick(object sender, EventArgs e)
+        {
+            Quote();
         }
 
         private void btnStop_Click(object sender, EventArgs e)
         {
-//            tQuote.Enabled = false;
+            tQuote.Enabled = false;
             _polarisBase.Logout();
+        }
+
+        private void QuoteForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (tQuote.Enabled)
+                tQuote.Enabled = false;
+
+            if (_polarisBase != null)
+                if(_polarisBase.IsConnected)
+                    _polarisBase.Logout();
         }
     }
 }
