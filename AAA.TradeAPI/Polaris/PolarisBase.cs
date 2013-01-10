@@ -6,6 +6,7 @@ using AAA.Meta.Trade;
 using System.Threading;
 using System.Windows.Forms;
 using AAA.Meta.Trade.Data;
+using System.Runtime.InteropServices;
 
 namespace AAA.TradeAPI.Polaris
 {
@@ -587,7 +588,7 @@ namespace AAA.TradeAPI.Polaris
                         switch (dwIndex)
                         {
                             case CONNECTED:
-                                _timer.Interval = 2000;
+                                _timer.Interval = 1000;
                                 _timer.Enabled = true;
                                 _timer.Start();
                                 IsConnected = true;
@@ -783,7 +784,11 @@ namespace AAA.TradeAPI.Polaris
             }
             catch (Exception ex)
             {
-                throw;
+                Marshal.ReleaseComObject(_objB2BApi);
+            }
+            finally
+            {
+                Marshal.ReleaseComObject(_objB2BApi);
             }
             return "Fail";
         }

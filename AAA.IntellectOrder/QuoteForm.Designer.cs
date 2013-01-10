@@ -28,14 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.gbAccountInfo = new System.Windows.Forms.GroupBox();
-            this.txtAccount = new System.Windows.Forms.TextBox();
-            this.txtPassword = new System.Windows.Forms.TextBox();
-            this.txtAccountType = new System.Windows.Forms.TextBox();
-            this.btnStart = new System.Windows.Forms.Button();
-            this.txtSymbol = new System.Windows.Forms.TextBox();
-            this.tblQuote = new System.Windows.Forms.DataGridView();
             this.btnStop = new System.Windows.Forms.Button();
+            this.txtSymbol = new System.Windows.Forms.TextBox();
+            this.btnStart = new System.Windows.Forms.Button();
+            this.txtAccountType = new System.Windows.Forms.TextBox();
+            this.txtPassword = new System.Windows.Forms.TextBox();
+            this.txtAccount = new System.Windows.Forms.TextBox();
+            this.tblQuote = new System.Windows.Forms.DataGridView();
+            this.tQuote = new System.Windows.Forms.Timer(this.components);
             this.gbAccountInfo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tblQuote)).BeginInit();
             this.SuspendLayout();
@@ -57,29 +59,23 @@
             this.gbAccountInfo.TabStop = false;
             this.gbAccountInfo.Text = "帳號資訊";
             // 
-            // txtAccount
+            // btnStop
             // 
-            this.txtAccount.Location = new System.Drawing.Point(149, 21);
-            this.txtAccount.Name = "txtAccount";
-            this.txtAccount.Size = new System.Drawing.Size(100, 22);
-            this.txtAccount.TabIndex = 0;
-            this.txtAccount.Text = "F0210000002525917";
+            this.btnStop.Location = new System.Drawing.Point(646, 21);
+            this.btnStop.Name = "btnStop";
+            this.btnStop.Size = new System.Drawing.Size(75, 23);
+            this.btnStop.TabIndex = 5;
+            this.btnStop.Text = "停止";
+            this.btnStop.UseVisualStyleBackColor = true;
+            this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
             // 
-            // txtPassword
+            // txtSymbol
             // 
-            this.txtPassword.Location = new System.Drawing.Point(307, 21);
-            this.txtPassword.Name = "txtPassword";
-            this.txtPassword.Size = new System.Drawing.Size(100, 22);
-            this.txtPassword.TabIndex = 1;
-            this.txtPassword.Text = "12345678";
-            // 
-            // txtAccountType
-            // 
-            this.txtAccountType.Location = new System.Drawing.Point(41, 21);
-            this.txtAccountType.Name = "txtAccountType";
-            this.txtAccountType.Size = new System.Drawing.Size(35, 22);
-            this.txtAccountType.TabIndex = 2;
-            this.txtAccountType.Text = "F";
+            this.txtSymbol.Location = new System.Drawing.Point(441, 21);
+            this.txtSymbol.Name = "txtSymbol";
+            this.txtSymbol.Size = new System.Drawing.Size(100, 22);
+            this.txtSymbol.TabIndex = 4;
+            this.txtSymbol.Text = "3,TXO07700A3";
             // 
             // btnStart
             // 
@@ -91,13 +87,29 @@
             this.btnStart.UseVisualStyleBackColor = true;
             this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
             // 
-            // txtSymbol
+            // txtAccountType
             // 
-            this.txtSymbol.Location = new System.Drawing.Point(441, 21);
-            this.txtSymbol.Name = "txtSymbol";
-            this.txtSymbol.Size = new System.Drawing.Size(100, 22);
-            this.txtSymbol.TabIndex = 4;
-            this.txtSymbol.Text = "3,7779";
+            this.txtAccountType.Location = new System.Drawing.Point(41, 21);
+            this.txtAccountType.Name = "txtAccountType";
+            this.txtAccountType.Size = new System.Drawing.Size(35, 22);
+            this.txtAccountType.TabIndex = 2;
+            this.txtAccountType.Text = "F";
+            // 
+            // txtPassword
+            // 
+            this.txtPassword.Location = new System.Drawing.Point(307, 21);
+            this.txtPassword.Name = "txtPassword";
+            this.txtPassword.Size = new System.Drawing.Size(100, 22);
+            this.txtPassword.TabIndex = 1;
+            this.txtPassword.Text = "12345678";
+            // 
+            // txtAccount
+            // 
+            this.txtAccount.Location = new System.Drawing.Point(149, 21);
+            this.txtAccount.Name = "txtAccount";
+            this.txtAccount.Size = new System.Drawing.Size(100, 22);
+            this.txtAccount.TabIndex = 0;
+            this.txtAccount.Text = "F0210000002525917";
             // 
             // tblQuote
             // 
@@ -114,15 +126,9 @@
             this.tblQuote.Size = new System.Drawing.Size(730, 150);
             this.tblQuote.TabIndex = 1;
             // 
-            // btnStop
+            // tQuote
             // 
-            this.btnStop.Location = new System.Drawing.Point(646, 21);
-            this.btnStop.Name = "btnStop";
-            this.btnStop.Size = new System.Drawing.Size(75, 23);
-            this.btnStop.TabIndex = 5;
-            this.btnStop.Text = "停止";
-            this.btnStop.UseVisualStyleBackColor = true;
-            this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
+            this.tQuote.Tick += new System.EventHandler(this.tQuote_Tick);
             // 
             // QuoteForm
             // 
@@ -133,6 +139,7 @@
             this.Controls.Add(this.gbAccountInfo);
             this.Name = "QuoteForm";
             this.Text = "Form1";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.QuoteForm_FormClosing);
             this.gbAccountInfo.ResumeLayout(false);
             this.gbAccountInfo.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tblQuote)).EndInit();
@@ -150,6 +157,7 @@
         private System.Windows.Forms.TextBox txtSymbol;
         private System.Windows.Forms.DataGridView tblQuote;
         private System.Windows.Forms.Button btnStop;
+        private System.Windows.Forms.Timer tQuote;
     }
 }
 
