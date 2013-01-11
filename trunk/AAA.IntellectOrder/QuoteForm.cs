@@ -17,17 +17,19 @@ namespace AAA.IntellectOrder
         private PolarisBase _polarisBase;
         private AccountInfo _accountInfo;
         private StockFiveTickStructure _tickStructure;
-
+        private WatchListStructure _watchListStructure;
         public QuoteForm()
         {
             InitializeComponent();
             _tickStructure = new StockFiveTickStructure();
+            _watchListStructure = new WatchListStructure();
             _polarisBase = new PolarisBase();
             _polarisBase.IsAutoLogin = true;
             _polarisBase.OnMessage(new AAA.Meta.Trade.MessageEvent(OnMessageReceive));
             _polarisBase.AddMessageStructure(new OpenStructure());
             _polarisBase.AddMessageStructure(new LoginStructure());
             _polarisBase.AddMessageStructure(new LogoutStructure());
+            _polarisBase.AddMessageStructure(_watchListStructure);
             _polarisBase.AddMessageStructure(_tickStructure);
             Text = "";
             InitTable();
@@ -76,6 +78,10 @@ namespace AAA.IntellectOrder
 
         private void OnMessageReceive(Dictionary<string, object> dicReturn)
         {
+            Dictionary<string, object> dicParam;
+            Dictionary<string, string> dicSymbol;
+            string[] strValues = txtSymbol.Text.Split(',');
+
             try
             {
                 if (dicReturn.ContainsKey("name") == false)
@@ -87,7 +93,27 @@ namespace AAA.IntellectOrder
                     tQuote.Interval = 1000;
                     tQuote.Enabled = true;
 //                    Quote();
+                    dicParam = new Dictionary<string, object>();
+                    dicParam.Add("Count", "1");
+
+                    dicSymbol = new Dictionary<string, string>();
+                    dicSymbol.Add("Index", "7");
+                    dicSymbol.Add("MarketNo", strValues[0]);
+                    dicSymbol.Add("StockCode", strValues[1]);
+
+                    dicParam.Add("Children0", dicSymbol);
+
+                    _polarisBase.MessageSend(_watchListStructure.ApiId,
+                                             dicParam);
                     return;
+                }
+
+                if (dicReturn["name"].ToString() == _watchListStructure.ClientName)
+                {
+                    lstPrice.Items.Add(dicReturn["StockCode"].ToString() + "," +
+                                       dicReturn["IndexFlag"].ToString() + "," +
+                                       dicReturn["Value"].ToString());
+                    lstPrice.Invalidate();
                 }
 
                 if (dicReturn["name"].ToString() != _tickStructure.ClientName)
