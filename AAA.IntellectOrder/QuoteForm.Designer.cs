@@ -38,6 +38,7 @@
             this.txtAccount = new System.Windows.Forms.TextBox();
             this.tblQuote = new System.Windows.Forms.DataGridView();
             this.tQuote = new System.Windows.Forms.Timer(this.components);
+            this.lstPrice = new System.Windows.Forms.ListBox();
             this.gbAccountInfo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tblQuote)).BeginInit();
             this.SuspendLayout();
@@ -130,11 +131,21 @@
             // 
             this.tQuote.Tick += new System.EventHandler(this.tQuote_Tick);
             // 
+            // lstPrice
+            // 
+            this.lstPrice.FormattingEnabled = true;
+            this.lstPrice.ItemHeight = 12;
+            this.lstPrice.Location = new System.Drawing.Point(2, 220);
+            this.lstPrice.Name = "lstPrice";
+            this.lstPrice.Size = new System.Drawing.Size(184, 184);
+            this.lstPrice.TabIndex = 2;
+            // 
             // QuoteForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(735, 408);
+            this.Controls.Add(this.lstPrice);
             this.Controls.Add(this.tblQuote);
             this.Controls.Add(this.gbAccountInfo);
             this.Name = "QuoteForm";
@@ -158,6 +169,7 @@
         private System.Windows.Forms.DataGridView tblQuote;
         private System.Windows.Forms.Button btnStop;
         private System.Windows.Forms.Timer tQuote;
+        private System.Windows.Forms.ListBox lstPrice;
     }
 }
 
