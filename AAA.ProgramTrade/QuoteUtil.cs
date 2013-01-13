@@ -34,12 +34,15 @@ namespace AAA.ProgramTrade
             {
                 case "買權":
                 case "賣權":
-                    strFilename = SymbolCodeHelper.QuerySymbolCode("選擇權", strValues[3], strValues[0] == "買權" ? "C" : "P", strValues[1], strValues[2]);
+                    strFilename = SymbolCodeHelper.QuerySymbolCode(SymbolCodeHelper.OPTIONS, strValues[3], strValues[0] == "買權" ? "C" : "P", strValues[1], strValues[2]);
                     break;
 
                 case "台指":
+                    strFilename = SymbolCodeHelper.QuerySymbolCode(SymbolCodeHelper.FUTURES_BIG, "0", "", strValues[1], strValues[2]);
+                    break;
+
                 case "小台":
-                    strFilename = SymbolCodeHelper.QuerySymbolCode("選擇權", "0", "", strValues[1], strValues[2]);
+                    strFilename = SymbolCodeHelper.QuerySymbolCode(SymbolCodeHelper.FUTURES_SMALL, "0", "", strValues[1], strValues[2]);
                     break;
             }
 
