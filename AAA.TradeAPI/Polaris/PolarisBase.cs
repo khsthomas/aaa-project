@@ -476,9 +476,7 @@ namespace AAA.TradeAPI.Polaris
                     iSwitchLens = null;
 
                     for (int i = 0; i < strOutputParentType.Length; i++)
-                    {
-                        
-                        
+                    {                                               
                         strValue = ProcessOutput(strOutputParentType[i], iOutputParentLen[i]);
                         AddValue(dicReturn, strOutputParentName[i], strValue);
                         if (!structure.IsSwitchField(PolarisStructure.OUTPUT_PARENT, strOutputParentName[i]))
@@ -565,7 +563,7 @@ namespace AAA.TradeAPI.Polaris
             }
             catch (Exception ex)
             {
-                dicReturn.Add("Exception", ex.Message + "," + ex.StackTrace);
+                dicReturn.Add("Exception", ex.Message + "," + ex.StackTrace);                
             }
             return dicReturn;
         }
@@ -784,12 +782,13 @@ namespace AAA.TradeAPI.Polaris
             }
             catch (Exception ex)
             {
-                Marshal.ReleaseComObject(_objB2BApi);
+                try
+                {
+                    Marshal.ReleaseComObject(_objB2BApi);
+                }
+                catch { }
             }
-            finally
-            {
-                Marshal.ReleaseComObject(_objB2BApi);
-            }
+
             return "Fail";
         }
 
