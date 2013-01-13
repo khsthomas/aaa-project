@@ -101,7 +101,7 @@ namespace APPGISMS.Project
             MapArea.Visible = true;
             
             string strFilename = getImageMap();
-            tblDistribute.DataSource = getgrvDistribute();
+            tblDistribute.DataSource = (ViewState["formulaValue"] == null) ? getgrvDistribute() : createDistribute();
             MapArea.ImageUrl = "~/ASPImages/" + strFilename;            
             tblDistribute.DataBind();
         }
@@ -202,7 +202,48 @@ namespace APPGISMS.Project
 
         private DataSet createDistribute()
         {
-            return new DataSet();
+            DataSet returnSet = new DataSet();
+            int iFormulaLevel = DataMapping.ALL_LEVEL;
+            int iDataLevel = DataMapping.COUNTY_LEVEL;
+
+            if(ViewState["formulaLevel"] == null)
+            {
+                emcMsg.ShowErrorMessage("請選擇公式名稱");
+                return null;
+            }
+
+            if(ViewState["formulaValue"] == null)
+            {
+                iFormulaLevel = DataMapping.COUNTY_LEVEL;
+                iDataLevel = DataMapping.TOWN_LEVEL;
+            }
+            else
+            {
+                switch ((int)ViewState["formulaLevel"])
+                {
+                    case DataMapping.ALL_LEVEL:
+                        iDataLevel = DataMapping.COUNTY_LEVEL;
+                        break;
+                    case DataMapping.AREA_LEVEL:
+                        iDataLevel = DataMapping.COUNTY_LEVEL;
+                        break;
+                    case DataMapping.COUNTY_LEVEL:
+                        iDataLevel = DataMapping.TOWN_LEVEL;
+                        break;
+                }
+                iFormulaLevel = (int)ViewState["formulaLevel"];
+            }
+            string strSQL = DataMapping.ProjectBRSql(iFormulaLevel, iDataLevel);
+
+            List<IDataModel> lstDistribute = (new DefaultDataModel()).Query<IDataModel>(strSQL,
+                                                                                        new string[] { "DATA_YEAR", "COUNTY_AREA", "COUNTY_NO"},
+                                                                                        new string[] { ddlYearly.SelectedValue, ddlArea_Info.SelectedValue, ddlCounty_Info.SelectedValue});
+
+
+
+            return returnSet;
+
+
         }
 
         // </summary>
@@ -265,7 +306,8 @@ namespace APPGISMS.Project
             ddlArea_Info.Visible = false;
             ddlCounty_Info.Visible = false;
             ViewState["formulaValue"] = null;
-            
+            ViewState["formulaLevel"] = DataMapping.ALL_LEVEL;
+
             if (oFormulaValue == null)
                 return;
 
@@ -273,12 +315,14 @@ namespace APPGISMS.Project
             {                
                 ddlArea_Info.Visible = true;
                 ddlCounty_Info.Visible = false;
+                ViewState["formulaLevel"] = DataMapping.AREA_LEVEL;
                 DataBuilder.FillArea(ddlArea_Info, true);                
             }
             else if (oFormulaValue.ToString().IndexOf("HOSPITAL_COUNTY") > -1)
             {                
                 ddlArea_Info.Visible = true;
                 ddlCounty_Info.Visible = true;
+                ViewState["formulaLevel"] = DataMapping.COUNTY_LEVEL;
                 DataBuilder.FillArea(ddlArea_Info, true);
                 DataBuilder.FillCountry(ddlCounty_Info, ddlYearly.SelectedValue, ddlArea_Info.SelectedValue, true);
             }

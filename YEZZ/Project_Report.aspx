@@ -13,7 +13,7 @@
 <body>
         <form id="form1" runat="server">
         <div class="MainPage">
-            <AjaxCTLToolkit:ToolkitScriptManager ID="ScriptManager1" runat="server" />            
+            if<AjaxCTLToolkit:ToolkitScriptManager ID="ScriptManager1" runat="server" />            
             <TSAControl:ErrorMessageControl ID="emcMsg" runat="server" CssClass="txtMessage" />
             <div class="div_button" style="position:absolute; margin:45px 0 0 634px;" >            
                 <asp:Button ID="btnQuery" runat="server" Text="查詢資料" 
