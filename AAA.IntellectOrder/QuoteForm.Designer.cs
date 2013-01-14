@@ -89,7 +89,7 @@
             this.gbAccountInfo.Controls.Add(this.txtAccount);
             this.gbAccountInfo.Location = new System.Drawing.Point(2, 3);
             this.gbAccountInfo.Name = "gbAccountInfo";
-            this.gbAccountInfo.Size = new System.Drawing.Size(904, 80);
+            this.gbAccountInfo.Size = new System.Drawing.Size(799, 80);
             this.gbAccountInfo.TabIndex = 0;
             this.gbAccountInfo.TabStop = false;
             this.gbAccountInfo.Text = "帳號資訊";
@@ -205,6 +205,7 @@
             // 
             this.txtPassword.Location = new System.Drawing.Point(352, 19);
             this.txtPassword.Name = "txtPassword";
+            this.txtPassword.PasswordChar = '*';
             this.txtPassword.Size = new System.Drawing.Size(100, 22);
             this.txtPassword.TabIndex = 1;
             this.txtPassword.Text = "12345678";
@@ -213,6 +214,7 @@
             // 
             this.txtAccount.Location = new System.Drawing.Point(149, 19);
             this.txtAccount.Name = "txtAccount";
+            this.txtAccount.PasswordChar = '*';
             this.txtAccount.Size = new System.Drawing.Size(162, 22);
             this.txtAccount.TabIndex = 0;
             this.txtAccount.Text = "F0210000002525917";
@@ -229,7 +231,7 @@
             this.tblQuote.ReadOnly = true;
             this.tblQuote.RowHeadersVisible = false;
             this.tblQuote.RowTemplate.Height = 24;
-            this.tblQuote.Size = new System.Drawing.Size(904, 107);
+            this.tblQuote.Size = new System.Drawing.Size(799, 107);
             this.tblQuote.TabIndex = 1;
             // 
             // tQuote
@@ -286,7 +288,7 @@
             this.gbOrder.Controls.Add(this.label6);
             this.gbOrder.Location = new System.Drawing.Point(385, 89);
             this.gbOrder.Name = "gbOrder";
-            this.gbOrder.Size = new System.Drawing.Size(521, 113);
+            this.gbOrder.Size = new System.Drawing.Size(416, 113);
             this.gbOrder.TabIndex = 5;
             this.gbOrder.TabStop = false;
             this.gbOrder.Text = "下單";
@@ -411,7 +413,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(909, 458);
+            this.ClientSize = new System.Drawing.Size(804, 458);
             this.Controls.Add(this.gbOrder);
             this.Controls.Add(this.lstMatchItem);
             this.Controls.Add(this.tblQuoteList);

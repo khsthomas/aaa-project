@@ -704,9 +704,9 @@ namespace AAA.TradeAPI.Polaris
 
                     for (int i = 0; i < strNames.Length; i++)
                     {
-                        ProcessInput(strTypes[i], iLens[i], (string)dicValue[strNames[i]]);
+                        ProcessInput(strTypes[i], iLens[i], dicValue[strNames[i]].ToString());
                         if(strNames[i] == "Count")
-                            iRowCount = int.Parse((string)dicValue[strNames[i]]);
+                            iRowCount = int.Parse(dicValue[strNames[i]].ToString());
                     }
                 }
 
@@ -719,7 +719,7 @@ namespace AAA.TradeAPI.Polaris
                     {
                         dicChildren = (Dictionary<string, string>)dicValue["Children" + i];
                         for (int j = 0; j < strNames.Length; j++)
-                            ProcessInput(strTypes[j], iLens[j], (string)dicChildren[strNames[j]]);
+                            ProcessInput(strTypes[j], iLens[j], dicChildren[strNames[j]].ToString());
                     }
                 }
 

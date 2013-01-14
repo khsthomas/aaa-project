@@ -93,7 +93,7 @@ namespace AAA.IntellectOrder
 
             ContractInfo contractInfo = (cboMonth.Text == "近月")
                                             ? SymbolUtil.HotContract(DateTime.Now)
-                                            : SymbolUtil.NextMonthContract(DateTime.Now);
+                                           : SymbolUtil.NextMonthContract(DateTime.Now);
 
             strSymbolId = SymbolCodeHelper.QuerySymbolCode(cboSymbolType.Text,
                                                            txtStrikePrice.Text,
@@ -231,7 +231,7 @@ namespace AAA.IntellectOrder
                         for (int j = 0; j < QUOTE_INDEX_FLAGS.Length; j++)
                         {
                             dicSymbol = new Dictionary<string, string>();
-                            dicSymbol.Add("Index", QUOTE_INDEX_FLAGS[j]);
+                            dicSymbol.Add("IndexFlag", QUOTE_INDEX_FLAGS[j]);
                             dicSymbol.Add("MarketNo", strValues[0]);
                             dicSymbol.Add("StockCode", strValues[1]);
                             dicParam.Add("Children" + (i * QUOTE_INDEX_FLAGS.Length + j).ToString(), dicSymbol);
@@ -260,6 +260,7 @@ namespace AAA.IntellectOrder
                 object[] oRowValues;
                 float fDecimal;
                 SymbolQuoteSummary quoteSummary;
+                string strQuoteSymbolId;
                 for (int i = 0; i < int.Parse(dicReturn["RecordCount"].ToString()); i++)
                 {
                     dicChildren = (Dictionary<string, object>)dicReturn["Children" + i];
@@ -287,9 +288,12 @@ namespace AAA.IntellectOrder
                                                 dicChildren["SVol5"].ToString(),
                                               };
 
-                    if (_dicSymbolQuoteSummary.ContainsKey((string)oRowValues[0]))
+                    strQuoteSymbolId = dicChildren["MarketNo"].ToString() + "," +
+                                       dicChildren["StockCode"].ToString();
+
+                    if (_dicSymbolQuoteSummary.ContainsKey(strQuoteSymbolId))
                     {
-                        quoteSummary = _dicSymbolQuoteSummary[(string)oRowValues[0]];
+                        quoteSummary = _dicSymbolQuoteSummary[strQuoteSymbolId];
                         for (int j = 0; j < 5; j++)
                         {
                             quoteSummary.SetPrice(SymbolQuoteSummary.BUY, j, float.Parse(oRowValues[1 + j].ToString()));
@@ -408,7 +412,7 @@ namespace AAA.IntellectOrder
                         quoteSummary1 = quoteSummary;
                         fBestPrice = quoteSummary.BestPrice(cboOrderType1.Text == BUY
                                                            ?   SymbolQuoteSummary.BUY : SymbolQuoteSummary.SELL,
-                                                         int.Parse(txtCanOrderQty1.Text));
+                                                         int.Parse(txtOrderQty1.Text));
                         if(float.IsNaN(fBestPrice))
                         {
                             txtCanOrderQty1.BackColor = Color.Red;
@@ -424,9 +428,9 @@ namespace AAA.IntellectOrder
                     if (quoteSummary.SymbolName == cboTradeSymbol2.Text)
                     {
                         quoteSummary2 = quoteSummary;
-                        fBestPrice = quoteSummary.BestPrice(cboOrderType1.Text == BUY
+                        fBestPrice = quoteSummary.BestPrice(cboOrderType2.Text == BUY
                                                            ?   SymbolQuoteSummary.BUY : SymbolQuoteSummary.SELL,
-                                                         int.Parse(txtCanOrderQty1.Text));
+                                                         int.Parse(txtOrderQty2.Text));
                         if(float.IsNaN(fBestPrice))
                         {
                             txtCanOrderQty2.BackColor = Color.Red;

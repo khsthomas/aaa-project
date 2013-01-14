@@ -15,7 +15,7 @@ namespace AAA.TradeAPI.Polaris
 			DisplayName = "WatchList行情資料";
 			
             AddParam(PolarisStructure.INPUT_PARENT, "Count", "int", 4);
-            AddParam(PolarisStructure.INPUT_CHILDREN, "Index", "byte", 1);
+            AddParam(PolarisStructure.INPUT_CHILDREN, "IndexFlag", "byte", 1);
             AddParam(PolarisStructure.INPUT_CHILDREN, "MarketNo", "byte", 1);
             AddParam(PolarisStructure.INPUT_CHILDREN, "StockCode", "string", 20);
 
