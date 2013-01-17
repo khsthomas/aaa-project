@@ -1,0 +1,1 @@
+regsvr32 PolarisB2BAPI.dll

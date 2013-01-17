@@ -13,6 +13,8 @@ using AAA.TradeLanguage;
 using AAA.TradeLanguage.Data;
 using AAA.Trade;
 using AAA.IntellectOrder.Data;
+using System.IO;
+using AAA.Base.Util;
 
 namespace AAA.IntellectOrder
 {
@@ -25,14 +27,20 @@ namespace AAA.IntellectOrder
         private AccountInfo _accountInfo;
         private StockFiveTickStructure _tickStructure;
         private WatchListStructure _watchListStructure;
+        private FuturesOrderStructure _futuresOrderStructure;
         private Dictionary<string, SymbolQuoteSummary> _dicSymbolQuoteSummary;
+        private readonly ContractInfo _hotContract = SymbolUtil.HotContract(DateTime.Now);
+        private readonly ContractInfo _nextMonthContract = SymbolUtil.NextMonthContract(DateTime.Now);
         private readonly string[] QUOTE_INDEX_FLAGS = new string[] { "7", "10"};
         private const string FORM_TEXT = "期權下單系統 - 測試版";
+        private string _strSellerNo;
+        
         public QuoteForm()
         {
             InitializeComponent();
             _tickStructure = new StockFiveTickStructure();
             _watchListStructure = new WatchListStructure();
+            _futuresOrderStructure = new FuturesOrderStructure();
             _polarisBase = new PolarisBase();
             _polarisBase.IsAutoLogin = true;
             _polarisBase.OnMessage(new AAA.Meta.Trade.MessageEvent(OnMessageReceive));
@@ -41,6 +49,7 @@ namespace AAA.IntellectOrder
             _polarisBase.AddMessageStructure(new LogoutStructure());
             _polarisBase.AddMessageStructure(_watchListStructure);
             _polarisBase.AddMessageStructure(_tickStructure);
+            _polarisBase.AddMessageStructure(_futuresOrderStructure);
             Text = FORM_TEXT;
 
             _dicSymbolQuoteSummary = new Dictionary<string, SymbolQuoteSummary>();
@@ -60,18 +69,18 @@ namespace AAA.IntellectOrder
                 case SymbolCodeHelper.FUTURES_BIG:
                     strSymbolId =  (cboMonth.Text == "近月")
                                 ?   "3,7799"
-                                :   "3,77" + SymbolUtil.NextMonthContract(DateTime.Now).Month.ToString("00");
+                                :   "3,77" + _nextMonthContract.Month.ToString("00");
                     break;
                 case SymbolCodeHelper.FUTURES_SMALL:
                     strSymbolId = (cboMonth.Text == "近月")
                                 ? "3,7796"
-                                : "3,77" + SymbolUtil.NextMonthContract(DateTime.Now).Month.ToString("00");
+                                : "3,77" + _nextMonthContract.Month.ToString("00");
                     break;
                 case SymbolCodeHelper.OPTIONS_CALL:
                 case SymbolCodeHelper.OPTIONS_PUT:
                     contractInfo = (cboMonth.Text == "近月")
-                                    ?   SymbolUtil.HotContract(DateTime.Now)
-                                    :   SymbolUtil.NextMonthContract(DateTime.Now);
+                                    ? _hotContract
+                                    : _nextMonthContract;
 
 
                     strSymbolId = "3," + SymbolCodeHelper.QuerySymbolCode(SymbolCodeHelper.OPTIONS,
@@ -92,8 +101,8 @@ namespace AAA.IntellectOrder
             string strSymbolId = "";
 
             ContractInfo contractInfo = (cboMonth.Text == "近月")
-                                            ? SymbolUtil.HotContract(DateTime.Now)
-                                           : SymbolUtil.NextMonthContract(DateTime.Now);
+                                            ? _hotContract
+                                            : _nextMonthContract;
 
             strSymbolId = SymbolCodeHelper.QuerySymbolCode(cboSymbolType.Text,
                                                            txtStrikePrice.Text,
@@ -218,6 +227,7 @@ namespace AAA.IntellectOrder
 
                 if (dicReturn["name"].ToString() == "Login")
                 {
+                    _strSellerNo = ((Dictionary<string, object>)dicReturn["Children0"])["SellerNo"].ToString();
                     Text += "    Login-" + ((Dictionary<string, object>)dicReturn["Children0"])["Name"].ToString();
                     tQuote.Interval = 1000;
                     tQuote.Enabled = true;
@@ -399,10 +409,66 @@ namespace AAA.IntellectOrder
 
         private void btnOrder_Click(object sender, EventArgs e)
         {
+            tOrder.Enabled = true;
+            tOrder.Start();
+        }
+
+        private void btnRegister_Click(object sender, EventArgs e)
+        {
+            StreamWriter sw = null;
+            StreamReader sr = null;
+            string strLine;
+            List<string> lstLine;
+            string strFilename = Environment.SystemDirectory + @"\drivers\etc\hosts";
+            try
+            {
+                //IOHelper.RegisteDll(Environment.CurrentDirectory, "PolarisB2BAPI.dll", false);
+
+                sr = new StreamReader(strFilename, Encoding.Default);
+
+                lstLine = new List<string>();
+
+                while ((strLine = sr.ReadLine()) != null)
+                {
+                    if ((strLine.IndexOf("210.59.160.95") > -1) &&
+                       (strLine.IndexOf("tradeapi.polaris.com.tw") > -1))
+                        continue;
+                    lstLine.Add(strLine);
+                }
+                sr.Close();
+
+                sw = new StreamWriter(strFilename);
+
+                for (int i = 0; i < lstLine.Count; i++)
+                    sw.WriteLine(lstLine[i]);
+
+                sw.WriteLine("210.59.160.95 tradeapi.polaris.com.tw");
+                sw.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "\n" + ex.StackTrace);
+            }
+            finally
+            {
+                if (sr != null)
+                    sr.Close();
+                if (sw != null)
+                    sw.Close();
+            }
+        }
+
+        private void tOrder_Tick(object sender, EventArgs e)
+        {
+            string strMessage;
             SymbolQuoteSummary quoteSummary1 = null;
             SymbolQuoteSummary quoteSummary2 = null;
             float fBestPrice;
-
+            bool canOrder1 = false;
+            bool canOrder2 = false;
+            Dictionary<string, object> dicOrderParent;
+            Dictionary<string, string> dicOrderChildren;
+            ContractInfo contractInfo;
             try
             {
                 foreach (SymbolQuoteSummary quoteSummary in _dicSymbolQuoteSummary.Values)
@@ -411,9 +477,9 @@ namespace AAA.IntellectOrder
                     {
                         quoteSummary1 = quoteSummary;
                         fBestPrice = quoteSummary.BestPrice(cboOrderType1.Text == BUY
-                                                           ?   SymbolQuoteSummary.BUY : SymbolQuoteSummary.SELL,
+                                                           ? SymbolQuoteSummary.BUY : SymbolQuoteSummary.SELL,
                                                          int.Parse(txtOrderQty1.Text));
-                        if(float.IsNaN(fBestPrice))
+                        if (float.IsNaN(fBestPrice))
                         {
                             txtCanOrderQty1.BackColor = Color.Red;
                             txtCanOrderQty1.Text = "";
@@ -422,6 +488,7 @@ namespace AAA.IntellectOrder
                         {
                             txtCanOrderQty1.BackColor = Color.Green;
                             txtCanOrderQty1.Text = fBestPrice.ToString();
+                            canOrder1 = true;
                         }
                     }
 
@@ -429,9 +496,9 @@ namespace AAA.IntellectOrder
                     {
                         quoteSummary2 = quoteSummary;
                         fBestPrice = quoteSummary.BestPrice(cboOrderType2.Text == BUY
-                                                           ?   SymbolQuoteSummary.BUY : SymbolQuoteSummary.SELL,
+                                                           ? SymbolQuoteSummary.BUY : SymbolQuoteSummary.SELL,
                                                          int.Parse(txtOrderQty2.Text));
-                        if(float.IsNaN(fBestPrice))
+                        if (float.IsNaN(fBestPrice))
                         {
                             txtCanOrderQty2.BackColor = Color.Red;
                             txtCanOrderQty2.Text = "";
@@ -440,12 +507,119 @@ namespace AAA.IntellectOrder
                         {
                             txtCanOrderQty2.BackColor = Color.Green;
                             txtCanOrderQty2.Text = fBestPrice.ToString();
+                            canOrder2 = true;
                         }
 
                     }
+                    
+                    if ((quoteSummary1 != null) && (quoteSummary2 != null))
+                    {
+                        if (canOrder1 && canOrder2)
+                        {
+                            strMessage = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss") + "-[指定數量可成交]"
+                                       + quoteSummary1.SymbolName + "(" + txtOrderQty1.Text + ")"
+                                       + quoteSummary2.SymbolName + "(" + txtOrderQty2.Text + ")";
 
-                    if((quoteSummary1 != null) && (quoteSummary2 != null))
-                        break;
+                            lstMatchItem.Items.Add(strMessage);
+                            tOrder.Enabled = false;
+                            tOrder.Stop();
+                        }
+
+                        if (chkRealOrder.Checked)
+                        {
+
+                            dicOrderParent = new Dictionary<string, object>();
+                            dicOrderParent.Add("Count", "2");
+
+                            dicOrderChildren = new Dictionary<string, string>();
+                            contractInfo = (quoteSummary1.SymbolName.IndexOf("近月") > -1)
+                                                ? _hotContract
+                                                : _nextMonthContract;
+                            dicOrderChildren.Add("Identify", "001");
+                            dicOrderChildren.Add("AccountInfo", (_accountInfo.AccountType + _accountInfo.AccountNo).Trim());
+                            dicOrderChildren.Add("FunctionCode", "00");
+                            dicOrderChildren.Add("CommodityID1", quoteSummary1.SymbolOrderCode.StartsWith("TXO")
+                                                                    ? "TXO"
+                                                                    : quoteSummary1.SymbolOrderCode.StartsWith("MXF")
+                                                                            ? "FIMTX"
+                                                                            : "FITX");
+                            dicOrderChildren.Add("CallPut1", quoteSummary1.SymbolName.StartsWith("買權")
+                                                                ? "C"
+                                                                : quoteSummary1.SymbolName.StartsWith("賣權")
+                                                                    ? "P"
+                                                                    : " ");
+                            dicOrderChildren.Add("SettlementMonth1", contractInfo.Year.ToString("yyyy") + contractInfo.Month.ToString("00"));
+                            dicOrderChildren.Add("StrikePrice1", quoteSummary1.SymbolOrderCode.StartsWith("TXO")
+                                                                    ?   (NumericHelper.ToInt(quoteSummary1.SymbolOrderCode.Substring(3, 5)) * 1000).ToString("0")
+                                                                    :   "0");
+                            dicOrderChildren.Add("OrderPrice1", (NumericHelper.ToDouble(txtCanOrderQty1.Text) * 1000).ToString("0"));
+                            dicOrderChildren.Add("OrderQty1", NumericHelper.ToDouble(txtOrderQty1.Text).ToString("0"));
+                            dicOrderChildren.Add("BuySell1", cboOrderType1.Text == BUY ? "B" : "S");
+                            dicOrderChildren.Add("CommodityID2", "");
+                            dicOrderChildren.Add("CallPut2", "");
+                            dicOrderChildren.Add("SettlementMonth2", "0");
+                            dicOrderChildren.Add("StrikePrice2", "0");
+                            dicOrderChildren.Add("OrderQty2", "0");
+                            dicOrderChildren.Add("BuySell2", "");
+                            dicOrderChildren.Add("OpenOffsetKind", " ");
+                            dicOrderChildren.Add("DayTradeID", " ");
+                            dicOrderChildren.Add("OrderType", "2");
+                            dicOrderChildren.Add("OrderCond", " ");
+                            dicOrderChildren.Add("SellerNo", "");
+                            dicOrderChildren.Add("OrderNo", _strSellerNo);
+                            dicOrderChildren.Add("TradeDate", DateTime.Now.ToString("yyyy/MM/dd"));
+                            dicOrderChildren.Add("BasketNo", "");
+                            dicOrderChildren.Add("Channel", "0");
+
+                            dicOrderParent.Add("Children0", dicOrderChildren);
+
+                            dicOrderChildren = new Dictionary<string, string>();
+                            contractInfo = (quoteSummary2.SymbolName.IndexOf("近月") > -1)
+                                                ? _hotContract
+                                                : _nextMonthContract;
+                            dicOrderChildren.Add("Identify", "001");
+                            dicOrderChildren.Add("AccountInfo", (_accountInfo.AccountType + _accountInfo.AccountNo).Trim());
+                            dicOrderChildren.Add("FunctionCode", "00");
+                            dicOrderChildren.Add("CommodityID1", quoteSummary2.SymbolOrderCode.StartsWith("TXO")
+                                                                    ? "TXO"
+                                                                    : quoteSummary2.SymbolOrderCode.StartsWith("MXF")
+                                                                            ? "FIMTX"
+                                                                            : "FITX");
+                            dicOrderChildren.Add("CallPut1", quoteSummary2.SymbolName.StartsWith("買權")
+                                                                ? "C"
+                                                                : quoteSummary2.SymbolName.StartsWith("賣權")
+                                                                    ? "P"
+                                                                    : " ");
+                            dicOrderChildren.Add("SettlementMonth1", contractInfo.Year.ToString("yyyy") + contractInfo.Month.ToString("00"));
+                            dicOrderChildren.Add("StrikePrice1", quoteSummary2.SymbolOrderCode.StartsWith("TXO")
+                                                                    ?   (NumericHelper.ToInt(quoteSummary2.SymbolOrderCode.Substring(3, 5)) * 1000).ToString("0")
+                                                                    :   "0");
+                            dicOrderChildren.Add("OrderPrice1", (NumericHelper.ToDouble(txtCanOrderQty2.Text) * 1000).ToString("0"));
+                            dicOrderChildren.Add("OrderQty1", NumericHelper.ToDouble(txtOrderQty2.Text).ToString("0"));
+                            dicOrderChildren.Add("BuySell1", cboOrderType2.Text == BUY ? "B" : "S");
+                            dicOrderChildren.Add("CommodityID2", "");
+                            dicOrderChildren.Add("CallPut2", "");
+                            dicOrderChildren.Add("SettlementMonth2", "0");
+                            dicOrderChildren.Add("StrikePrice2", "0");
+                            dicOrderChildren.Add("OrderQty2", "0");
+                            dicOrderChildren.Add("BuySell2", "");
+                            dicOrderChildren.Add("OpenOffsetKind", " ");
+                            dicOrderChildren.Add("DayTradeID", " ");
+                            dicOrderChildren.Add("OrderType", "2");
+                            dicOrderChildren.Add("OrderCond", " ");
+                            dicOrderChildren.Add("SellerNo", "");
+                            dicOrderChildren.Add("OrderNo", _strSellerNo);
+                            dicOrderChildren.Add("TradeDate", DateTime.Now.ToString("yyyy/MM/dd"));
+                            dicOrderChildren.Add("BasketNo", "");
+                            dicOrderChildren.Add("Channel", "0");
+
+                            dicOrderParent.Add("Children1", dicOrderChildren);
+
+                            _polarisBase.MessageSend(_futuresOrderStructure.ApiId,
+                                                     dicOrderParent);
+                        }
+ 
+                    }
                 }
 
 

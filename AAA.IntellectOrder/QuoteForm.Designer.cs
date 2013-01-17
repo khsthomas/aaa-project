@@ -30,6 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.gbAccountInfo = new System.Windows.Forms.GroupBox();
+            this.btnRegister = new System.Windows.Forms.Button();
             this.txtStrikePrice = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.cboMonth = new System.Windows.Forms.ComboBox();
@@ -63,6 +64,8 @@
             this.cboOrderType1 = new System.Windows.Forms.ComboBox();
             this.cboTradeSymbol1 = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
+            this.tOrder = new System.Windows.Forms.Timer(this.components);
+            this.chkRealOrder = new System.Windows.Forms.CheckBox();
             this.gbAccountInfo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tblQuote)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tblQuoteList)).BeginInit();
@@ -73,6 +76,7 @@
             // 
             this.gbAccountInfo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbAccountInfo.Controls.Add(this.btnRegister);
             this.gbAccountInfo.Controls.Add(this.txtStrikePrice);
             this.gbAccountInfo.Controls.Add(this.label5);
             this.gbAccountInfo.Controls.Add(this.cboMonth);
@@ -93,6 +97,16 @@
             this.gbAccountInfo.TabIndex = 0;
             this.gbAccountInfo.TabStop = false;
             this.gbAccountInfo.Text = "帳號資訊";
+            // 
+            // btnRegister
+            // 
+            this.btnRegister.Location = new System.Drawing.Point(555, 43);
+            this.btnRegister.Name = "btnRegister";
+            this.btnRegister.Size = new System.Drawing.Size(75, 23);
+            this.btnRegister.TabIndex = 16;
+            this.btnRegister.Text = "註冊";
+            this.btnRegister.UseVisualStyleBackColor = true;
+            this.btnRegister.Click += new System.EventHandler(this.btnRegister_Click);
             // 
             // txtStrikePrice
             // 
@@ -129,7 +143,7 @@
             // 
             // btnAdd
             // 
-            this.btnAdd.Location = new System.Drawing.Point(572, 17);
+            this.btnAdd.Location = new System.Drawing.Point(555, 17);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(75, 23);
             this.btnAdd.TabIndex = 10;
@@ -175,7 +189,7 @@
             // 
             // btnStop
             // 
-            this.btnStop.Location = new System.Drawing.Point(734, 17);
+            this.btnStop.Location = new System.Drawing.Point(717, 17);
             this.btnStop.Name = "btnStop";
             this.btnStop.Size = new System.Drawing.Size(75, 23);
             this.btnStop.TabIndex = 5;
@@ -185,7 +199,7 @@
             // 
             // btnStart
             // 
-            this.btnStart.Location = new System.Drawing.Point(653, 17);
+            this.btnStart.Location = new System.Drawing.Point(636, 17);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(75, 23);
             this.btnStart.TabIndex = 3;
@@ -223,7 +237,8 @@
             // 
             this.tblQuote.AllowUserToAddRows = false;
             this.tblQuote.AllowUserToDeleteRows = false;
-            this.tblQuote.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.tblQuote.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.tblQuote.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.tblQuote.Location = new System.Drawing.Point(2, 208);
@@ -236,10 +251,12 @@
             // 
             // tQuote
             // 
+            this.tQuote.Interval = 500;
             this.tQuote.Tick += new System.EventHandler(this.tQuote_Tick);
             // 
             // lstPrice
             // 
+            this.lstPrice.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lstPrice.FormattingEnabled = true;
             this.lstPrice.ItemHeight = 12;
             this.lstPrice.Location = new System.Drawing.Point(2, 321);
@@ -262,17 +279,20 @@
             // 
             // lstMatchItem
             // 
+            this.lstMatchItem.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.lstMatchItem.FormattingEnabled = true;
             this.lstMatchItem.ItemHeight = 12;
             this.lstMatchItem.Location = new System.Drawing.Point(192, 321);
             this.lstMatchItem.Name = "lstMatchItem";
-            this.lstMatchItem.Size = new System.Drawing.Size(184, 136);
+            this.lstMatchItem.Size = new System.Drawing.Size(609, 136);
             this.lstMatchItem.TabIndex = 4;
             // 
             // gbOrder
             // 
             this.gbOrder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbOrder.Controls.Add(this.chkRealOrder);
             this.gbOrder.Controls.Add(this.txtCanOrderQty2);
             this.gbOrder.Controls.Add(this.txtCanOrderQty1);
             this.gbOrder.Controls.Add(this.btnOrder);
@@ -409,6 +429,21 @@
             this.label6.TabIndex = 0;
             this.label6.Text = "商品1";
             // 
+            // tOrder
+            // 
+            this.tOrder.Interval = 1000;
+            this.tOrder.Tick += new System.EventHandler(this.tOrder_Tick);
+            // 
+            // chkRealOrder
+            // 
+            this.chkRealOrder.AutoSize = true;
+            this.chkRealOrder.Location = new System.Drawing.Point(139, 88);
+            this.chkRealOrder.Name = "chkRealOrder";
+            this.chkRealOrder.Size = new System.Drawing.Size(120, 16);
+            this.chkRealOrder.TabIndex = 26;
+            this.chkRealOrder.Text = "計算委託量並下單";
+            this.chkRealOrder.UseVisualStyleBackColor = true;
+            // 
             // QuoteForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -469,6 +504,9 @@
         private System.Windows.Forms.Button btnOrder;
         private System.Windows.Forms.TextBox txtCanOrderQty2;
         private System.Windows.Forms.TextBox txtCanOrderQty1;
+        private System.Windows.Forms.Button btnRegister;
+        private System.Windows.Forms.Timer tOrder;
+        private System.Windows.Forms.CheckBox chkRealOrder;
     }
 }
 

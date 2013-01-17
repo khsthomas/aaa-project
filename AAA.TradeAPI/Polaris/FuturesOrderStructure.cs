@@ -29,8 +29,7 @@ namespace AAA.TradeAPI.Polaris
 			AddParam(PolarisStructure.INPUT_CHILDREN, "CommodityID2", "string", 6);
 			AddParam(PolarisStructure.INPUT_CHILDREN, "CallPut2", "string", 1);
 			AddParam(PolarisStructure.INPUT_CHILDREN, "SettlementMonth2", "int", 4);
-			AddParam(PolarisStructure.INPUT_CHILDREN, "StrikePrice2", "int", 4);
-			AddParam(PolarisStructure.INPUT_CHILDREN, "OrderPrice2", "int", 4);
+			AddParam(PolarisStructure.INPUT_CHILDREN, "StrikePrice2", "int", 4);			
 			AddParam(PolarisStructure.INPUT_CHILDREN, "OrderQty2", "short", 2);
 			AddParam(PolarisStructure.INPUT_CHILDREN, "BuySell2", "string", 1);
 			AddParam(PolarisStructure.INPUT_CHILDREN, "OpenOffsetKind", "string", 1);
