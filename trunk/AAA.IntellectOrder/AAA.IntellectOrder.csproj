@@ -51,6 +51,7 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AAA.Base.Util, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="AAA.Forms.Components, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="AAA.Meta.Trade, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="AAA.Trade, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
@@ -94,9 +95,13 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="registe.bat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -113,6 +118,14 @@
       <WrapperTool>tlbimp</WrapperTool>
       <Isolated>False</Isolated>
     </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="FSCryptDLL.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Interop.PolarisB2BAPI.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
