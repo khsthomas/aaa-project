@@ -357,6 +357,7 @@ namespace YEZZ.Model
             ErrorMessage = null;
             List<T> lstResult = new List<T>();
             IDataModel dataModel;
+            string[] strResultFields;
 
             try
             {
@@ -393,9 +394,17 @@ namespace YEZZ.Model
                                            strFields,
                                            strValues);
 
+
+                strResultFields = new string[dbReader.FieldCount];
+                for (int i = 0; i < strResultFields.Length; i++)
+                    strResultFields[i] = dbReader.GetName(i);
+
                 while (dbReader.Read())
                 {
                     dataModel = CreateInstance();
+
+                    if (dataModel.Fields == null)
+                        dataModel.Fields = strResultFields;
 
                     for (int i = 0; i < dbReader.FieldCount; i++)
                         dataModel.Value(dbReader.GetName(i), dbReader[dbReader.GetName(i)]);
