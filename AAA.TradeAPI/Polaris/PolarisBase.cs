@@ -20,6 +20,7 @@ namespace AAA.TradeAPI.Polaris
         private const int DISCONNECTED = 2;
         private const int NOT_LOGIN = 3;
         private const int NOT_CONNECTED = 5;
+//        private const int SOCKET_RP_READ_FAIL = 7;
 
         private const int SYSTEM_RESP = 0;
         private const int RQRP_RESP = 1;
@@ -697,6 +698,7 @@ namespace AAA.TradeAPI.Polaris
                 int iRowCount = 0;
                 Dictionary<string, string> dicChildren;
 
+                B2BApi.inMsgClear();
                 if ((strNames = polarisStructure.GetNames(PolarisStructure.INPUT_PARENT)) != null)
                 {
                     strTypes = polarisStructure.GetTypes(PolarisStructure.INPUT_PARENT);
