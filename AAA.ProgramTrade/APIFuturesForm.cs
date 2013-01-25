@@ -38,10 +38,12 @@ namespace AAA.ProgramTrade
                 
                 //_polarisBase.Login();
 
+                //加入共用的結構 - Open/Login/Logout
                 AddStructure(new OpenStructure());
                 AddStructure(new LoginStructure());                
                 if(iType == FUTURES)
                 {
+                    //加入期貨可用的API結構
                     Text = "期貨API測試";
                     AddStructure(new EquityStructure());     
                     AddStructure(new EstimateAmountStructure());
@@ -68,6 +70,7 @@ namespace AAA.ProgramTrade
                 }
                 else
                 {
+                    //加入股票可用的API
                     Text = "股票API測試";
                     AddStructure(new RealReportStructure());
                     AddStructure(new RealReportMergeStructure());
@@ -101,6 +104,7 @@ namespace AAA.ProgramTrade
             _polarisBase.AddMessageStructure(structure);
         }
 
+        //將回傳資料填入父層表格
         public void FillParentTable(DataGridView tblData, Dictionary<string, object> dicReturn, string[] strNames, string[] strTypes)
         {
             while (tblData.Rows.Count > 0)
@@ -110,6 +114,7 @@ namespace AAA.ProgramTrade
                 tblData.Rows.Add(strNames[i], strTypes[i], dicReturn[strNames[i]]);            
         }
 
+        //將回傳資料填入子層表格
         public void FillChildrenTable(DataGridView tblData, Dictionary<string, object> dicReturn, 
                                       string strRowCount, string strNodeName, string[] strNames, string[] strTypes)
         {
@@ -144,6 +149,7 @@ namespace AAA.ProgramTrade
             }
         }
 
+        
         private string ParseFunctionCode(string strText)
         {
             return strText.Substring(strText.IndexOf("(") + 1,
