@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseStructure.cs" />
     <Compile Include="Polaris\LogoutStructure.cs" />
     <Compile Include="Polaris\EquityStructure.cs" />
     <Compile Include="Polaris\EstimateAmountStructure.cs" />
@@ -87,6 +88,12 @@
     <Compile Include="Polaris\WatchListStructure.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Polaris\Util.cs" />
+    <Compile Include="SPF\OrderStatusTaiwanStructure.cs" />
+    <Compile Include="SPF\SPFBase.cs" />
+    <Compile Include="SPF\SPFStructure.cs" />
+    <Compile Include="SPF\OrderStatusForeignStructure.cs" />
+    <Compile Include="SPF\TodayEquityStructure.cs" />
+    <Compile Include="SPF\HistoryEquityStructure.cs" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="PolarisB2BAPI">

@@ -24,6 +24,10 @@ namespace AAA.ProgramTrade
             ITrade autoTrade = null;
             AccountInfo accountInfo = null;
 
+            // 判斷是否已登入, 
+            // 若否則由system.ini讀入Default的帳號資訊, 
+            // 若已登入, 則代入登入的帳號資訊
+
             if (AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.AUTO_TRADE_PROGRAM] == null)
             {
                 IniReader iniReader = new IniReader((string)AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.PROGRAM_ROOT_PATH] + @"\cfg\system.ini");
@@ -67,6 +71,7 @@ namespace AAA.ProgramTrade
             if (Directory.Exists((string)AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.PROGRAM_ROOT_PATH] + @"\trade_logs") == false)
                 Directory.CreateDirectory((string)AAA.DesignPattern.Singleton.SystemParameter.Parameter[ProgramTradeConstants.PROGRAM_ROOT_PATH] + @"\trade_logs");
 
+            //若未建立自動下單的元件時, 則新增一個自動下單的元件
             if (AAA.DesignPattern.Singleton.SystemParameter.Parameter["InitTrade"] == null)
             {
                 autoTrade.OnMessage(new AAA.Meta.Trade.MessageEvent(OnMessageReceive));
