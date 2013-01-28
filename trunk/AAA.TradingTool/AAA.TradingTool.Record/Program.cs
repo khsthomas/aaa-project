@@ -7,6 +7,7 @@ using AAA.Meta.Trade.Data;
 using AAA.Database.Model;
 using AAA.TradingTool.Model;
 using AAA.Base.Util;
+using System.IO;
 
 namespace AAA.TradingTool.Record
 {
@@ -33,6 +34,20 @@ namespace AAA.TradingTool.Record
             int iRecordCount;
             Dictionary<string, object> dicChildren;
             IDataModel dataModel;
+
+            if (dicReturn.ContainsKey("ReturnText"))
+            {
+                try
+                {
+                    if (!Directory.Exists(Environment.CurrentDirectory + @"\record_log\"))
+                        Directory.CreateDirectory(Environment.CurrentDirectory + @"\record_log\");
+                    StreamWriter sw = new StreamWriter(Environment.CurrentDirectory + @"\record_log\trade" + DateTime.Now.ToString("yyyyMMdd") + ".log", true, Encoding.Default);
+                    sw.WriteLine(dicReturn["name"].ToString());
+                    sw.WriteLine(dicReturn["ReturnText"].ToString());
+                    sw.Close();
+                }
+                catch { }
+            }
 
             if (strName == _historyEquityStructure.ClientName)
             {

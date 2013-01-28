@@ -25,11 +25,11 @@ namespace AAA.ProgramTrade.Signal.MACross
             DateTime dtCurrent;
             try
             {
-/*
-                if ((CurrentTime.CurrentDateTime.ToString("HH:mm:ss").CompareTo(InputVariable("StartTime").ToString()) < 0) ||
-                   (CurrentTime.CurrentDateTime.ToString("HH:mm:ss").CompareTo(InputVariable("EndTime").ToString()) > 0))
-                    return;
-*/
+
+                //if ((CurrentTime.CurrentDateTime.ToString("HH:mm:ss").CompareTo(InputVariable("StartTime").ToString()) < 0) ||
+                //   (CurrentTime.CurrentDateTime.ToString("HH:mm:ss").CompareTo(InputVariable("EndTime").ToString()) > 0))
+                //    return;
+
                 // 取得快線的計算長度
                 fastMA.InputVariable("Len", InputVariable("FastMALen"));
                 // 計算快線的均值, 並將值存至FastMA這佪變數中

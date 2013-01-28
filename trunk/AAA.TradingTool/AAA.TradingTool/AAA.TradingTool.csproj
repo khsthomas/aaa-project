@@ -64,6 +64,12 @@
     <Compile Include="DataDownloadForm.Designer.cs">
       <DependentUpon>DataDownloadForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="KeyGeneratorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="KeyGeneratorForm.Designer.cs">
+      <DependentUpon>KeyGeneratorForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="DailyRecordForm.resx">
@@ -71,6 +77,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DataDownloadForm.resx">
       <DependentUpon>DataDownloadForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="KeyGeneratorForm.resx">
+      <DependentUpon>KeyGeneratorForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

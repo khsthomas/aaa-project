@@ -37,7 +37,7 @@ namespace AAA.TradeAPI.SPF
             AddParam(BaseStructure.OUTPUT_CHILDREN, "OrderKind", "string", 3);
             AddParam(BaseStructure.OUTPUT_CHILDREN, "Qty", "string", 5);
             AddParam(BaseStructure.OUTPUT_CHILDREN, "TransTime", "string", 6);
-            AddParam(BaseStructure.OUTPUT_CHILDREN, "StatusMessage", "string", 20);
+            AddParam(BaseStructure.OUTPUT_CHILDREN, "StatusMessage", "string", 16);
             AddParam(BaseStructure.OUTPUT_CHILDREN, "ErrorCode", "string", 4);
             AddParam(BaseStructure.OUTPUT_CHILDREN, "ErrorMessage", "string", 60);
             AddParam(BaseStructure.OUTPUT_CHILDREN, "WebId", "string", 3);

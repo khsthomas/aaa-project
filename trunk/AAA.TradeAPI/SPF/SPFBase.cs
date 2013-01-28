@@ -245,6 +245,8 @@ namespace AAA.TradeAPI.SPF
                     return dicReturn;
                 }
 
+                dicReturn.Add("ReturnText", strMessage);
+
                 for (int i = 0; i < strNames.Length; i++)
                 {
                     strValue = strMessage.Substring(0, iLens[i]);
