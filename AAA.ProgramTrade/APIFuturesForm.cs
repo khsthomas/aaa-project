@@ -65,13 +65,16 @@ namespace AAA.ProgramTrade
                     AddStructure(new RealReport3Structure());
                     AddStructure(new RealReportMerge3Structure());
                     AddStructure(new StockAverageStructure());
+                    AddStructure(new StockFiveTickStructure());
                     AddStructure(new WatchListStructure());
                     AddStructure(new WatchListAllStructure());
+                    
                 }
                 else
                 {
                     //加入股票可用的API
                     Text = "股票API測試";
+                    AddStructure(new StockFiveTickStructure());
                     AddStructure(new RealReportStructure());
                     AddStructure(new RealReportMergeStructure());
                     AddStructure(new StockOrderReportStructure());

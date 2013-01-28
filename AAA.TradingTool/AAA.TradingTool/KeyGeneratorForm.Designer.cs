@@ -33,11 +33,11 @@
             this.label3 = new System.Windows.Forms.Label();
             this.btnEncrypt = new System.Windows.Forms.Button();
             this.btnDecrypt = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.txtPassword = new System.Windows.Forms.TextBox();
+            this.txtIdNo = new System.Windows.Forms.TextBox();
+            this.txtAccountPassword = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.dtpDueDate = new System.Windows.Forms.DateTimePicker();
             this.SuspendLayout();
             // 
             // label1
@@ -86,26 +86,26 @@
             this.btnDecrypt.Text = "解密";
             this.btnDecrypt.UseVisualStyleBackColor = true;
             // 
-            // textBox1
+            // txtPassword
             // 
-            this.textBox1.Location = new System.Drawing.Point(84, 13);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 22);
-            this.textBox1.TabIndex = 5;
+            this.txtPassword.Location = new System.Drawing.Point(84, 13);
+            this.txtPassword.Name = "txtPassword";
+            this.txtPassword.Size = new System.Drawing.Size(100, 22);
+            this.txtPassword.TabIndex = 5;
             // 
-            // textBox2
+            // txtIdNo
             // 
-            this.textBox2.Location = new System.Drawing.Point(84, 41);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(100, 22);
-            this.textBox2.TabIndex = 6;
+            this.txtIdNo.Location = new System.Drawing.Point(84, 41);
+            this.txtIdNo.Name = "txtIdNo";
+            this.txtIdNo.Size = new System.Drawing.Size(100, 22);
+            this.txtIdNo.TabIndex = 6;
             // 
-            // textBox3
+            // txtAccountPassword
             // 
-            this.textBox3.Location = new System.Drawing.Point(84, 69);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(100, 22);
-            this.textBox3.TabIndex = 7;
+            this.txtAccountPassword.Location = new System.Drawing.Point(84, 69);
+            this.txtAccountPassword.Name = "txtAccountPassword";
+            this.txtAccountPassword.Size = new System.Drawing.Size(100, 22);
+            this.txtAccountPassword.TabIndex = 7;
             // 
             // label4
             // 
@@ -116,23 +116,23 @@
             this.label4.TabIndex = 8;
             this.label4.Text = "到期日";
             // 
-            // dateTimePicker1
+            // dtpDueDate
             // 
-            this.dateTimePicker1.Location = new System.Drawing.Point(84, 98);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(100, 22);
-            this.dateTimePicker1.TabIndex = 9;
+            this.dtpDueDate.Location = new System.Drawing.Point(84, 98);
+            this.dtpDueDate.Name = "dtpDueDate";
+            this.dtpDueDate.Size = new System.Drawing.Size(100, 22);
+            this.dtpDueDate.TabIndex = 9;
             // 
             // KeyGeneratorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(292, 266);
-            this.Controls.Add(this.dateTimePicker1);
+            this.Controls.Add(this.dtpDueDate);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.txtAccountPassword);
+            this.Controls.Add(this.txtIdNo);
+            this.Controls.Add(this.txtPassword);
             this.Controls.Add(this.btnDecrypt);
             this.Controls.Add(this.btnEncrypt);
             this.Controls.Add(this.label3);
@@ -152,10 +152,10 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button btnEncrypt;
         private System.Windows.Forms.Button btnDecrypt;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox txtPassword;
+        private System.Windows.Forms.TextBox txtIdNo;
+        private System.Windows.Forms.TextBox txtAccountPassword;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.DateTimePicker dateTimePicker1;
+        private System.Windows.Forms.DateTimePicker dtpDueDate;
     }
 }

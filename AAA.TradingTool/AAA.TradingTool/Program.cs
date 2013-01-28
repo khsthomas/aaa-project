@@ -15,7 +15,7 @@ namespace AAA.TradingTool
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new DailyRecordForm());
+            Application.Run(new KeyGeneratorForm());
         }
     }
 }
