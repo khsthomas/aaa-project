@@ -263,8 +263,8 @@ namespace AAA.TradingTool.Record
             AccountInfo accountInfo;
             RecordProcess process;
 
-            string[] strIdNo = { "N122905275", "B221039694", "L122557866" };
-            string[] strPassword = { "kmc6475", "a888888", "a961216" };
+            string[] strIdNo = new string[0];
+            string[] strPassword = new string[0];
 
             for (int i = 0; i < strIdNo.Length; i++)
             {
