@@ -41,9 +41,7 @@ namespace AAA.TradingTool
             _polarisBase.OnMessage(new AAA.Meta.Trade.MessageEvent(OnMessageReceive));
 
             accountInfo = new AccountInfo();
-            accountInfo.AccountNo = "F0210000002525917";
-            accountInfo.AccountType = "F";
-            accountInfo.Password = "12345678";
+            
 
             _polarisBase.InitProgram(accountInfo);
         }
