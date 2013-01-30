@@ -128,11 +128,7 @@ namespace AAA.TradingTool
             try
             {
                 
-                _accountInfo.IdNo = "N122905275";
-                _accountInfo.Password = "kmc6475";
 
-//                _accountInfo.IdNo = "L122557866";
-//                _accountInfo.Password = "a961216";
 
                 _spfBase.InitProgram(_accountInfo);
                 oReturn = _spfBase.Login();
